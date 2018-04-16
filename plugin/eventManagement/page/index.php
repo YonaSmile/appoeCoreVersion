@@ -1,1 +1,0 @@
-<?php header( 'location:allEvents.php' );
