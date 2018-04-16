@@ -589,7 +589,7 @@ function rmove($src, $dest)
     return true;
 }
 
-function unzipSkipFirstFolder($src, $path, $firstFolderName, $deleteZip = true)
+function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $deleteZip = true)
 {
     $tempFolder = $path . 'unzip';
     $zip = new ZipArchive;
@@ -599,8 +599,8 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $deleteZip = true)
         $directories = scandir($tempFolder . '/' . $firstFolderName);
         foreach ($directories as $directory) {
             if ($directory != '.' and $directory != '..') {
-                if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir(WEB_PLUGIN_PATH . $directory)) {
-                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, WEB_PLUGIN_PATH . $directory);
+                if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir($replaceInPath . $directory)) {
+                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
                 }
             }
         }

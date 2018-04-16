@@ -51,6 +51,28 @@
                 <?= trans('Système'); ?>
             </h4>
             <div class="row">
+                <div class="col-12" id="updateSystemContainer">
+                    <div class="p-3 bg-info text-white">
+                        <?= mb_strtoupper(trans('Coeur du system')); ?>
+                    </div>
+                    <div class="p-2 mb-2 bg-light" style="display: none;">
+                        <button type="button" id="updateSystem" class="btn btn-warning btn-sm operationBtn">
+                            <?= trans('Mettre à jour'); ?>
+                        </button>
+                    </div>
+                    <?php
+                    App\Version::setFile(WEB_APP_PATH . 'version.json');
+                    if (App\Version::show()):
+                        ?>
+                        <div class="py-1 px-3 mb-2 bg-light">
+                            <small id="systemVersion" data-systemversion="<?= App\Version::getVersion(); ?>">
+                                <?= trans('Version'); ?> <?= App\Version::getVersion(); ?>
+                            </small>
+                            <small class="responseVersion float-right"></small>
+                        </div>
+                    <?php endif; ?>
+                    <div class="my-4"></div>
+                </div>
                 <div class="col-12" id="pluginSystemContenair" style="display: none">
                     <div class="p-3 bg-info text-white">
                         <?= mb_strtoupper(trans('Plugins')); ?>
@@ -142,6 +164,30 @@
                     }
                 );
             });
+        }, 2000);
+
+        setTimeout(function () {
+            var $versionContenair = $('#systemVersion');
+            var systemVersion = $.trim($versionContenair.data('systemversion'));
+            var responseVersion = $versionContenair.next('small.responseVersion');
+            responseVersion.html('<i class="fas fa-circle-notch fa-spin"></i>');
+            $.post(
+                '<?= WEB_DIR; ?>app/ajax/plugin.php',
+                {
+                    checkSystemVersion: 'ok'
+                },
+                function (response) {
+                    if (response) {
+                        response = $.parseJSON(response);
+                        if (response.version != systemVersion) {
+                            $('#updateSystem').slideDown('fast');
+                            responseVersion.html('<em class="text-danger">' + response.version + '</em>');
+                        } else {
+                            responseVersion.html('<em class="text-info">' + response.version + '</em>');
+                        }
+                    }
+                }
+            );
         }, 2000);
 
         $('#updatePlugins').on('click', function () {
