@@ -217,8 +217,8 @@
                 },
                 function (data) {
                     if (data) {
-                        /*window.location = window.location.href;
-                        window.location.reload(true);*/
+                        window.location = window.location.href;
+                        window.location.reload(true);
                     } else {
                         $('#loader').fadeOut();
                     }
