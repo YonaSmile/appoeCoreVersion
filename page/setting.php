@@ -53,9 +53,9 @@
             <div class="row">
                 <div class="col-12" id="updateSystemContainer">
                     <div class="p-3 bg-info text-white">
-                        <?= mb_strtoupper(trans('Coeur du system')); ?>
+                        <?= mb_strtoupper(trans('Application')); ?>
                     </div>
-                    <div class="p-2 mb-2 bg-light" style="display: none;">
+                    <div class="p-2 mb-2 bg-light" id="updateSystemBtnContainer" style="display: none;">
                         <button type="button" id="updateSystem" class="btn btn-warning btn-sm operationBtn">
                             <?= trans('Mettre à jour'); ?>
                         </button>
@@ -180,7 +180,7 @@
                     if (response) {
                         response = $.parseJSON(response);
                         if (response.version != systemVersion) {
-                            $('#updateSystem').slideDown('fast');
+                            $('#updateSystemBtnContainer').slideDown('fast');
                             responseVersion.html('<em class="text-danger">' + response.version + '</em>');
                         } else {
                             responseVersion.html('<em class="text-info">' + response.version + '</em>');
@@ -196,6 +196,24 @@
                 '<?= WEB_DIR; ?>app/ajax/plugin.php',
                 {
                     downloadPlugins: 'OK'
+                },
+                function (data) {
+                    if (data) {
+                        window.location = window.location.href;
+                        window.location.reload(true);
+                    } else {
+                        $('#loader').fadeOut();
+                    }
+                }
+            );
+        });
+
+        $('#updateSystem').on('click', function () {
+            $('#loader').fadeIn('fast');
+            $.post(
+                '<?= WEB_DIR; ?>app/ajax/plugin.php',
+                {
+                    downloadSystemCore: 'OK'
                 },
                 function (data) {
                     if (data) {
