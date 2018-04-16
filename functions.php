@@ -572,7 +572,9 @@ function rmove($src, $dest)
     }
 
     if (is_file($dest)) {
-        rename(realpath($src), "$dest");
+        if (basename($dest) != 'setup.php') {
+            rename(realpath($src), "$dest");
+        }
     } else {
         // Open the source directory to read in files
         $i = new DirectoryIterator($src);
