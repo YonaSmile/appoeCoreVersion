@@ -63,7 +63,7 @@ if (checkAjaxRequest()) {
     if (!empty($_POST['downloadSystemCore'])) {
 
         if (downloadZip(ROOT_PATH . 'appoeCore.zip', 'https://github.com/YonaSmile/appoeCoreVersion/archive/master.zip')) {
-            if (unzipSkipFirstFolder(ROOT_PATH . 'appoeCore.zip', ROOT_PATH, 'appoeCoreVersion-master', ROOT_PATH)) {
+            if (unzipSkipFirstFolder(ROOT_PATH . 'appoeCore.zip', ROOT_PATH, 'appoeCoreVersion-master', WEB_APP_PATH)) {
                 echo 'true';
             }
         }
