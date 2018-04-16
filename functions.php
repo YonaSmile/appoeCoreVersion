@@ -561,31 +561,36 @@ function rmove($src, $dest)
 {
 
     // If source is not a directory stop processing
-    if (!is_dir($src)) return false;
+    if (!is_dir($src) && !is_file($dest)) return false;
 
     // If the destination directory does not exist create it
-    if (!is_dir($dest)) {
+    if (!is_dir($dest) && !is_file($dest)) {
         if (!mkdir($dest)) {
             // If the destination directory could not be created stop processing
             return false;
         }
     }
 
-    // Open the source directory to read in files
-    $i = new DirectoryIterator($src);
-    foreach ($i as $f) {
-        if ($f->isFile()) {
-            if ($f->getFilename() != 'setup.php') {
-                rename($f->getRealPath(), "$dest/" . $f->getFilename());
-            }
-        } else if (!$f->isDot() && $f->isDir()) {
-            rmove($f->getRealPath(), "$dest/$f");
-            if ($f->getRealPath() && !is_dir($f->getRealPath())) {
-                unlink($f->getRealPath());
+    if (is_file($dest)) {
+        rename(realpath($src), "$dest");
+    } else {
+        // Open the source directory to read in files
+        $i = new DirectoryIterator($src);
+        foreach ($i as $f) {
+            if ($f->isFile()) {
+                if ($f->getFilename() != 'setup.php') {
+                    rename($f->getRealPath(), "$dest/" . $f->getFilename());
+                }
+            } else if (!$f->isDot() && $f->isDir()) {
+                rmove($f->getRealPath(), "$dest/$f");
+                if ($f->getRealPath() && !is_dir($f->getRealPath())) {
+                    unlink($f->getRealPath());
+                }
             }
         }
     }
-    rrmdir($src);
+
+    deleteAll($src);
     return true;
 }
 
@@ -602,12 +607,16 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
                 if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir($replaceInPath . $directory)) {
                     rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
                 }
+
+                if (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_file($replaceInPath . $directory)) {
+                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
+                }
             }
         }
 
         $zip->close();
     }
-    rrmdir($tempFolder);
+    deleteAll($tempFolder);
     if ($deleteZip) {
         unlink($src);
     }
@@ -632,19 +641,21 @@ function unzip($src, $path, $deleteZip = true)
 
 /**
  * Remove dir with all files
- * @param $dir
+ * @param $data
  */
-function rrmdir($dir)
+function deleteAll($data)
 {
-    if (is_dir($dir)) {
-        $objects = scandir($dir);
+    if (is_dir($data)) {
+        $objects = scandir($data);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-                if (filetype($dir . "/" . $object) == "dir") rrmdir($dir . "/" . $object); else unlink($dir . "/" . $object);
+                if (filetype($data . "/" . $object) == "dir") deleteAll($data . "/" . $object); else unlink($data . "/" . $object);
             }
         }
         reset($objects);
-        rmdir($dir);
+        rmdir($data);
+    } elseif (is_file($data)) {
+        unlink($data);
     }
 }
 
