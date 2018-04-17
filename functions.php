@@ -560,7 +560,7 @@ function rcopy($src, $dest)
 function rmove($src, $dest)
 {
 
-    // If source is not a directory stop processing
+    // If source is not a directory or file stop processing
     if (!is_dir($src) && !is_file($src)) return false;
 
     // If the destination directory does not exist create it
