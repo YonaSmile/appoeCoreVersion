@@ -619,7 +619,8 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
             if ($directory != '.' and $directory != '..') {
                 if (
                     (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir($replaceInPath . $directory))
-                    || (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_file($replaceInPath . $directory))) {
+                    || (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory))
+                ) {
                     rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
                 }
             }
