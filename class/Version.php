@@ -96,15 +96,18 @@ class Version
     {
         if (!empty(self::$file)) {
             $json_file = file_get_contents(self::$file);
-            $json = json_decode($json_file);
 
-            if ($json_file && $json) {
+            if ($json_file) {
+                $json = json_decode($json_file);
 
-                self::$date = $json->date;
-                self::$version = $json->version;
-                self::$renew = $json->renew;
+                if ($json_file && $json) {
 
-                return true;
+                    self::$date = $json->date;
+                    self::$version = $json->version;
+                    self::$renew = $json->renew;
+
+                    return true;
+                }
             }
         }
 
