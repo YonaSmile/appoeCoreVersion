@@ -560,7 +560,7 @@ function rcopy($src, $dest)
 function rmove($src, $dest)
 {
 
-    // If source is not a directory or file stop processing
+    // If source is not a directory stop processing
     if (!is_dir($src) && !is_file($src)) return false;
 
     // If the destination directory does not exist create it
@@ -617,11 +617,9 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
         $directories = scandir($tempFolder . '/' . $firstFolderName);
         foreach ($directories as $directory) {
             if ($directory != '.' and $directory != '..') {
-                if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir($replaceInPath . $directory)) {
-                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
-                }
-
-                if (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_file($replaceInPath . $directory)) {
+                if (
+                    (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir($replaceInPath . $directory))
+                    || (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_file($replaceInPath . $directory))) {
                     rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
                 }
             }
