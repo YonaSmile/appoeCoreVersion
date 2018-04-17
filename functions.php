@@ -561,12 +561,22 @@ function rmove($src, $dest)
 {
 
     // If source is not a directory stop processing
-    if (!is_dir($src) && !is_file($dest)) return false;
+    if (!is_dir($src) && !is_file($src)) return false;
 
     // If the destination directory does not exist create it
-    if (!is_dir($dest) && !is_file($dest)) {
+    if (!is_dir($dest) && is_dir($src)) {
         if (!mkdir($dest)) {
+
             // If the destination directory could not be created stop processing
+            return false;
+        }
+    }
+
+    // If the destination file does not exist create it
+    if (!is_file($dest) && is_file($src)) {
+        if (!fopen($dest, 'w+')) {
+
+            // If the destination file could not be created stop processing
             return false;
         }
     }
