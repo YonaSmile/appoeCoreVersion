@@ -572,7 +572,8 @@ function rmove($src, $dest)
     }
 
     if (is_file($dest)) {
-        if (basename($dest) != 'setup.php') {
+        $fileInfo = pathinfo($dest);
+        if ($fileInfo['filename'] != 'setup.php') {
             rename(realpath($src), "$dest");
         }
     } else {
