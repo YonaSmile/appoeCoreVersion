@@ -32,14 +32,14 @@ if (!empty($_GET['id'])) {
     $articleDetails = getSpecificArticlesDetailsBySlug($_GET['id']);
     $Article = $articleDetails['article'];
     $ArticleContent = $articleDetails['content'];
-    $currentPageName = mb_strimwidth(strip_tags(html_entity_decode($Traduction->trans($Article->getName()))), 0, 70, '...');
-    $currentPageDescription = mb_strimwidth(strip_tags(html_entity_decode($ArticleContent->getContent())), 0, 170, '...');
+    $currentPageName = shortenText($Traduction->trans($Article->getName()), 70);
+    $currentPageDescription = shortenText($ArticleContent->getContent(), 170);
 
 } else {
 
     //get Page infos
-    $currentPageName = mb_strimwidth(strip_tags(html_entity_decode($Traduction->trans($Cms->getName()))), 0, 70, '...');
-    $currentPageDescription = mb_strimwidth(strip_tags(html_entity_decode($Traduction->trans($Cms->getDescription()))), 0, 170, '...');
+    $currentPageName = shortenText($Traduction->trans($Cms->getName()), 70);
+    $currentPageDescription = shortenText($Traduction->trans($Cms->getDescription()), 170);
 }
 
 
