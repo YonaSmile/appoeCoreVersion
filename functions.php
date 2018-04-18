@@ -461,7 +461,7 @@ function checkMaintenance()
         if (
             in_array(getIP(), IP_ALLOWED)
             ||
-            checkIfInArrayString(IP_PARTS_ALLOWED, getIP())
+            (!empty(IP_PARTS_ALLOWED) && checkIfInArrayString(IP_PARTS_ALLOWED, getIP()))
         ) {
             return true;
         }
