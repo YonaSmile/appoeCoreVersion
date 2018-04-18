@@ -442,13 +442,27 @@ function splitAtUpperCase($s)
     return preg_split('/(?=[A-Z])/', $s, -1, PREG_SPLIT_NO_EMPTY);
 }
 
+function checkIfInArrayString($array, $searchingFor)
+{
+    foreach ($array as $element) {
+        if (strpos($element, $searchingFor) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * @return bool
  */
 function checkMaintenance()
 {
     if (MAINTENANCE) {
-        if (in_array(getIP(), IP_ALLOWED)) {
+        if (
+            in_array(getIP(), IP_ALLOWED)
+            ||
+            checkIfInArrayString(IP_PARTS_ALLOWED, getIP())
+        ) {
             return true;
         }
         return false;
@@ -561,31 +575,18 @@ function rmove($src, $dest)
 {
 
     // If source is not a directory stop processing
-    if (!is_dir($src) && !is_file($src)) return false;
+    if (!is_dir($src) && !is_file($dest)) return false;
 
     // If the destination directory does not exist create it
-    if (!is_dir($dest) && is_dir($src)) {
+    if (!is_dir($dest) && !is_file($dest)) {
         if (!mkdir($dest)) {
-
             // If the destination directory could not be created stop processing
             return false;
         }
     }
 
-    // If the destination file does not exist create it
-    if (!is_file($dest) && is_file($src)) {
-        if (!fopen($dest, 'w+')) {
-
-            // If the destination file could not be created stop processing
-            return false;
-        }
-    }
-
     if (is_file($dest)) {
-        $fileInfo = pathinfo($dest);
-        if ($fileInfo['filename'] != 'setup.php') {
-            rename(realpath($src), "$dest");
-        }
+        rename(realpath($src), "$dest");
     } else {
         // Open the source directory to read in files
         $i = new DirectoryIterator($src);
@@ -617,10 +618,11 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
         $directories = scandir($tempFolder . '/' . $firstFolderName);
         foreach ($directories as $directory) {
             if ($directory != '.' and $directory != '..') {
-                if (
-                    (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir($replaceInPath . $directory))
-                    || (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory))
-                ) {
+                if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir($replaceInPath . $directory)) {
+                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
+                }
+
+                if (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_file($replaceInPath . $directory)) {
                     rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
                 }
             }
