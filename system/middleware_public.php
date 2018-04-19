@@ -14,7 +14,7 @@ if (!checkMaintenance() && pageSlug() != 'hibour') {
 
 $Cms = new App\Plugin\Cms\Cms();
 $CmsMenu = new App\Plugin\Cms\CmsMenu();
-$Traduction = new App\Plugin\Traduction\Traduction(defined(LANG) ? LANG : 'fr');
+$Traduction = new App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
 
 //Get Page parameters
 $Cms->setSlug(!empty($_GET['slug']) ? $_GET['slug'] : (pageSlug() != 'index' ? pageSlug() : 'home'));
