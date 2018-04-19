@@ -17,7 +17,7 @@ $CmsMenu = new App\Plugin\Cms\CmsMenu();
 $Traduction = new App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
 
 //Get Page parameters
-$Cms->setSlug(!empty($_GET['slug']) ? $_GET['slug'] : (pageSlug() != 'index' ? pageSlug() : 'home'));
+$Cms->setSlug(!empty($_GET['slug']) ? slugify($Traduction->transToOrigin($_GET['slug'])) : (pageSlug() != 'index' ? pageSlug() : 'home'));
 $existPage = $Cms->showBySlug();
 
 //Check if Page exist and accessible
