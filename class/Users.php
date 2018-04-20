@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 class Users
 {
@@ -14,7 +15,7 @@ class Users
 
     public function __construct($userId = null)
     {
-        if(is_null($this->dbh)) {
+        if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
         }
 
@@ -166,13 +167,9 @@ class Users
   					`prenom` VARCHAR(100) NOT NULL,
   					`options` TEXT NULL DEFAULT NULL,
   					`statut` TINYINT(1) NOT NULL DEFAULT 1,
-                    `created_at` DATE NOT NULL,
+                    `created_at` DATE NOT NULL DEFAULT DATE(NOW()),
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=160845;
-				INSERT INTO `appoe_users` (`id`, `email`, `password`, `role`, `nom`, `prenom`, `options`, `statut`, `created_at`, `updated_at`) VALUES
-(150092, "yonasmilevitch@gmail.com", "$2y$10$o3JBWD3ZJPMFzQtL2NXzHeKjOYZG1N4kQp0Y3AhXqNoS3zcCeEv5m", 5, "Smilevitch", "Yona", "https://smsapi.free-mobile.fr/sendmsg?user=18228230&pass=CXYwI6sHbtRSgl&msg=", 1, "2017-06-07", "2018-01-09 11:27:12"),
-(160841, "flauble@free.fr", "$2y$10$mRYSKDO1DAkOP4IIBoTtT.6990E/vuWwh9tA8/WiRIn7Jtq2EEfzm", 4, "Picard", "Shoshana", "https://smsapi.free-mobile.fr/sendmsg?user=17753849&pass=m4ejVpyrm0Wlpp&msg=", 1, "2017-06-12", "2018-01-09 11:32:40");';
-
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=170001;';
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         $error = $stmt->errorInfo();
