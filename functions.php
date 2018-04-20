@@ -445,7 +445,7 @@ function splitAtUpperCase($s)
 function checkIfInArrayString($array, $searchingFor)
 {
     foreach ($array as $element) {
-        if (strpos($element, $searchingFor) !== false) {
+        if (strpos($searchingFor, $element) !== false) {
             return true;
         }
     }
@@ -459,7 +459,7 @@ function checkMaintenance()
 {
     if (MAINTENANCE) {
         if (
-            (defined('IP_PARTS_ALLOWED') && in_array(getIP(), IP_ALLOWED))
+            (defined('IP_ALLOWED') && in_array(getIP(), IP_ALLOWED))
             ||
             (defined('IP_PARTS_ALLOWED') && checkIfInArrayString(IP_PARTS_ALLOWED, getIP()))
         ) {
