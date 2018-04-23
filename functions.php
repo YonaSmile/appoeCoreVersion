@@ -486,7 +486,7 @@ function getPlugins()
             if ($dossier != '.' && $dossier != '..' && $dossier != 'index.php') {
 
                 if (file_exists(WEB_PLUGIN_PATH . $dossier . '/setup.php')) {
-                    $setupPath = WEB_PLUGIN_URL . $dossier . '/setup.php';
+                    $setupPath = WEB_PLUGIN_PATH . $dossier . '/setup.php';
                 }
 
                 if (file_exists(WEB_PLUGIN_PATH . $dossier . '/version.json')) {
@@ -512,7 +512,7 @@ function getPlugins()
  */
 function activePlugin($setupPath)
 {
-    return file_get_contents($setupPath);
+    return include($setupPath);
 }
 
 function downloadZip($path, $url)

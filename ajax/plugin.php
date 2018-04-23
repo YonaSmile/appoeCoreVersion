@@ -4,7 +4,7 @@ require_once('header.php');
 if (checkAjaxRequest()) {
 
     if (!empty($_REQUEST['setupPath'])) {
-        echo activePlugin($_REQUEST['setupPath']);
+        activePlugin($_REQUEST['setupPath']);
     }
 
     if (!empty($_POST['checkTable'])) {
