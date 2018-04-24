@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 class File
 {
@@ -16,7 +17,7 @@ class File
 
     public function __construct()
     {
-        if(is_null($this->dbh)) {
+        if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
         }
     }
@@ -269,6 +270,8 @@ class File
         $stmt->bindParam(':typeId', $this->typeId);
         $stmt->bindParam(':name', $this->name);
         $stmt->execute();
+
+        $this->id = $this->dbh->lastInsertId();
         $error = $stmt->errorInfo();
 
         if ($error[0] != '00000') {
@@ -296,7 +299,6 @@ class File
         $error = $stmt->errorInfo();
 
         if ($error[0] != '00000') {
-            var_dump($error);
             return false;
         } else {
             return true;
@@ -326,11 +328,12 @@ class File
 
     /**
      *
-     * @return string
+     * @return array
      */
     public function upload()
     {
         $files = $this->uploadFiles;
+        $returnArr = array('filename' => array());
         $fileCount = sizeof($files['name']);
         $uploadFilesCounter = 0;
 
@@ -348,8 +351,8 @@ class File
                     if ($size <= 2621440) {
 
                         if ($type == 'image/jpeg' || $type == 'image/png' || $type == 'image/gif'
-                            || $type == 'image/jpg' || $type == 'application/pdf'
-                            || $type == 'application/vnd.ms-word'
+                            || $type == 'image/jpg' || $type == 'image/svg+xml'
+                            || $type == 'application/pdf' || $type == 'application/vnd.ms-word'
                             || $type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                             || $type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                             || $type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
@@ -366,6 +369,8 @@ class File
                                 }
                             }
 
+                            array_push($returnArr['filename'], $filename);
+
                             if (!$this->save()) {
                                 continue;
                             }
@@ -376,8 +381,8 @@ class File
                 }
             }
         }
-
-        return $uploadFilesCounter . '/' . $fileCount;
+        $returnArr['countUpload'] = $uploadFilesCounter . '/' . $fileCount;
+        return $returnArr;
     }
 
     /**

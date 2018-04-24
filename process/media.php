@@ -10,6 +10,7 @@ if (checkPostAndTokenRequest()) {
         $Media->setUploadFiles($_FILES['inputFile']);
         $Media->setUserId($User->getId());
 
-        App\Flash::setMsg(trans('Images téléchargées') . ' : ' . $Media->upload(), 'info');
+        $files = $Media->upload();
+        App\Flash::setMsg(trans('Images téléchargées') . ' : ' . $files['countUpload'], 'info');
     }
 }
