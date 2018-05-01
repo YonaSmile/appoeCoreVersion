@@ -23,6 +23,18 @@ function eraseCookie(name) {
     document.cookie = name + '=; Max-Age=-99999999;';
 }
 
+function busyApp() {
+    $('#appStatus').removeClass(function (index, className) {
+        return (className.match(/\bbg-\S+/g) || []).join(' ');
+    }).addClass('bg-warning');
+}
+
+function availableApp() {
+    $('#appStatus').removeClass(function (index, className) {
+        return (className.match(/\bbg-\S+/g) || []).join(' ');
+    }).addClass('bg-secondary');
+}
+
 $(document).ready(function () {
     $('#loader').fadeIn('slow');
 
