@@ -204,18 +204,13 @@ a[data-toggle="collapse"] {
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
+    padding: 20px 0 0 0;
 }
 
 #sidebar ul li.active > a {
     color: #fff;
     background: #6d7fbb;
 }
-
-/*#sidebar a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
-}*/
 
 #sidebar a[aria-expanded="false"]::before,
 #sidebar a[aria-expanded="true"]::before {
