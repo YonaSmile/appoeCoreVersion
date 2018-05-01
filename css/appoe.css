@@ -1103,6 +1103,10 @@ textarea {
     font-size: inherit;
 }
 
+.progress {
+    border-radius: 0 !important;
+}
+
 @page {
     size: auto;
     margin: 4mm;
