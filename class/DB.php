@@ -11,9 +11,11 @@ class DB
         self::$dbh = self::connect();
     }
 
+    /**
+     * @return null
+     */
     public static function connect()
     {
-
         if (is_null(self::$dbh)) {
 
             $attempts = NUM_OF_ATTEMPTS;
@@ -21,7 +23,6 @@ class DB
             while ($attempts > 0) {
 
                 try {
-
                     self::$dbh = new \PDO(DBPATH, DBUSER, DBPASS);
                     $attempts = 0;
 
@@ -32,10 +33,12 @@ class DB
                 }
             }
         }
-
         return self::$dbh;
     }
 
+    /**
+     * @return DB
+     */
     public static function initialize()
     {
         if (is_null(self::$instance)) {
@@ -44,6 +47,10 @@ class DB
         return self::$instance;
     }
 
+    /**
+     * @param $tableName
+     * @return bool
+     */
     public static function checkTable($tableName)
     {
         $sql = 'SHOW TABLES LIKE :tableName';
@@ -62,6 +69,10 @@ class DB
         return false;
     }
 
+    /**
+     * @param $tableName
+     * @return bool
+     */
     public static function deleteTable($tableName)
     {
         $sql = 'DROP TABLE IF EXISTS ' . $tableName;
@@ -75,6 +86,9 @@ class DB
         }
     }
 
+    /**
+     * @return bool
+     */
     public static function getTables()
     {
         $sql = 'SHOW TABLES';
@@ -93,6 +107,9 @@ class DB
         return false;
     }
 
+    /**
+     * DataBase BuckUp
+     */
     public static function backupTables()
     {
         system('mysqldump --no-tablespace --opt -h' . DBHOST . ' -u' . DBUSER . ' -p"' . DBPASS . '" ' . DBNAME . ' | gzip > ' . getenv('DOCUMENT_ROOT') . '/app/db-buckup-' . date('Y-m-d-H-i') . '.sql.gz');
