@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 class CategoryRelations
 {
@@ -12,7 +13,7 @@ class CategoryRelations
 
     public function __construct($type = null, $typeId = null)
     {
-        if(is_null($this->dbh)) {
+        if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
         }
 
@@ -151,16 +152,18 @@ class CategoryRelations
     }
 
     /**
+     * @param $type
      * @return array|bool
      */
-    public function showAll()
+    public function showAll($type = 'ITEMGLUE')
     {
 
+        $type = cleanData($type);
         $sql = 'SELECT CR.id, CR.type, CR.typeId, CR.categoryId, ART.name, ART.statut 
         FROM appoe_categoryRelations AS CR 
         RIGHT JOIN appoe_plugin_itemGlue_articles AS ART 
         ON(CR.typeId = ART.id) 
-        WHERE CR.type = "ITEMGLUE" ORDER BY ART.statut DESC';
+        WHERE CR.type = "' . $type . '" AND ART.statut > 0 ORDER BY ART.statut DESC';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
 

@@ -48,4 +48,4 @@ $_SESSION['currentPageName'] = $existPage ? $currentPageName : trans(pageName())
 $_SESSION['currentPageDescription'] = $existPage ? $currentPageDescription : trans(pageDescription());
 
 //Create menu
-$menu = constructMenu($CmsMenu->showAll());
+$_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
