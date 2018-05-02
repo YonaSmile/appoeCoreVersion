@@ -26,13 +26,13 @@ function eraseCookie(name) {
 function busyApp() {
     $('#appStatus').removeClass(function (index, className) {
         return (className.match(/\bbg-\S+/g) || []).join(' ');
-    }).addClass('bg-warning');
+    }).addClass('progress-bar-animated bg-warning').parent('div.progress').animate({"height": "10px"}, 200);
 }
 
 function availableApp() {
     $('#appStatus').removeClass(function (index, className) {
         return (className.match(/\bbg-\S+/g) || []).join(' ');
-    }).addClass('bg-secondary');
+    }).removeClass('progress-bar-animated').addClass('bg-light').parent('div.progress').animate({"height": "1px"}, 200);
 }
 
 $(document).ready(function () {

@@ -43,8 +43,8 @@ if (false !== $menu_data) {
         <?php endforeach ?>
     <?php endif ?>
     <?php includePluginsPrimaryMenu(); ?>
-    <div class="progress mt-2">
-        <div id="appStatus" class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" role="progressbar"
+    <div class="progress mt-2" style="height: 1px;">
+        <div id="appStatus" class="progress-bar progress-bar-striped bg-light" role="progressbar"
              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
     </div>
 </ul>
