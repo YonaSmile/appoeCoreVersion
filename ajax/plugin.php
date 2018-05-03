@@ -75,13 +75,10 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['updateSitemap'])) {
 
-        $Cms = new App\Plugin\Cms\Cms();
-        $Article = new App\Plugin\ItemGlue\Article();
-        $Article->setStatut(1);
+        $CmsMenu = new App\Plugin\Cms\CmsMenu();
+        $data = extractFromObjArr($CmsMenu->showAll(), 'slug');
 
-        $data = array_merge($Cms->showAllPages(false));
-
-        if(generateSitemap($data)){
+        if (generateSitemap($data)) {
             echo 'true';
         }
     }
