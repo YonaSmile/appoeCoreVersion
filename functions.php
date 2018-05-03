@@ -33,7 +33,7 @@ function pageDescription()
  */
 function pageSlug()
 {
-    return htmlentities(substr(basename($_SERVER['PHP_SELF']), 0, -4));
+    return htmlentities(basename($_SERVER['REQUEST_URI']));
 }
 
 /**
@@ -43,7 +43,11 @@ function pageSlug()
  */
 function activePage($url)
 {
-    if (strstr(substr(basename($_SERVER['PHP_SELF']), 0, -4), $url)) {
+    if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
+        return ' active ';
+    }
+
+    if (strstr(basename($_SERVER['REQUEST_URI']), $url)) {
         return ' active ';
     }
 
@@ -445,7 +449,7 @@ function splitAtUpperCase($s)
 function checkIfInArrayString($array, $searchingFor)
 {
     foreach ($array as $element) {
-        if (strpos($searchingFor, $element) !== false) {
+        if (strpos($element, $searchingFor) !== false) {
             return true;
         }
     }
@@ -459,7 +463,7 @@ function checkMaintenance()
 {
     if (MAINTENANCE) {
         if (
-            (defined('IP_ALLOWED') && in_array(getIP(), IP_ALLOWED))
+            (defined('IP_PARTS_ALLOWED') && in_array(getIP(), IP_ALLOWED))
             ||
             (defined('IP_PARTS_ALLOWED') && checkIfInArrayString(IP_PARTS_ALLOWED, getIP()))
         ) {
@@ -486,7 +490,7 @@ function getPlugins()
             if ($dossier != '.' && $dossier != '..' && $dossier != 'index.php') {
 
                 if (file_exists(WEB_PLUGIN_PATH . $dossier . '/setup.php')) {
-                    $setupPath = WEB_PLUGIN_PATH . $dossier . '/setup.php';
+                    $setupPath = WEB_PLUGIN_URL . $dossier . '/setup.php';
                 }
 
                 if (file_exists(WEB_PLUGIN_PATH . $dossier . '/version.json')) {
@@ -512,7 +516,7 @@ function getPlugins()
  */
 function activePlugin($setupPath)
 {
-    return include($setupPath);
+    return file_get_contents($setupPath);
 }
 
 function downloadZip($path, $url)

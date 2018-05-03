@@ -29,6 +29,17 @@
 <script>
     CKEDITOR.replaceAll('ckeditor');
     CKEDITOR.config.height = 400;
+    CKEDITOR.config.toolbar = [
+        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Superscript' ] },
+        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+        { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+        { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule' ] },
+        { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+        { name: 'tools', items: [ 'ShowBlocks' ] },
+        { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+        { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: ['Scayt' ] }
+    ];
 </script>
 <script>
     function convertToSlug(str) {
