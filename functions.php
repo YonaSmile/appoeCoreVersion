@@ -265,6 +265,38 @@ function checkRequest($request)
 
 }
 
+function generateSitemap($data)
+{
+    $sitemap = '<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
+
+    $sitemap .= '<url>';
+    $sitemap .= '<loc>' . WEB_DIR_URL . '</loc>';
+    $sitemap .= '<changefreq>weekly</changefreq>';
+    $sitemap .= '<priority>1.0</priority>';
+    $sitemap .= '</url>';
+
+    foreach ($data as $key => $url) {
+        $sitemap .= '<url>';
+        $sitemap .= '<loc>' . WEB_DIR_URL . $url->slug . '/</loc>';
+        $sitemap .= '<changefreq>weekly</changefreq>';
+        $sitemap .= '<priority>' . ($url->slug == 'home' ? '1.0' : '0.8') . '</priority>';
+        $sitemap .= '</url>';
+    }
+    $sitemap .= '</urlset>';
+
+    if (false !== $file = fopen(ROOT_PATH . 'sitemap.xml', 'w+')) {
+        if (false !== fwrite($file, $sitemap)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 /**
  * @param array $concernedArray
  * @param $user
@@ -449,7 +481,7 @@ function splitAtUpperCase($s)
 function checkIfInArrayString($array, $searchingFor)
 {
     foreach ($array as $element) {
-        if (strpos($element, $searchingFor) !== false) {
+        if (strpos($searchingFor, $element) !== false) {
             return true;
         }
     }
@@ -463,7 +495,7 @@ function checkMaintenance()
 {
     if (MAINTENANCE) {
         if (
-            (defined('IP_PARTS_ALLOWED') && in_array(getIP(), IP_ALLOWED))
+            (defined('IP_ALLOWED') && in_array(getIP(), IP_ALLOWED))
             ||
             (defined('IP_PARTS_ALLOWED') && checkIfInArrayString(IP_PARTS_ALLOWED, getIP()))
         ) {

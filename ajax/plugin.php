@@ -73,6 +73,19 @@ if (checkAjaxRequest()) {
         }
     }
 
+    if (!empty($_POST['updateSitemap'])) {
+
+        $Cms = new App\Plugin\Cms\Cms();
+        $Article = new App\Plugin\ItemGlue\Article();
+        $Article->setStatut(1);
+
+        $data = array_merge($Cms->showAllPages(false));
+
+        if(generateSitemap($data)){
+            echo 'true';
+        }
+    }
+
     if (!empty($_POST['optimizeDb'])) {
 
         $tables = App\DB::initialize()->getTables();

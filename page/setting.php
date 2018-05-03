@@ -95,6 +95,17 @@
                     </div>
                     <div class="my-4"></div>
                 </div>
+                <div class="col-12">
+                    <div class="p-3 bg-info text-white">
+                        <?= mb_strtoupper(trans('Visuel')); ?>
+                    </div>
+                    <div class="p-2 mb-2 bg-light">
+                        <button type="button" id="updateSitemap" class="btn btn-warning btn-sm operationBtn">
+                            <?= trans('Réactualiser le Sitemap'); ?>
+                        </button>
+                    </div>
+                    <div class="my-4"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -222,6 +233,23 @@
                     } else {
                         $('#loader').fadeOut();
                     }
+                }
+            );
+        });
+
+        $('#updateSitemap').on('click', function () {
+            busyApp();
+            $.post(
+                '<?= WEB_DIR; ?>app/ajax/plugin.php',
+                {
+                    updateSitemap: 'OK'
+                },
+                function (data) {
+                    if (data === true || data == 'true') {
+                        $('#updateSitemap').removeClass('operationBtn').html('<?= trans('Sitemap actualisé') ?>');
+                        enableBtns();
+                    }
+                    availableApp();
                 }
             );
         });
