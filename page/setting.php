@@ -152,6 +152,7 @@
         });
 
         setTimeout(function () {
+            busyApp();
             $.each($('.pluginVersion'), function (index, val) {
                 var $versionContenair = $(this);
                 var pluginName = $versionContenair.data('pluginname');
@@ -175,6 +176,7 @@
                     }
                 );
             });
+            availableApp();
         }, 2000);
 
         setTimeout(function () {
@@ -255,6 +257,7 @@
         });
 
         $('.activePlugin').on('click', function () {
+            busyApp();
             var $btn = $(this);
             var pluginPath = $btn.data('pluginpath');
             $btn.attr('disabled', 'disabled').addClass('disabled').html('<i class="fas fa-circle-notch fa-spin"></i>');
@@ -263,10 +266,11 @@
                 $returnContenaire.append('<p><strong><?= trans('Vous devez recharger la page pour voir les nouvelles fonctionnalités'); ?>.</strong></p>');
                 $btn.html('<?= trans('Activé'); ?>');
             });
-
+            availableApp();
         });
 
         $('#cleanDataBase').on('click', function () {
+            busyApp();
             var $btn = $(this);
             var $parent = $btn.parent();
             $.post(
@@ -278,9 +282,9 @@
                     if (data) {
                         $btn.remove();
                         $parent.html('<p>' + data + '</p>');
-                    } else {
-                        enableBtns();
                     }
+                    enableBtns();
+                    availableApp();
                 });
         });
 

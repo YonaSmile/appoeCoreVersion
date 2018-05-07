@@ -152,20 +152,18 @@ class CategoryRelations
     }
 
     /**
-     * @param $type
      * @return array|bool
      */
-    public function showAll($type = 'ITEMGLUE')
+    public function showAll()
     {
 
-        $type = cleanData($type);
         $sql = 'SELECT CR.id, CR.type, CR.typeId, CR.categoryId, ART.name, ART.statut 
         FROM appoe_categoryRelations AS CR 
         RIGHT JOIN appoe_plugin_itemGlue_articles AS ART 
         ON(CR.typeId = ART.id) 
-        WHERE CR.type = "' . $type . '" AND ART.statut > 0 ORDER BY ART.statut DESC';
+        WHERE CR.type = "ITEMGLUE" AND ART.statut > 0 
+        ORDER BY ART.statut DESC, ART.updated_at DESC';
         $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':type', $this->type);
 
         $stmt->execute();
         $error = $stmt->errorInfo();
