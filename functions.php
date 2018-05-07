@@ -280,11 +280,13 @@ function generateSitemap($data)
     $sitemap .= '</url>';
 
     foreach ($data as $key => $url) {
-        $sitemap .= '<url>';
-        $sitemap .= '<loc>' . WEB_DIR_URL . $url->slug . '/</loc>';
-        $sitemap .= '<changefreq>weekly</changefreq>';
-        $sitemap .= '<priority>' . ($url->slug == 'home' ? '1.0' : '0.8') . '</priority>';
-        $sitemap .= '</url>';
+        if (file_exists(TEMPLATES_PATH . $url->slug . '.php')) {
+            $sitemap .= '<url>';
+            $sitemap .= '<loc>' . WEB_DIR_URL . $url->slug . '/</loc>';
+            $sitemap .= '<changefreq>weekly</changefreq>';
+            $sitemap .= '<priority>' . ($url->slug == 'home' ? '1.0' : '0.8') . '</priority>';
+            $sitemap .= '</url>';
+        }
     }
     $sitemap .= '</urlset>';
 
