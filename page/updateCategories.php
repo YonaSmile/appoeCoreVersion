@@ -47,7 +47,8 @@ if ($allCategories) {
                                 </button>
                                 <input type="text" class="p-3 bg-primary text-white border-0 form-control libraryInput"
                                        data-idcategory="<?= $separetedCategory->id; ?>"
-                                       value="<?= $separetedCategory->name; ?>">
+                                       value="<?= $separetedCategory->name; ?>"
+                                       placeholder="<?= $separetedCategory->id; ?>">
                                 <small class="inputInfo"></small>
                             </div>
                             <?php if (!empty($categoryType[$separetedCategory->id])): ?>
@@ -62,7 +63,8 @@ if ($allCategories) {
                                                 <input type="text"
                                                        class="p-3 bg-info text-white border-0 form-control libraryInput"
                                                        data-idcategory="<?= $separetedSubCategory->id; ?>"
-                                                       value="<?= $separetedSubCategory->name; ?>">
+                                                       value="<?= $separetedSubCategory->name; ?>"
+                                                       placeholder="<?= $separetedSubCategory->id; ?>"">
                                                 <small class="inputInfo"></small>
                                             </div>
                                             <?php if (!empty($categoryType[$separetedSubCategory->id])): ?>
@@ -77,7 +79,8 @@ if ($allCategories) {
                                                                 <input type="text"
                                                                        class="p-3 bg-secondary text-white border-0 form-control libraryInput"
                                                                        data-idcategory="<?= $separetedSubSubCategory->id; ?>"
-                                                                       value="<?= $separetedSubSubCategory->name; ?>">
+                                                                       value="<?= $separetedSubSubCategory->name; ?>"
+                                                                       placeholder="<?= $separetedSubSubCategory->id; ?>">
                                                                 <small class="inputInfo"></small>
                                                             </div>
                                                         </div>
@@ -156,6 +159,7 @@ if ($allCategories) {
             $inputInfo.html('');
 
             if (newName.length > 0) {
+                busyApp();
                 $.post(
                     '<?= WEB_DIR; ?>app/ajax/categories.php',
                     {
@@ -166,6 +170,7 @@ if ($allCategories) {
                     function (data) {
                         if (data && (data == 'true' || data === true)) {
                             $inputInfo.html('<?= trans('Enregistré'); ?>');
+                            availableApp();
                         }
                     }
                 )
@@ -195,6 +200,7 @@ if ($allCategories) {
 
         $('.deleteCategory').on('click', function () {
             if (confirm('<?= trans('Vous allez supprimer cette catégorie'); ?>')) {
+                busyApp();
                 var $btn = $(this);
                 var idCategory = $btn.data('idcategory');
 
@@ -207,6 +213,7 @@ if ($allCategories) {
                     function (data) {
                         if (data && (data == 'true' || data === true)) {
                             $btn.parent('div').fadeOut('fast');
+                            availableApp();
                         }
                     }
                 )

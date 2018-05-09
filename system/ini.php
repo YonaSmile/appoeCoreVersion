@@ -46,7 +46,7 @@ define('FILE_DIR_URL', WEB_DIR_URL . FILE_DIR_NAME);
 error_reporting(E_ALL);
 ini_set('display_errors', MAINTENANCE ? 1 : 0);
 ini_set('log_errors', 1);
-ini_set('error_log', ROOT_PATH . 'log.txt');
+ini_set('error_log', ROOT_PATH . 'error.log');
 
 /**
  * Defined App const
