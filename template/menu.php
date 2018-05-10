@@ -83,4 +83,9 @@ if (false !== $menu_data) {
         </li>
     </ul>
     <small>Art Of Event - <strong>APPOE</strong></small>
+    <?php
+    App\Version::setFile(WEB_APP_PATH . 'version.json');
+    if (App\Version::show()): ?>
+        <small><em><?= App\Version::getVersion(); ?></em></small>
+    <?php endif; ?>
 </div>
