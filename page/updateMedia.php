@@ -52,6 +52,7 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                             <img src="<?= FILE_DIR_URL . $file->name; ?>" alt="<?= $file->description; ?>"
                                  class="img-fluid seeOnOverlay">
                             <div class="form-group mt-1 mb-0">
+                                <small style="font-size: 10px;"><strong><?= $file->name; ?></strong></small>
                                 <form method="post" data-imageid="<?= $file->id; ?>">
                                     <input type="text" name="description" class="form-control form-control-sm imageDescription"
                                            value="<?= $file->description; ?>"
