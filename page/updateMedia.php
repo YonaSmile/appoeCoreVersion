@@ -96,7 +96,7 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
             });
 
             $('input.imageDescription, input.imagelink, input.imagePosition, select.imageTypeId ').on('keyup change', function () {
-
+                busyApp();
                 $('small.infosMedia').hide().html('');
                 var $input = $(this);
                 var $form = $input.parent('form');
@@ -120,6 +120,7 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                     function (data) {
                         if (data && (data == 'true' || data === true)) {
                             $info.html('<?= trans('Enregistré'); ?>').show();
+                            availableApp();
                         }
                     }
                 )
@@ -130,6 +131,7 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                 event.stopPropagation();
 
                 if (confirm('<?= trans('Vous allez supprimer cette image'); ?>')) {
+                    busyApp();
                     var $btn = $(this);
                     var idImage = $btn.data('imageid');
 
@@ -142,6 +144,7 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                         function (data) {
                             if (data && (data == 'true' || data === true)) {
                                 $btn.parent('div').fadeOut('fast');
+                                availableApp();
                             }
                         }
                     )
