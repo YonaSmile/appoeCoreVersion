@@ -30,37 +30,27 @@
     CKEDITOR.replaceAll('ckeditor');
     CKEDITOR.config.height = 400;
     CKEDITOR.config.toolbar = [
-        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Superscript', '-', 'RemoveFormat' ] },
-        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ] },
-        { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-        { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule' ] },
-        { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-        { name: 'tools', items: [ 'ShowBlocks' ] },
-        { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-        { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: ['Scayt' ] }
+        {
+            name: 'basicstyles',
+            groups: ['basicstyles', 'cleanup'],
+            items: ['Bold', 'Italic', 'Underline', 'Strike', 'Superscript', '-', 'RemoveFormat']
+        },
+        {
+            name: 'paragraph',
+            groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
+            items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+        },
+        {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+        {name: 'insert', items: ['Image', 'Table', 'HorizontalRule']},
+        {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+        {name: 'colors', items: ['TextColor', 'BGColor']},
+        {name: 'tools', items: ['ShowBlocks']},
+        {name: 'clipboard', groups: ['clipboard', 'undo'], items: ['PasteFromWord', '-', 'Undo', 'Redo']},
+        {name: 'editing', groups: ['find', 'selection', 'spellchecker'], items: ['Scayt']}
     ];
 </script>
 <script>
-    function convertToSlug(str) {
-        str = str.replace(/^\s+|\s+$/g, ''); // trim
-        str = str.toLowerCase();
-
-        // remove accents, swap ñ for n, etc
-        var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
-        var to = "aaaaaeeeeeiiiiooooouuuunc------";
-        for (var i = 0, l = from.length; i < l; i++) {
-            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-        }
-
-        str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-            .replace(/\s+/g, '-') // collapse whitespace and replace by -
-            .replace(/-+/g, '-'); // collapse dashes
-
-        return str;
-    }
-
-    $(document).ready(function () {
+    (function ($) {
 
         //cookie for sidebar
         if (!getCookie('toggleSidebar')) {
@@ -70,14 +60,14 @@
         if (getCookie('toggleSidebar') === 'close') {
             $('#sidebar, #mainContent').toggleClass('active');
             $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $('a[aria-expanded="true"]').attr('aria-expanded', 'false');
         }
 
         //sidebar event
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar, #mainContent').toggleClass('active');
             $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $('a[aria-expanded="true"]').attr('aria-expanded', 'false');
 
             if ($("#mainContent").hasClass('active')) {
                 setCookie('toggleSidebar', 'close', 1);
@@ -168,44 +158,6 @@
             $(this).val(rep);
         });
 
-        $('#notifications_footer').on('click', '.deleteInfoSession', function () {
-            var infoSession = $(this).data('idnotif');
-            var $parent = $(this).parent('div');
-            $.post(
-                '<?= WEB_DIR; ?>app/ajax/notifications.php',
-                {
-                    deleteNotifsFromSession: 'OK',
-                    idNotif: infoSession
-                },
-                function (data) {
-                    if (data === true || data == 'true') {
-                        $parent.slideUp();
-                    } else {
-                        alert('<?= trans('Un problème est survenu lors de la suppression de la notification'); ?>');
-                    }
-                }
-            );
-        });
-
-        $('#notifications_footer').on('click', '.deleteAlertSession', function () {
-            var infoSession = $(this).data('idalert');
-            var $parent = $(this).parent('div');
-            $.post(
-                '<?= WEB_DIR; ?>app/ajax/notifications.php',
-                {
-                    deleteNotifsFromSession: 'OK',
-                    idAlert: infoSession
-                },
-                function (data) {
-                    if (data === true || data == 'true') {
-                        $parent.slideUp();
-                    } else {
-                        alert('<?= trans('Un problème est survenu lors de la suppression de la notification'); ?>');
-                    }
-                }
-            );
-        });
-
         $('.md-select').on('click', function (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -235,17 +187,13 @@
                 }
             }, 300);
         });
-    });
 
-
-    (function ($) {
         $(window).on("load", function () {
             $("#sidebar").mCustomScrollbar({
                 theme: "minimal"
             });
         });
     })(jQuery);
-
 </script>
 </body>
 </html>
