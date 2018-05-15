@@ -45,10 +45,8 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
 <body>
 <div id="loader">
     <div class="loaderContent">
-        <div class="lds-ripple">
-            <div></div>
-            <div></div>
-        </div>
+        <div class="lds-facebook"><div></div><div></div><div></div></div>
+        <div class="inline"><?= trans('Chargement'); ?> ...</div>
     </div>
 </div>
 <div id="site">
