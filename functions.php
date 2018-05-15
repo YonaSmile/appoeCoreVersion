@@ -771,9 +771,13 @@ function getHoursFromDate($date1, $date2 = '')
  */
 function displayFrDate($date)
 {
-    list($annee, $mois, $jour) = explode('-', $date);
+    if (!empty($date) && $date != '0000-00-00') {
+        list($annee, $mois, $jour) = explode('-', $date);
 
-    return $jour . '/' . $mois . '/' . $annee;
+        return $jour . '/' . $mois . '/' . $annee;
+    } else {
+        return '';
+    }
 }
 
 /**
