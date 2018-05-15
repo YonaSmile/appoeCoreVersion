@@ -30,18 +30,6 @@ img {
     max-width: 100% !important;
 }
 
-#chargement {
-    text-align: center;
-    text-shadow: none;
-    opacity: 1;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /*display: none;*/
-    z-index: 9999999999;
-}
-
 #loader {
     background: #FFF;
     position: fixed;
@@ -51,17 +39,48 @@ img {
     display: flex;
 }
 
-.loader {
-    border-radius: 50%;
-    border-top: 5px solid #000;
-    width: 148px;
-    height: 154px;
-    -webkit-animation: spin 1.5s linear infinite;
-    animation: spin 1.5s linear infinite;
-    z-index: 1;
+.loaderContent {
+    margin: auto;
+    position: relative;
+    width: 250px;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.lds-ripple div {
     position: absolute;
-    top: -13px;
-    left: 51px;
+    border: 4px solid #222;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+
+@keyframes lds-ripple {
+    0% {
+        top: 28px;
+        left: 28px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        top: -1px;
+        left: -1px;
+        width: 58px;
+        height: 58px;
+        opacity: 0;
+    }
 }
 
 .input-group-addon {
@@ -97,21 +116,6 @@ button[disabled], a[disabled], input[disabled] {
     display: block;
     margin-bottom: 30px;
     box-sizing: content-box;
-}
-
-.loaderContenair {
-    margin: auto;
-    position: relative;
-    width: 250px;
-    font-size: 1.1em;
-}
-
-.loaderContent {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    text-align: center;
 }
 
 .nav .open > a, .nav .open > a:focus, .nav .open > a:hover,

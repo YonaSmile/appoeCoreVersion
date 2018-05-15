@@ -26,7 +26,7 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link href="https://use.fontawesome.com/releases/v5.0.3/css/all.css" rel="stylesheet">
-    <link rel="styleSheet" href="<?= APP_ROOT; ?>css/appoe.css?v=<?=time();?>" type="text/css">
+    <link rel="styleSheet" href="<?= APP_ROOT; ?>css/appoe.css?v=<?= time(); ?>" type="text/css">
     <?php includePluginsStyles(); ?>
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -44,12 +44,10 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
 </head>
 <body>
 <div id="loader">
-    <div class="loaderContenair">
-        <div class="loader"></div>
-        <div class="loaderContent">
-            <img src="<?= file_exists(WEB_PUBLIC_PATH . 'images/logo_app_black.jpg') ? WEB_PUBLIC_URL : WEB_APP_URL; ?>images/logo_app_black.jpg"
-                 class="imgLogo" align="AOE - COMMUNICATION LOGO">
-            <span class="firstLoaderContent"><?= trans('Chargement'); ?>...</span>
+    <div class="loaderContent">
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
         </div>
     </div>
 </div>
@@ -62,7 +60,3 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
             <button type="button" id="sidebarCollapse">
                 <i class="fas fa-align-left"></i>
             </button>
-
-
-
-
