@@ -348,7 +348,7 @@ class File
                     $filename = $this->cleanText($files['name'][$i]);
                     $type = $files['type'][$i];
                     $size = $files['size'][$i];
-                    if ($size <= 2621440) {
+                    if ($size <= 5621440) {
 
                         if ($type == 'image/jpeg' || $type == 'image/png' || $type == 'image/gif'
                             || $type == 'image/jpg' || $type == 'image/svg+xml'

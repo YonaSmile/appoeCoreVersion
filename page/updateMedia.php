@@ -49,12 +49,20 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                 <div class="card-columns">
                     <?php foreach ($allFiles as $file): ?>
                         <div class="card fileContent bg-none border-0">
-                            <img src="<?= FILE_DIR_URL . $file->name; ?>" alt="<?= $file->description; ?>"
-                                 class="img-fluid seeOnOverlay">
+                            <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
+                                <img src="<?= FILE_DIR_URL . $file->name; ?>"
+                                     alt="<?= $file->description; ?>"
+                                     class="img-fluid seeOnOverlay">
+                            <?php else: ?>
+                                <a href="<?= FILE_DIR_URL . $file->name; ?>" target="_blank">
+                                    <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>">
+                                </a>
+                            <?php endif; ?>
                             <div class="form-group mt-1 mb-0">
                                 <small style="font-size: 10px;"><strong><?= $file->name; ?></strong></small>
                                 <form method="post" data-imageid="<?= $file->id; ?>">
-                                    <input type="text" name="description" class="form-control form-control-sm imageDescription"
+                                    <input type="text" name="description"
+                                           class="form-control form-control-sm imageDescription"
                                            value="<?= $file->description; ?>"
                                            placeholder="<?= trans('Description'); ?>">
                                     <input type="url" name="link" class="form-control form-control-sm imagelink"
