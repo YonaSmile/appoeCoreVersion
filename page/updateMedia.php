@@ -22,10 +22,11 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
     </div>
 
     <div class="container-fluid">
+        <h2 class="subTitle"><?= trans('Téléchargement des médias'); ?></h2>
         <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
             <?= getTokenField(); ?>
             <div class="col-12 col-lg-9">
-                <?= App\Form::text(trans('Télécharger des images'), 'inputFile[]', 'file', '', true, 800, 'multiple'); ?>
+                <?= App\Form::text(trans('Sélection des médias'), 'inputFile[]', 'file', '', true, 800, 'multiple'); ?>
             </div>
             <div class="col-12 col-lg-3">
                 <?= App\Form::select(trans('Bibliothèques'), 'library', $listCatgories, '', true); ?>
@@ -38,13 +39,14 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
     </div>
 <?php if ($allLibrary): ?>
     <div class="container-fluid">
+        <h2 class="subTitle"><?= trans('Les bibliothèques'); ?></h2>
         <div id="shortAccessBtns" class="mb-4"></div>
         <?php foreach ($allLibrary as $id => $name): ?>
             <?php
             $Media->setTypeId($id);
             $allFiles = $Media->showFiles();
             if ($allFiles): ?>
-                <h3 class="libraryName p-3" id="media-<?= $id; ?>"><?= $name; ?></h3>
+                <h5 class="libraryName p-3" id="media-<?= $id; ?>"><?= $name; ?></h5>
                 <hr class="my-3 mx-5">
                 <div class="card-columns">
                     <?php foreach ($allFiles as $file): ?>
@@ -59,7 +61,13 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                                 </a>
                             <?php endif; ?>
                             <div class="form-group mt-1 mb-0">
-                                <small style="font-size: 10px;"><strong><?= $file->name; ?></strong></small>
+                                <small style="font-size: 9px;">
+                                    <strong class="fileLink" data-src="<?= FILE_DIR_URL . $file->name; ?>">
+                                        <button class="btn btn-sm btn-outline-secondary btn-block copyLinkOnClick">
+                                            <?= trans('Copier le lien du média'); ?>
+                                        </button>
+                                    </strong>
+                                </small>
                                 <form method="post" data-imageid="<?= $file->id; ?>">
                                     <input type="text" name="description"
                                            class="form-control form-control-sm imageDescription"
@@ -98,7 +106,7 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                 $('#loader').fadeIn('fast');
             });
 
-            $.each($('h3.libraryName'), function () {
+            $.each($('h5.libraryName'), function () {
                 var id = $(this).attr('id');
                 $('#shortAccessBtns').append('<a class="btn btn-info mr-3 mb-3" href="#' + id + '">' + $(this).text() + '</a>');
             });
@@ -157,6 +165,14 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                         }
                     )
                 }
+            });
+
+            var textDefaultCopyFile = '<?= trans('Copier le lien du média'); ?>';
+            $('.copyLinkOnClick').on('click', function (e) {
+                e.preventDefault();
+                $('.copyLinkOnClick').text(textDefaultCopyFile);
+                copyToClipboard($(this).parent().data('src'));
+                $(this).text('<?= trans('copié'); ?>');
             });
 
         });

@@ -23,6 +23,14 @@ function eraseCookie(name) {
     document.cookie = name + '=; Max-Age=-99999999;';
 }
 
+function copyToClipboard(text) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(text).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
+
 function busyApp() {
     $('#appStatus').removeClass(function (index, className) {
         return (className.match(/\bbg-\S+/g) || []).join(' ');

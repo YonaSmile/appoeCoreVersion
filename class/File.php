@@ -350,16 +350,25 @@ class File
                     $size = $files['size'][$i];
                     if ($size <= 5621440) {
 
-                        if ($type == 'image/jpeg' || $type == 'image/png' || $type == 'image/gif'
-                            || $type == 'image/jpg' || $type == 'image/svg+xml'
+                        if (
+                            $type == 'image/jpeg' || $type == 'image/png' || $type == 'image/gif'
+                            || $type == 'image/jpg' || $type == 'image/svg+xml' || $type == 'image/tiff'
                             || $type == 'application/pdf' || $type == 'application/vnd.ms-word'
+                            || $type == 'application/vnd.ms-powerpoint' || $type == 'application/vnd.ms-excel'
                             || $type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                             || $type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                             || $type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-                            || $type == 'application/vnd.ms-powerpoint' || $type == 'application/vnd.ms-excel'
+                            || $type == 'application/vnd.oasis.opendocument.presentation'
+                            || $type == 'application/vnd.oasis.opendocument.spreadsheet'
+                            || $type == 'application/vnd.oasis.opendocument.text'
+                            || $type == 'text/csv' || $type == 'application/msword' || $type == 'application/json'
                             || $type == 'audio/aac' || $type == 'audio/x-mpegurl' || $type == 'audio/m4a'
-                            || $type == 'audio/x-midi' || $type == 'video/mpeg' || $type == 'audio/mpeg'
-                            || $type == 'application/ogg' || $type == 'audio/wav' || $type == 'audio/x-ms-wma') {
+                            || $type == 'audio/x-midi' || $type == 'audio/x-ms-wma' || $type == 'audio/mpeg'
+                            || $type == 'audio/ogg' || $type == 'audio/wav' || $type == 'audio/x-wav'
+                            || $type == 'audio/webm' || $type == 'audio/3gpp'
+                            || $type == 'video/x-msvideo' || $type == 'video/mpeg' || $type == 'video/ogg'
+                            || $type == 'video/webm' || $type == 'video/3gpp' || $type == 'video/mp4'
+                        ) {
 
                             $this->name = $filename;
                             if (!file_exists(FILE_DIR_PATH . $filename)) {
