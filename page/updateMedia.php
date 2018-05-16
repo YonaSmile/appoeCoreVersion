@@ -63,7 +63,7 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                             <div class="form-group mt-1 mb-0">
                                 <small style="font-size: 9px;">
                                     <strong class="fileLink" data-src="<?= FILE_DIR_URL . $file->name; ?>">
-                                        <button class="btn btn-sm btn-outline-secondary btn-block copyLinkOnClick">
+                                        <button class="btn btn-sm btn-outline-info btn-block copyLinkOnClick">
                                             <?= trans('Copier le lien du média'); ?>
                                         </button>
                                     </strong>
