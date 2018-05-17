@@ -1154,43 +1154,36 @@ function getFileContent($path)
 }
 
 /**
- * @param $name
- * @param null $parentId
+ * @param int $id
+ * @param bool $parentId
  * @param string $categoryType
  * @return array
  */
-function getSpecificMediaCategory($name, $parentId = null, $categoryType = 'MEDIA')
+function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA')
 {
-    $Category = new App\Category();
-    $Category->setType($categoryType);
-
-    $allCategories = extractFromObjArr($Category->showByType(), 'id');
-
     $Media = new App\Media();
-    $name = removeAccents(html_entity_decode($name));
+    $Category = new App\Category();
+
+    $Category->setType($categoryType);
+    $allCategories = $Category->showByType();
 
     $allMedia = array();
-    foreach ($allCategories as $key => $category) {
-        $access = false;
+    foreach ($allCategories as $category) {
 
-        if (!is_null($parentId)) {
+        if (false !== $parentId) {
 
-            if ($category->parentId != $parentId
-                && removeAccents(html_entity_decode($allCategories[$category->parentId]->name)) === $name
-            ) {
-                $access = true;
+            if ($category->parentId != $id && $category->id != $id) {
+                continue;
             }
 
         } else {
-            if (removeAccents(html_entity_decode($allCategories[$category->id]->name)) === $name) {
-                $access = true;
+            if ($category->id != $id) {
+                continue;
             }
         }
 
-        if ($access) {
-            $Media->setTypeId($category->id);
-            $allMedia[$category->id] = $Media->showFiles();
-        }
+        $Media->setTypeId($category->id);
+        $allMedia[$category->id] = $Media->showFiles();
     }
 
     return $allMedia;

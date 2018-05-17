@@ -161,7 +161,9 @@ class CategoryRelations
         FROM appoe_categoryRelations AS CR 
         RIGHT JOIN appoe_plugin_itemGlue_articles AS ART 
         ON(CR.typeId = ART.id) 
-        WHERE CR.type = "ITEMGLUE" AND ART.statut > 0 
+        RIGHT JOIN appoe_categories AS AC
+        ON(AC.id = CR.categoryId)
+        WHERE CR.type = "ITEMGLUE" AND ART.statut > 0 AND AC.status = 1
         ORDER BY ART.statut DESC, ART.updated_at DESC';
         $stmt = $this->dbh->prepare($sql);
 
