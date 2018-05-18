@@ -1319,7 +1319,7 @@ function showTemplateContent($filename, $allContent)
         if (strpos($content, '_')) {
 
             list($metaKey, $formType) = explode('_', $content);
-            $pageContent = str_replace('%%' . $content . '%%', !empty($allContent[$metaKey]) ? html_entity_decode($allContent[$metaKey]->metaValue) : $metaKey, $pageContent);
+            $pageContent = str_replace('%%' . $content . '%%', !empty($allContent[$metaKey]) ? html_entity_decode($allContent[$metaKey]->metaValue) : '•••', $pageContent);
         }
     }
 
