@@ -7,7 +7,8 @@ if ( isset( $_SESSION['auth'] ) && !bot_detected()) {
 
     //Check if user exist & valide
     if ( ! $User->exist() || ! $User->getStatut() ) {
-        header( 'location:' . WEB_APP_URL . 'logout.php' );
+        destroySessions();
+        header( 'location:/' );
         exit();
     }
 
@@ -15,7 +16,8 @@ if ( isset( $_SESSION['auth'] ) && !bot_detected()) {
 
     //Check valid session
     if ( $key != $emailSession ) {
-        header( 'location:' . WEB_APP_URL . 'logout.php' );
+        destroySessions();
+        header( 'location:/' );
         exit();
     }
 
@@ -23,11 +25,13 @@ if ( isset( $_SESSION['auth'] ) && !bot_detected()) {
 
     //Check if user have right access to this page
     if ( ! $Page->isExist() OR $Page->getMinRoleId() > $User->getRole() ) {
-        header( 'location:' . WEB_APP_URL . 'logout.php' );
+        destroySessions();
+        header( 'location:/' );
         exit();
     }
 
 } else {
-    header( 'location:' . WEB_APP_URL . 'logout.php' );
+    destroySessions();
+    header( 'location:/');
     exit();
 }

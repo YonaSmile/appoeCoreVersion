@@ -1054,6 +1054,16 @@ function unsetToken()
 }
 
 /**
+ * Unset Sessions
+ */
+
+function destroySessions()
+{
+    session_unset();
+    session_destroy();
+}
+
+/**
  * display notifications & alerts
  */
 function getSessionNotifications()

@@ -4,7 +4,6 @@ includePluginsFiles();
 
 mehoubarim_updateConnectedStatus('Déconnecté');
 
-session_unset();
-session_destroy();
+destroySessions();
 
 header('location:' . WEB_DIR . 'hibour');
