@@ -1,6 +1,6 @@
 <?php
 $Menu = new App\Menu();
-$menu_data = $Menu->displayMenu($User->getRole());
+$menu_data = $Menu->displayMenu($USER->getRole());
 $menuAll = array();
 
 if (false !== $menu_data) {
@@ -69,7 +69,7 @@ if (false !== $menu_data) {
                 <i class="fas fa-external-link-alt"></i>
             </a>
         </li>
-        <?php if ($User->getRole() > 3): ?>
+        <?php if ($USER->getRole() > 3): ?>
             <li class="list-inline-item">
                 <a class="nav-link" href="<?= getUrl('setting/'); ?>">
                     <i class="fas fa-cog"></i>

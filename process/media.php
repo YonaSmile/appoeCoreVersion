@@ -8,7 +8,7 @@ if (checkPostAndTokenRequest()) {
         $Media = new App\Media();
         $Media->setTypeId($_POST['library']);
         $Media->setUploadFiles($_FILES['inputFile']);
-        $Media->setUserId($User->getId());
+        $Media->setUserId($USER->getId());
 
         $files = $Media->upload();
         App\Flash::setMsg(trans('Fichiers téléchargés') . ' : ' . $files['countUpload'], 'info');

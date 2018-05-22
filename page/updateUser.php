@@ -1,11 +1,11 @@
 <?php if (!empty($_GET['id'])): ?>
     <?php require('header.php'); ?>
-    <?php if ($_GET['id'] == $User->getId() || $User->getRole() >= 3): ?>
+    <?php if ($_GET['id'] == $USER->getId() || $USER->getRole() >= 3): ?>
         <?php
         require_once(WEB_PROCESS_PATH . 'users.php');
         $UpdateUser = new App\Users();
         $UpdateUser->setId($_GET['id']);
-        if ($UpdateUser->show() && $UpdateUser->getRole() <= $User->getRole()) :?>
+        if ($UpdateUser->show() && $UpdateUser->getRole() <= $USER->getRole()) :?>
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -39,9 +39,9 @@
                                 <div class="col-12">
                                     <?= App\Form::text(trans('Prénom'), 'prenom', 'text', $UpdateUser->getPrenom(), true, 40); ?>
                                 </div>
-                                <?php if ($UpdateUser->getId() != $User->getId()): ?>
+                                <?php if ($UpdateUser->getId() != $USER->getId()): ?>
                                     <div class="col-12">
-                                        <?= App\Form::select(trans('Rôle'), 'role', array_map('trans', ROLES), $UpdateUser->getRole(), true, '', $User->getRole(), '>'); ?>
+                                        <?= App\Form::select(trans('Rôle'), 'role', array_map('trans', ROLES), $UpdateUser->getRole(), true, '', $USER->getRole(), '>'); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>

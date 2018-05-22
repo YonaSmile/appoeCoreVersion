@@ -28,7 +28,7 @@
 				<?= App\Form::text( trans('Mot de passe'), 'password', 'password', ! empty( $_POST['password'] ) ? $_POST['password'] : '', true ); ?>
             </div>
             <div class="col-12 my-2">
-				<?= App\Form::select( trans('Rôle'), 'role', array_map('trans',ROLES), ! empty( $_POST['role'] ) ? $_POST['role'] : '', true, '', $User->getRole(), '>' ); ?>
+				<?= App\Form::select( trans('Rôle'), 'role', array_map('trans',ROLES), ! empty( $_POST['role'] ) ? $_POST['role'] : '', true, '', $USER->getRole(), '>' ); ?>
             </div>
             <div class="col-12 my-2">
 				<?= App\Form::text( trans('Nom'), 'nom', 'text', ! empty( $_POST['nom'] ) ? $_POST['nom'] : '', true ); ?>
