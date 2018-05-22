@@ -1297,7 +1297,7 @@ function buildTree(array $elements, $parentId = 0)
 function getColor()
 {
     $colors = array(
-        1=> '3C989E',
+        1 => '3C989E',
         'ed5276',
         'e37b40',
         '324d5c',
@@ -1318,14 +1318,12 @@ function getColor()
 function showTemplateContent($filename, $allContent)
 {
     $pageContent = getFileContent($filename);
-    $templateContent = explode('%%', trim(strip_tags($pageContent)));
-    $templateContent = array_filter($templateContent, 'trim');
-
-    foreach ($templateContent as $content) {
-        if (strpos($content, '_')) {
-
-            list($metaKey, $formType) = explode('_', $content);
-            $pageContent = str_replace('%%' . $content . '%%', !empty($allContent[$metaKey]) ? html_entity_decode($allContent[$metaKey]->metaValue) : '•••', $pageContent);
+    if (preg_match_all("/{{(.*?)}}/", $pageContent, $m)) {
+        foreach ($m[1] as $i => $varname) {
+            if (strpos($varname, '_')) {
+                list($metaKey, $formType) = explode('_', $varname);
+                $pageContent = str_replace($m[0][$i], sprintf('%s', !empty($allContent[$metaKey]) ? html_entity_decode($allContent[$metaKey]->metaValue) : '•••'), $pageContent);
+            }
         }
     }
 
