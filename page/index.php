@@ -7,12 +7,11 @@
         </div>
         <div class="my-4"></div>
         <?php
-        $themes = array('primary', 'secondary', 'success', 'danger', 'warning', 'info', 'dark');
-        $c = 0;
-
+        $colorChosen = array();
+        $color = '#' . getColor();
         $dashboardDetails = includePluginsDashboard();
 
-        if($User->getRole() >= 4) {
+        if ($USER->getRole() >= 4) {
             $Category = new App\Category();
             $dashboardDetails[] = array(
                 'name' => trans('Catégories'),
@@ -32,17 +31,27 @@
         <?php if ($dashboardDetails): ?>
             <div class="row">
                 <?php foreach ($dashboardDetails as $dashboard): ?>
+                    <?php
+                    while (in_array($color, $colorChosen)) {
+                        $color = '#' . getColor();
+                    }
+                    ?>
                     <div class="col-12 col-lg-4 mb-3">
-                        <div class="card border-<?= $themes[$c]; ?>">
+                        <div class="card" style="border:1px solid <?= $color; ?>">
                             <div class="card-body">
                                 <h2 class="card-title"><?= $dashboard['name']; ?></h2>
-                                <span class="dashboardNum text-<?= $themes[$c]; ?>"><?= $dashboard['count']; ?></span>
+                                <span class="dashboardNum"
+                                      style="color:<?= $color; ?>"><?= $dashboard['count']; ?></span>
                             </div>
                             <a href="<?= $dashboard['url']; ?>"
-                               class="btn btn-<?= $themes[$c]; ?> d-block"><?= trans('Voir plus'); ?></a>
+                               class="btn d-block text-white"
+                               style="background-color: <?= $color; ?>;border-color: <?= $color; ?>">
+                                <?= trans('Voir plus'); ?>
+                            </a>
                         </div>
                     </div>
-                    <?php $c == count($themes) ? $c = 0 : $c++; endforeach; ?>
+                    <?php array_push($colorChosen, $color); ?>
+                <?php endforeach; ?>
             </div>
         <?php endif; ?>
 

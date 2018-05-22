@@ -1054,16 +1054,6 @@ function unsetToken()
 }
 
 /**
- * Unset Sessions
- */
-
-function destroySessions()
-{
-    session_unset();
-    session_destroy();
-}
-
-/**
  * display notifications & alerts
  */
 function getSessionNotifications()
@@ -1302,6 +1292,22 @@ function buildTree(array $elements, $parentId = 0)
     }
 
     return $branch;
+}
+
+function getColor()
+{
+    $colors = array(
+        1=> '3C989E',
+        'ed5276',
+        'e37b40',
+        '324d5c',
+        '28b799',
+        'f8bf39',
+        '3588a5',
+        'f04b0d'
+    );
+
+    return $colors[rand(1, count($colors))];
 }
 
 /**
