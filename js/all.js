@@ -69,8 +69,10 @@ $(document).ready(function () {
         var originSrc = $(this).data('originsrc');
         var $file = $(this).clone().attr('src', originSrc).removeClass();
 
-        $('#overlay #overlayContent').html($file);
-        $('#overlay').css('display', 'flex').hide().fadeIn(200);
+        setTimeout(function () {
+            $('#overlay #overlayContent').html($file);
+            $('#overlay').css('display', 'flex').hide().fadeIn(200);
+        },50);
     });
 
     $('#overlay').on('click', function () {

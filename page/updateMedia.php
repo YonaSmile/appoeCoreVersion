@@ -52,8 +52,8 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                     <?php foreach ($allFiles as $file): ?>
                         <div class="card fileContent bg-none border-0">
                             <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
-                                <img src="<?= FILE_DIR_URL . $file->name; ?>"
-                                     alt="<?= $file->description; ?>"
+                                <img src="<?= getThumb($file->name, 370); ?>" alt="<?= $file->description; ?>"
+                                     data-originsrc="<?= FILE_DIR_URL . $file->name; ?>"
                                      class="img-fluid seeOnOverlay">
                             <?php else: ?>
                                 <a href="<?= FILE_DIR_URL . $file->name; ?>" target="_blank">
@@ -174,7 +174,6 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                 copyToClipboard($(this).parent().data('src'));
                 $(this).text('<?= trans('copié'); ?>');
             });
-
         });
     </script>
 <?php require('footer.php'); ?>

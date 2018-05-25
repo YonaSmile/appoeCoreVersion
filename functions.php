@@ -1125,13 +1125,13 @@ function thumb($filename, $desired_width = 100, $quality = 80)
     }
 }
 
-function getThumb($thumb_name, $desired_width)
+function getThumb($filename, $desired_width)
 {
-    if (is_file(FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $thumb_name)) {
-        return WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $thumb_name;
+    if (is_file(FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename)) {
+        return WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
     } else {
-        thumb($thumb_name, $desired_width, 100);
-        return getThumb($thumb_name, $desired_width);
+        thumb($filename, $desired_width, 100);
+        return getThumb($filename, $desired_width);
     }
 }
 
