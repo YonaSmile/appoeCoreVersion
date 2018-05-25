@@ -1105,6 +1105,10 @@ function thumb($filename, $desired_width = 100, $quality = 80)
         $width = imagesx($source_image);
         $height = imagesy($source_image);
 
+        if ($desired_width > $width) {
+            $desired_width = $width;
+        }
+
         /* find the "desired height" of this thumbnail, relative to the desired width  */
         $desired_height = floor($height * ($desired_width / $width));
 
