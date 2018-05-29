@@ -169,7 +169,7 @@ class Users
   					`statut` TINYINT(1) NOT NULL DEFAULT 1,
                     `created_at` DATE NULL,
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=170001;';
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=157092;';
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         $error = $stmt->errorInfo();
