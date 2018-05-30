@@ -81,11 +81,20 @@ function getJsonContent($filename, $jsonKey = '')
     return (!empty($jsonKey)) ? $parsed_json[$jsonKey] : $parsed_json;
 }
 
+/**
+ * @param $mediaPath
+ * @return bool
+ */
 function isImage($mediaPath)
 {
     return @is_array(getimagesize($mediaPath)) ? true : false;
 }
 
+/**
+ * @param $text
+ * @param $size
+ * @return string
+ */
 function shortenText($text, $size)
 {
     return mb_strimwidth(
@@ -265,6 +274,10 @@ function checkRequest($request)
 
 }
 
+/**
+ * @param $data
+ * @return bool
+ */
 function generateSitemap($data)
 {
     $sitemap = '<?xml version="1.0" encoding="UTF-8"?>
@@ -480,6 +493,11 @@ function splitAtUpperCase($s)
     return preg_split('/(?=[A-Z])/', $s, -1, PREG_SPLIT_NO_EMPTY);
 }
 
+/**
+ * @param $array
+ * @param $searchingFor
+ * @return bool
+ */
 function checkIfInArrayString($array, $searchingFor)
 {
     foreach ($array as $element) {
@@ -553,6 +571,11 @@ function activePlugin($setupPath)
     return file_get_contents($setupPath);
 }
 
+/**
+ * @param $path
+ * @param $url
+ * @return bool
+ */
 function downloadZip($path, $url)
 {
     $fh = fopen($path, 'w');
@@ -646,6 +669,14 @@ function rmove($src, $dest)
     return true;
 }
 
+/**
+ * @param $src
+ * @param $path
+ * @param $firstFolderName
+ * @param $replaceInPath
+ * @param bool $deleteZip
+ * @return bool
+ */
 function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $deleteZip = true)
 {
     $tempFolder = $path . 'unzip';
@@ -676,6 +707,12 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
     return true;
 }
 
+/**
+ * @param $src
+ * @param $path
+ * @param bool $deleteZip
+ * @return bool
+ */
 function unzip($src, $path, $deleteZip = true)
 {
     $zip = new ZipArchive;
@@ -1129,6 +1166,11 @@ function thumb($filename, $desired_width = 100, $quality = 80)
     }
 }
 
+/**
+ * @param $filename
+ * @param $desired_width
+ * @return string
+ */
 function getThumb($filename, $desired_width)
 {
     if (is_file(FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename)) {
@@ -1298,6 +1340,9 @@ function buildTree(array $elements, $parentId = 0)
     return $branch;
 }
 
+/**
+ * @return mixed
+ */
 function getColor()
 {
     $colors = array(
@@ -1315,23 +1360,79 @@ function getColor()
 }
 
 /**
- * @param $filename
- * @param $allContent
+ * @param $pageSlug
+ * @param $pageData
  * @return mixed|string
  */
-function showTemplateContent($filename, $allContent)
+function showTemplateContent($pageSlug, $pageData)
 {
-    $pageContent = getFileContent($filename);
-    if (preg_match_all("/{{(.*?)}}/", $pageContent, $m)) {
-        foreach ($m[1] as $i => $varname) {
-            if (strpos($varname, '_')) {
-                list($metaKey, $formType) = explode('_', $varname);
-                $pageContent = str_replace($m[0][$i], sprintf('%s', !empty($allContent[$metaKey]) ? html_entity_decode($allContent[$metaKey]->metaValue) : '•••'), $pageContent);
+    $pageContent = getFileContent($pageSlug);
+    if (preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
+
+        foreach ($match[1] as $i => $adminZone) {
+            if (strpos($adminZone, '_')) {
+
+                list($metaKey, $formType) = explode('_', $adminZone);
+                $pageContent = str_replace($match[0][$i], sprintf('%s', !empty($pageData[$metaKey]) ? html_entity_decode($pageData[$metaKey]->metaValue) : '•••'), $pageContent);
             }
         }
     }
 
     return $pageContent;
+}
+
+
+/**
+ * @param $pageSlug
+ * @param $pageData
+ * @return string
+ */
+function showTemplateZones($pageSlug, $pageData)
+{
+
+    //Get template Content
+    $allContent = extractFromObjArr($pageData, 'metaKey');
+
+    //Get template Zones
+    $pageContent = getFileContent($pageSlug);
+
+    if (preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
+
+        //Filter uniques zones
+        $template = array_unique($match[1]);
+        $html = '';
+
+        foreach ($template as $i => $adminZone) {
+
+            //Check for form types
+            if (strpos($adminZone, '_')) {
+
+                //Authorised form types
+                $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number');
+                list($metaKey, $formType) = explode('_', $adminZone);
+
+                if (in_array($formType, $acceptedFormType)) {
+
+                    //Get input value
+                    $metaKeyDisplay = ucfirst(str_replace('-', ' ', $metaKey));
+                    $idCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->id : '';
+                    $valueCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->metaValue : '';
+
+                    //Display input
+                    $html .= '<div class="col-12">';
+
+                    if ($formType == 'textarea') {
+                        $html .= App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
+                    } else {
+                        $html .= App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '', '...');
+                    }
+
+                    $html .= '</div>';
+                }
+            }
+        }
+        return $html;
+    }
 }
 
 /**
@@ -1639,6 +1740,10 @@ function getFileName($path)
     return $pathInfos['filename'];
 }
 
+/**
+ * @param $imageArray
+ * @return bool|string
+ */
 function getFirstImage($imageArray)
 {
     if ($imageArray) {
@@ -1652,6 +1757,10 @@ function getFirstImage($imageArray)
     return false;
 }
 
+/**
+ * @param $imageArray
+ * @return array
+ */
 function getOnlyImages($imageArray)
 {
     $imagesFiltredArray = array();
