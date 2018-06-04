@@ -1747,11 +1747,26 @@ function getFileName($path)
 function getFirstImage($imageArray)
 {
     if ($imageArray) {
-        foreach ($imageArray as $image) {
-            if (isImage(FILE_DIR_PATH . $image->name)) {
-                return '<img src="' . WEB_DIR_INCLUDE . $image->name . '"
-                                 alt="' . $image->description . '">';
-            }
+        $firstImage = current($imageArray);
+        if (isImage(FILE_DIR_PATH . $firstImage->name)) {
+            return '<img src="' . WEB_DIR_INCLUDE . $firstImage->name . '"
+                                 alt="' . $firstImage->description . '">';
+        }
+    }
+    return false;
+}
+
+/**
+ * @param $imageArray
+ * @return bool|string
+ */
+function getLastImage($imageArray)
+{
+    if ($imageArray) {
+        $lastImage = end($imageArray);
+        if (isImage(FILE_DIR_PATH . $lastImage->name)) {
+            return '<img src="' . WEB_DIR_INCLUDE . $lastImage->name . '"
+                                 alt="' . $lastImage->description . '">';
         }
     }
     return false;
