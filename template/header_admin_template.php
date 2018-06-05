@@ -53,6 +53,7 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
             <div class="rect5"></div>
         </div>
         <div class="inline"><?= trans('Chargement'); ?></div>
+        <div id="loaderInfos"></div>
     </div>
 </div>
 <div id="site">
