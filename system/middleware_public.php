@@ -32,18 +32,20 @@ if (!empty($_GET['id'])) {
     $articleDetails = getSpecificArticlesDetailsBySlug($_GET['id']);
     $Article = $articleDetails['article'];
     $ArticleContent = $articleDetails['content'];
+    $currentPageID = $Article->getId();
     $currentPageName = shortenText($Traduction->trans($Article->getName()), 70);
     $currentPageDescription = shortenText($ArticleContent->getContent(), 170);
 
 } else {
 
     //get Page infos
+    $currentPageID = $Cms->getId();
     $currentPageName = shortenText($Traduction->trans($Cms->getName()), 70);
     $currentPageDescription = shortenText($Traduction->trans($Cms->getDescription()), 170);
 }
 
-
 //set page infos
+$_SESSION['currentPageID'] = $existPage ? $currentPageID : 0;
 $_SESSION['currentPageName'] = $existPage ? $currentPageName : trans(pageName());
 $_SESSION['currentPageDescription'] = $existPage ? $currentPageDescription : trans(pageDescription());
 
