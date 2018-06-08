@@ -1774,6 +1774,35 @@ function getLastImage($imageArray)
 
 /**
  * @param $imageArray
+ * @return bool|string
+ */
+function getLittleImage($imageArray)
+{
+    if ($imageArray) {
+
+        $littleImage = current($imageArray);
+        $littleImageSize = getimagesize(FILE_DIR_PATH . $littleImage->name);
+
+        foreach ($imageArray as $key => $img) {
+            if (isImage(FILE_DIR_PATH . $img->name)) {
+
+                $imageSize = getimagesize(FILE_DIR_PATH . $img->name);
+
+                if ($imageSize[0] < $littleImageSize[0] && $imageSize[1] < $littleImageSize[1]) {
+                    $littleImage = $img;
+                    $littleImageSize = $imageSize;
+                }
+            }
+        }
+
+        return '<img src="' . WEB_DIR_INCLUDE . $littleImage->name . '"
+                                 alt="' . $littleImage->description . '">';
+    }
+    return false;
+}
+
+/**
+ * @param $imageArray
  * @return array
  */
 function getOnlyImages($imageArray)
