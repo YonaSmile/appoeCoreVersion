@@ -1791,6 +1791,15 @@ function getLittleImage($imageArray)
                 if ($imageSize[0] < $littleImageSize[0] && $imageSize[1] < $littleImageSize[1]) {
                     $littleImage = $img;
                     $littleImageSize = $imageSize;
+                } else {
+                    $proportionW = $imageSize[0] - $littleImageSize[0];
+                    $proportionY = $imageSize[1] - $littleImageSize[1];
+                    $proportion = $proportionW + $proportionY;
+
+                    if($proportion < $littleImageSize[0] && $proportion < $littleImageSize[1]){
+                        $littleImage = $img;
+                        $littleImageSize = $imageSize;
+                    }
                 }
             }
         }
