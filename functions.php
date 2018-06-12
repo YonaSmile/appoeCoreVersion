@@ -589,7 +589,39 @@ function appBackup($DB = true)
     if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d') . DIRECTORY_SEPARATOR)) {
         if (mkdir(WEB_BACKUP_PATH . date('Y-m-d'), 0705)) {
             if ($DB) {
+
+                //save db
                 App\DB::backup(date('Y-m-d'));
+
+                //check if db was saved
+                if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d') . DIRECTORY_SEPARATOR . 'db.sql.gz')) {
+
+                    //send error by Mail
+                    $data = array(
+                        'fromEmail' => 'maintenance@aoe-communication.com',
+                        'fromName' => 'Maintenance AOE',
+                        'toEmail' => 'yonasmilevitch@gmail.com',
+                        'toName' => 'Smilevitch Yona',
+                        'object' => 'Un backup de la base de données n\'a pas été effectué',
+                        'message' => 'Le site <strong>' . WEB_TITLE . '</strong> n\'a pas sauvegardé la base de donnée aujourd\'hui. (' . date('d/m/Y') . ')'
+                    );
+
+                    $otherAddr = array('flauble@free.fr' => 'Shoshana Picard');
+                    sendMail($data, $otherAddr);
+                }
+            }
+        }
+
+        //delete old folders (-30 days)
+        $maxAutorizedFolderDate = new \DateTime('-30 days');
+        $directories = scandir(WEB_BACKUP_PATH);
+        foreach ($directories as $directory) {
+            if ($directory != '.' and $directory != '..') {
+                if (is_dir(WEB_BACKUP_PATH . $directory)) {
+                    if ($maxAutorizedFolderDate > new \DateTime($directory)) {
+                        deleteAll(WEB_BACKUP_PATH . $directory);
+                    }
+                }
             }
         }
     }
