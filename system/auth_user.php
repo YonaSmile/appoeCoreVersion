@@ -38,6 +38,9 @@ if (isset($_POST['APPOECONNEXION'])) {
 
                         mehoubarim_connecteUser();
 
+                        //Backup database
+                        appBackup();
+
                         header('location:app/page/');
                     }
                 }
