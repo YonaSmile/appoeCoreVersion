@@ -572,6 +572,32 @@ function activePlugin($setupPath)
 }
 
 /**
+ * @param bool $DB
+ * @return bool
+ */
+function appBackup($DB = true)
+{
+
+    //check existing main backup folder or created it
+    if (!file_exists(WEB_APP_PATH . 'backup/')) {
+        if (mkdir(WEB_APP_PATH . 'backup', 0705)) {
+            return appBackup();
+        }
+    }
+
+    //check existing backup folder for today or created it
+    if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d') . DIRECTORY_SEPARATOR)) {
+        if (mkdir(WEB_BACKUP_PATH . date('Y-m-d'), 0705)) {
+            if ($DB) {
+                App\DB::backup(date('Y-m-d'));
+            }
+        }
+    }
+
+    return true;
+}
+
+/**
  * @param $path
  * @param $url
  * @return bool
@@ -738,7 +764,11 @@ function deleteAll($data)
         $objects = scandir($data);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-                if (filetype($data . "/" . $object) == "dir") deleteAll($data . "/" . $object); else unlink($data . "/" . $object);
+                if (filetype($data . "/" . $object) == "dir") {
+                    deleteAll($data . "/" . $object);
+                } else {
+                    unlink($data . "/" . $object);
+                }
             }
         }
         reset($objects);
@@ -1796,7 +1826,7 @@ function getLittleImage($imageArray)
                     $proportionY = $imageSize[1] - $littleImageSize[1];
                     $proportion = $proportionW + $proportionY;
 
-                    if($proportion < $littleImageSize[0] && $proportion < $littleImageSize[1]){
+                    if ($proportion < $littleImageSize[0] && $proportion < $littleImageSize[1]) {
                         $littleImage = $img;
                         $littleImageSize = $imageSize;
                     }

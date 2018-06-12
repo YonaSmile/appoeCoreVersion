@@ -3,7 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 includePluginsFiles();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
 
-//check maintenance mode
+//Check maintenance mode
 if (!checkMaintenance() && pageSlug() != 'hibour') {
     header('HTTP/1.1 503 Service Unavailable');
     header('Status: 503 Service Temporarily Unavailable');
@@ -12,6 +12,10 @@ if (!checkMaintenance() && pageSlug() != 'hibour') {
     exit();
 }
 
+//Backup database
+appBackup();
+
+//Get needed Models
 $Cms = new App\Plugin\Cms\Cms();
 $CmsMenu = new App\Plugin\Cms\CmsMenu();
 $Traduction = new App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
@@ -26,9 +30,10 @@ if ((!$existPage && pageName() == 'Non définie') || $Cms->getStatut() != 1) {
     exit();
 }
 
+//Check if is Article or Page
 if (!empty($_GET['id'])) {
 
-    //get Article infos
+    //Get Article infos
     $articleDetails = getSpecificArticlesDetailsBySlug($_GET['id']);
     $Article = $articleDetails['article'];
     $ArticleContent = $articleDetails['content'];
@@ -38,13 +43,13 @@ if (!empty($_GET['id'])) {
 
 } else {
 
-    //get Page infos
+    //Get Page infos
     $currentPageID = $Cms->getId();
     $currentPageName = shortenText($Traduction->trans($Cms->getName()), 70);
     $currentPageDescription = shortenText($Traduction->trans($Cms->getDescription()), 170);
 }
 
-//set page infos
+//Set page infos
 $_SESSION['currentPageID'] = $existPage ? $currentPageID : 0;
 $_SESSION['currentPageName'] = $existPage ? $currentPageName : trans(pageName());
 $_SESSION['currentPageDescription'] = $existPage ? $currentPageDescription : trans(pageDescription());

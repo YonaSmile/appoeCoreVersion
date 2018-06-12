@@ -108,10 +108,13 @@ class DB
     }
 
     /**
+     * @param $folder
+     * @param $name
      * DataBase BuckUp
      */
-    public static function backupTables()
+    public static function backup($folder, $name = 'db')
     {
-        system('mysqldump --no-tablespace --opt -h' . DBHOST . ' -u' . DBUSER . ' -p"' . DBPASS . '" ' . DBNAME . ' | gzip > ' . getenv('DOCUMENT_ROOT') . '/app/db-buckup-' . date('Y-m-d-H-i') . '.sql.gz');
+        $file = getenv('DOCUMENT_ROOT') . '/app/backup/' . $folder . '/' . $name . '.sql.gz';
+        system('mysqldump --no-tablespace --opt -h' . DBHOST . ' -u' . DBUSER . ' -p"' . DBPASS . '" ' . DBNAME . ' | gzip > ' . $file);
     }
 }
