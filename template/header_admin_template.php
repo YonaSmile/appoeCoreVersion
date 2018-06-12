@@ -9,7 +9,7 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="icon" type="image/png" href="<?= WEB_DIR; ?>images/Logo.png">
+    <link rel="icon" type="image/png" href="<?= WEB_APP_URL; ?>images/logo_app.png">
     <meta name="apple-mobile-web-app-title" content="APPOE">
     <meta name="application-name" content="APPOE">
     <title><?= trans($Page->getName()); ?></title>
