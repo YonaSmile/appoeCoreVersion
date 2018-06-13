@@ -572,6 +572,7 @@ function activePlugin($setupPath)
 }
 
 /**
+ * DB Backup
  * @param bool $DB
  * @return bool
  */
@@ -602,8 +603,8 @@ function appBackup($DB = true)
                         'fromName' => 'Maintenance AOE',
                         'toEmail' => 'yonasmilevitch@gmail.com',
                         'toName' => 'Smilevitch Yona',
-                        'object' => 'Un backup de la base de données n\'a pas été effectué',
-                        'message' => 'Le site <strong>' . WEB_TITLE . '</strong> n\'a pas sauvegardé la base de donnée aujourd\'hui. (' . date('d/m/Y') . ')'
+                        'object' => WEB_TITLE . ' - sauvegarde de la base de données non effectué',
+                        'message' => date('d/m/Y H:i') . ' : La sauvegarde de la base de données de <strong>' . WEB_TITLE . '</strong> n\'a pas été effectué.'
                     );
 
                     $otherAddr = array('flauble@free.fr' => 'Shoshana Picard');
