@@ -43,6 +43,11 @@ function availableApp() {
     }).removeClass('progress-bar-animated').addClass('bg-light').parent('div.progress').stop().animate({"height": "1px"}, 200);
 }
 
+function getHtmlLoader() {
+    return '<div class="spinner"><div class="rect1"></div><div class="rect2"></div>' +
+        '<div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
+}
+
 function convertToSlug(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
     str = str.toLowerCase();
@@ -64,7 +69,7 @@ function convertToSlug(str) {
 $(document).ready(function () {
     $('#loader').fadeIn('slow');
 
-    $('.seeOnOverlay').on('click', function (event) {
+    $(document).on('click', '.seeOnOverlay', function (event) {
         event.preventDefault();
         var originSrc = $(this).data('originsrc');
         var $file = $(this).clone().attr('src', originSrc).removeClass();
@@ -72,10 +77,10 @@ $(document).ready(function () {
         setTimeout(function () {
             $('#overlay #overlayContent').html($file);
             $('#overlay').css('display', 'flex').hide().fadeIn(200);
-        },50);
+        }, 50);
     });
 
-    $('#overlay').on('click', function () {
+    $(document).on('click', '#overlay', function () {
         $(this).css('display', 'none');
         $('#overlay #overlayContent').html();
     });

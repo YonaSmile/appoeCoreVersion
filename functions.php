@@ -1471,7 +1471,7 @@ function showTemplateZones($pageSlug, $pageData)
             if (strpos($adminZone, '_')) {
 
                 //Authorised form types
-                $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number');
+                $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
                 list($metaKey, $formType) = explode('_', $adminZone);
 
                 if (in_array($formType, $acceptedFormType)) {
@@ -1486,6 +1486,8 @@ function showTemplateZones($pageSlug, $pageData)
 
                     if ($formType == 'textarea') {
                         $html .= App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
+                    } elseif ($formType == 'urlFile') {
+                        $html .= App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile', '...');
                     } else {
                         $html .= App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '', '...');
                     }
