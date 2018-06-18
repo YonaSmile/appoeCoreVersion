@@ -40,7 +40,6 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
     <script defer src="https://use.fontawesome.com/releases/v5.0.3/js/all.js"></script>
     <script type="text/javascript" src="<?= APP_ROOT; ?>js/all.js"></script>
     <?php includePluginsJs(); ?>
-
 </head>
 <body>
 <div id="loader">
@@ -65,3 +64,4 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
             <button type="button" id="sidebarCollapse">
                 <i class="fas fa-align-left"></i>
             </button>
+            <div id="base">

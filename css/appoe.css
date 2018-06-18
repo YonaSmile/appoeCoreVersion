@@ -191,6 +191,10 @@ button[disabled], a[disabled], input[disabled] {
     align-items: stretch;
 }
 
+#base {
+    position: relative;
+}
+
 #mainHtml {
     min-height: 100vh;
 }

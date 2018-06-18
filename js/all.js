@@ -70,6 +70,7 @@ $(document).ready(function () {
     $('#loader').fadeIn('slow');
 
     $(document).on('click', '.seeOnOverlay', function (event) {
+        event.stopPropagation();
         event.preventDefault();
         var originSrc = $(this).data('originsrc');
         var $file = $(this).clone().attr('src', originSrc).removeClass();

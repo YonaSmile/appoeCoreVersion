@@ -1,3 +1,4 @@
+</div><!-- END BASE -->
 </div><!-- END DIV MAIN CONTENT-->
 </div><!-- END DIV MAIN -->
 <div id="notifications_footer"><?php getSessionNotifications(); ?></div>
