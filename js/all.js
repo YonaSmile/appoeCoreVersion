@@ -85,6 +85,7 @@ $(document).ready(function () {
         $(this).css('display', 'none');
         $('#overlay #overlayContent').html();
     });
+
 });
 
 $(window).load(function () {
@@ -94,4 +95,20 @@ $(window).load(function () {
         opacity: 0,
         visibility: 'visible'
     }).animate({opacity: 1});
+
+    $('img.seeDataOnHover').each(function (index) {
+
+        var $Img = $(this);
+        var img = new Image();
+
+        img.src = $Img.attr('data-originsrc');
+        img.onload = function () {
+
+            $('<div class="contentOnHover"><div class="d-none d-lg-block">Largeur: '+ this.width + 'px<br>Hauteur: ' + this.height + 'px</div>' +
+                '<div class="d-lg-none">'+ this.width + 'px / ' + this.height + 'px</div></div>')
+                .insertAfter($Img).hide().fadeIn(500);
+            $($Img).data('width', this.width);
+            $($Img).data('height', this.height);
+        };
+    });
 });

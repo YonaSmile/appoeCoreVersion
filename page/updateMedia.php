@@ -54,7 +54,7 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                             <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                 <img src="<?= getThumb($file->name, 370); ?>" alt="<?= $file->description; ?>"
                                      data-originsrc="<?= FILE_DIR_URL . $file->name; ?>"
-                                     class="img-fluid seeOnOverlay">
+                                     class="img-fluid seeOnOverlay seeDataOnHover">
                             <?php else: ?>
                                 <a href="<?= FILE_DIR_URL . $file->name; ?>" target="_blank">
                                     <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>">
@@ -88,7 +88,8 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                                 </form>
                             </div>
                             <button type="button" class="deleteImage btn btn-danger btn-sm"
-                                    style="position: absolute; top: 0; right: 0;" data-imageid="<?= $file->id; ?>">
+                                    style="position: absolute; top: 0; right: 0;z-index: 10"
+                                    data-imageid="<?= $file->id; ?>">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
