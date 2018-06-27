@@ -8,6 +8,7 @@ RewriteRule ^addUser/$ addUser.php [L]
 RewriteRule ^setting/$  setting.php [L]
 RewriteRule ^updateCategories/$  updateCategories.php [L]
 RewriteRule ^updateMedia/$  updateMedia.php [L]
+RewriteRule ^updatePermissions/$  updatePermissions.php [L]
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d

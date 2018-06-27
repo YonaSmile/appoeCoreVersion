@@ -31,6 +31,14 @@ function copyToClipboard(text) {
     $temp.remove();
 }
 
+function getKeyByValueInObject(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
+
+function loaderHtml() {
+    return '<i class="fas fa-circle-notch fa-spin"></i>';
+}
+
 function busyApp() {
     $('#appStatus').removeClass(function (index, className) {
         return (className.match(/\bbg-\S+/g) || []).join(' ');
@@ -104,8 +112,8 @@ $(window).load(function () {
         img.src = $Img.attr('data-originsrc');
         img.onload = function () {
 
-            $('<div class="contentOnHover"><div class="d-none d-lg-block">Largeur: '+ this.width + 'px<br>Hauteur: ' + this.height + 'px</div>' +
-                '<div class="d-lg-none">'+ this.width + 'px / ' + this.height + 'px</div></div>')
+            $('<div class="contentOnHover"><div class="d-none d-lg-block">Largeur: ' + this.width + 'px<br>Hauteur: ' + this.height + 'px</div>' +
+                '<div class="d-lg-none">' + this.width + 'px / ' + this.height + 'px</div></div>')
                 .insertAfter($Img).hide().fadeIn(500);
             $($Img).data('width', this.width);
             $($Img).data('height', this.height);

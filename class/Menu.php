@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 class Menu
 {
@@ -6,7 +7,7 @@ class Menu
 
     public function __construct()
     {
-        if(is_null($this->dbh)) {
+        if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
         }
     }
@@ -25,16 +26,17 @@ class Menu
   					`order_menu` INT(11) DEFAULT NULL,
   					`pluginName` VARCHAR(200) DEFAULT NULL,
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11;
-				INSERT INTO `appoe_menu` (`id`, `slug`, `name`, `min_role_id`, `statut`, `parent_id`, `order_menu`, `pluginName`, `updated_at`) VALUES
-(11, "index", "Tableau de bord", 1, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
-(12, "users", "Utilisateurs", 1, 1, 10, 2, NULL, "2018-01-04 08:31:39"),
-(13, "setting", "Réglages", 4, 0, 10, 3, NULL, "2018-01-04 09:04:00"),
-(14, "updateCategories", "Catégories", 4, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
-(15, "updateMedia", "Média", 1, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
-(20, "allUsers", "Tous les utilisateurs", 1, 1, 12, 20, NULL, "2018-01-04 08:31:39"),
-(21, "addUser", "Nouvel utilisateur", 2, 1, 12, 21, NULL, "2018-01-04 08:31:39"),
-(22, "updateUser", "Mise à jour de l\'utilisateur", 1, 0, 12, 22, NULL, "2018-01-04 08:31:39");';
+				    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=30;
+				    INSERT INTO `appoe_menu` (`id`, `slug`, `name`, `min_role_id`, `statut`, `parent_id`, `order_menu`, `pluginName`, `updated_at`) VALUES
+                    (11, "index", "Tableau de bord", 1, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
+                    (12, "users", "Utilisateurs", 1, 1, 10, 2, NULL, "2018-01-04 08:31:39"),
+                    (13, "setting", "Réglages", 4, 0, 10, 3, NULL, "2018-01-04 09:04:00"),
+                    (14, "updateCategories", "Catégories", 4, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
+                    (15, "updateMedia", "Média", 1, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
+                    (16, "updatePermissions", "Permissions", 4, 0, 10, 1, NULL, "2018-01-05 11:28:14"),
+                    (20, "allUsers", "Tous les utilisateurs", 1, 1, 12, 20, NULL, "2018-01-04 08:31:39"),
+                    (21, "addUser", "Nouvel utilisateur", 2, 1, 12, 21, NULL, "2018-01-04 08:31:39"),
+                    (22, "updateUser", "Mise à jour de l\'utilisateur", 1, 0, 12, 22, NULL, "2018-01-04 08:31:39");';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
@@ -51,7 +53,7 @@ class Menu
     {
 
         if (empty($id)) {
-            $sql = 'SELECT * FROM appoe_menu ORDER BY parent_id,order_menu ASC';
+            $sql = 'SELECT * FROM appoe_menu ORDER BY order_menu ASC, parent_id ASC';
             $stmt = $this->dbh->prepare($sql);
         } else {
             $sql = 'SELECT * FROM appoe_menu WHERE id = :id';
@@ -65,7 +67,7 @@ class Menu
             return false;
         } else {
 
-            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
                 $data[] = $row;
             }
             if (isset($data)) {
@@ -135,7 +137,7 @@ class Menu
         }
     }
 
-    public function insertMenu($id, $slug, $name, $minRole, $statut, $parent, $pluginName, $order_menu = '')
+    public function insertMenu($id, $slug, $name, $minRole, $statut, $parent, $pluginName = NULL, $order_menu = '')
     {
 
         if (empty($order_menu)) {
@@ -144,7 +146,8 @@ class Menu
             $order_menu = $this->ordonnerMenu();
         }
 
-        $sql = 'INSERT INTO appoe_menu (id, slug, name, min_role_id, statut, parent_id, order_menu, pluginName) VALUES (:id, :slug, :name, :min_role_id, :statut, :parent_id, :order_menu, :pluginName)';
+        $sql = 'INSERT INTO appoe_menu (id, slug, name, min_role_id, statut, parent_id, order_menu, pluginName) 
+        VALUES (:id, :slug, :name, :min_role_id, :statut, :parent_id, :order_menu, :pluginName)';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $id);
@@ -166,17 +169,17 @@ class Menu
 
     }
 
-    public function updateMenu($id, $name, $minRole, $statut, $parent)
+    public function updateMenu($id, $name, $min_role, $statut, $order_menu = null)
     {
 
-        $sql = 'UPDATE appoe_menu SET name = :name, min_role_id = :min_role_id, statut = :statut, parent_id = :parent_id WHERE id = :id';
+        $sql = 'UPDATE appoe_menu SET name = :name, min_role_id = :min_role_id, statut = :statut, order_menu = :order_menu WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':min_role_id', $minRole);
+        $stmt->bindParam(':min_role_id', $min_role);
         $stmt->bindParam(':statut', $statut);
-        $stmt->bindParam(':parent_id', $parent);
+        $stmt->bindParam(':order_menu', $order_menu);
         $stmt->execute();
         $error = $stmt->errorInfo();
 
@@ -269,122 +272,15 @@ class Menu
     {
 
         $special = array(
-            ' ',
-            '\'',
-            '"',
-            'à',
-            'á',
-            'â',
-            'ã',
-            'ä',
-            'å',
-            'ç',
-            'è',
-            'é',
-            'ê',
-            'ë',
-            'ì',
-            'í',
-            'î',
-            'ï',
-            'ñ',
-            'ò',
-            'ó',
-            'ô',
-            'õ',
-            'ö',
-            'ù',
-            'ú',
-            'û',
-            'ü',
-            'ý',
-            'ÿ',
-            'À',
-            'Á',
-            'Â',
-            'Ã',
-            'Ä',
-            'Å',
-            'Ç',
-            'È',
-            'É',
-            'Ê',
-            'Ë',
-            'Ì',
-            'Í',
-            'Î',
-            'Ï',
-            'Ñ',
-            'Ò',
-            'Ó',
-            'Ô',
-            'Õ',
-            'Ö',
-            'Ù',
-            'Ú',
-            'Û',
-            'Ü',
-            'Ý'
+            ' ', '\'', '"', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ',
+            'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç',
+            'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý'
         );
 
         $normal = array(
-            '-',
-            '-',
-            '-',
-            'a',
-            'a',
-            'a',
-            'a',
-            'a',
-            'a',
-            'c',
-            'e',
-            'e',
-            'e',
-            'e',
-            'i',
-            'i',
-            'i',
-            'i',
-            'n',
-            'o',
-            'o',
-            'o',
-            'o',
-            'o',
-            'u',
-            'u',
-            'u',
-            'u',
-            'y',
-            'y',
-            'A',
-            'A',
-            'A',
-            'A',
-            'A',
-            'A',
-            'C',
-            'E',
-            'E',
-            'E',
-            'E',
-            'E',
-            'I',
-            'I',
-            'I',
-            'I',
-            'N',
-            'O',
-            'O',
-            'O',
-            'O',
-            'O',
-            'U',
-            'U',
-            'U',
-            'U',
-            'Y'
+            '-', '-', '-', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n',
+            'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C',
+            'E', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y'
         );
 
         $filename = str_replace($special, $normal, $filename);
