@@ -1756,7 +1756,10 @@ function webUrl($file, $param = null)
         $url .= $param;
     }
 
-    return WEB_DIR_URL . $file . $url;
+    if (substr($file, 0, 4) === "http") {
+        return $file;
+    }
+    return WEB_DIR_URL . $file . DIRECTORY_SEPARATOR . $url;
 }
 
 /**
@@ -1971,6 +1974,11 @@ function constructMenu($allPages)
     $menu = array();
     if (!empty($allPages)) {
         foreach ($allPages as $menuPage) {
+
+            //check if is Page or URL
+            if (is_null($menuPage->slug)) {
+                $menuPage->slug = $menuPage->idCms;
+            }
 
             //First level menu sorting by location and second level by parent Id.
             $menu[$menuPage->location][$menuPage->parentId][] = $menuPage;
