@@ -1759,7 +1759,7 @@ function webUrl($file, $param = null)
     if (substr($file, 0, 4) === "http") {
         return $file;
     }
-    return WEB_DIR_URL . $file . DIRECTORY_SEPARATOR . $url;
+    return WEB_DIR_URL . $file . $url;
 }
 
 /**
