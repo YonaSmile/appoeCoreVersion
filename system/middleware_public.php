@@ -30,16 +30,24 @@ if ((!$existPage && pageName() == 'Non définie') || $Cms->getStatut() != 1) {
     exit();
 }
 
+//default page infos
+$currentPageName = WEB_TITLE;
+$currentPageDescription = WEB_TITLE;
+
 //Check if is Article or Page
 if (!empty($_GET['id'])) {
 
     //Get Article infos
     $articleDetails = getSpecificArticlesDetailsBySlug($_GET['id']);
-    $Article = $articleDetails['article'];
-    $ArticleContent = $articleDetails['content'];
-    $currentPageID = $Article->getId();
-    $currentPageName = shortenText($Traduction->trans($Article->getName()), 70);
-    $currentPageDescription = shortenText($ArticleContent->getContent(), 170);
+
+    //Check if Article exist
+    if ($articleDetails) {
+        $Article = $articleDetails['article'];
+        $ArticleContent = $articleDetails['content'];
+        $currentPageID = $Article->getId();
+        $currentPageName = shortenText($Traduction->trans($Article->getName()), 70);
+        $currentPageDescription = shortenText($ArticleContent->getContent(), 170);
+    }
 
 } else {
 
