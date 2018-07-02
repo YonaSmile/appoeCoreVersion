@@ -10,6 +10,13 @@ class Version
     private static $data;
 
     /**
+     * App & plugins versions $majour.$minor.$simple (X.X.X)
+     */
+    private static $major;
+    private static $minor;
+    private static $simple;
+
+    /**
      * @return mixed
      */
     public static function getFile()
@@ -132,77 +139,53 @@ class Version
         return false;
     }
 
-    // FUNCTIONS VERSIONS (4) x.x.x.x
-
-    public static function updateXSversion()
+    /**
+     * @param String $X (maj, min, sim)
+     */
+    public static function updateVersion($X = 'sim')
     {
-        $arr_versions = explode('.', self::$version);
-        if (intval($arr_versions[3]) < 999) {
-            $arr_versions[3] += 1;
-        } elseif (intval($arr_versions[2]) < 999) {
-            $arr_versions[2] += 1;
-            $arr_versions[3] = 1;
-        } elseif (intval($arr_versions[1]) < 999) {
-            $arr_versions[1] += 1;
-            $arr_versions[2] = 0;
-            $arr_versions[3] = 1;
-        } elseif (intval($arr_versions[0]) < 999) {
-            $arr_versions[0] += 1;
-            $arr_versions[1] = 0;
-            $arr_versions[2] = 0;
-            $arr_versions[3] = 1;
-        }
-        self::$version = implode('.', $arr_versions);
-        self::$renew = true;
-    }
+        list(self::$major, self::$minor, self::$simple) = explode('.', self::$version);
 
-    public static function updateSMversion()
-    {
-        $arr_versions = explode('.', self::$version);
-        if (intval($arr_versions[2]) < 999) {
-            $arr_versions[2] += 1;
-            $arr_versions[3] = 1;
-        } elseif (intval($arr_versions[1]) < 999) {
-            $arr_versions[1] += 1;
-            $arr_versions[2] = 0;
-            $arr_versions[3] = 1;
-        } elseif (intval($arr_versions[0]) < 999) {
-            $arr_versions[0] += 1;
-            $arr_versions[1] = 0;
-            $arr_versions[2] = 0;
-            $arr_versions[3] = 1;
-        }
-        self::$version = implode('.', $arr_versions);
-        self::$renew = true;
-    }
+        if ($X === 'maj') {
 
-    public static function updateMDversion()
-    {
-        $arr_versions = explode('.', self::$version);
-        if (intval($arr_versions[1]) < 999) {
-            $arr_versions[1] += 1;
-            $arr_versions[2] = 0;
-            $arr_versions[3] = 1;
-        } elseif (intval($arr_versions[0]) < 999) {
-            $arr_versions[0] += 1;
-            $arr_versions[1] = 0;
-            $arr_versions[2] = 0;
-            $arr_versions[3] = 1;
-        }
-        self::$version = implode('.', $arr_versions);
-        self::$renew = true;
-    }
+            self::$major < 999 ? self::$major += 1 : self::$major = 1;
 
-    public static function updateLGversion()
-    {
-        $arr_versions = explode('.', self::$version);
-        if (intval($arr_versions[0]) < 999) {
-            $arr_versions[0] += 1;
-            $arr_versions[1] = 0;
-            $arr_versions[2] = 0;
-            $arr_versions[3] = 1;
+            self::$simple = 1;
+            self::$minor = 1;
+
+        } elseif ($X === 'min') {
+
+            if (self::$minor < 999) {
+                self::$minor += 1;
+
+            } else {
+                self::$minor = 1;
+                self::$major += 1;
+            }
+
+            self::$simple = 1;
+
+        } elseif ($X === 'sim') {
+
+            if (self::$simple < 999) {
+
+                self::$simple += 1;
+
+            } else {
+
+                if (self::$minor < 999) {
+                    self::$minor += 1;
+
+                } else {
+                    self::$major < 999 ? self::$major += 1 : self::$major = 1;
+                    self::$minor = 1;
+                }
+
+                self::$simple = 1;
+            }
         }
-        self::$version = implode('.', $arr_versions);
+
+        self::$version = self::$major . '.' . self::$minor . '.' . self::$simple;
         self::$renew = true;
     }
 }
