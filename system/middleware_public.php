@@ -31,6 +31,7 @@ if ((!$existPage && pageName() == 'Non définie') || $Cms->getStatut() != 1) {
 }
 
 //default page infos
+$currentPageID = 0;
 $currentPageName = WEB_TITLE;
 $currentPageDescription = WEB_TITLE;
 
