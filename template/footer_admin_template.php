@@ -134,10 +134,8 @@
         });
 
         //Loading text on submit form
-        $('form').submit(function () {
-            $('[type="submit"]', this).html('<?= trans('Chargement'); ?>').addClass('disabled');
-            $('input, textarea').addClass('disabled');
-            $('#chargement').fadeIn();
+        $('form').on('submit', function () {
+            $('[type="submit"]', this).attr('disabled', 'disabled').html(loaderHtml()).addClass('disabled');
         });
 
         //clean input

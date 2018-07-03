@@ -640,6 +640,10 @@ table#currentProjetTable tr {
     column-count: 4;
 }
 
+.card {
+    border-radius: 0 !important;
+}
+
 .bg-none {
     background: transparent !important;
 }

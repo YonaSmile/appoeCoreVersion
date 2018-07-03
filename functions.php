@@ -398,6 +398,16 @@ function cleanData($data)
 }
 
 /**
+ * @param $data
+ */
+function showDebugData($data)
+{
+    echo '<pre>';
+    print_r($data);
+    echo '</pre>';
+}
+
+/**
  * @param $timestamp
  * @param bool $hour
  * @return string
