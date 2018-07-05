@@ -334,7 +334,7 @@ class File
     {
         $files = $this->uploadFiles;
         $returnArr = array('filename' => array());
-        $fileCount = sizeof($files['name']);
+        $fileCount = !empty($files['name'][0]) ? sizeof($files['name']) : 0;
         $uploadFilesCounter = 0;
 
         for ($i = 0; $i < $fileCount; $i++) {

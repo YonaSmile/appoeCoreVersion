@@ -81,6 +81,30 @@ function getJsonContent($filename, $jsonKey = '')
     return (!empty($jsonKey)) ? $parsed_json[$jsonKey] : $parsed_json;
 }
 
+
+/**
+ * @param $multiArray
+ * @return bool
+ */
+function isArrayEmpty($multiArray)
+{
+    if (is_array($multiArray) and !empty($multiArray)) {
+
+        $tmp = array_shift($multiArray);
+
+        if (!isArrayEmpty($multiArray) or !isArrayEmpty($tmp)) {
+            return false;
+        }
+        return true;
+    }
+
+    if (empty($multiArray)) {
+        return true;
+    }
+
+    return false;
+}
+
 /**
  * @param $mediaPath
  * @return bool
