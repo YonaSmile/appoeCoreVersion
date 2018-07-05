@@ -71,41 +71,40 @@ $allPermissions = $Menu->displayMenuAll();
                     <h5 class="modal-title" id="modalAddPermissionTitle">Ajouter une permission</h5>
                 </div>
                 <div class="modal-body" id="modalPermissionBody">
-                    <form id="addPermissionForm" action="" method="post">
-                        <?= getTokenField(); ?>
-                        <div class="row">
-                            <div class="col-12 my-2">
-                                <?= App\Form::text(trans('ID'), 'id', 'number', !empty($_POST['id']) ? $_POST['id'] : '', true, 11); ?>
-                            </div>
-                            <div class="col-12 my-2">
-                                <?= App\Form::text(trans('Slug'), 'slug', 'text', !empty($_POST['slug']) ? $_POST['slug'] : '', true, 40); ?>
-                            </div>
-                            <div class="col-12 my-2">
-                                <?= App\Form::text(trans('Nom'), 'name', 'text', !empty($_POST['name']) ? $_POST['name'] : '', true, 50); ?>
-                            </div>
-                            <div class="col-12 my-2">
-                                <?= App\Form::select(trans('Rôle requis'), 'min_role_id', ROLES, '', true); ?>
-                            </div>
-                            <div class="col-12 my-2">
-                                <?= App\Form::text(trans('Statut'), 'statut', 'number', !empty($_POST['statut']) ? $_POST['statut'] : '', true, 11); ?>
-                            </div>
-                            <div class="col-12 my-2">
-                                <?= App\Form::select(trans('Permission Parente'), 'parent_id', extractFromObjToSimpleArr($allPermissions, 'id', 'name'), '', true); ?>
-                            </div>
-                            <div class="col-12 my-2">
-                                <?= App\Form::text(trans('Ordre'), 'order_menu', 'number', !empty($_POST['order_menu']) ? $_POST['order_menu'] : '', false, 11); ?>
-                            </div>
-                            <div class="col-12 my-2">
-                                <?= App\Form::text(trans('Nom du plugin'), 'pluginName', 'text', !empty($_POST['pluginName']) ? $_POST['pluginName'] : '', false, 200); ?>
-                            </div>
+                    <?= getTokenField(); ?>
+                    <div class="row">
+                        <div class="col-12 my-2">
+                            <?= App\Form::text('ID', 'id', 'number', !empty($_POST['id']) ? $_POST['id'] : '', true, 11); ?>
                         </div>
-                        <div class="row">
-                            <div class="col-12 my-2" id="permissionFormInfos"></div>
+                        <div class="col-12 my-2">
+                            <?= App\Form::text('Slug', 'slug', 'text', !empty($_POST['slug']) ? $_POST['slug'] : '', true, 40); ?>
                         </div>
-                    </form>
+                        <div class="col-12 my-2">
+                            <?= App\Form::text('Nom', 'name', 'text', !empty($_POST['name']) ? $_POST['name'] : '', true, 50); ?>
+                        </div>
+                        <div class="col-12 my-2">
+                            <?= App\Form::select('Rôle requis', 'min_role_id', ROLES, '', true); ?>
+                        </div>
+                        <div class="col-12 my-2">
+                            <?= App\Form::text('Statut', 'statut', 'number', !empty($_POST['statut']) ? $_POST['statut'] : '', true, 11); ?>
+                        </div>
+                        <div class="col-12 my-2">
+                            <?= App\Form::select('Permission Parente', 'parent_id', extractFromObjToSimpleArr($allPermissions, 'id', 'name'), '', true); ?>
+                        </div>
+                        <div class="col-12 my-2">
+                            <?= App\Form::text('Ordre', 'order_menu', 'number', !empty($_POST['order_menu']) ? $_POST['order_menu'] : '', false, 11); ?>
+                        </div>
+                        <div class="col-12 my-2">
+                            <?= App\Form::text('Nom du plugin', 'pluginName', 'text', !empty($_POST['pluginName']) ? $_POST['pluginName'] : '', false, 200); ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 my-2" id="permissionFormInfos"></div>
+                    </div>
                 </div>
                 <div class="modal-footer" id="modalPermissionFooter">
-                    <button type="submit" id="addPermissionBtn" name="ADDPERMISSION"
+                    <?= App\Form::target('ADDPERMISSION'); ?>
+                    <button type="submit" id="addPermissionBtn"
                             class="btn btn-primary"><?= trans('Enregistrer'); ?></button>
                     <button type="button" class="btn btn-secondary"
                             data-dismiss="modal"><?= trans('Fermer'); ?></button>
@@ -203,7 +202,7 @@ $allPermissions = $Menu->displayMenuAll();
 
             $.post(
                 '<?= WEB_DIR; ?>app/ajax/permissions.php',
-                $('#addPermissionForm').serialize() + '&ADDPERMISSION=OK',
+                $('#addPermissionForm').serialize(),
                 function (data) {
                     if (data && (data == 'true' || data === true)) {
                         availableApp();

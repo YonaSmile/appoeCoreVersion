@@ -1,4 +1,4 @@
-<?php require( 'header.php' ); ?>
+<?php require('header.php'); ?>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -6,47 +6,45 @@
             <hr class="my-4">
         </div>
     </div>
-	<?php require_once( WEB_PROCESS_PATH . 'users.php' ); ?>
+    <?php require_once(WEB_PROCESS_PATH . 'users.php'); ?>
 
-	<?php if ( isset( $Response ) ): ?>
+    <?php if (isset($Response)): ?>
         <div class="row">
             <div class="col-12">
                 <div class="alert alert-<?= $Response->display()->status ?>" role="alert">
-					<?= $Response->display()->error_msg; ?>
+                    <?= $Response->display()->error_msg; ?>
                 </div>
             </div>
         </div>
-	<?php endif; ?>
+    <?php endif; ?>
     <form action="" method="post" id="addProjetForm">
-		<?= getTokenField(); ?>
+        <?= getTokenField(); ?>
 
         <div class="row">
             <div class="col-12 my-2">
-				<?= App\Form::text( trans('Email'), 'email', 'email', ! empty( $_POST['email'] ) ? $_POST['email'] : '', true ); ?>
+                <?= App\Form::text('Email', 'email', 'email', !empty($_POST['email']) ? $_POST['email'] : '', true); ?>
             </div>
             <div class="col-12 my-2">
-				<?= App\Form::text( trans('Mot de passe'), 'password', 'password', ! empty( $_POST['password'] ) ? $_POST['password'] : '', true ); ?>
+                <?= App\Form::text('Mot de passe', 'password', 'password', !empty($_POST['password']) ? $_POST['password'] : '', true); ?>
             </div>
             <div class="col-12 my-2">
-				<?= App\Form::select( trans('Rôle'), 'role', array_map('trans',ROLES), ! empty( $_POST['role'] ) ? $_POST['role'] : '', true, '', $USER->getRole(), '>' ); ?>
+                <?= App\Form::select('Rôle', 'role', array_map('trans', ROLES), !empty($_POST['role']) ? $_POST['role'] : '', true, '', $USER->getRole(), '>'); ?>
             </div>
             <div class="col-12 my-2">
-				<?= App\Form::text( trans('Nom'), 'nom', 'text', ! empty( $_POST['nom'] ) ? $_POST['nom'] : '', true ); ?>
+                <?= App\Form::text('Nom', 'nom', 'text', !empty($_POST['nom']) ? $_POST['nom'] : '', true); ?>
             </div>
             <div class="col-12">
-				<?= App\Form::text( trans('Prénom'), 'prenom', 'text', ! empty( $_POST['prenom'] ) ? $_POST['prenom'] : '', true ); ?>
+                <?= App\Form::text('Prénom', 'prenom', 'text', !empty($_POST['prenom']) ? $_POST['prenom'] : '', true); ?>
             </div>
         </div>
         <div class="my-2"></div>
         <div class="row">
             <div class="col-12">
-                <button type="submit" name="ADDUSER"
-                        class="btn btn-outline-primary btn-block btn-lg">
-                    <?= trans('Enregistrer'); ?>
-                </button>
+                <?= App\Form::target('ADDUSER'); ?>
+                <?= App\Form::submit('Enregistrer', 'addUserSubmit'); ?>
             </div>
         </div>
     </form>
     <div class="my-4"></div>
 </div>
-<?php require( 'footer.php' ); ?>
+<?php require('footer.php'); ?>

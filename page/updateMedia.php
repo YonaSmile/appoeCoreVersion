@@ -26,13 +26,14 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
         <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
             <?= getTokenField(); ?>
             <div class="col-12 col-lg-9">
-                <?= App\Form::text(trans('Sélection des médias'), 'inputFile[]', 'file', '', true, 800, 'multiple'); ?>
+                <?= App\Form::text('Sélection des médias', 'inputFile[]', 'file', '', true, 800, 'multiple'); ?>
             </div>
             <div class="col-12 col-lg-3">
-                <?= App\Form::select(trans('Bibliothèques'), 'library', $listCatgories, '', true); ?>
+                <?= App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
             </div>
             <div class="col-12">
-                <?= App\Form::submit(trans('Enregistrer'), 'ADDIMAGES'); ?>
+                <?= App\Form::target('ADDIMAGES'); ?>
+                <?= App\Form::submit('Enregistrer', 'addImageSubmit'); ?>
             </div>
         </form>
         <div class="my-4"></div>
