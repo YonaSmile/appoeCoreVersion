@@ -1859,15 +1859,25 @@ function getFileName($path)
 
 /**
  * @param $imageArray
+ * @param $otherClass
+ * @param $thumbSize
  * @return bool|string
  */
-function getFirstImage($imageArray)
+function getFirstImage($imageArray, $otherClass = '', $thumbSize = false)
 {
     if ($imageArray) {
         $firstImage = current($imageArray);
         if (isImage(FILE_DIR_PATH . $firstImage->name)) {
-            return '<img src="' . WEB_DIR_INCLUDE . $firstImage->name . '"
-                                 alt="' . $firstImage->description . '">';
+            return '<img src="' .
+                (
+                !$thumbSize
+                    ? WEB_DIR_INCLUDE . $firstImage->name
+                    : getThumb($firstImage->name, $thumbSize)
+                )
+                . '" alt="' . $firstImage->description . '"
+                     class="' . $otherClass . '">';
+        } else {
+            return getFirstImage(array_slice($imageArray, 1), $otherClass, $thumbSize);
         }
     }
     return false;

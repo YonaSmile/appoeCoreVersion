@@ -209,6 +209,7 @@
 
             $('#updatePlugins').on('click', function () {
                 $('#loader').fadeIn('fast');
+                $('#loaderInfos').html('Veuillez <strong>ne pas quitter</strong> votre navigateur');
                 $.post(
                     '<?= WEB_DIR; ?>app/ajax/plugin.php',
                     {
