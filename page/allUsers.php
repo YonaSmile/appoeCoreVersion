@@ -37,7 +37,7 @@
                                                     <span class="fas fa-cog"></span>
                                                 </a>
                                             <?php endif; ?>
-                                            <?php if ($user->id != $USER->getId() && $USER->getRole() > 3): ?>
+                                            <?php if ($user->id != $USER->getId() && $USER->getRole() >= 3 && $USER->getRole() > $user->role): ?>
                                                 <button type="button" class="btn btn-danger btn-sm deleteUser"
                                                         title="<?= trans('Archiver'); ?>"
                                                         data-iduser="<?= $user->id ?>">
