@@ -24,7 +24,7 @@
                         <tbody>
                         <?php if ($listUsers): ?>
                             <?php foreach ($listUsers as $user): ?>
-                                <?php if ($user->role < 5 || ($user->role == $USER->getRole())): ?>
+                                <?php if ($user->role <= $USER->getRole()): ?>
                                     <tr>
                                         <td><?= $user->nom ?></td>
                                         <td><?= $user->prenom ?></td>
