@@ -1144,6 +1144,21 @@ function getPaysName($iso)
 }
 
 /**
+ * @param $paysName
+ *
+ * @return mixed|string
+ */
+function getIso($paysName)
+{
+    $countries = listPays();
+    if (in_array($paysName, $countries)) {
+        return array_search($paysName, $countries);
+    } else {
+        return 'Pays inconnu';
+    }
+}
+
+/**
  * set new token
  */
 function setToken()
