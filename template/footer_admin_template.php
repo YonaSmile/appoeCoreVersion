@@ -17,8 +17,8 @@
                 <h5 class="modal-title" id="modalTitle"></h5>
             </div>
             <div class="modal-body" id="modalBody"></div>
-            <div class="modal-footer" id="modalFooter">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= trans('Fermer'); ?></button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>

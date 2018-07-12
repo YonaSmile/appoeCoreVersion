@@ -1874,8 +1874,7 @@ function getFirstImage($imageArray, $otherClass = '', $thumbSize = false)
                     ? WEB_DIR_INCLUDE . $firstImage->name
                     : getThumb($firstImage->name, $thumbSize)
                 )
-                . '" alt="' . $firstImage->description . '"
-                     class="' . $otherClass . '">';
+                . '" alt="' . $firstImage->description . '" data-originsrc="' . WEB_DIR_INCLUDE . $firstImage->name . '" class="' . $otherClass . '">';
         } else {
             return getFirstImage(array_slice($imageArray, 1), $otherClass, $thumbSize);
         }
