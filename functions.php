@@ -439,8 +439,7 @@ function showDebugData($data)
  */
 function displayTimeStamp($timestamp, $hour = true)
 {
-    $Date = new DateTime($timestamp);
-    $Date->add(new DateInterval('PT1H'));
+    $Date = new DateTime($timestamp, new DateTimeZone('Europe/Paris'));
 
     if ($hour) {
         return $Date->format('d/m/Y H:i');
