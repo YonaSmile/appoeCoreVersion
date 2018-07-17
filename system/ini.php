@@ -50,6 +50,30 @@ ini_set('log_errors', 1);
 ini_set('error_log', ROOT_PATH . 'error.log');
 
 /**
+ * Defined languages
+ */
+if (!empty($_REQUEST['lang'])) {
+    define('LANG', $_REQUEST['lang']);
+
+} elseif (empty($_COOKIE['LANG'])) {
+    define('LANG', $_COOKIE['LANG']);
+
+} else {
+    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        define('LANG', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
+    } else {
+        define('LANG', 'fr');
+    }
+}
+setcookie('LANG', LANG, strtotime('+30 days'), WEB_DIR, '', false, true);
+
+
+/**
+ * Defined local timezone & date format
+ */
+setlocale(LC_ALL, strtolower(LANG) . '_' . strtoupper(LANG) . '.UTF-8');
+
+/**
  * Defined App const
  */
 define('NUM_OF_ATTEMPTS', 30);
