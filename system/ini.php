@@ -55,7 +55,7 @@ ini_set('error_log', ROOT_PATH . 'error.log');
 if (!empty($_REQUEST['lang'])) {
     define('LANG', $_REQUEST['lang']);
 
-} elseif (empty($_COOKIE['LANG'])) {
+} elseif (!empty($_COOKIE['LANG'])) {
     define('LANG', $_COOKIE['LANG']);
 
 } else {
