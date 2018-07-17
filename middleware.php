@@ -16,6 +16,8 @@ if (isset($_SESSION['auth']) && !bot_detected()) {
 
         //Check valid session
         if ($key != $emailSession) {
+
+            deconnecteUser();
             header('location:' . WEB_DIR_URL);
             exit();
         }
@@ -24,15 +26,21 @@ if (isset($_SESSION['auth']) && !bot_detected()) {
 
         //Check if user have right access to this page
         if (!$Page->isExist() OR $Page->getMinRoleId() > $USER->getRole()) {
+
+            deconnecteUser();
             header('location:' . WEB_DIR_URL);
             exit();
         }
     } else {
+
+        deconnecteUser();
         header('location:' . WEB_DIR_URL);
         exit();
     }
 
 } else {
+
+    deconnecteUser();
     header('location:' . WEB_DIR_URL);
     exit();
 }
