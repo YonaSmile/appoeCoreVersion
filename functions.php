@@ -1354,10 +1354,11 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
 function extractFromObjArr($allContentArr, $key)
 {
     $allContent = array();
-    foreach ($allContentArr as $contentArr) {
-        $allContent[$contentArr->$key] = $contentArr;
+    if (!empty($allContentArr)) {
+        foreach ($allContentArr as $contentArr) {
+            $allContent[$contentArr->$key] = $contentArr;
+        }
     }
-
     return $allContent;
 }
 
