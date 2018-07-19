@@ -35,6 +35,14 @@ function getKeyByValueInObject(object, value) {
     return Object.keys(object).find(key => object[key] === value);
 }
 
+function setLang(lang, interface_lang = false) {
+    return $.post('/app/ajax/lang.php',
+        {
+            lang: lang,
+            interfaceLang: !interface_lang ? 'content' : 'interface'
+        });
+}
+
 function loaderHtml() {
     return '<i class="fas fa-circle-notch fa-spin"></i>';
 }
@@ -73,6 +81,16 @@ function convertToSlug(str) {
 
     return str;
 }
+
+$(window).scroll(function() {
+    sessionStorage.scrollTop = $(this).scrollTop();
+});
+
+$(document).ready(function() {
+    if (sessionStorage.scrollTop != "undefined") {
+        $(window).scrollTop(sessionStorage.scrollTop);
+    }
+});
 
 $(document).ready(function () {
     $('#loader').fadeIn('slow');

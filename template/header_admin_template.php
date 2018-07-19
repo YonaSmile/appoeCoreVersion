@@ -37,7 +37,9 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
             crossorigin="anonymous"></script>
     <script src="https://cdn.ckeditor.com/4.8.0/full/ckeditor.js"></script>
     <script src="<?= WEB_DIR; ?>ressources/jquery-datepicker-effects/jquery-ui.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.3/js/all.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+          integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+          crossorigin="anonymous">
     <script type="text/javascript" src="<?= APP_ROOT; ?>js/all.js"></script>
     <?php includePluginsJs(); ?>
 </head>
@@ -57,11 +59,9 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
 </div>
 <div id="site">
     <div id="main">
+        <?php include('menuUser.php'); ?>
         <nav id="sidebar">
             <?php include('menu.php'); ?>
         </nav>
         <div id="mainContent">
-            <button type="button" id="sidebarCollapse">
-                <i class="fas fa-align-left"></i>
-            </button>
             <div id="base">

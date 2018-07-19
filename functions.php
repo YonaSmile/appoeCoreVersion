@@ -106,6 +106,49 @@ function isArrayEmpty($multiArray)
 }
 
 /**
+ * Multidimensional Array Sort
+ * @param $array
+ * @param $keyName
+ * @param int $order
+ * @return array
+ */
+function array_sort($array, $keyName, $order = SORT_ASC)
+{
+
+    $new_array = array();
+    $sortable_array = array();
+
+    if (count($array) > 0) {
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
+                foreach ($v as $k2 => $v2) {
+                    if ($k2 == $keyName) {
+                        $sortable_array[$k] = $v2;
+                    }
+                }
+            } else {
+                $sortable_array[$k] = $v;
+            }
+        }
+
+        switch ($order) {
+            case SORT_ASC:
+                asort($sortable_array);
+                break;
+            case SORT_DESC:
+                arsort($sortable_array);
+                break;
+        }
+
+        foreach ($sortable_array as $k => $v) {
+            $new_array[$k] = $array[$k];
+        }
+    }
+
+    return $new_array;
+}
+
+/**
  * @param $mediaPath
  * @return bool
  */
@@ -162,10 +205,10 @@ function htmlEntityDecode($item)
 function trans($key, $doc = 'general')
 {
     $trans = minimalizeText($key);
-    if (LANG != 'fr' && file_exists(FILE_LANG_PATH . LANG . DIRECTORY_SEPARATOR . $doc . '.json')) {
+    if (APP_LANG != 'fr' && file_exists(FILE_LANG_PATH . APP_LANG . DIRECTORY_SEPARATOR . $doc . '.json')) {
 
         //get lang file
-        $json = file_get_contents(FILE_LANG_PATH . LANG . DIRECTORY_SEPARATOR . $doc . '.json');
+        $json = file_get_contents(FILE_LANG_PATH . APP_LANG . DIRECTORY_SEPARATOR . $doc . '.json');
         $parsedJson = json_decode($json, true);
 
         //preparing to compare
@@ -1609,6 +1652,28 @@ function includePluginsPrimaryMenu()
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'menu';
+            if (file_exists($filePath)) {
+                $phpFiles = getFilesFromDir($filePath);
+                foreach ($phpFiles as $file) {
+                    $src = $filePath . DIRECTORY_SEPARATOR . $file;
+                    include_once($src);
+                }
+            }
+        }
+    }
+}
+
+/**
+ *
+ */
+function includePluginsSecondaryMenu()
+{
+    $plugins = getPlugins();
+
+    if (is_array($plugins) && !empty($plugins)) {
+
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'littleMenu';
             if (file_exists($filePath)) {
                 $phpFiles = getFilesFromDir($filePath);
                 foreach ($phpFiles as $file) {

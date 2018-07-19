@@ -1,14 +1,26 @@
 <?php require('header.php'); ?>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="display-4 bigTitle"><?= APP_TITLE; ?></h1>
+
+        <div class="row mb-3">
+            <div class="d-flex col-12 col-lg-8">
+                <div class="card border-0 w-100">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="m-0"><?= trans('Modifié récement'); ?></h5>
+                    </div>
+                    <div class="card-body"></div>
+                </div>
+            </div>
+            <div class="d-flex col-12 col-lg-4">
+                <div class="card border-0 w-100">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="m-0"><?= trans('Visiteurs'); ?></h5>
+                    </div>
+                    <div class="card-body" id="visitorsStats"></div>
+                </div>
             </div>
         </div>
-        <div class="my-4"></div>
+
         <?php
-        $colorChosen = array();
-        $color = '#' . getColor();
         $dashboardDetails = includePluginsDashboard();
 
         if ($USER->getRole() >= 4) {
@@ -32,30 +44,23 @@
             <div class="row">
                 <?php foreach ($dashboardDetails as $dashboard): ?>
                     <?php
-                    while (in_array($color, $colorChosen)) {
-                        $color = '#' . getColor();
+                    $posUrl = strrpos($dashboard['url'], '/', -2);
+                    $icon = '';
+                    if (false !== $posUrl) {
+                        $icon = substr($dashboard['url'], $posUrl + 1, -1);
                     }
                     ?>
                     <div class="col-12 col-lg-4 mb-3">
-                        <div class="card" style="border:1px solid <?= $color; ?>">
+                        <div class="card d-flex justify-content-start py-4 border-0 dashboardCard">
                             <div class="card-body">
-                                <h2 class="card-title"><?= $dashboard['name']; ?></h2>
-                                <span class="dashboardNum"
-                                      style="color:<?= $color; ?>"><?= $dashboard['count']; ?></span>
+                                <h2 class="card-title m-0 icon-<?= $icon; ?>"><a
+                                            href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
+                                <span class="dashboardNum"><?= $dashboard['count']; ?></span>
                             </div>
-                            <a href="<?= $dashboard['url']; ?>"
-                               class="btn d-block text-white"
-                               style="background-color: <?= $color; ?>;border-color: <?= $color; ?>">
-                                <?= trans('Voir plus'); ?>
-                            </a>
                         </div>
                     </div>
-                    <?php array_push($colorChosen, $color); ?>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-
-        <hr class="hrStyle">
-        <div id="visitorsStats"></div>
     </div>
 <?php require('footer.php'); ?>

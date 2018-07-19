@@ -29,11 +29,11 @@ class Menu
 				    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=30;
 				    INSERT INTO `appoe_menu` (`id`, `slug`, `name`, `min_role_id`, `statut`, `parent_id`, `order_menu`, `pluginName`, `updated_at`) VALUES
                     (11, "index", "Tableau de bord", 1, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
-                    (12, "users", "Utilisateurs", 1, 1, 10, 2, NULL, "2018-01-04 08:31:39"),
-                    (13, "setting", "Réglages", 4, 0, 10, 3, NULL, "2018-01-04 09:04:00"),
-                    (14, "updateCategories", "Catégories", 4, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
-                    (15, "updateMedia", "Média", 1, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
-                    (16, "updatePermissions", "Permissions", 4, 0, 10, 1, NULL, "2018-01-05 11:28:14"),
+                    (12, "users", "Utilisateurs", 1, 1, 10, 19, NULL, "2018-01-04 08:31:39"),
+                    (13, "setting", "Réglages", 4, 0, 10, 13, NULL, "2018-01-04 09:04:00"),
+                    (14, "updateCategories", "Catégories", 4, 1, 10, 2, NULL, "2018-01-05 11:28:14"),
+                    (15, "updateMedia", "Média", 1, 1, 10, 5, NULL, "2018-01-05 11:28:14"),
+                    (16, "updatePermissions", "Permissions", 4, 0, 10, 16, NULL, "2018-01-05 11:28:14"),
                     (20, "allUsers", "Tous les utilisateurs", 1, 1, 12, 20, NULL, "2018-01-04 08:31:39"),
                     (21, "addUser", "Nouvel utilisateur", 2, 1, 12, 21, NULL, "2018-01-04 08:31:39"),
                     (22, "updateUser", "Mise à jour de l\'utilisateur", 1, 0, 12, 22, NULL, "2018-01-04 08:31:39");';
@@ -88,7 +88,7 @@ class Menu
             $stmt->bindParam(':role', $role);
             $stmt->bindParam(':id', $id);
         } else {
-            $sql = 'SELECT * FROM appoe_menu WHERE min_role_id <= :role AND statut = 1';
+            $sql = 'SELECT * FROM appoe_menu WHERE min_role_id <= :role AND statut = 1 ORDER BY order_menu ASC';
             $stmt = $this->dbh->prepare($sql);
             $stmt->bindParam(':role', $role);
         }

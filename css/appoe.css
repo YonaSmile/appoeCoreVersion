@@ -192,17 +192,40 @@ button[disabled], a[disabled], input[disabled] {
 }
 
 #base {
-    position: relative;
+    position: relative !important;
 }
 
 #mainHtml {
     min-height: 100vh;
 }
 
+#navbarUser {
+    z-index: 1030;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 250px);
+    transition: all 0.3s;
+}
+
+#navbarUser li:first-child {
+    padding: 0 10px 0 0;
+}
+
+#navbarUser li:last-child {
+    border-right: 0 none;
+}
+
+#navbarUser li {
+    border-right: 1px solid #ececec;
+    padding: 0 10px;
+}
+
 #sidebarCollapse:active,
 #sidebarCollapse:focus,
 #sidebarCollapse:hover {
-    outline: none;
+    outline: 0 !important;
+    box-shadow: none !important;
 }
 
 #sidebar {
@@ -261,18 +284,19 @@ a[data-toggle="collapse"] {
     background: #6d7fbb;
 }
 
-#sidebar a[aria-expanded="false"]::before,
-#sidebar a[aria-expanded="true"]::before {
+#sidebar a[aria-expanded="false"]::after,
+#sidebar a[aria-expanded="true"]::after {
     content: "\f078";
     display: block;
     position: absolute;
+    top: 15px;
     right: 20px;
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
     font-size: 0.6em;
 }
 
-#sidebar a[aria-expanded="true"]::before {
+#sidebar a[aria-expanded="true"]::after {
     content: "\f077";
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
@@ -284,6 +308,10 @@ a[data-toggle="collapse"] {
     transition: all 0.3s;
 }
 
+#sidebar ul ul li a:before {
+    content: inherit;
+}
+
 #sidebar ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
@@ -293,7 +321,7 @@ a[data-toggle="collapse"] {
 #mainContent {
     width: -webkit-calc(100% - 250px);
     width: calc(100% - 250px);
-    padding: 60px 40px 40px 40px;
+    padding: 100px 40px 40px 40px;
     min-height: 100vh;
     transition: all 0.3s;
     position: absolute;
@@ -301,25 +329,29 @@ a[data-toggle="collapse"] {
     right: 0;
 }
 
-#mainContent.active {
+#mainContent.active, #navbarUser.active {
     width: 100%;
 }
 
 #sidebarCollapse {
-    color: #222;
+    background: transparent;
+    transition: all 0.7s;
+    border: 0;
+    /*color: #222;
     position: absolute;
     top: 10px;
     left: 0;
-    border: 0;
+
     padding: 10px 20px;
     cursor: pointer;
     z-index: 1000;
     background: transparent;
-    transition: all 0.7s;
+    */
 }
 
 #sidebarCollapse.active {
     color: #FFF;
+    border: 0;
 }
 
 @media (max-width: 768px) {
@@ -339,6 +371,14 @@ a[data-toggle="collapse"] {
     #mainContent.active {
         width: -webkit-calc(100% - 250px);
         width: calc(100% - 250px);
+    }
+
+    #navbarUser {
+        width: 100%;
+    }
+
+    #navbarUser li {
+        padding: 0;
     }
 
     #sidebarCollapse span {
@@ -378,19 +418,6 @@ ul.listIcone li {
     width: 100%;
 }
 
-.dashboardNum {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-size: 90px;
-    color: #e9e9e9;
-    display: block;
-    line-height: 60px;
-    font-weight: 900;
-    transform: rotate(-0.05turn);
-    opacity: 0.5;
-}
-
 #pageContentManageForm label {
     font-size: 1.2em;
     color: #7386d5;
@@ -427,6 +454,11 @@ ul.listIcone li {
 
 .modal-lg {
     max-width: 1200px !important;
+}
+
+#navbarDropdownUserMenu.dropdown-toggle::after,
+#navbarDropdownMessageMenu.dropdown-toggle::after {
+    content: none;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -640,8 +672,18 @@ table#currentProjetTable tr {
     column-count: 4;
 }
 
-.card {
+.card, .card-header {
     border-radius: 0 !important;
+}
+
+.visitsStatsBadge {
+    position: absolute;
+    right: -20px;
+    top: 0;
+    padding-left: 5px;
+    width: 100px;
+    background: #0b3e6f;
+    color: #FFF;
 }
 
 .bg-none {
@@ -786,24 +828,26 @@ ul.retroPlanningList > li.hideLi {
 }
 
 .md-select {
-    display: inline-block;
-    vertical-align: top;
-    width: 56px;
     position: relative;
+    display: flex;
+    width: 60px;
+    padding: 0 10px;
 }
 
 .md-select *, .md-select :after, .md-select :before {
     box-sizing: border-box;
 }
 
+.md-select label {
+    margin: auto;
+}
+
 .md-select [type=button] {
     background: transparent;
     border: 0;
-    color: #FFF;
     cursor: pointer;
     display: block;
-    line-height: 40px;
-    padding: 2px 11px 4px 11px;
+    padding: 0;
     position: relative;
     text-align: left;
     text-shadow: none;
@@ -814,8 +858,8 @@ ul.retroPlanningList > li.hideLi {
 }
 
 .md-select [type=button]:focus, .md-select [type=button]:hover {
-    background: #FFF;
-    color: #7386D5;
+    /*background: #FFF;
+    color: #7386D5;*/
 }
 
 .md-select [type=button]:after {
@@ -827,12 +871,12 @@ ul.retroPlanningList > li.hideLi {
     background-color: #FFF;
     cursor: default;
     list-style: none;
-    line-height: 26px;
+    line-height: 40px;
     overflow: hidden;
     margin: 0;
     max-height: 0;
     position: absolute;
-    top: 0;
+    top: 150%;
     left: 0;
     padding: 0 !important;
     -webkit-transform: translateY(-50%);
@@ -845,7 +889,7 @@ ul.retroPlanningList > li.hideLi {
 
 .md-select ul[role=listbox] li {
     margin: 0;
-    padding: 10px;
+    padding: 0 10px !important;
     outline: none;
     overflow: hidden;
     display: block;
@@ -1130,6 +1174,20 @@ textarea {
     padding-bottom: 4px;
 }
 
+.badge-pill-messagIn {
+    position: absolute;
+    top: 1px;
+    left: 22px;
+    font-size: 11px;
+    padding: 0 0.4rem !important;
+    height: 18px;
+    line-height: 16px;
+    text-align: center;
+    min-width: 18px;
+    max-width: 50px;
+    width: auto;
+}
+
 .positionMenuSpan {
     position: relative;
     left: -16px;
@@ -1177,15 +1235,131 @@ textarea {
     border-radius: 0 !important;
 }
 
+.dashboardCard {
+    transition: all 0.3s;
+}
+
+.dashboardCard a {
+    color: #0b3e6f;
+}
+
+.dashboardCard h2 a:before {
+    color: #7cacf9;
+}
+
+.dashboardCard:focus,
+.dashboardCard:hover {
+    background: #0b3e6f;
+}
+
+.dashboardCard:focus a,
+.dashboardCard:hover a {
+    color: #fff;
+}
+
+.dashboardNum {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    color: #FFF;
+    display: block;
+    font-weight: 500;
+    background: #0b3e6f;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 38px;
+    transition: all 0.3s;
+}
+
+.dashboardCard:focus .dashboardNum,
+.dashboardCard:hover .dashboardNum {
+    background: #FFF;
+    color: #0b3e6f;
+}
+
+/**
+ICONS
+ */
+
+[class*="icon-"] a:before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Font Awesome\ 5 Free';
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+[class*="icon-"] a:hover {
+    text-decoration: none;
+}
+
+.icon-index a:before {
+    content: '\f015';
+}
+
+.icon-updateCategories a:before {
+    content: '\f00b';
+}
+
+.icon-page a:before {
+    content: '\f15c';
+}
+
+.icon-cms a:before,
+.icon-allPages a:before {
+    content: '\f15c';
+}
+
+.icon-itemGlue a:before,
+.icon-allArticles a:before {
+    content: '\f08d';
+}
+
+.icon-updateMedia a:before {
+    content: '\f030';
+}
+
+.icon-interactiveMap a:before,
+.icon-allInterMaps a:before {
+    content: '\f5a0';
+}
+
+.icon-allRating a:before {
+    content: '\f5c0';
+}
+
+.icon-shop a:before {
+    content: '\f07a';
+}
+
+.icon-users a:before {
+    content: '\f007';
+}
+
+.icon-people a:before,
+.icon-allPeople a:before {
+    content: '\f0c0';
+}
+
+.icon-events a:before {
+    content: '\f073';
+}
+
+.icon-updateTraduction a:before {
+    content: '\f1ab';
+}
+
 @page {
     size: auto;
     margin: 4mm;
 }
 
 @media screen and (max-width: 1440px) {
-    .dashboardNum {
-        font-size: 70px;
-    }
 
     h2.card-title {
         font-size: 1.5rem;
@@ -1193,9 +1367,6 @@ textarea {
 }
 
 @media screen and (max-width: 1220px) {
-    .dashboardNum {
-        font-size: 50px;
-    }
 
     h2.card-title {
         font-size: 1.3rem;
