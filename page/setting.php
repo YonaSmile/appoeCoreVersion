@@ -216,33 +216,24 @@
             }, 2000);
 
             $('#updatePlugins').on('click', function () {
-                $('#loader').fadeIn('fast');
-                $('#loaderInfos').html('Veuillez <strong>ne pas quitter</strong> votre navigateur');
-                $.post(
-                    '<?= WEB_DIR; ?>app/ajax/plugin.php',
-                    {
-                        downloadPlugins: 'OK'
-                    },
-                    function (data) {
-                        if (data) {
-                            window.location = window.location.href;
-                            window.location.reload(true);
-                        } else {
-                            $('#loader').fadeOut();
-                        }
+
+                systemAjaxRequest({
+                    downloadPlugins: 'OK'
+                }).done(function (data) {
+                    if (data) {
+                        window.location = window.location.href;
+                        window.location.reload(true);
+                    } else {
+                        $('#loader').fadeOut();
                     }
-                );
+                });
             });
 
             $('#updateSystem').on('click', function () {
-                $('#loader').fadeIn('fast');
-                $('#loaderInfos').html('Veuillez <strong>ne pas quitter</strong> votre navigateur');
-                $.post(
-                    '<?= WEB_DIR; ?>app/ajax/plugin.php',
-                    {
-                        downloadSystemCore: 'OK'
-                    },
-                    function (data) {
+
+                systemAjaxRequest({
+                    downloadSystemCore: 'OK'
+                }).done(function (data) {
                         if (data) {
                             window.location = window.location.href;
                             window.location.reload(true);
@@ -254,20 +245,16 @@
             });
 
             $('#updateSitemap').on('click', function () {
-                busyApp();
-                $.post(
-                    '<?= WEB_DIR; ?>app/ajax/plugin.php',
-                    {
-                        updateSitemap: 'OK'
-                    },
-                    function (data) {
-                        if (data === true || data == 'true') {
-                            $('#updateSitemap').removeClass('operationBtn').html('<?= trans('Sitemap actualisé') ?>');
-                            enableBtns();
-                        }
-                        availableApp();
+
+                systemAjaxRequest({
+                    updateSitemap: 'OK'
+                }).done(function (data) {
+                    if (data === true || data == 'true') {
+                        $('#updateSitemap').removeClass('operationBtn').html('<?= trans('Sitemap actualisé') ?>');
+                        enableBtns();
                     }
-                );
+                    $('#loader').fadeOut();
+                });
             });
 
             $('.activePlugin').on('click', function () {
@@ -284,22 +271,20 @@
             });
 
             $('#cleanDataBase').on('click', function () {
-                busyApp();
+
                 var $btn = $(this);
                 var $parent = $btn.parent();
-                $.post(
-                    '<?= WEB_DIR; ?>app/ajax/plugin.php',
-                    {
-                        optimizeDb: true
-                    },
-                    function (data) {
-                        if (data) {
-                            $btn.remove();
-                            $parent.html('<p>' + data + '</p>');
-                        }
-                        enableBtns();
-                        availableApp();
-                    });
+
+                systemAjaxRequest({
+                    optimizeDb: true
+                }).done(function (data) {
+                    if (data) {
+                        $btn.remove();
+                        $parent.html('<p>' + data + '</p>');
+                    }
+                    enableBtns();
+                    $('#loader').fadeOut();
+                });
             });
 
             $('.operationBtn').on('click', function (e) {

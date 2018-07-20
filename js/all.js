@@ -82,15 +82,14 @@ function convertToSlug(str) {
     return str;
 }
 
-$(window).scroll(function() {
-    sessionStorage.scrollTop = $(this).scrollTop();
-});
+function systemAjaxRequest(data) {
 
-$(document).ready(function() {
-    if (sessionStorage.scrollTop != "undefined") {
-        $(window).scrollTop(sessionStorage.scrollTop);
-    }
-});
+    //Active Loader
+    $('#loader').fadeIn('fast');
+    $('#loaderInfos').html('Veuillez <strong>ne pas quitter</strong> votre navigateur');
+
+    return $.post('/app/ajax/plugin.php', data);
+}
 
 $(document).ready(function () {
     $('#loader').fadeIn('slow');
