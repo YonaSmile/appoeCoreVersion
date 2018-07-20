@@ -4,18 +4,20 @@
         <div class="row mb-3">
             <div class="d-flex col-12 col-lg-8">
                 <div class="card border-0 w-100">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="m-0"><?= trans('Modifié récement'); ?></h5>
+                    <div class="card-header bg-white pb-0 border-0 boardBlock1Title">
+                        <h5 class="m-0 pl-4 colorPrimary"><?= trans('Modifié récement'); ?></h5>
+                        <hr class="mx-4">
                     </div>
-                    <div class="card-body"></div>
+                    <div class="card-body pt-0"></div>
                 </div>
             </div>
             <div class="d-flex col-12 col-lg-4">
                 <div class="card border-0 w-100">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="m-0"><?= trans('Visiteurs'); ?></h5>
+                    <div class="card-header bg-white pb-0 border-0 boardBlock2Title">
+                        <h5 class="m-0 pl-4 colorSecondary"><?= trans('Visiteurs'); ?></h5>
+                        <hr class="mx-4">
                     </div>
-                    <div class="card-body" id="visitorsStats"></div>
+                    <div class="card-body pt-0" id="visitorsStats"></div>
                 </div>
             </div>
         </div>

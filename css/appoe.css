@@ -1231,6 +1231,50 @@ textarea {
     font-size: inherit;
 }
 
+.colorPrimary {
+    color: #3eb293;
+}
+
+.bgColorPrimary {
+    background: #3eb293;
+}
+
+.borderColorPrimary {
+    border-color: #3eb293;
+}
+
+[class*="colorPrimary"] {
+    transition: all 0.3s;
+}
+
+a[class*="colorPrimary"]:hover,
+button[class*="colorPrimary"]:hover {
+    color: #FFF;
+    background: #3eb293;
+}
+
+.colorSecondary {
+    color: #3eb293;
+}
+
+.bgColorSecondary {
+    background: #3eb293;
+}
+
+.borderColorSecondary {
+    border-color: #3eb293;
+}
+
+[class*="colorSecondary"] {
+    transition: all 0.3s;
+}
+
+a[class*="colorSecondary"]:hover,
+button[class*="colorSecondary"]:hover {
+    color: #FFF;
+    background: #3eb293;
+}
+
 .progress {
     border-radius: 0 !important;
 }
@@ -1240,11 +1284,11 @@ textarea {
 }
 
 .dashboardCard a {
-    color: #0b3e6f;
+    color: #4b5b68;
 }
 
 .dashboardCard h2 a:before {
-    color: #7cacf9;
+    color: #d8d8da;
 }
 
 .dashboardCard:focus,

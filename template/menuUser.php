@@ -42,7 +42,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserMenu" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2">
-                        <?= $USER->getPrenom() . substr($USER->getNom(), 0, 1); ?>
+                        <?= $USER->getPrenom() . ucfirst(substr($USER->getNom(), 0, 1)); ?>
                     </span> <i class="fas fa-user"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
