@@ -27,6 +27,9 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link href="https://use.fontawesome.com/releases/v5.0.3/css/all.css" rel="stylesheet">
     <link rel="styleSheet" href="<?= APP_ROOT; ?>css/appoe.css?v=<?= time(); ?>" type="text/css">
+    <link rel="styleSheet"
+          href="<?= APP_ROOT; ?>css/<?= file_exists(ROOT_PATH . 'app/css/perso.css') ? 'perso.css' : 'perso_default.css'; ?>?v=<?= time(); ?>"
+          type="text/css">
     <?php includePluginsStyles(); ?>
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -60,7 +63,7 @@ $Traduction = new App\Plugin\Traduction\Traduction(LANG);
 <div id="site">
     <div id="main">
         <?php include('menuUser.php'); ?>
-        <nav id="sidebar">
+        <nav id="sidebar" class="bgColorPrimary">
             <?php include('menu.php'); ?>
         </nav>
         <div id="mainContent">

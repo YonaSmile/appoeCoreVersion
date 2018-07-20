@@ -57,7 +57,7 @@
                             <div class="card-body">
                                 <h2 class="card-title m-0 icon-<?= $icon; ?>"><a
                                             href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
-                                <span class="dashboardNum"><?= $dashboard['count']; ?></span>
+                                <span class="dashboardNum bgColorPrimary"><?= $dashboard['count']; ?></span>
                             </div>
                         </div>
                     </div>

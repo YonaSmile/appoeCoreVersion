@@ -12,7 +12,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" target="_blank" href="<?= WEB_DIR_URL; ?>">
-                    <i class="fas fa-eye"></i> Visualiser le site
+                    <span class="colorPrimary"><i class="fas fa-eye"></i></span> Visualiser le site
                 </a>
             </li>
             <div class="md-select">

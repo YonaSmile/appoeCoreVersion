@@ -235,8 +235,6 @@ button[disabled], a[disabled], input[disabled] {
     left: 0;
     height: 100vh;
     z-index: 999;
-    background: #7386D5;
-    color: #fff;
     transition: all 0.3s;
 }
 
@@ -246,7 +244,6 @@ button[disabled], a[disabled], input[disabled] {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
 }
 
 #sidebar ul p {
@@ -260,28 +257,17 @@ button[disabled], a[disabled], input[disabled] {
     display: block;
 }
 
-#sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
-}
-
 a[data-toggle="collapse"] {
     position: relative;
 }
 
 #sidebar .sidebar-header {
     padding: 5px 20px;
-    background: #6d7fcc;
     text-align: center;
 }
 
 #sidebar ul.components {
     padding: 20px 0 0 0;
-}
-
-#sidebar ul li.active > a {
-    color: #fff;
-    background: #6d7fbb;
 }
 
 #sidebar a[aria-expanded="false"]::after,
@@ -315,7 +301,6 @@ a[data-toggle="collapse"] {
 #sidebar ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
 }
 
 #mainContent {
@@ -1231,96 +1216,8 @@ textarea {
     font-size: inherit;
 }
 
-.colorPrimary {
-    color: #3eb293;
-}
-
-.bgColorPrimary {
-    background: #3eb293;
-}
-
-.borderColorPrimary {
-    border-color: #3eb293;
-}
-
-[class*="colorPrimary"] {
-    transition: all 0.3s;
-}
-
-a[class*="colorPrimary"]:hover,
-button[class*="colorPrimary"]:hover {
-    color: #FFF;
-    background: #3eb293;
-}
-
-.colorSecondary {
-    color: #3eb293;
-}
-
-.bgColorSecondary {
-    background: #3eb293;
-}
-
-.borderColorSecondary {
-    border-color: #3eb293;
-}
-
-[class*="colorSecondary"] {
-    transition: all 0.3s;
-}
-
-a[class*="colorSecondary"]:hover,
-button[class*="colorSecondary"]:hover {
-    color: #FFF;
-    background: #3eb293;
-}
-
 .progress {
     border-radius: 0 !important;
-}
-
-.dashboardCard {
-    transition: all 0.3s;
-}
-
-.dashboardCard a {
-    color: #4b5b68;
-}
-
-.dashboardCard h2 a:before {
-    color: #d8d8da;
-}
-
-.dashboardCard:focus,
-.dashboardCard:hover {
-    background: #0b3e6f;
-}
-
-.dashboardCard:focus a,
-.dashboardCard:hover a {
-    color: #fff;
-}
-
-.dashboardNum {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 14px;
-    color: #FFF;
-    display: block;
-    font-weight: 500;
-    background: #0b3e6f;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 38px;
-    transition: all 0.3s;
-}
-
-.dashboardCard:focus .dashboardNum,
-.dashboardCard:hover .dashboardNum {
-    background: #FFF;
-    color: #0b3e6f;
 }
 
 /**
