@@ -169,12 +169,16 @@
                         },
                         function (response) {
                             if (response) {
-                                response = $.parseJSON(response);
-                                if (response.version != $.trim($versionContenair.text())) {
-                                    $('#pluginSystemContenair').slideDown('fast');
-                                    responseVersion.html('<em class="text-danger">' + response.version + '</em>');
-                                } else {
-                                    responseVersion.html('<em class="text-info">' + response.version + '</em>');
+                                try {
+                                    response = $.parseJSON(response);
+                                    if (response.version != $.trim($versionContenair.text())) {
+                                        $('#pluginSystemContenair').slideDown('fast');
+                                        responseVersion.html('<em class="text-danger">' + response.version + '</em>');
+                                    } else {
+                                        responseVersion.html('<em class="text-info">' + response.version + '</em>');
+                                    }
+                                } catch (e) {
+
                                 }
                             }
                         }
@@ -195,12 +199,16 @@
                     },
                     function (response) {
                         if (response) {
-                            response = $.parseJSON(response);
-                            if (response.version != systemVersion) {
-                                $('#updateSystemBtnContainer').slideDown('fast');
-                                responseVersion.html('<em class="text-danger">' + response.version + '</em>');
-                            } else {
-                                responseVersion.html('<em class="text-info">' + response.version + '</em>');
+                            try {
+                                response = $.parseJSON(response);
+                                if (response.version != systemVersion) {
+                                    $('#updateSystemBtnContainer').slideDown('fast');
+                                    responseVersion.html('<em class="text-danger">' + response.version + '</em>');
+                                } else {
+                                    responseVersion.html('<em class="text-info">' + response.version + '</em>');
+                                }
+                            } catch (e) {
+
                             }
                         }
                     }
