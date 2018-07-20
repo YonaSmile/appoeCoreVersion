@@ -115,7 +115,6 @@ class Menu
     public function displayMenuBySlug($slug)
     {
 
-
         $sql = 'SELECT * FROM appoe_menu WHERE slug = :slug';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':slug', $slug);
@@ -125,15 +124,7 @@ class Menu
         if ($error[0] != '00000') {
             return false;
         } else {
-
-            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-                $data[] = $row;
-            }
-            if (isset($data)) {
-                return $data;
-            } else {
-                return false;
-            }
+            return $stmt->fetch(\PDO::FETCH_OBJ);
         }
     }
 
@@ -290,5 +281,3 @@ class Menu
 
 
 }
-
-?>
