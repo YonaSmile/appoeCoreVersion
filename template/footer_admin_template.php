@@ -166,24 +166,30 @@
         });
 
         $('.md-select ul li').on('click', function () {
-            var langChoice = $(this).text();
-            $('.md-select ul li').not($(this)).removeClass('active');
-            $(this).addClass('active');
-            $('.md-select label button').text(langChoice);
 
-            setTimeout(function () {
+            var langChoice = $(this).attr('id');
 
-                if (langChoice != "<?= LANG; ?>") {
+            if(langChoice != 'closeLangs'){
 
-                    $('#loader').fadeIn('fast');
+                var imgLangChoise = $(this).html();
+                $('.md-select ul li').not($(this)).removeClass('active');
+                $(this).addClass('active');
+                $('.md-select label button').html(imgLangChoise);
 
-                    setLang(langChoice).done(function (data) {
-                        if (data) {
-                            document.location.reload(true);
-                        }
-                    });
-                }
-            }, 300);
+                setTimeout(function () {
+
+                    if (langChoice != "<?= LANG; ?>") {
+
+                        $('#loader').fadeIn('fast');
+
+                        setLang(langChoice).done(function (data) {
+                            if (data) {
+                                document.location.reload(true);
+                            }
+                        });
+                    }
+                }, 300);
+            }
         });
 
         $(window).on("load", function () {

@@ -17,15 +17,17 @@
             </li>
             <div class="md-select">
                 <label for="ul-id">
-                    <button type="button" class="ng-binding"><?= LANG; ?></button>
+                    <button type="button" class="ng-binding"><img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
+                    </button>
                 </label>
                 <ul role="listbox" id="ul-id" class="md-whiteframe-z1" aria-activedescendant="<?= LANG; ?>"
                     name="ul-id">
-                    <?php foreach (getLangs() as $lang): ?>
+                    <?php foreach (getLangs() as $lang => $language): ?>
                         <li role="option" id="<?= $lang; ?>"
                             class="ng-binding ng-scope <?= $lang == LANG ? 'active' : ''; ?>" tabindex="-1"
-                            aria-selected="true"><?= $lang; ?></li>
+                            aria-selected="true"><img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>"></li>
                     <?php endforeach; ?>
+                    <li id="closeLangs"><i class="fas fa-times"></i></li>
                 </ul>
             </div>
         </ul>

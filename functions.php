@@ -270,7 +270,20 @@ function getFilesFromDir($dirname)
  */
 function getLangs()
 {
+    return LANGUAGES;
+}
+
+/**
+ * @return array
+ */
+function getAppLangs()
+{
     return getFilesFromDir(WEB_SYSTEM_PATH . 'lang/');
+}
+
+function getAppImg($name)
+{
+    return WEB_APP_IMG . $name;
 }
 
 /**

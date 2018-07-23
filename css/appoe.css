@@ -828,8 +828,8 @@ ul.retroPlanningList > li.hideLi {
 .md-select {
     position: relative;
     display: flex;
-    width: 60px;
-    padding: 0 10px;
+    width: 50px;
+    padding: 0;
 }
 
 .md-select *, .md-select :after, .md-select :before {
@@ -849,10 +849,11 @@ ul.retroPlanningList > li.hideLi {
     position: relative;
     text-align: left;
     text-shadow: none;
-    width: 100%;
+    width: 20px;
     z-index: 1;
     outline: none;
     overflow: hidden;
+    line-height: 14px;
 }
 
 .md-select [type=button]:focus, .md-select [type=button]:hover {
@@ -860,10 +861,10 @@ ul.retroPlanningList > li.hideLi {
     color: #7386D5;*/
 }
 
-.md-select [type=button]:after {
+/*.md-select [type=button]:after {
     content: '\25be';
     float: right;
-}
+}*/
 
 .md-select ul[role=listbox] {
     background-color: #FFF;
@@ -874,7 +875,7 @@ ul.retroPlanningList > li.hideLi {
     margin: 0;
     max-height: 0;
     position: absolute;
-    top: 150%;
+    top: 200%;
     left: 0;
     padding: 0 !important;
     -webkit-transform: translateY(-50%);
