@@ -826,10 +826,7 @@ ul.retroPlanningList > li.hideLi {
 }
 
 .md-select {
-    position: relative;
-    display: flex;
-    width: 50px;
-    padding: 0;
+
 }
 
 .md-select *, .md-select :after, .md-select :before {
@@ -845,11 +842,11 @@ ul.retroPlanningList > li.hideLi {
     border: 0;
     cursor: pointer;
     display: block;
-    padding: 0;
+    padding: 5px 0;
     position: relative;
     text-align: left;
     text-shadow: none;
-    width: 20px;
+    width: 30px;
     z-index: 1;
     outline: none;
     overflow: hidden;
@@ -875,11 +872,11 @@ ul.retroPlanningList > li.hideLi {
     margin: 0;
     max-height: 0;
     position: absolute;
-    top: 200%;
+    top: 0;
     left: 0;
     padding: 0 !important;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
     -webkit-transition: all 0.15s cubic-bezier(0.35, 0, 0.25, 1);
     transition: all 0.15s cubic-bezier(0.35, 0, 0.25, 1);
     width: 54px;

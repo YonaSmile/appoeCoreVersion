@@ -15,21 +15,23 @@
                     <span class="colorPrimary"><i class="fas fa-eye"></i></span> Visualiser le site
                 </a>
             </li>
-            <div class="md-select">
-                <label for="ul-id">
-                    <button type="button" class="ng-binding"><img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
-                    </button>
-                </label>
-                <ul role="listbox" id="ul-id" class="md-whiteframe-z1" aria-activedescendant="<?= LANG; ?>"
-                    name="ul-id">
-                    <?php foreach (getLangs() as $lang => $language): ?>
-                        <li role="option" id="<?= $lang; ?>"
-                            class="ng-binding ng-scope <?= $lang == LANG ? 'active' : ''; ?>" tabindex="-1"
-                            aria-selected="true"><img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>"></li>
-                    <?php endforeach; ?>
-                    <li id="closeLangs"><i class="fas fa-times"></i></li>
-                </ul>
-            </div>
+            <li class="nav-item" style="position: relative;">
+                <div class="md-select">
+                    <label for="ul-id">
+                        <button type="button" class="ng-binding"><img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
+                        </button>
+                    </label>
+                    <ul role="listbox" id="ul-id" class="md-whiteframe-z1" aria-activedescendant="<?= LANG; ?>"
+                        name="ul-id">
+                        <?php foreach (getLangs() as $lang => $language): ?>
+                            <li role="option" id="<?= $lang; ?>"
+                                class="ng-binding ng-scope <?= $lang == LANG ? 'active' : ''; ?>" tabindex="-1"
+                                aria-selected="true"><img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>"></li>
+                        <?php endforeach; ?>
+                        <li id="closeLangs"><i class="fas fa-times"></i></li>
+                    </ul>
+                </div>
+            </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -49,10 +51,10 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
                     <a class="dropdown-item" href="<?= getUrl('user/', $USER->getId()); ?>">
-                        <i class="fas fa-user"></i> <?= trans('Mon profil'); ?>
+                        <small><i class="fas fa-user"></i> <?= trans('Mon profil'); ?></small>
                     </a>
                     <a class="dropdown-item" href="<?= WEB_APP_URL . 'logout.php'; ?>">
-                        <i class="fas fa-power-off"></i> <?= trans('Déconnexion'); ?>
+                        <small><i class="fas fa-power-off"></i> <?= trans('Déconnexion'); ?></small>
                     </a>
                 </div>
             </li>
