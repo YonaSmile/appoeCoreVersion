@@ -36,7 +36,7 @@ if ($allCategories) {
     <?php if ($separetedCategories): ?>
         <div class="row my-3">
             <?php foreach ($separetedCategories as $key => $categoryType): ?>
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-4">
                     <h2 class="subTitle"><?= $Traduction->trans($key); ?></h2>
                     <?php foreach ($categoryType[10] as $separetedCategory): ?>
                         <div class="mb-2">
