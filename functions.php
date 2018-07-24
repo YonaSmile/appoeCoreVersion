@@ -1541,14 +1541,13 @@ function showTemplateContent($pageSlug, $pageData)
             if (strpos($adminZone, '_')) {
 
                 list($metaKey, $formType) = explode('_', $adminZone);
-                $pageContent = str_replace($match[0][$i], sprintf('%s', !empty($pageData[$metaKey]) ? html_entity_decode($pageData[$metaKey]->metaValue) : '•••'), $pageContent);
+                $pageContent = str_replace($match[0][$i], sprintf('%s', !empty($pageData[$metaKey]) ? htmlSpeCharDecode($pageData[$metaKey]->metaValue) : '•••'), $pageContent);
             }
         }
     }
 
     return $pageContent;
 }
-
 
 /**
  * @param $pageSlug
@@ -1562,7 +1561,8 @@ function showTemplateZones($pageSlug, $pageData)
     $allContent = extractFromObjArr($pageData, 'metaKey');
 
     //Get template Zones
-    $pageContent = getFileContent($pageSlug);
+    $pageContent = $pageView = getFileContent($pageSlug);
+
 
     if (preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
 
