@@ -231,7 +231,7 @@ class Form
         $require = $require ? 'required="true"' : '';
 
         $html = '';
-        $html .= '<div class="form-group"><strong class="inputLabel">' . trans($title) . '</strong>';
+        $html .= '<div class="form-group"><strong class="inputLabel border-bottom pb-1 mb-3">' . trans($title) . '</strong>';
 
         foreach ($data as $id => $value) {
             $checked = '';
@@ -257,12 +257,12 @@ class Form
      * @param string $otherAttr
      * @return string
      */
-    public static function submit($title, $name, $otherClass = '', $otherAttr = '')
+    public static function submit($title, $name, $otherClass = 'btn-outline-primary', $otherAttr = '')
     {
         $html = '';
         $html .= '<div class="form-group"><button type="submit" ';
         $html .= ' id="' . $name . '" name="' . $name . '" ';
-        $html .= ' class="btn btn-outline-primary btn-block btn-lg ' . $otherClass . '" ';
+        $html .= ' class="btn btn-block btn-lg ' . $otherClass . '" ';
         $html .= $otherAttr;
         $html .= ' >' . trans($title) . '</button></div>';
 

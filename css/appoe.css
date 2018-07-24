@@ -1281,6 +1281,14 @@ table.table tbody td:last-child {
     color: #4b5b68 !important;
 }
 
+.form-group {
+    margin-bottom: 0;
+}
+
+input, select {
+    border: 0 none !important;
+}
+
 .btnUpdate {
     color: #009294;
 }
