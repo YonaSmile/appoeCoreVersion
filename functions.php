@@ -1657,6 +1657,28 @@ function includePluginsFiles()
 /**
  *
  */
+function includePluginsFilesForApp()
+{
+    $plugins = getPlugins();
+
+    if (is_array($plugins) && !empty($plugins)) {
+
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeApp';
+            if (file_exists($filePath)) {
+                $phpFiles = getFilesFromDir($filePath);
+                foreach ($phpFiles as $file) {
+                    $src = $filePath . DIRECTORY_SEPARATOR . $file;
+                    include_once($src);
+                }
+            }
+        }
+    }
+}
+
+/**
+ *
+ */
 function includePluginsPrimaryMenu()
 {
     $plugins = getPlugins();
