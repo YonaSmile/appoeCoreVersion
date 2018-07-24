@@ -1633,9 +1633,9 @@ function includePluginsDashboard()
 }
 
 /**
- *
+ * @param $forApp
  */
-function includePluginsFiles()
+function includePluginsFiles($forApp = false)
 {
     $plugins = getPlugins();
 
@@ -1651,6 +1651,10 @@ function includePluginsFiles()
                 }
             }
         }
+    }
+
+    if ($forApp) {
+        includePluginsFilesForApp();
     }
 }
 

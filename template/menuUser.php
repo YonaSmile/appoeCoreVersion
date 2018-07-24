@@ -51,10 +51,10 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
                     <a class="dropdown-item" href="<?= getUrl('user/', $USER->getId()); ?>">
-                        <small><i class="fas fa-user"></i> <?= trans('Mon profil'); ?></small>
+                        <small><span class="mr-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?></small>
                     </a>
                     <a class="dropdown-item" href="<?= WEB_APP_URL . 'logout.php'; ?>">
-                        <small><i class="fas fa-power-off"></i> <?= trans('Déconnexion'); ?></small>
+                        <small><span class="mr-2"><i class="fas fa-power-off"></i></span> <?= trans('Déconnexion'); ?></small>
                     </a>
                 </div>
             </li>

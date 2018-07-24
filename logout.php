@@ -1,6 +1,6 @@
 <?php
 require($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
-includePluginsFiles();
+includePluginsFiles(true);
 
 mehoubarim_updateConnectedStatus('Déconnecté');
 
