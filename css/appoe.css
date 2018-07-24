@@ -1289,6 +1289,10 @@ input, select {
     border: 0 none !important;
 }
 
+label {
+    font-weight: 500;
+}
+
 .btnUpdate {
     color: #009294;
 }
