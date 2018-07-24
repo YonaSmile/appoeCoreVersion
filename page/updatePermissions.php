@@ -21,7 +21,7 @@ $allPermissions = $Menu->displayMenuAll();
             <div class="col-12">
                 <div class="table-responsive">
                     <table id="permissionTable"
-                           class="sortableTable table table-striped table-hover table-bordered">
+                           class="sortableTable table table-striped">
                         <thead>
                         <tr>
                             <th><?= trans('ID'); ?></th>
