@@ -1835,8 +1835,8 @@ function checkAjaxRequest()
  */
 function getUserIdSession()
 {
-    if (!empty($_SESSION['auth'])) {
-        list($idUser, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth']);
+    if (!empty($_SESSION['auth'.$_SERVER['HTTP_HOST']])) {
+        list($idUser, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth'.$_SERVER['HTTP_HOST']]);
 
         return $idUser;
     }
@@ -1849,7 +1849,7 @@ function getUserIdSession()
  */
 function deconnecteUser()
 {
-    unset($_SESSION['auth']);
+    unset($_SESSION['auth'.$_SERVER['HTTP_HOST']]);
 }
 
 
