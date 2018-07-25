@@ -1,15 +1,9 @@
 <?php require('header.php'); ?>
+<?= getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="display-4 bigTitle"><?= trans('Réglages'); ?></h1>
-                <hr class="my-2">
-                <a class="btn btn-info mb-4" href="<?= getUrl('updatePermissions/'); ?>">
-                    <?= trans('Les Permissions'); ?>
-                </a>
-            </div>
-        </div>
-        <div class="my-4"></div>
+        <a class="btn btn-info mb-4" href="<?= getUrl('updatePermissions/'); ?>">
+            <?= trans('Les Permissions'); ?>
+        </a>
         <div class="row" id="pluginsContainer">
             <div class="col-12 col-lg-6">
                 <?php

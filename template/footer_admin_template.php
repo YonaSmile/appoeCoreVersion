@@ -1,3 +1,4 @@
+<div class="my-4"></div>
 </div><!-- END BASE -->
 </div><!-- END DIV MAIN CONTENT-->
 </div><!-- END DIV MAIN -->
@@ -169,7 +170,7 @@
 
             var langChoice = $(this).attr('id');
 
-            if(langChoice != 'closeLangs'){
+            if (langChoice != 'closeLangs') {
 
                 var imgLangChoise = $(this).html();
                 $('.md-select ul li').not($(this)).removeClass('active');

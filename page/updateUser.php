@@ -5,15 +5,9 @@ if (!empty($_GET['id'])):
         require_once(WEB_PROCESS_PATH . 'users.php');
         $UpdateUser = new App\Users();
         $UpdateUser->setId($_GET['id']);
-        if ($UpdateUser->show() && $UpdateUser->getRole() <= $USER->getRole()) :?>
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h1 class="bigTitle"><?= trans('Mise à jour de l\'utilisateur'); ?></h1>
-                        <hr class="my-4">
-                    </div>
-                </div>
-
+        if ($UpdateUser->show() && $UpdateUser->getRole() <= $USER->getRole()): ?>
+            <?= getTitle($Page->getName(), $Page->getSlug()); ?>
+            <div class="container-fluid">
                 <?php if (isset($Response)): ?>
                     <div class="row">
                         <div class="col-12">
@@ -36,11 +30,11 @@ if (!empty($_GET['id'])):
                                 <div class="col-12 my-2">
                                     <?= App\Form::text('Nom', 'nom', 'text', $UpdateUser->getNom(), true, 40); ?>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 my-2">
                                     <?= App\Form::text('Prénom', 'prenom', 'text', $UpdateUser->getPrenom(), true, 40); ?>
                                 </div>
                                 <?php if ($UpdateUser->getId() != $USER->getId()): ?>
-                                    <div class="col-12">
+                                    <div class="col-12 my-2">
                                         <?= App\Form::select('Rôle', 'role', array_map('trans', ROLES), $UpdateUser->getRole(), true, '', $USER->getRole(), '>'); ?>
                                     </div>
                                 <?php endif; ?>
@@ -78,7 +72,6 @@ if (!empty($_GET['id'])):
                         </form>
                     </div>
                 </div>
-                <div class="my-4"></div>
             </div>
         <?php else: ?>
             <?= getContainerErrorMsg(trans('Cet utilisateur n\'existe pas')); ?>

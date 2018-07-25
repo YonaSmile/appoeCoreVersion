@@ -12,17 +12,8 @@ if ($allCategories) {
     }
 }
 ?>
+<?= getTitle($Page->getName(), $Page->getSlug()); ?>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="display-4 bigTitle"><?= trans('Catégories'); ?></h1>
-            <hr class="my-2">
-            <button id="addCategory" type="button" class="btn btn-primary mb-4" data-toggle="modal"
-                    data-target="#modalAddCategory">
-                <?= trans('Nouvelle Catégorie'); ?>
-            </button>
-        </div>
-    </div>
     <?php if (isset($Response)): ?>
         <div class="row">
             <div class="col-12">
@@ -32,6 +23,10 @@ if ($allCategories) {
             </div>
         </div>
     <?php endif; ?>
+    <button id="addCategory" type="button" class="btn btn-primary mb-4" data-toggle="modal"
+            data-target="#modalAddCategory">
+        <?= trans('Nouvelle Catégorie'); ?>
+    </button>
     <div class="my-4"></div>
     <?php if ($separetedCategories): ?>
         <div class="row my-3">

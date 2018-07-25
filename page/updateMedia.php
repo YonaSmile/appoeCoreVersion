@@ -12,23 +12,15 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
 
 $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
 ?>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="display-4 bigTitle"><?= trans('Média'); ?></h1>
-            </div>
-        </div>
-        <hr class="my-4">
-    </div>
-
+<?= getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
         <h2 class="subTitle"><?= trans('Téléchargement des médias'); ?></h2>
         <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
             <?= getTokenField(); ?>
-            <div class="col-12 col-lg-9">
+            <div class="col-12 col-lg-9 my-2">
                 <?= App\Form::text('Sélection des médias', 'inputFile[]', 'file', '', true, 800, 'multiple'); ?>
             </div>
-            <div class="col-12 col-lg-3">
+            <div class="col-12 col-lg-3 my-2">
                 <?= App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
             </div>
             <div class="col-12">

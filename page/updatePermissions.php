@@ -2,26 +2,23 @@
 require('header.php');
 $Menu = new App\Menu();
 $allPermissions = $Menu->displayMenuAll();
-
 ?>
+<?= getTitle($Page->getName(), $Page->getSlug()); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h1 class="display-4 bigTitle"><?= trans('Les Permissions'); ?></h1>
-            <hr class="my-2">
             <button id="addPermission" type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal"
                     data-target="#modalAddPermission">
                 <?= trans('Nouvelle Permission'); ?>
             </button>
         </div>
     </div>
-    <div class="my-4"></div>
     <?php if ($allPermissions): ?>
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
                     <table id="permissionTable"
-                           class="sortableTable table table-striped">
+                           class="sortableTable table table-bordered">
                         <thead>
                         <tr>
                             <th><?= trans('ID'); ?></th>
@@ -46,10 +43,10 @@ $allPermissions = $Menu->displayMenuAll();
                                 <td class="changeableTd" data-dbname="order_menu"><?= $permission->order_menu ?></td>
                                 <td><?= $permission->pluginName ?></td>
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm updatePermissionBtn"
+                                    <button type="button" class="btn btn-sm updatePermissionBtn"
                                             title="<?= trans('Modifier'); ?>"
                                             data-idmenu="<?= $permission->id; ?>">
-                                        <i class="fas fa-cog"></i>
+                                        <span class="btnEdit"><i class="fas fa-wrench"></i></span>
                                     </button>
                                 </td>
                             </tr>
@@ -59,7 +56,6 @@ $allPermissions = $Menu->displayMenuAll();
                 </div>
             </div>
         </div>
-        <div class="my-4"></div>
     <?php endif; ?>
 </div>
 <div class="modal fade" id="modalAddPermission" tabindex="-1" role="dialog" aria-labelledby="modalAddPermissionTitle"
@@ -186,7 +182,7 @@ $allPermissions = $Menu->displayMenuAll();
                             availableApp();
 
                             setTimeout(function () {
-                                $btn.removeClass('btn-success').addClass('btn-warning updatePermissionBtn').html('<i class="fas fa-cog"></i>');
+                                $btn.removeClass('btn-success').addClass('updatePermissionBtn').html('<span class="btnEdit"><i class="fas fa-wrench"></i></span>');
                             }, 2000);
                         }
                     }

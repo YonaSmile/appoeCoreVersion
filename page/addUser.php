@@ -1,11 +1,6 @@
 <?php require('header.php'); ?>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="bigTitle"><?= trans('Nouvel utilisateur'); ?></h1>
-            <hr class="my-4">
-        </div>
-    </div>
+<?= getTitle($Page->getName(), $Page->getSlug()); ?>
+<div class="container-fluid">
     <?php require_once(WEB_PROCESS_PATH . 'users.php'); ?>
 
     <?php if (isset($Response)): ?>
@@ -33,7 +28,7 @@
             <div class="col-12 my-2">
                 <?= App\Form::text('Nom', 'nom', 'text', !empty($_POST['nom']) ? $_POST['nom'] : '', true); ?>
             </div>
-            <div class="col-12">
+            <div class="col-12 my-2">
                 <?= App\Form::text('Prénom', 'prenom', 'text', !empty($_POST['prenom']) ? $_POST['prenom'] : '', true); ?>
             </div>
         </div>
@@ -45,6 +40,5 @@
             </div>
         </div>
     </form>
-    <div class="my-4"></div>
 </div>
 <?php require('footer.php'); ?>

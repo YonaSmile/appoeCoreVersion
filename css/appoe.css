@@ -141,10 +141,10 @@ img {
 }
 
 .bigTitle {
-    font-weight: 900;
-    color: #ddd;
+    font-weight: 500;
+    font-size: 1.7em;
+    color: #4b5b68;
     margin-bottom: 0;
-    text-shadow: 1px 1px 2px #FFF;
 }
 
 button[disabled], a[disabled], input[disabled] {
@@ -1195,11 +1195,24 @@ textarea {
 }
 
 .bg_grey_hover {
-    transition: all 0.4s;
+    transition: all 0.3s;
+    -webkit-transform: scale(1);
 }
 
 .bg_grey_hover:hover {
-    background: #d8d8d8;
+    transform: scale(1.01);
+    -webkit-transform: scale(1.01);
+}
+
+.templateZoneInput {
+    transition: all 0.3s;
+    -webkit-transform: scale(1);
+}
+
+.templateZoneInput:focus,
+.templateZoneInput:hover {
+    transform: scale(1.01);
+    -webkit-transform: scale(1.01);
 }
 
 #menuAdminUpdate input[type=text] {
@@ -1285,8 +1298,8 @@ table.table tbody td:last-child {
     margin-bottom: 0;
 }
 
-input, select {
-    border: 0 none !important;
+input, select, div.cke.cke_browser_gecko {
+    border: 0 none;
 }
 
 label {
@@ -1317,7 +1330,7 @@ button {
 ICONS
  */
 
-[class*="icon-"] a:before {
+[class*="icon-"] > *:first-child:before {
     display: inline-block;
     font-style: normal;
     font-variant: normal;
@@ -1330,64 +1343,35 @@ ICONS
     text-align: center;
 }
 
-[class*="icon-"] a:hover {
+[class*="icon-"] > :hover {
     text-decoration: none;
 }
 
-.icon-index a:before {
+.icon-index > *:first-child:before {
     content: '\f015';
 }
 
-.icon-updateCategories a:before {
+.icon-updateCategories > *:first-child:before {
     content: '\f00b';
 }
 
-.icon-page a:before {
-    content: '\f15c';
-}
-
-.icon-cms a:before,
-.icon-allPages a:before {
-    content: '\f15c';
-}
-
-.icon-itemGlue a:before,
-.icon-allArticles a:before {
-    content: '\f08d';
-}
-
-.icon-updateMedia a:before {
+.icon-updateMedia > *:first-child:before {
     content: '\f030';
 }
 
-.icon-interactiveMap a:before,
-.icon-allInterMaps a:before {
-    content: '\f5a0';
-}
-
-.icon-allRating a:before {
-    content: '\f5c0';
-}
-
-.icon-shop a:before {
-    content: '\f07a';
-}
-
-.icon-users a:before {
+.icon-users > *:first-child:before,
+.icon-allUsers > *:first-child:before,
+.icon-updateUser > *:first-child:before,
+.icon-addUser > *:first-child:before {
     content: '\f007';
 }
 
-.icon-people a:before,
-.icon-allPeople a:before {
-    content: '\f0c0';
+.icon-setting > *:first-child:before {
+    content: '\f0ad';
 }
 
-.icon-events a:before {
-    content: '\f073';
-}
-
-.icon-updateTraduction a:before {
-    content: '\f1ab';
+.icon-updatePermissions > *:first-child:before {
+    content: '\f21b';
 }
 
 @page {

@@ -1,6 +1,5 @@
 <?php require('header.php'); ?>
     <div class="container-fluid">
-
         <div class="row mb-3">
             <div class="d-flex col-12 col-lg-8">
                 <div class="card border-0 w-100">

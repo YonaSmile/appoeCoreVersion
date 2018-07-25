@@ -81,6 +81,14 @@ function getJsonContent($filename, $jsonKey = '')
     return (!empty($jsonKey)) ? $parsed_json[$jsonKey] : $parsed_json;
 }
 
+function getTitle($name = '', $slug = '')
+{
+    $html = '<div class="container-fluid"><div class="row"><div class="col-12">
+            <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary mr-2"></span>' . trans($name) . '</h1>
+            </div></div><hr class="m-5"></div>';
+
+    return $html;
+}
 
 /**
  * @param $multiArray
@@ -1587,7 +1595,7 @@ function showTemplateZones($pageSlug, $pageData)
                     $valueCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->metaValue : '';
 
                     //Display input
-                    $html .= '<div class="col-12">';
+                    $html .= '<div class="col-12 my-2 templateZoneInput">';
 
                     if ($formType == 'textarea') {
                         $html .= App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
@@ -1835,8 +1843,8 @@ function checkAjaxRequest()
  */
 function getUserIdSession()
 {
-    if (!empty($_SESSION['auth'.$_SERVER['HTTP_HOST']])) {
-        list($idUser, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth'.$_SERVER['HTTP_HOST']]);
+    if (!empty($_SESSION['auth' . $_SERVER['HTTP_HOST']])) {
+        list($idUser, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth' . $_SERVER['HTTP_HOST']]);
 
         return $idUser;
     }
@@ -1849,7 +1857,7 @@ function getUserIdSession()
  */
 function deconnecteUser()
 {
-    unset($_SESSION['auth'.$_SERVER['HTTP_HOST']]);
+    unset($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
 }
 
 
