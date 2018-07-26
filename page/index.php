@@ -12,7 +12,7 @@
                     $lastArticle = getLastFromDb('plugin_itemGlue_articles');
                     ?>
                     <div class="card-body pt-0" id="recentUpdates">
-                        <?php if (is_array($lastPage)): ?>
+                        <?php if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
                             <strong><?= trans('Pages'); ?></strong>
                             <div class="my-4">
                                 <?php foreach ($lastPage as $page): ?>
@@ -35,7 +35,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <?php if (is_array($lastArticle)): ?>
+                        <?php if (is_array($lastArticle) && !isArrayEmpty($lastArticle)): ?>
                             <strong><?= trans('Articles'); ?></strong>
                             <div class="my-4">
                                 <?php foreach ($lastArticle as $article): ?>
