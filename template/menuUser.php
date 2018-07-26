@@ -28,7 +28,6 @@
                                 class="ng-binding ng-scope <?= $lang == LANG ? 'active' : ''; ?>" tabindex="-1"
                                 aria-selected="true"><img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>"></li>
                         <?php endforeach; ?>
-                        <li id="closeLangs"><i class="fas fa-times"></i></li>
                     </ul>
                 </div>
             </li>
