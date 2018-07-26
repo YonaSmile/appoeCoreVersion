@@ -16,16 +16,16 @@
                             <strong><?= trans('Pages'); ?></strong>
                             <div class="my-4">
                                 <?php foreach ($lastPage as $page): ?>
-                                    <div class="my-3 ml-0 ml-lg-4" style="position: relative;">
+                                    <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
                                         <span class="mr-2"><?= $page->name; ?></span>
                                         <span class="visitsStatsBadge bgColorPrimary">
                                         <a href="<?= getPluginUrl('cms/page/pageContent/', $page->id) ?>"
-                                           class="btn btn-sm" title="<?= trans('Consulter'); ?>">
+                                           class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                 <span class="text-white"><i class="fas fa-cog"></i></span>
                                             </a>
                                             <?php if ($USER->getRole() > 3): ?>
                                                 <a href="<?= getPluginUrl('cms/page/update/', $page->id) ?>"
-                                                   class="btn btn-sm" title="<?= trans('Modifier'); ?>">
+                                                   class="btn btn-sm p-0 align-top" title="<?= trans('Modifier'); ?>">
                                                 <span class="text-white"><i class="fas fa-wrench"></i></span>
                                             </a>
                                             <?php endif; ?>
@@ -39,16 +39,16 @@
                             <strong><?= trans('Articles'); ?></strong>
                             <div class="my-4">
                                 <?php foreach ($lastArticle as $article): ?>
-                                    <div class="my-3 ml-0 ml-lg-4" style="position: relative;">
+                                    <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
                                         <span class="mr-2"><?= $article->name; ?></span>
                                         <span class="visitsStatsBadge bgColorPrimary">
                                         <a href="<?= getPluginUrl('itemGlue/page/articleContent/', $article->id) ?>"
-                                           class="btn btn-sm" title="<?= trans('Consulter'); ?>">
+                                           class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                             <span class="text-white"><i class="fas fa-cog"></i></span>
                                         </a>
                                             <?php if ($USER->getRole() > 3): ?>
                                                 <a href="<?= getPluginUrl('itemGlue/page/update/', $article->id) ?>"
-                                                   class="btn btn-sm" title="<?= trans('Modifier'); ?>">
+                                                   class="btn btn-sm p-0 align-top" title="<?= trans('Modifier'); ?>">
                                                 <span class="text-white"><i class="fas fa-wrench"></i></span>
                                             </a>
                                             <?php endif; ?>
