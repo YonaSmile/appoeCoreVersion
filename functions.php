@@ -1536,6 +1536,30 @@ function getColor()
 }
 
 /**
+ * @param $dbname
+ * @param string $colomn
+ * @param string $order
+ * @param int $limit
+ * @return bool
+ */
+function getLastFromDb($dbname, $colomn = 'updated_at', $order = 'DESC', $limit = 1)
+{
+
+    $dbh = \App\DB::connect();
+
+    $sql = 'SELECT * FROM ' . $dbname . ' ORDER BY ' . $colomn . ' ' . $order . ' LIMIT ' . $limit;
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    $error = $stmt->errorInfo();
+
+    if ($error[0] != '00000') {
+        return false;
+    }
+
+    return $stmt->fetch(PDO::FETCH_OBJ);
+}
+
+/**
  * @param $pageSlug
  * @param $pageData
  * @return mixed|string

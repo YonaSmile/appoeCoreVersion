@@ -7,7 +7,7 @@
                         <h5 class="m-0 pl-4 colorPrimary"><?= trans('Modifié récement'); ?></h5>
                         <hr class="mx-4">
                     </div>
-                    <div class="card-body pt-0"></div>
+                    <div class="card-body pt-0" id="recentUpdates"></div>
                 </div>
             </div>
             <div class="d-flex col-12 col-lg-4">
