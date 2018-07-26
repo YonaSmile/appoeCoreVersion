@@ -1542,12 +1542,12 @@ function getColor()
  * @param int $limit
  * @return bool
  */
-function getLastFromDb($dbname, $colomn = 'updated_at', $order = 'DESC', $limit = 1)
+function getLastFromDb($dbname, $colomn = 'updated_at', $order = 'DESC', $limit = 2)
 {
 
     $dbh = \App\DB::connect();
 
-    $sql = 'SELECT * FROM ' . $dbname . ' ORDER BY ' . $colomn . ' ' . $order . ' LIMIT ' . $limit;
+    $sql = 'SELECT * FROM appoe_' . $dbname . ' ORDER BY ' . $colomn . ' ' . $order . ' LIMIT ' . $limit;
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
     $error = $stmt->errorInfo();
@@ -1556,7 +1556,7 @@ function getLastFromDb($dbname, $colomn = 'updated_at', $order = 'DESC', $limit 
         return false;
     }
 
-    return $stmt->fetch(PDO::FETCH_OBJ);
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 
 /**

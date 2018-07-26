@@ -7,7 +7,57 @@
                         <h5 class="m-0 pl-4 colorPrimary"><?= trans('Modifié récement'); ?></h5>
                         <hr class="mx-4">
                     </div>
-                    <div class="card-body pt-0" id="recentUpdates"></div>
+                    <?php
+                    $lastPage = getLastFromDb('plugin_cms');
+                    $lastArticle = getLastFromDb('plugin_itemGlue_articles');
+                    ?>
+                    <div class="card-body pt-0" id="recentUpdates">
+                        <?php if (is_array($lastPage)): ?>
+                            <strong><?= trans('Pages'); ?></strong>
+                            <div class="my-4">
+                                <?php foreach ($lastPage as $page): ?>
+                                    <div class="my-3 ml-0 ml-lg-4" style="position: relative;">
+                                        <span class="mr-2"><?= $page->name; ?></span>
+                                        <span class="visitsStatsBadge bgColorPrimary">
+                                        <a href="<?= getPluginUrl('cms/page/pageContent/', $page->id) ?>"
+                                           class="btn btn-sm" title="<?= trans('Consulter'); ?>">
+                                                <span class="text-white"><i class="fas fa-cog"></i></span>
+                                            </a>
+                                            <?php if ($USER->getRole() > 3): ?>
+                                                <a href="<?= getPluginUrl('cms/page/update/', $page->id) ?>"
+                                                   class="btn btn-sm" title="<?= trans('Modifier'); ?>">
+                                                <span class="text-white"><i class="fas fa-wrench"></i></span>
+                                            </a>
+                                            <?php endif; ?>
+                                        </span>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (is_array($lastArticle)): ?>
+                            <strong><?= trans('Articles'); ?></strong>
+                            <div class="my-4">
+                                <?php foreach ($lastArticle as $article): ?>
+                                    <div class="my-3 ml-0 ml-lg-4" style="position: relative;">
+                                        <span class="mr-2"><?= $article->name; ?></span>
+                                        <span class="visitsStatsBadge bgColorPrimary">
+                                        <a href="<?= getPluginUrl('itemGlue/page/articleContent/', $article->id) ?>"
+                                           class="btn btn-sm" title="<?= trans('Consulter'); ?>">
+                                            <span class="text-white"><i class="fas fa-cog"></i></span>
+                                        </a>
+                                            <?php if ($USER->getRole() > 3): ?>
+                                                <a href="<?= getPluginUrl('itemGlue/page/update/', $article->id) ?>"
+                                                   class="btn btn-sm" title="<?= trans('Modifier'); ?>">
+                                                <span class="text-white"><i class="fas fa-wrench"></i></span>
+                                            </a>
+                                            <?php endif; ?>
+                                        </span>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
             <div class="d-flex col-12 col-lg-4">
