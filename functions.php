@@ -2617,38 +2617,11 @@ function ConvNumDizaine($Nombre, $Langue)
     $strLiaison = '';
 
     $TabUnit = array(
-        "",
-        "un",
-        "deux",
-        "trois",
-        "quatre",
-        "cinq",
-        "six",
-        "sept",
-        "huit",
-        "neuf",
-        "dix",
-        "onze",
-        "douze",
-        "treize",
-        "quatorze",
-        "quinze",
-        "seize",
-        "dix-sept",
-        "dix-huit",
-        "dix-neuf"
+        "", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze",
+        "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"
     );
     $TabDiz = array(
-        "",
-        "",
-        "vingt",
-        "trente",
-        "quarante",
-        "cinquante",
-        "soixante",
-        "soixante",
-        "quatre-vingt",
-        "quatre-vingt"
+        "", "", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante", "quatre-vingt", "quatre-vingt"
     );
     if ($Langue == 1) {
         $TabDiz[7] = "septante";
