@@ -1200,8 +1200,8 @@ textarea {
 }
 
 .bg_grey_hover:hover {
-    transform: scale(1.01);
-    -webkit-transform: scale(1.01);
+    transform: scaleX(1.01);
+    -webkit-transform: scaleX(1.01);
 }
 
 .templateZoneInput {
@@ -1211,8 +1211,8 @@ textarea {
 
 .templateZoneInput:focus,
 .templateZoneInput:hover {
-    transform: scale(1.01);
-    -webkit-transform: scale(1.01);
+    transform: scaleX(1.01);
+    -webkit-transform: scaleX(1.01);
 }
 
 #menuAdminUpdate input[type=text] {
@@ -1261,7 +1261,7 @@ table.table tr.odd {
 
 table.table tbody tr:focus,
 table.table tbody tr:hover {
-    transform: scale(1.01);
+    transform: scaleX(1.01);
 }
 
 table.table th {
