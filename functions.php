@@ -2465,6 +2465,15 @@ function fichierType($file)
 
 }
 
+function getLogo()
+{
+
+    $defaultSrc = WEB_APP_URL . 'images/appoe-logo.gif';
+    $src = file_exists(WEB_PUBLIC_PATH . 'images/logo_app.png')
+        ? WEB_PUBLIC_URL . 'images/logo_app.png' : $defaultSrc;
+
+    return '<img class="img-responsive logoNavbar" src="' . $src . '">';
+}
 
 /* --------------------------------------------------------------------------
  * fonction permettant de transformer une valeur numérique en valeur en lettre

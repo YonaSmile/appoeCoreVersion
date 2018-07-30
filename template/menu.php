@@ -10,10 +10,7 @@ if (false !== $menu_data) {
 }
 ?>
 <div class="sidebar-header">
-    <img class="img-responsive logoNavbar"
-         src="<?= file_exists(WEB_PUBLIC_PATH . 'images/logo_app.png')
-             ? WEB_PUBLIC_URL . 'images/logo_app.png'
-             : WEB_APP_URL . 'images/appoe-logo.gif'; ?>">
+    <?= getLogo(); ?>
 </div>
 
 <ul class="list-unstyled components">
