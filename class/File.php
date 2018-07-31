@@ -263,7 +263,7 @@ class File
      */
     public function save()
     {
-        $sql = 'INSERT INTO appoe_files (userId, type, typeId, name) VALUES(:userId, :type, :typeId, :name)';
+        $sql = 'INSERT INTO appoe_files (userId, type, typeId, name, updated_at) VALUES(:userId, :type, :typeId, :name, NOW())';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':userId', $this->userId);
         $stmt->bindParam(':type', $this->type);
