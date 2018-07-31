@@ -47,10 +47,13 @@ $allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
                             <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                 <img src="<?= getThumb($file->name, 370); ?>" alt="<?= $file->description; ?>"
                                      data-originsrc="<?= FILE_DIR_URL . $file->name; ?>"
+                                     data-filename="<?= $file->name; ?>"
                                      class="img-fluid seeOnOverlay seeDataOnHover">
                             <?php else: ?>
                                 <a href="<?= FILE_DIR_URL . $file->name; ?>" target="_blank">
-                                    <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>">
+                                    <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>"
+                                         data-filename="<?= $file->name; ?>"
+                                         class="seeDataOnHover">
                                 </a>
                             <?php endif; ?>
                             <div class="form-group mt-1 mb-0">
