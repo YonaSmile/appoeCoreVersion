@@ -19,6 +19,20 @@ if (checkAjaxRequest()) {
                 $Media->setTypeId($_POST['typeId']);
                 $Media->setUserId(getUserIdSession());
 
+                if (!empty($_POST['templatePosition'])) {
+
+                    $mediaOptions = getSerializedOptions($Media->getOptions());
+
+                    if (is_array($mediaOptions)) {
+                        $Media->setOptions(serialize(array_replace_recursive(
+                            $mediaOptions,
+                            array('templatePosition' => $_POST['templatePosition'])
+                        )));
+                    } else {
+                        $Media->setOptions(serialize(array('templatePosition' => $_POST['templatePosition'])));
+                    }
+                }
+
                 if ($Media->update()) {
                     echo 'true';
                 }

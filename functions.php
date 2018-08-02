@@ -90,6 +90,24 @@ function getTitle($name = '', $slug = '')
     return $html;
 }
 
+function getSerializedOptions($fileOptions, $key = '')
+{
+    $arrayOptions = array();
+    if (!empty($fileOptions)) {
+
+        $arrayOptions = @unserialize($fileOptions);
+
+        if ($arrayOptions && !isArrayEmpty($arrayOptions)) {
+
+            if (!empty($key) && array_key_exists($key, $arrayOptions)) {
+                return $arrayOptions[$key];
+            }
+        }
+    }
+
+    return $arrayOptions;
+}
+
 /**
  * @param $multiArray
  * @return bool
@@ -1991,6 +2009,20 @@ function getFileName($path)
     $pathInfos = pathinfo($path);
 
     return $pathInfos['filename'];
+}
+
+function getFileTemplatePosition($fileArray, $position)
+{
+
+    $filesArray = array();
+    if ($fileArray && !isArrayEmpty($fileArray)) {
+        foreach ($fileArray as $key => $file) {
+            if ($position == getSerializedOptions($file->options, 'templatePosition')) {
+                array_push($filesArray, $file);
+            }
+        }
+    }
+    return $filesArray;
 }
 
 /**
