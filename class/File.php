@@ -11,6 +11,7 @@ class File
     protected $description = null;
     protected $link = null;
     protected $position = null;
+    protected $options = null;
 
     protected $uploadFiles = null;
     protected $dbh = null;
@@ -151,6 +152,22 @@ class File
     }
 
     /**
+     * @return null
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param null $options
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
+
+    /**
      * @return array|null
      */
     public function getUploadFiles()
@@ -182,6 +199,7 @@ class File
   					`description` VARCHAR(250) NULL DEFAULT NULL,
   					`link` VARCHAR(255) NULL DEFAULT NULL,
   					`position` INT(11) NULL DEFAULT NULL,
+  					`options` TEXT NULL DEFAULT NULL
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11;';
 
@@ -287,13 +305,14 @@ class File
      */
     public function update()
     {
-        $sql = 'UPDATE appoe_files SET userId = :userId, typeId = :typeId, description = :description, link = :link, position = :position WHERE id = :id';
+        $sql = 'UPDATE appoe_files SET userId = :userId, typeId = :typeId, description = :description, link = :link, position = :position, options = :options WHERE id = :id';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':userId', $this->userId);
         $stmt->bindParam(':typeId', $this->typeId);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':link', $this->link);
         $stmt->bindParam(':position', $this->position);
+        $stmt->bindParam(':options', $this->options);
         $stmt->bindParam(':id', $this->id);
         $stmt->execute();
         $error = $stmt->errorInfo();

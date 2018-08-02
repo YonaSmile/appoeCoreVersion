@@ -33,6 +33,7 @@ class DB
                 }
             }
         }
+        self::updateTable();
         return self::$dbh;
     }
 
@@ -56,6 +57,27 @@ class DB
         $sql = 'SHOW TABLES LIKE :tableName';
         $stmt = self::$dbh->prepare($sql);
         $stmt->execute(array(':tableName' => '%' . $tableName . '%'));
+        $error = $stmt->errorInfo();
+        $count = $stmt->rowCount();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            if ($count > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function updateTable()
+    {
+        $sql = 'ALTER TABLE `appoe_files` ADD `options` TEXT NULL DEFAULT NULL AFTER `position`;';
+        $stmt = self::$dbh->prepare($sql);
+        $stmt->execute();
         $error = $stmt->errorInfo();
         $count = $stmt->rowCount();
         if ($error[0] != '00000') {

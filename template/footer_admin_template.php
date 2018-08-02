@@ -31,6 +31,8 @@
 <script>
     CKEDITOR.replaceAll('ckeditor');
     CKEDITOR.config.height = 400;
+    CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
+    CKEDITOR.config.shiftEnterMode = CKEDITOR.ENTER_P;
     CKEDITOR.config.toolbar = [
         {
             name: 'basicstyles',
