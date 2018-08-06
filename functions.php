@@ -81,6 +81,11 @@ function getJsonContent($filename, $jsonKey = '')
     return (!empty($jsonKey)) ? $parsed_json[$jsonKey] : $parsed_json;
 }
 
+/**
+ * @param string $name
+ * @param string $slug
+ * @return string
+ */
 function getTitle($name = '', $slug = '')
 {
     $html = '<div class="container-fluid"><div class="row"><div class="col-12">
@@ -88,24 +93,6 @@ function getTitle($name = '', $slug = '')
             </div></div><hr class="m-5"></div>';
 
     return $html;
-}
-
-function getSerializedOptions($fileOptions, $key = '')
-{
-    $arrayOptions = array();
-    if (!empty($fileOptions)) {
-
-        $arrayOptions = @unserialize($fileOptions);
-
-        if ($arrayOptions && !isArrayEmpty($arrayOptions)) {
-
-            if (!empty($key) && array_key_exists($key, $arrayOptions)) {
-                return $arrayOptions[$key];
-            }
-        }
-    }
-
-    return $arrayOptions;
 }
 
 /**
@@ -307,6 +294,10 @@ function getAppLangs()
     return getFilesFromDir(WEB_SYSTEM_PATH . 'lang/');
 }
 
+/**
+ * @param $name
+ * @return string
+ */
 function getAppImg($name)
 {
     return WEB_APP_IMG . $name;
@@ -1721,6 +1712,7 @@ function includePluginsFilesForApp()
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeApp';
             if (file_exists($filePath)) {
                 $phpFiles = getFilesFromDir($filePath);
+
                 foreach ($phpFiles as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
                     include_once($src);
@@ -2011,18 +2003,52 @@ function getFileName($path)
     return $pathInfos['filename'];
 }
 
-function getFileTemplatePosition($fileArray, $position)
+/**
+ * @param $fileOptions
+ * @param string $key
+ * @return array|mixed
+ */
+function getSerializedOptions($fileOptions, $key = '')
 {
+    $arrayOptions = array();
+    if (!empty($fileOptions)) {
 
-    $filesArray = array();
-    if ($fileArray && !isArrayEmpty($fileArray)) {
-        foreach ($fileArray as $key => $file) {
-            if ($position == getSerializedOptions($file->options, 'templatePosition')) {
-                array_push($filesArray, $file);
+        $arrayOptions = @unserialize($fileOptions);
+
+        if ($arrayOptions && !isArrayEmpty($arrayOptions)) {
+
+            if (!empty($key) && array_key_exists($key, $arrayOptions)) {
+                return $arrayOptions[$key];
             }
         }
     }
-    return $filesArray;
+
+    return $arrayOptions;
+}
+
+/**
+ * @param $filesArray
+ * @param $position
+ * @param bool $forcedPosition
+ * @return array
+ */
+function getFileTemplatePosition($filesArray, $position, $forcedPosition = false)
+{
+
+    $newFilesArray = array();
+    if ($filesArray && !isArrayEmpty($filesArray)) {
+        foreach ($filesArray as $key => $file) {
+            if ($position == getSerializedOptions($file->options, 'templatePosition')) {
+                array_push($newFilesArray, $file);
+            }
+        }
+
+        if ($forcedPosition && isArrayEmpty($newFilesArray)) {
+            $newFilesArray = getFileTemplatePosition($filesArray, $forcedPosition);
+        }
+    }
+
+    return $newFilesArray;
 }
 
 /**
@@ -2497,6 +2523,9 @@ function fichierType($file)
 
 }
 
+/**
+ * @return string
+ */
 function getLogo()
 {
 
