@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 class Category
 {
@@ -12,7 +13,7 @@ class Category
 
     public function __construct($idCategory = null)
     {
-        if(is_null($this->dbh)) {
+        if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
         }
 
@@ -282,12 +283,7 @@ class Category
     public function delete()
     {
         $this->status = 0;
-
-        if ($this->update()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->update();
     }
 
     /**

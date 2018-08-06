@@ -23,6 +23,8 @@ class Autoloader
             $class .= ucfirst($file) . '.php';
         }
 
-        require_once(ROOT_PATH . $class);
+        if (file_exists(ROOT_PATH . $class)) {
+            require_once(ROOT_PATH . $class);
+        }
     }
 }
