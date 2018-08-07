@@ -256,6 +256,24 @@ class File
         }
     }
 
+    /**
+     * @return array|bool
+     */
+    public function showAll()
+    {
+        $sql = 'SELECT * FROM appoe_files GROUP BY name ORDER BY name ASC';
+        $stmt = $this->dbh->prepare($sql);
+
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            return $stmt->fetchAll(\PDO::FETCH_OBJ);
+        }
+    }
+
     public function countFile($all = false)
     {
         $sql = (!$all) ? 'SELECT * FROM appoe_files WHERE name = :name' : 'SELECT * FROM appoe_files';

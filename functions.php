@@ -1308,7 +1308,7 @@ function thumb($filename, $desired_width = 100, $quality = 80)
         mkdir(FILE_DIR_PATH . 'thumb', 0705);
     }
 
-    if (is_file($src) && !is_file($dest)) {
+    if (is_file($src) && !is_file($dest) && isImage($src)) {
 
         // Find format
         $ext = strtoupper(pathinfo($src, PATHINFO_EXTENSION));
@@ -1353,14 +1353,15 @@ function thumb($filename, $desired_width = 100, $quality = 80)
 /**
  * @param $filename
  * @param $desired_width
+ * @param $quality
  * @return string
  */
-function getThumb($filename, $desired_width)
+function getThumb($filename, $desired_width, $quality = 100)
 {
     if (is_file(FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename)) {
         return WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
     } else {
-        thumb($filename, $desired_width, 100);
+        thumb($filename, $desired_width, $quality);
         return getThumb($filename, $desired_width);
     }
 }

@@ -156,7 +156,7 @@ class Category
     public function showByType()
     {
 
-        $sql = 'SELECT * FROM appoe_categories WHERE type = :type AND status = 1 ORDER BY id, parentId ASC';
+        $sql = 'SELECT * FROM appoe_categories WHERE type = :type AND status = 1 ORDER BY id ASC, parentId ASC';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
 
@@ -177,7 +177,7 @@ class Category
     public function showAll($categoriesCount = false)
     {
 
-        $sql = 'SELECT * FROM appoe_categories WHERE status = 1 ORDER BY updated_at DESC';
+        $sql = 'SELECT * FROM appoe_categories WHERE status = 1 ORDER BY name ASC';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
         $stmt->execute();

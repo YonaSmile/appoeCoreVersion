@@ -3,14 +3,12 @@ require('header.php');
 require(WEB_PROCESS_PATH . 'media.php');
 
 $Media = new App\Media();
+
 $Category = new App\Category();
+$allLibrary = extractFromObjToSimpleArr($Category->showAll(), 'id', 'name');
 
 $Category->setType('MEDIA');
-$allCategories = $Category->showByType();
-
 $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
-
-$allLibrary = extractFromObjToSimpleArr($allCategories, 'id', 'name');
 ?>
 <?= getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
