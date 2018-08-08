@@ -92,13 +92,16 @@ function systemAjaxRequest(data) {
 }
 
 $(document).ready(function () {
+
+    var selectedFiles = [];
+
     $('#loader').fadeIn('slow');
 
     $(document).on('click', '.seeOnOverlay', function (event) {
         event.stopPropagation();
         event.preventDefault();
         var originSrc = $(this).data('originsrc');
-        var $file = $(this).clone().attr('src', originSrc).removeClass();
+        var $file = $(this).clone().attr('src', originSrc).removeClass().removeAttr('style');
 
         setTimeout(function () {
             $('#overlay #overlayContent').html($file);
@@ -109,6 +112,40 @@ $(document).ready(function () {
     $(document).on('click', '#overlay', function () {
         $(this).css('display', 'none');
         $('#overlay #overlayContent').html();
+    });
+
+    /**
+     * Select medias from all media container
+     */
+    $(document).on('click', '.selectParentOnClick', function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+
+        var $btn = $(this);
+        var $file = $btn.parent();
+        var $filename = $file.data('filename');
+
+        if ($file.hasClass('checkedFile')) {
+
+            if ($.inArray($filename, selectedFiles) > -1) {
+                selectedFiles.splice($.inArray($filename, selectedFiles), 1);
+            }
+            $btn.html('<i class="fas fa-plus"></i>');
+            $file.removeClass('border borderColorPrimary checkedFile');
+
+        } else {
+
+            if ($.inArray($filename, selectedFiles) === -1) {
+                selectedFiles.push($filename);
+            }
+            $btn.html('<i class="fas fa-check"></i>');
+            $file.addClass('border borderColorPrimary checkedFile');
+        }
+
+        $('#inputSelectFiles').val(selectedFiles.length + ' médias');
+        $('#textareaSelectedFile').val(selectedFiles.join('|||'));
+        $('#saveMediaModalBtn').html(selectedFiles.length + ' médias');
     });
 
 });

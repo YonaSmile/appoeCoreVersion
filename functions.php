@@ -271,11 +271,19 @@ function slugify($text)
 
 /**
  * @param $dirname
+ * @param $onlyFiles
  * @return array
  */
-function getFilesFromDir($dirname)
+function getFilesFromDir($dirname, $onlyFiles = false)
 {
+    $GLOBALS['dirname'] = $dirname;
+    if ($onlyFiles) {
+        return array_filter(scandir($dirname), function ($item) {
+            return !is_dir($GLOBALS['dirname'] . $item);
+        });
+    }
     return array_diff(scandir($dirname), array('..', '.'));
+
 }
 
 /**
@@ -2507,19 +2515,19 @@ function fichierType($file)
 
     $type = pathinfo(strtolower($file), PATHINFO_EXTENSION);
     if ($type == 'jpg' || $type == 'png' || $type == 'jpeg' || $type == 'gif') {
-        echo '<a href="' . FILE_DIR_URL . $file . '" target="_blank"><img src="' . FILE_DIR_URL . $file . '" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_INCLUDE . $file . '" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'doc' || $type == 'dot' || $type == 'docx') {
-        echo '<a href="' . FILE_DIR_URL . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Word.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Word.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'xlsx' || $type == 'xlt' || $type == 'xls' || $type == 'xla') {
-        echo '<a href="' . FILE_DIR_URL . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Excel.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Excel.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'pptx' || $type == 'ppt' || $type == 'pot' || $type == 'pps' || $type == 'ppa') {
-        echo '<a href="' . FILE_DIR_URL . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/PowerPoint.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/PowerPoint.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'pdf') {
-        echo '<a href="' . FILE_DIR_URL . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Pdf.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Pdf.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'mp3') {
-        echo '<audio src="' . FILE_DIR_URL . $file . '" type="audio/mpeg" controls></audio>';
+        echo '<audio src="' . WEB_DIR_INCLUDE . $file . '" type="audio/mpeg" controls></audio>';
     } else {
-        echo '<a href="' . FILE_DIR_URL . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/AllFileType.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a><span class="fileType">' . $type . '</span>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/AllFileType.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a><span class="fileType">' . $type . '</span>';
     }
 
 }

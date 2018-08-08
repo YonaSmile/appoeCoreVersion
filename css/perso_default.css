@@ -2,16 +2,16 @@
 COLORS
  */
 .colorPrimary {
-    color: #3eb293;
+    color: #3eb293 !important;
 }
 
 .bgColorPrimary {
-    background: #3eb293;
-    color: #FFF;
+    background: #3eb293 !important;
+    color: #FFF !important;
 }
 
 .borderColorPrimary {
-    border-color: #3eb293;
+    border-color: #3eb293 !important;
 }
 
 [class*="colorPrimary"] {

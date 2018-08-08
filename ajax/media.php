@@ -49,5 +49,27 @@ if (checkAjaxRequest()) {
                 }
             }
         }
+
+        if (isset($_REQUEST['getAllMedia'])) {
+
+            $html = '<div class="card-columns">';
+            $includeFiles = getFilesFromDir(FILE_DIR_PATH, true);
+
+            foreach ($includeFiles as $key => $includeFile) {
+
+                $html .= '<div class="card fileContent allMediaCard" data-filename="' . $includeFile . '">';
+
+                if (isImage(FILE_DIR_PATH . $includeFile)) {
+                    $html .= '<img src="' . WEB_DIR_INCLUDE . $includeFile . '" class="img-fluid seeOnOverlay" data-originsrc="' . WEB_DIR_INCLUDE . $includeFile . '">';
+                } else {
+                    $html .= '<a href="' . WEB_DIR_INCLUDE . $includeFile . '" target="_blank"><img src = "' . getImgAccordingExtension(getFileExtension($includeFile)) . '" class="img-fluid"></a>';
+                }
+
+                $html .= '<button class="btn btn-sm selectParentOnClick bgColorPrimary"><i class="fas fa-plus"></i></span></div>';
+            }
+
+            $html .= '</div>';
+            echo $html;
+        }
     }
 }

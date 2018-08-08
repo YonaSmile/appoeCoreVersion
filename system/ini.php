@@ -37,10 +37,9 @@ define('WEB_PLUGIN_URL', WEB_APP_URL . 'plugin/');
 define('WEB_PUBLIC_URL', WEB_DIR_URL . 'public/');
 define('WEB_DIR_IMG', WEB_PUBLIC_URL . 'images/');
 define('WEB_APP_IMG', WEB_APP_URL . 'images/');
-define('WEB_DIR_INCLUDE', WEB_DIR_URL . 'include/');
+define('WEB_DIR_INCLUDE', WEB_DIR_URL . FILE_DIR_NAME);
 define('WEB_DIR_SYSTEM', WEB_APP_URL . 'system/');
 define('WEB_DIR_MAIL', WEB_DIR_URL . '/ressources/mail/');
-define('FILE_DIR_URL', WEB_DIR_URL . FILE_DIR_NAME);
 
 /**
  * Errors config

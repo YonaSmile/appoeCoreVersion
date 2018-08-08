@@ -675,6 +675,29 @@ table#currentProjetTable tr {
     border-radius: 0 !important;
 }
 
+.card.allMediaCard {
+    border-width: 3px !important;
+    border-color: transparent;
+    text-align: center;
+}
+
+.card.allMediaCard img {
+    min-height: 10px;
+}
+
+.selectParentOnClick {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: .25rem .3rem !important;
+    font-size: .7rem !important;
+    line-height: 1 !important;
+}
+
+[data-toggle="tab"].active {
+    border: 0;
+}
+
 .visitsStatsBadge {
     position: absolute;
     right: -20px;
