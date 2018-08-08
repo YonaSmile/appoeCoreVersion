@@ -1371,7 +1371,7 @@ function getThumb($filename, $desired_width, $quality = 100)
         return WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
     } else {
         thumb($filename, $desired_width, $quality);
-        return getThumb($filename, $desired_width);
+        return isImage($filename) ? getThumb($filename, $desired_width) : $filename;
     }
 }
 
