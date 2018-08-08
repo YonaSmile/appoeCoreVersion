@@ -167,7 +167,8 @@ function array_sort($array, $keyName, $order = SORT_ASC)
  */
 function isImage($mediaPath)
 {
-    return @is_array(getimagesize($mediaPath)) ? true : false;
+    $imgExt = array('JPG', 'JPEG', 'PNG', 'GIF');
+    return @is_array(getimagesize($mediaPath)) && in_array(strtoupper(getFileExtension($mediaPath)), $imgExt) ? true : false;
 }
 
 /**
@@ -2165,7 +2166,6 @@ function getOnlyImages($imageArray)
 function getFileExtension($path)
 {
     $pathInfos = pathinfo($path);
-
     return isset($pathInfos['extension']) ? $pathInfos['extension'] : false;
 }
 
