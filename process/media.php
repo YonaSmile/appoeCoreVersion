@@ -17,7 +17,7 @@ if (checkPostAndTokenRequest()) {
         if (!empty($_FILES)) {
             $Media->setUploadFiles($_FILES['inputFile']);
             $files = $Media->upload();
-            $html .= ' ' . trans('Fichiers importés') . ' : ' . $files['countUpload'] . '. ' . !empty($files['errors']) ? $files['errors'] : '';
+            $html .= trans('Fichiers importés') . ' : <strong>' . $files['countUpload'] . '</strong>. ' . (!empty($files['errors']) ? '<br><span class="text-danger">' . $files['errors'] . '</span>' : '');
         }
 
         //Get selected files
@@ -36,9 +36,9 @@ if (checkPostAndTokenRequest()) {
                 if ($Media->save()) $selectedFilesCount++;
             }
 
-            $html .= ' Fichiers sélectionnés ' . $selectedFilesCount . '. ';
+            $html .= trans('Fichiers sélectionnés enregistrés') . ' <strong>' . $selectedFilesCount . '</strong>.';
         }
 
-        App\Flash::setMsg($html, 'info');
+        App\Flash::setMsg($html, 'secondary');
     }
 }

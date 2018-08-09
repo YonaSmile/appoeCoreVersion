@@ -369,12 +369,15 @@ class File
      */
     public function upload()
     {
-        $returnArr = array('filename' => array());
-        $returnArr['errors'] = '';
+        $returnArr = array(
+            'filename' => array(),
+            'countUpload' => '',
+            'errors' => ''
+        );
         $uploadFilesCounter = 0;
 
         $files = $this->uploadFiles;
-        $fileCount = !empty($files['name'][0]) ? sizeof($files['name']) : 0;
+        $fileCount = !empty($files['name'][0]) ? count($files['name']) : 0;
 
         for ($i = 0; $i < $fileCount; $i++) {
 
@@ -426,10 +429,10 @@ class File
                             $uploadFilesCounter++;
 
                         } else {
-                            $returnArr['errors'] .= ' ' . trans('Le format du fichier') . ' ' . $filename . ' ' . trans('n\'est pas reconnu. ');
+                            $returnArr['errors'] .= trans('Le format du fichier') . ' ' . $filename . ' ' . trans('n\'est pas reconnu.') . '<br>';
                         }
                     } else {
-                        $returnArr['errors'] .= ' ' . trans('Le fichier') . ' ' . $filename . ' ' . trans('dépasse le poids autorisé. ');
+                        $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('dépasse le poids autorisé.') . '<br>';
                     }
                 }
             }
