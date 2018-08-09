@@ -96,6 +96,17 @@ function getTitle($name = '', $slug = '')
 }
 
 /**
+ * @param string $color
+ * @return string
+ */
+function getAppoeCredit($color = "#ccc")
+{
+    $html = '<span style="position:absolute;bottom:5px;right:5px;color:' . $color . ';font-size:0.7em;text-decoration:none;">Propulsé par <strong><a style="font-size:0.7em;text-decoration:none;color:' . $color . '" href="http://aoe-communication.com/" title="APPOE">APPOE</a></strong></span>';
+
+    return $html;
+}
+
+/**
  * @param $multiArray
  * @return bool
  */
