@@ -25,6 +25,8 @@ SetEnvIf GEOIP_COUNTRY_CODE SU BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE LV BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE BY BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE EE BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE KP BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE KR BlockCountry
 Deny from env=BlockCountry
 
 RewriteEngine On
