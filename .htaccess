@@ -19,13 +19,8 @@ allow from all
 deny from env=spammer
 
 SetEnvIf GEOIP_COUNTRY_CODE RU BlockCountry
-SetEnvIf GEOIP_COUNTRY_CODE DE BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE CN BlockCountry
-SetEnvIf GEOIP_COUNTRY_CODE GB BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE UA BlockCountry
-SetEnvIf GEOIP_COUNTRY_CODE CH BlockCountry
-SetEnvIf GEOIP_COUNTRY_CODE ES BlockCountry
-SetEnvIf GEOIP_COUNTRY_CODE MA BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE SU BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE LV BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE BY BlockCountry
