@@ -17,7 +17,7 @@ if (checkPostAndTokenRequest()) {
         if (!empty($_FILES)) {
             $Media->setUploadFiles($_FILES['inputFile']);
             $files = $Media->upload();
-            $html .= ' ' . trans('Fichiers importés') . ' : ' . $files['countUpload'] . '. ';
+            $html .= ' ' . trans('Fichiers importés') . ' : ' . $files['countUpload'] . '. ' . !empty($files['errors']) ? $files['errors'] : '';
         }
 
         //Get selected files
