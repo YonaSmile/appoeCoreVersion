@@ -20,6 +20,8 @@ deny from env=spammer
 
 SetEnvIf GEOIP_COUNTRY_CODE RU BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE CN BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE JP BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE IN BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE UA BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE SU BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE LV BlockCountry
@@ -27,6 +29,18 @@ SetEnvIf GEOIP_COUNTRY_CODE BY BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE EE BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE KP BlockCountry
 SetEnvIf GEOIP_COUNTRY_CODE KR BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE AF BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE IR BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE SD BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE TM BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE TR BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE TW BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE GT BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE MX BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE PE BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE EC BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE BR BlockCountry
+SetEnvIf GEOIP_COUNTRY_CODE PL BlockCountry
 Deny from env=BlockCountry
 
 RewriteEngine On

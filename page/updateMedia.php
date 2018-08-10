@@ -129,7 +129,7 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                 <div class="modal-body" id="allMediaModalContainer"></div>
                 <div class="modal-footer">
                     <button type="button" id="closeAllMediaModalBtn" class="btn btn-secondary" data-dismiss="modal">
-                        <?= trans('Fermer'); ?></button>
+                        <?= trans('Fermer et annuler la sélection'); ?></button>
                     <button type="button" id="saveMediaModalBtn" class="btn btn-info" data-dismiss="modal">
                         0 <?= trans('médias'); ?></button>
                 </div>
@@ -182,7 +182,7 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                 )
             });
 
-            $('.deleteImage').on('click', function (event) {
+            $('button.deleteImage').on('click', function (event) {
                 event.preventDefault();
                 event.stopPropagation();
 

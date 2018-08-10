@@ -65,11 +65,35 @@ if (checkAjaxRequest()) {
                     $html .= '<a href="' . WEB_DIR_INCLUDE . $includeFile . '" target="_blank"><img src = "' . getImgAccordingExtension(getFileExtension($includeFile)) . '" class="img-fluid"></a>';
                 }
 
-                $html .= '<button class="btn btn-sm selectParentOnClick bgColorPrimary"><i class="fas fa-plus"></i></span></div>';
+                $html .= '<button class="btn btn-sm littleBtn addLittleBtn selectParentOnClick bgColorPrimary"><i class="fas fa-plus"></i></button>';
+                $html .= '<button type="button" class="deleteDefinitelyImageByName btn btn-sm btn-danger littleBtn deleteLittleBtn" data-imagename="' . $includeFile . '"> <i class="fas fa-times"></i></button></div>';
             }
 
             $html .= '</div>';
             echo $html;
+        }
+
+        if (!empty($_POST['deleteDefinitelyImageByName']) && !empty($_POST['filename'])) {
+            $File = new App\File();
+            $File->setName($_POST['filename']);
+            $fileDeleted = $File->deleteFileByPath();
+
+            if (true !== $fileDeleted) {
+
+                if (false === $fileDeleted) {
+                    echo trans('Un problème est survenue lors de la suppression du fichier');
+                } else {
+                    echo $fileDeleted;
+                }
+
+            } else {
+
+                if ($File->deleteFileByName()) {
+                    echo json_encode(true);
+                } else {
+                    echo trans('Le fichier a été supprimé mais un problème est survenue lors de la suppression du fichier dans la base de données');
+                }
+            }
         }
     }
 }

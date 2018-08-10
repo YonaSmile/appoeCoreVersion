@@ -82,6 +82,10 @@ function convertToSlug(str) {
     return str;
 }
 
+function mediaAjaxRequest(data) {
+    return $.post('/app/ajax/media.php', data);
+}
+
 function systemAjaxRequest(data) {
 
     //Active Loader
@@ -112,6 +116,18 @@ $(document).ready(function () {
     $(document).on('click', '#overlay', function () {
         $(this).css('display', 'none');
         $('#overlay #overlayContent').html();
+    });
+
+    /**
+     * Clear all selected medias
+     */
+    $(document).on('click', '#closeAllMediaModalBtn', function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        $('.checkedFile').each(function (i) {
+            $(this).children('button.selectParentOnClick').trigger('click');
+        });
     });
 
     /**
@@ -148,6 +164,47 @@ $(document).ready(function () {
         $('#saveMediaModalBtn').html(selectedFiles.length + ' médias');
     });
 
+    /**
+     * Delete medias definitely
+     */
+    $(document).on('click', '.deleteDefinitelyImageByName', function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+
+        var $btn = $(this);
+        var $addBtn = $btn.prev('button.selectParentOnClick');
+        var $file = $btn.parent();
+        var $filename = $btn.data('imagename');
+
+        if (confirm('Vous allez supprimer ce fichier définitivement')) {
+
+            if ($file.hasClass('checkedFile')) {
+
+                if ($.inArray($filename, selectedFiles) > -1) {
+                    selectedFiles.splice($.inArray($filename, selectedFiles), 1);
+                }
+                $addBtn.html('<i class="fas fa-plus"></i>');
+                $file.removeClass('border borderColorPrimary checkedFile');
+
+                $('#inputSelectFiles').val(selectedFiles.length + ' médias');
+                $('#textareaSelectedFile').val(selectedFiles.join('|||'));
+                $('#saveMediaModalBtn').html(selectedFiles.length + ' médias');
+
+            }
+
+            mediaAjaxRequest({
+                deleteDefinitelyImageByName: 'OK',
+                filename: $filename
+            }).done(function (data) {
+                if (data == 'true' || data === true) {
+                    $file.fadeOut();
+                } else {
+                    alert(data);
+                }
+            });
+        }
+    });
 });
 
 $(window).load(function () {

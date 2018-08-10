@@ -685,13 +685,22 @@ table#currentProjetTable tr {
     min-height: 10px;
 }
 
-.selectParentOnClick {
-    position: absolute;
-    top: 0;
-    left: 0;
+.littleBtn {
     padding: .25rem .3rem !important;
     font-size: .7rem !important;
     line-height: 1 !important;
+}
+
+.deleteLittleBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.addLittleBtn {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 [data-toggle="tab"].active {

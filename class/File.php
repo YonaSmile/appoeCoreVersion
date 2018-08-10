@@ -274,6 +274,10 @@ class File
         }
     }
 
+    /**
+     * @param bool $all
+     * @return bool
+     */
     public function countFile($all = false)
     {
         $sql = (!$all) ? 'SELECT * FROM appoe_files WHERE name = :name' : 'SELECT * FROM appoe_files';
@@ -442,10 +446,9 @@ class File
     }
 
     /**
-     *
-     * @return bool
+     * @return bool|mixed
      */
-    public function delete()
+    public function deleteFileByPath()
     {
         $path_file = FILE_DIR_PATH . $this->name;
 
@@ -455,6 +458,40 @@ class File
                     return false;
                 }
             }
+        } else {
+            return trans('Ce fichier est rattacher à plusieurs données');
+        }
+
+        return true;
+    }
+
+    public function deleteFileByName()
+    {
+
+        $sql = 'DELETE FROM appoe_files WHERE name = :name';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->execute();
+
+        $error = $stmt->errorInfo();
+
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    /**
+     *
+     * @return bool
+     */
+    public function delete()
+    {
+        if (true !== $this->deleteFileByPath()) {
+            return false;
         }
 
         $sql = 'DELETE FROM appoe_files WHERE id = :id';

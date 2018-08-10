@@ -24,6 +24,7 @@ define('WEB_PROCESS_PATH', WEB_APP_PATH . 'process/');
 define('WEB_SYSTEM_PATH', WEB_APP_PATH . 'system/');
 define('WEB_BACKUP_PATH', WEB_APP_PATH . 'backup/');
 define('FILE_DIR_PATH', ROOT_PATH . FILE_DIR_NAME);
+define('THUMB_DIR_PATH', FILE_DIR_PATH . 'thumb/');
 define('MAIL_DIR_PATH', ROOT_PATH . '/ressources/mail/');
 define('FILE_LANG_PATH', WEB_SYSTEM_PATH . 'lang/');
 define('INCLUDE_PLUGIN_PATH', WEB_DIR . 'app/plugin/');
