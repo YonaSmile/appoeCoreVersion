@@ -459,7 +459,7 @@ class File
                 }
             }
         } else {
-            return trans('Ce fichier est rattacher à plusieurs données');
+            return trans('Ce fichier est rattaché à plusieurs données');
         }
 
         return true;
