@@ -14,11 +14,11 @@ class Autoloader
         if (strpos($class, '\\')) {
 
             $classExplodes = explode('\\', $class);
-            $classExplodes = array_map('lcfirst', $classExplodes);
+            $classExplodesLwr = array_map('lcfirst', $classExplodes);
 
-            $file = array_pop($classExplodes);
+            $file = array_pop($classExplodesLwr);
 
-            $class = implode('/', $classExplodes);
+            $class = implode('/', $classExplodesLwr);
             $class .= DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR;
             $class .= ucfirst($file) . '.php';
         }
