@@ -61,11 +61,7 @@ ELEMENTS COLORS
 }
 
 #sidebar.bgColorPrimary .sidebar-header {
-    background: #3eb293;
-}
-
-#sidebar.bgColorPrimary .sidebar-header {
-    background: #3eb293;
+    background: #379e82;
 }
 
 #sidebar.bgColorPrimary ul li.active > a {
@@ -94,6 +90,12 @@ ELEMENTS COLORS
     color: #fff;
 }
 
+.dashboardCard:focus,
+.dashboardCard:hover {
+    background: #3eb293;
+    color: #FFF;
+}
+
 .dashboardNum {
     position: absolute;
     top: 0;
@@ -108,14 +110,8 @@ ELEMENTS COLORS
     transition: all 0.3s;
 }
 
-.dashboardCard:focus .dashboardNum,
-.dashboardCard:hover .dashboardNum {
+.dashboardCard:focus > span.dashboardNum,
+.dashboardCard:hover > span.dashboardNum {
     background: #FFF;
     color: #3eb293;
-}
-
-.dashboardCard:focus,
-.dashboardCard:hover {
-    background: #3eb293;
-    color: #FFF;
 }

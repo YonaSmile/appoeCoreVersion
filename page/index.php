@@ -4,7 +4,7 @@
             <div class="d-flex col-12 col-lg-8">
                 <div class="card border-0 w-100">
                     <div class="card-header bg-white pb-0 border-0 boardBlock1Title">
-                        <h5 class="m-0 pl-4 colorPrimary"><?= trans('Modifié récement'); ?></h5>
+                        <h5 class="m-0 pl-4 colorPrimary"><?= trans('Modifié récemment'); ?></h5>
                         <hr class="mx-4">
                     </div>
                     <?php
