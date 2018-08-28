@@ -164,11 +164,13 @@
         });
 
         $('#languageSelectorContainer').on('mouseenter', function () {
-            $('#languageSelectorBtn').trigger('click');
+            $(this).find('div.dropdown').addClass('show');
+            $('#languageSelectorContent').addClass('show');
         });
 
         $('#languageSelectorContainer').on('mouseleave', function () {
-            $('#languageSelectorBtn').trigger('click');
+            $(this).find('div.dropdown').removeClass('show');
+            $('#languageSelectorContent').removeClass('show');
         });
 
         $('.langSelector').on('click', function () {
