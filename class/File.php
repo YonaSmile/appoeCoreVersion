@@ -275,29 +275,6 @@ class File
     }
 
     /**
-     * @param bool $all
-     * @return bool
-     */
-    public function countFile($all = false)
-    {
-        $sql = (!$all) ? 'SELECT * FROM appoe_files WHERE name = :name' : 'SELECT * FROM appoe_files';
-        $stmt = $this->dbh->prepare($sql);
-
-        if (!$all) {
-            $stmt->bindParam(':name', $this->name);
-        }
-
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            return $stmt->rowCount();
-        }
-    }
-
-    /**
      *
      * @return bool
      */
@@ -490,9 +467,7 @@ class File
      */
     public function delete()
     {
-        if (true !== $this->deleteFileByPath()) {
-            return false;
-        }
+        $this->deleteFileByPath();
 
         $sql = 'DELETE FROM appoe_files WHERE id = :id';
 
@@ -506,6 +481,29 @@ class File
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * @param bool $all
+     * @return bool
+     */
+    public function countFile($all = false)
+    {
+        $sql = (!$all) ? 'SELECT * FROM appoe_files WHERE name = :name' : 'SELECT * FROM appoe_files';
+        $stmt = $this->dbh->prepare($sql);
+
+        if (!$all) {
+            $stmt->bindParam(':name', $this->name);
+        }
+
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            return $stmt->rowCount();
         }
     }
 
