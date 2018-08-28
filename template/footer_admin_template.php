@@ -163,25 +163,23 @@
             $(this).val(rep);
         });
 
-        $('.md-select').on('mouseenter', function () {
-            $(this).addClass('active');
+        $('#languageSelectorContainer').on('mouseenter', function () {
+            $('#languageSelectorBtn').trigger('click');
         });
 
-        $('.md-select').on('mouseleave', function () {
-            $(this).removeClass('active');
+        $('#languageSelectorContainer').on('mouseleave', function () {
+            $('#languageSelectorBtn').trigger('click');
         });
 
-        $('.md-select ul li').on('click', function () {
+        $('.langSelector').on('click', function () {
 
             var langChoice = $(this).attr('id');
+            if (langChoice != "<?= LANG; ?>") {
 
-            if (langChoice != 'closeLangs') {
+                $('#languageSelectorContent').remove();
 
                 var imgLangChoise = $(this).html();
-                $('.md-select ul li').not($(this)).removeClass('active');
-                $(this).addClass('active');
-                $('.md-select label button').html(imgLangChoise);
-                $('.md-select').removeClass('active');
+                $('#languageSelectorBtn').html(imgLangChoise);
 
                 setTimeout(function () {
 

@@ -860,106 +860,27 @@ ul.retroPlanningList > li.hideLi {
     outline: none;
 }
 
-.md-select {
-
+#languageSelectorContainer img,
+#languageSelectorBtn img {
+    width: 30px !important;
+    max-width: 30px !important;
+    margin-right: 4px !important;
 }
 
-.md-select *, .md-select :after, .md-select :before {
-    box-sizing: border-box;
-}
-
-.md-select label {
-    margin: auto;
-}
-
-.md-select [type=button] {
-    background: transparent;
+#languageSelectorContent {
     border: 0;
-    cursor: pointer;
-    display: block;
-    padding: 5px 0;
-    position: relative;
-    text-align: left;
-    text-shadow: none;
-    width: 30px;
-    z-index: 1;
-    outline: none;
-    overflow: hidden;
-    line-height: 14px;
+    margin-top: -9px;
 }
 
-.md-select [type=button]:focus, .md-select [type=button]:hover {
-    /*background: #FFF;
-    color: #7386D5;*/
+#languageSelectorContent button {
+    padding-left: 13px !important;
+    box-shadow: none !important;
 }
 
-/*.md-select [type=button]:after {
-    content: '\25be';
-    float: right;
-}*/
-
-.md-select ul[role=listbox] {
-    background-color: #FFF;
-    cursor: default;
-    list-style: none;
-    line-height: 40px;
-    overflow: hidden;
-    margin: 0;
-    max-height: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0 !important;
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    -webkit-transition: all 0.15s cubic-bezier(0.35, 0, 0.25, 1);
-    transition: all 0.15s cubic-bezier(0.35, 0, 0.25, 1);
-    width: 54px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
-}
-
-.md-select ul[role=listbox] li {
-    margin: 0;
-    padding: 0 10px !important;
-    outline: none;
-    overflow: hidden;
-    display: block;
-    border-bottom: 1px solid #CCCCCC;
-    text-align: center;
-    cursor: pointer;
-    color: #222;
-}
-
-.md-select ul[role=listbox] li:last-child {
-    border-bottom: 0;
-}
-
-.md-select ul[role=listbox] li.active {
-    background: #7386D5;
-    color: #fff;
-}
-
-.md-select ul[role=listbox] li:focus, .md-select ul[role=listbox] li:hover {
-    color: #000;
-    background: #ccc;
-}
-
-.md-select ul[role=listbox] li.active:focus, .md-select ul[role=listbox] li.active:hover {
-    background: #7386D5;
-    color: #fff;
-}
-
-.md-select.active ul {
-    max-height: 200px;
-    overflow: hidden;
-    padding: 8px 0 16px 0;
-    z-index: 2;
-    -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
-}
-
-.close {
-    margin-left: 10px;
+#languageSelectorBtn.focus,
+#languageSelectorBtn:focus {
+    outline: 0;
+    box-shadow: none !important;
 }
 
 .categoryIdFloatContenaire {

@@ -15,20 +15,22 @@
                     <span class="colorPrimary"><i class="fas fa-eye"></i></span> Visualiser le site
                 </a>
             </li>
-            <li class="nav-item" style="position: relative;">
-                <div class="md-select">
-                    <label for="ul-id">
-                        <button type="button" class="ng-binding"><img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
-                        </button>
-                    </label>
-                    <ul role="listbox" id="ul-id" class="md-whiteframe-z1" aria-activedescendant="<?= LANG; ?>"
-                        name="ul-id">
-                        <?php foreach (getLangs() as $lang => $language): ?>
-                            <li role="option" id="<?= $lang; ?>"
-                                class="ng-binding ng-scope <?= $lang == LANG ? 'active' : ''; ?>" tabindex="-1"
-                                aria-selected="true"><img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>"></li>
-                        <?php endforeach; ?>
-                    </ul>
+            <li class="nav-item" id="languageSelectorContainer">
+                <div class="dropdown">
+                    <button class="btn btn-white" type="button" id="languageSelectorBtn"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
+                        <?= LANGUAGES[LANG]; ?>
+                    </button>
+                    <div class="dropdown-menu" id="languageSelectorContent"
+                         aria-labelledby="languageSelectorBtn">
+                        <?php foreach (getLangs() as $lang => $language): if ($lang != LANG): ?>
+                            <button class="dropdown-item langSelector" id="<?= $lang; ?>" type="button">
+                                <img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>">
+                                <?= LANGUAGES[$lang]; ?>
+                            </button>
+                        <?php endif; endforeach; ?>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -53,7 +55,8 @@
                         <small><span class="mr-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?></small>
                     </a>
                     <a class="dropdown-item" href="<?= WEB_APP_URL . 'logout.php'; ?>">
-                        <small><span class="mr-2"><i class="fas fa-power-off"></i></span> <?= trans('Déconnexion'); ?></small>
+                        <small><span class="mr-2"><i class="fas fa-power-off"></i></span> <?= trans('Déconnexion'); ?>
+                        </small>
                     </a>
                 </div>
             </li>
