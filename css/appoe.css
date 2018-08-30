@@ -883,6 +883,10 @@ ul.retroPlanningList > li.hideLi {
     box-shadow: none !important;
 }
 
+.form-control {
+    min-height: 35px;
+}
+
 .categoryIdFloatContenaire {
     position: absolute;
     bottom: 0;

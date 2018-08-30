@@ -515,12 +515,12 @@ function cleanData($data)
 }
 
 /**
- * @param $data
+ * Show unlimited params in array
  */
-function showDebugData($data)
+function showDebugData()
 {
     echo '<pre>';
-    print_r($data);
+    print_r(func_get_args());
     echo '</pre>';
 }
 
@@ -1632,15 +1632,21 @@ function showTemplateZones($pageSlug, $pageData)
         $template = array_unique($match[1]);
         $html = '';
 
+        //Authorised form manage data
+        $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
+
+        //Default values
+        $defaultCol = '12';
+
         foreach ($template as $i => $adminZone) {
 
             //Check for form types
             if (strpos($adminZone, '_')) {
 
-                //Authorised form types
-                $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
-                list($metaKey, $formType) = explode('_', $adminZone);
+                //Get data
+                list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
 
+                //Check data
                 if (in_array($formType, $acceptedFormType)) {
 
                     //Get input value
@@ -1649,7 +1655,11 @@ function showTemplateZones($pageSlug, $pageData)
                     $valueCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->metaValue : '';
 
                     //Display input
-                    $html .= '<div class="col-12 my-2 templateZoneInput">';
+                    $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
+
+                    if (!empty($group) && $group == 'begin') {
+                        $html .= '<div class="row"><div class="col-12">';
+                    }
 
                     if ($formType == 'textarea') {
                         $html .= App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
@@ -1660,6 +1670,9 @@ function showTemplateZones($pageSlug, $pageData)
                     }
 
                     $html .= '</div>';
+                    if (!empty($group) && $group == 'end') {
+                        $html .= '</div></div>';
+                    }
                 }
             }
         }
