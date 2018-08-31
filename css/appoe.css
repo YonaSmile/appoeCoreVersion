@@ -1164,14 +1164,21 @@ textarea {
 }
 
 .templateZoneInput {
-    transition: all 0.3s;
-    -webkit-transform: scale(1);
+    transition: all 0.4s;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
 }
 
+.templateZoneInput:hover,
 .templateZoneInput:focus,
-.templateZoneInput:hover {
-    transform: scaleX(1.01);
-    -webkit-transform: scaleX(1.01);
+.templateZoneInput:active {
+    -webkit-transform: scaleX(1.03);
+    transform: scaleX(1.03);
 }
 
 #menuAdminUpdate input[type=text] {
@@ -1331,6 +1338,14 @@ ICONS
 
 .icon-updatePermissions > *:first-child:before {
     content: '\f21b';
+}
+
+.form-control:focus {
+    /*color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;*/
+    box-shadow: 0 0 12px .2rem rgba(0, 123, 255, .25) !important;
 }
 
 @page {

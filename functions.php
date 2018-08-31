@@ -1625,12 +1625,12 @@ function showTemplateZones($pageSlug, $pageData)
     //Get template Zones
     $pageContent = $pageView = getFileContent($pageSlug);
 
+    $html = '';
 
     if (preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
 
         //Filter uniques zones
         $template = array_unique($match[1]);
-        $html = '';
 
         //Authorised form manage data
         $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
@@ -1654,13 +1654,19 @@ function showTemplateZones($pageSlug, $pageData)
                     $idCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->id : '';
                     $valueCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->metaValue : '';
 
-                    //Display input
-                    $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
-
-                    if (!empty($group) && $group == 'begin') {
-                        $html .= '<div class="row"><div class="col-12">';
+                    //Display input zone
+                    if (!empty($group)) {
+                        if ($group == 'begin') {
+                            $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
+                            $html .= '<div class="row"><div class="col-12 my-2">';
+                        } else {
+                            $html .= '<div class="col-12 my-2">';
+                        }
+                    } else {
+                        $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
                     }
 
+                    //Display input
                     if ($formType == 'textarea') {
                         $html .= App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
                     } elseif ($formType == 'urlFile') {
@@ -1676,8 +1682,8 @@ function showTemplateZones($pageSlug, $pageData)
                 }
             }
         }
-        return $html;
     }
+    return $html;
 }
 
 /**
