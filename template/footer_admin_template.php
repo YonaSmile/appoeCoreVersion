@@ -191,7 +191,7 @@
 
                         setLang(langChoice).done(function (data) {
                             if (data) {
-                                document.location.reload(true);
+                                window.location.href = window.location.href;
                             }
                         });
                     }

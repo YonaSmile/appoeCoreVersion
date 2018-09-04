@@ -195,7 +195,7 @@ class Form
     {
 
         $html = '';
-        $html .= '<div class="form-group"><strong class="inputLabel">' . trans($title) . '</strong>';
+        $html .= '<div class="form-group"><strong class="inputLabel border-bottom pb-1 mb-3">' . trans($title) . '</strong>';
 
 
         foreach ($data as $id => $value) {
