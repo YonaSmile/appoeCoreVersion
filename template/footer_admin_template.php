@@ -93,7 +93,21 @@
             getCookie('toggleSidebar');
         });
 
+        //Sidebar open on plugin for user experience
         $('li.active').parent('ul').addClass('show').prev('a').attr('aria-expanded', 'true').removeClass('collapsed');
+
+        $('#sidebar > ul > li').each(function (i, val) {
+            var menu = $(this);
+            if ($(val).attr('id').indexOf('-') >= 0) {
+                var pluginName = $(val).attr('id').split('-')[1];
+
+                if (window.location.href.indexOf(pluginName) >= 0) {
+                    if (menu.has('ul')) {
+                        menu.children('a').attr('aria-expanded', 'true').removeClass('collapsed').next('ul').addClass('show');
+                    }
+                }
+            }
+        });
 
         //anchor link event
         $('html,body').on('click', 'a[href^="#"]:not(.sidebarLink)', function (e) {
