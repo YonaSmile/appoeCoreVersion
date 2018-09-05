@@ -17,7 +17,7 @@ if (false !== $menu_data) {
     <?php if (!empty($menuAll[10])) : ?>
         <?php foreach ($menuAll[10] as $menu): ?>
             <?php if (!empty($menuAll[$menu['id']])): sort($menuAll[$menu['id']]); ?>
-                <li class="<?= activePage($menu['slug']) . 'icon-' . $menu['slug']; ?> "
+                <li class="<?= 'icon-' . $menu['slug']; ?> "
                     id="menu-<?= $menu['slug']; ?>">
                     <a href="#<?= 'menu-admin' . $menu['id']; ?>" data-toggle="collapse"
                        aria-expanded="false" class="sidebarLink"><?= trans($menu['name']); ?></a>
