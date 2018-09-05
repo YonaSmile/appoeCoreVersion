@@ -2069,7 +2069,7 @@ function getSerializedOptions($fileOptions, $key = '')
 /**
  * @param $filesArray
  * @param $position
- * @param bool $forcedPosition
+ * @param int|bool $forcedPosition
  * @return array
  */
 function getFileTemplatePosition($filesArray, $position, $forcedPosition = false)
@@ -2078,13 +2078,21 @@ function getFileTemplatePosition($filesArray, $position, $forcedPosition = false
     $newFilesArray = array();
     if ($filesArray && !isArrayEmpty($filesArray)) {
         foreach ($filesArray as $key => $file) {
-            if ($position == getSerializedOptions($file->options, 'templatePosition')) {
+            if (is_object($file) && $position == getSerializedOptions($file->options, 'templatePosition')) {
                 array_push($newFilesArray, $file);
             }
         }
 
-        if ($forcedPosition && isArrayEmpty($newFilesArray)) {
-            $newFilesArray = getFileTemplatePosition($filesArray, $forcedPosition);
+        if (isArrayEmpty($newFilesArray)) {
+
+            if (true === $forcedPosition) {
+                $newFilesArray = $filesArray;
+            }
+
+            if ($forcedPosition > 0) {
+                $forcedFilesArray = getFileTemplatePosition($filesArray, $forcedPosition);
+                $newFilesArray = !isArrayEmpty($forcedFilesArray) ? $forcedFilesArray : $filesArray;
+            }
         }
     }
 
