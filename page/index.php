@@ -108,6 +108,11 @@
                                             href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
                                 <span class="dashboardNum bgColorPrimary"><?= $dashboard['count']; ?></span>
                             </div>
+                            <?php if (!empty($dashboard['html'])): ?>
+                                <div class="d-none d-lg-flex justify-content-around htmlDashboard">
+                                    <?= $dashboard['html']; ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
