@@ -77,6 +77,21 @@ ELEMENTS COLORS
     transition: all 0.3s;
 }
 
+.dashboardCard .htmlDashboard {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.dashboardCard .htmlDashboard > span {
+    margin: 4px;
+    padding: 4px;
+    font-size: 0.8em;
+    font-weight: 300;
+}
+
 .dashboardCard a {
     color: #4b5b68;
 }
@@ -110,8 +125,8 @@ ELEMENTS COLORS
     transition: all 0.3s;
 }
 
-.dashboardCard:focus > span.dashboardNum,
-.dashboardCard:hover > span.dashboardNum {
-    background: #FFF;
-    color: #3eb293;
+.dashboardCard:focus span.dashboardNum,
+.dashboardCard:hover span.dashboardNum {
+    background: #FFF !important;
+    color: #3eb293 !important;
 }
