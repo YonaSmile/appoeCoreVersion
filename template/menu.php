@@ -1,5 +1,5 @@
 <?php
-$Menu = new App\Menu();
+$Menu = new \App\Menu();
 $menu_data = array_sort($Menu->displayMenu($USER->getRole()), 'order_menu');
 $menuAll = array();
 
@@ -50,8 +50,8 @@ if (false !== $menu_data) {
 <div id="sidebarInfos" class="mb-2 text-center">
     <small>Art Of Event - <strong>APPOE</strong></small>
     <?php
-    App\Version::setFile(WEB_APP_PATH . 'version.json');
-    if (App\Version::show()): ?>
-        <small><em><?= App\Version::getVersion(); ?></em></small>
+    \App\Version::setFile(WEB_APP_PATH . 'version.json');
+    if (\App\Version::show()): ?>
+        <small><em><?= \App\Version::getVersion(); ?></em></small>
     <?php endif; ?>
 </div>

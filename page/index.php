@@ -75,7 +75,7 @@
         $dashboardDetails = includePluginsDashboard();
 
         if ($USER->getRole() >= 4) {
-            $Category = new App\Category();
+            $Category = new \App\Category();
             $dashboardDetails[] = array(
                 'name' => trans('Catégories'),
                 'count' => $Category->showAll(true),
@@ -83,7 +83,7 @@
             );
         }
 
-        $File = new App\File();
+        $File = new \App\File();
         $dashboardDetails[] = array(
             'name' => trans('Média'),
             'count' => $File->countFile(true),

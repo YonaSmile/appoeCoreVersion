@@ -25,13 +25,13 @@
                                     <div class="pt-2 px-2 pb-1 mb-1 bg-light returnContainer"></div>
                                     <?php
                                     if (!empty($plugin['versionPath'])):
-                                        App\Version::setFile($plugin['versionPath']);
-                                        if (App\Version::show()):
+                                        \App\Version::setFile($plugin['versionPath']);
+                                        if (\App\Version::show()):
                                             ?>
                                             <div class="py-1 px-3 mb-2 bg-light">
                                                 <small class="pluginVersion"
                                                        data-pluginname="<?= $plugin['name']; ?>">
-                                                    <?= App\Version::getVersion(); ?>
+                                                    <?= \App\Version::getVersion(); ?>
                                                 </small>
                                                 <small class="responseVersion float-right"></small>
                                             </div>
@@ -59,12 +59,12 @@
                             </button>
                         </div>
                         <?php
-                        App\Version::setFile(WEB_APP_PATH . 'version.json');
-                        if (App\Version::show()):
+                        \App\Version::setFile(WEB_APP_PATH . 'version.json');
+                        if (\App\Version::show()):
                             ?>
                             <div class="py-1 px-3 mb-2 bg-light">
-                                <small id="systemVersion" data-systemversion="<?= App\Version::getVersion(); ?>">
-                                    <?= trans('Version'); ?> <?= App\Version::getVersion(); ?>
+                                <small id="systemVersion" data-systemversion="<?= \App\Version::getVersion(); ?>">
+                                    <?= trans('Version'); ?> <?= \App\Version::getVersion(); ?>
                                 </small>
                                 <small class="responseVersion float-right"></small>
                             </div>

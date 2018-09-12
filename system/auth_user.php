@@ -23,14 +23,14 @@ if (isset($_POST['APPOECONNEXION'])) {
                 //Check for valid email
                 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-                    $User = new App\Users();
+                    $User = new \App\Users();
                     $User->setEmail($email);
                     $User->setPassword($pass);
 
                     //if user not exist
                     if (!$User->authUser()) {
 
-                        App\Flash::setMsg(trans('Vous n\'êtes pas identifié') . ' !');
+                        \App\Flash::setMsg(trans('Vous n\'êtes pas identifié') . ' !');
 
                     } else {
 

@@ -532,7 +532,7 @@ function showDebugData()
  */
 function displayTimeStamp($timestamp, $hour = true)
 {
-    $Date = new DateTime($timestamp, new DateTimeZone('Europe/Paris'));
+    $Date = new \DateTime($timestamp, new \DateTimeZone('Europe/Paris'));
 
     if ($hour) {
         return $Date->format('d/m/Y H:i');
@@ -550,8 +550,8 @@ function displayTimeStamp($timestamp, $hour = true)
  */
 function displayCompleteDate($date, $hour = false)
 {
-    $Date = new DateTime($date);
-    $Date->add(new DateInterval('PT1H'));
+    $Date = new \DateTime($date);
+    $Date->add(new \DateInterval('PT1H'));
     $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
     $strFtime = $hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y";
     return ucwords(strftime($strFtime, strtotime($time)));
@@ -568,8 +568,8 @@ function displayEventDates($dateDebut, $dateFin)
 {
 
     //Initialise Dates
-    $DateDebut = new DateTime($dateDebut);
-    $DateFin = new DateTime($dateFin);
+    $DateDebut = new \DateTime($dateDebut);
+    $DateFin = new \DateTime($dateFin);
 
     $html = '';
     if ($DateDebut->format('d') == $DateFin->format('d')) {
@@ -592,7 +592,7 @@ function displayEventDates($dateDebut, $dateFin)
  */
 function getDayNameFromDate($date)
 {
-    $Date = new DateTime($date);
+    $Date = new \DateTime($date);
 
     return ucwords(strftime("%A ", strtotime($Date->format("Y-m-d"))));
 }
@@ -718,7 +718,7 @@ function appBackup($DB = true)
             if ($DB) {
 
                 //save db
-                App\DB::backup(date('Y-m-d'));
+                \App\DB::backup(date('Y-m-d'));
 
                 //check if db was saved
                 if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d') . DIRECTORY_SEPARATOR . 'db.sql.gz')) {
@@ -798,7 +798,7 @@ function rcopy($src, $dest)
     }
 
     // Open the source directory to read in files
-    $i = new DirectoryIterator($src);
+    $i = new \DirectoryIterator($src);
     foreach ($i as $f) {
         if ($f->isFile()) {
             copy($f->getRealPath(), "$dest/" . $f->getFilename());
@@ -835,7 +835,7 @@ function rmove($src, $dest)
         rename(realpath($src), "$dest");
     } else {
         // Open the source directory to read in files
-        $i = new DirectoryIterator($src);
+        $i = new \DirectoryIterator($src);
         foreach ($i as $f) {
             if ($f->isFile()) {
                 if ($f->getFilename() != 'setup.php') {
@@ -865,7 +865,7 @@ function rmove($src, $dest)
 function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $deleteZip = true)
 {
     $tempFolder = $path . 'unzip';
-    $zip = new ZipArchive;
+    $zip = new \ZipArchive;
     $res = $zip->open($src);
     if ($res === TRUE) {
         $zip->extractTo($tempFolder);
@@ -900,7 +900,7 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
  */
 function unzip($src, $path, $deleteZip = true)
 {
-    $zip = new ZipArchive;
+    $zip = new \ZipArchive;
     if (true === $zip->open($src)) {
         $zip->extractTo($path);
         $zip->close();
@@ -979,12 +979,12 @@ function displayDuree($duree)
  */
 function getHoursFromDate($date1, $date2 = '')
 {
-    $Date1 = new DateTime($date1);
+    $Date1 = new \DateTime($date1);
 
     if (empty($date2)) {
         return $Date1->format('H:i');
     } else {
-        $Date2 = new DateTime($date2);
+        $Date2 = new \DateTime($date2);
 
         return trans('De') . ' ' . $Date1->format('H:i') . ' ' . trans('à') . ' ' . $Date2->format('H:i');
     }
@@ -1394,7 +1394,7 @@ function getFileContent($path)
 {
     ob_start();
 
-    $Traduction = new App\Plugin\Traduction\Traduction(LANG);
+    $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
 
     if (file_exists($path)) {
         include $path;
@@ -1412,8 +1412,8 @@ function getFileContent($path)
  */
 function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA')
 {
-    $Media = new App\Media();
-    $Category = new App\Category();
+    $Media = new \App\Media();
+    $Category = new \App\Category();
 
     $Category->setType($categoryType);
     $allCategories = $Category->showByType();
@@ -1668,11 +1668,11 @@ function showTemplateZones($pageSlug, $pageData)
 
                     //Display input
                     if ($formType == 'textarea') {
-                        $html .= App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
+                        $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
                     } elseif ($formType == 'urlFile') {
-                        $html .= App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile', '...');
+                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile', '...');
                     } else {
-                        $html .= App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '', '...');
+                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '', '...');
                     }
 
                     $html .= '</div>';
@@ -2374,15 +2374,15 @@ function removeAccents($str, $charset = 'utf-8')
 function formatDateDiff($start, $end = null)
 {
     if (!($start instanceof DateTime)) {
-        $start = new DateTime($start);
+        $start = new \DateTime($start);
     }
 
     if ($end === null) {
-        $end = new DateTime();
+        $end = new \DateTime();
     }
 
     if (!($end instanceof DateTime)) {
-        $end = new DateTime($start);
+        $end = new \DateTime($start);
     }
 
     $interval = $start->diff($end);
@@ -2459,15 +2459,16 @@ function formatBillingNB($nb)
     return $nb;
 }
 
+
 /**
  * @param array $data
- * @param array $otherAddr
- *
+ * @param array|null $otherAddr
  * @return bool
+ * @throws phpmailerException
  */
 function sendMail(array $data, array $otherAddr = null)
 {
-    $mail = new PHPMailer();
+    $mail = new \PHPMailer();
     $mail->IsMail();
     $mail->IsHTML(true);
     $mail->setLanguage('fr', '/optional/path/to/language/directory/');

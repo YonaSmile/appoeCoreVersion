@@ -17,7 +17,7 @@ if (checkAjaxRequest()) {
 
             if (!empty(PLUGIN_TABLES)) {
                 foreach (PLUGIN_TABLES as $key => $table) {
-                    if (App\DB::initialize()->checkTable($table)) {
+                    if (\App\DB::initialize()->checkTable($table)) {
                         $existTable++;
                     }
                 }
@@ -75,7 +75,7 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['updateSitemap'])) {
 
-        $CmsMenu = new App\Plugin\Cms\CmsMenu();
+        $CmsMenu = new \App\Plugin\Cms\CmsMenu();
         $data = extractFromObjArr($CmsMenu->showAll(), 'slug');
 
         if (generateSitemap($data)) {
@@ -85,16 +85,16 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['optimizeDb'])) {
 
-        $tables = App\DB::initialize()->getTables();
-        App\DB::backup(date('Y-m-d'), 'db-' . date('H:i'));
-        $Menu = new App\Menu();
+        $tables = \App\DB::initialize()->getTables();
+        \App\DB::backup(date('Y-m-d'), 'db-' . date('H:i'));
+        $Menu = new \App\Menu();
         $optimizeTables = 0;
         foreach ($tables as $table) {
             $tableName = array_values((array)$table);
             if (!in_array($tableName[0], APP_TABLES)) {
                 list($pre, $plugin, $pluginName, $pluginExtension) = array_pad(explode('_', $tableName[0], 4), 4, null);
                 if (!is_null($pluginName) && !file_exists(WEB_PLUGIN_PATH . $pluginName . '/ini.php')) {
-                    if (App\DB::deleteTable($tableName[0])) {
+                    if (\App\DB::deleteTable($tableName[0])) {
                         $Menu->deletePluginMenu($pluginName);
                         $optimizeTables++;
                     }

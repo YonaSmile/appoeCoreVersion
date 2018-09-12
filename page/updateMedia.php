@@ -2,9 +2,9 @@
 require('header.php');
 require(WEB_PROCESS_PATH . 'media.php');
 
-$Media = new App\Media();
+$Media = new \App\Media();
 
-$Category = new App\Category();
+$Category = new \App\Category();
 $allLibrary = extractFromObjToSimpleArr($Category->showAll(), 'id', 'name');
 
 $Category->setType('MEDIA');
@@ -97,18 +97,18 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                 <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
                     <?= getTokenField(); ?>
                     <div class="col-12 col-lg-6 my-2">
-                        <?= App\Form::text('Importer des médias', 'inputFile[]', 'file', '', false, 800, 'multiple'); ?>
+                        <?= \App\Form::text('Importer des médias', 'inputFile[]', 'file', '', false, 800, 'multiple'); ?>
                     </div>
                     <div class="col-12 col-lg-3 my-2">
                         <textarea name="textareaSelectedFile" id="textareaSelectedFile" class="d-none"></textarea>
-                        <?= App\Form::text('Choisissez des médias', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-toggle="modal" data-target="#allMediasModal"'); ?>
+                        <?= \App\Form::text('Choisissez des médias', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-toggle="modal" data-target="#allMediasModal"'); ?>
                     </div>
                     <div class="col-12 col-lg-3 my-2">
-                        <?= App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
+                        <?= \App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
                     </div>
                     <div class="col-12">
-                        <?= App\Form::target('ADDIMAGES'); ?>
-                        <?= App\Form::submit('Enregistrer', 'addImageSubmit'); ?>
+                        <?= \App\Form::target('ADDIMAGES'); ?>
+                        <?= \App\Form::submit('Enregistrer', 'addImageSubmit'); ?>
                     </div>
                 </form>
             </div>

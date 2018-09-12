@@ -1,7 +1,7 @@
 <?php
 require('header.php');
 require_once(WEB_PROCESS_PATH . 'categories.php');
-$Category = new App\Category();
+$Category = new \App\Category();
 $allCategories = $Category->showAll();
 $allTypes = getAppTypes();
 
@@ -98,7 +98,7 @@ if ($allCategories) {
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="" method="post" id="addCategoryForm">
-                <?= App\Form::target('ADDCATEGORY'); ?>
+                <?= \App\Form::target('ADDCATEGORY'); ?>
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalAddCategoryTitle">Ajouter une catégorie</h5>
                 </div>
@@ -106,10 +106,10 @@ if ($allCategories) {
                     <?= getTokenField(); ?>
                     <div class="row">
                         <div class="col-12 my-2">
-                            <?= App\Form::text('Nom', 'name', 'text', !empty($_POST['name']) ? $_POST['name'] : '', true, 150); ?>
+                            <?= \App\Form::text('Nom', 'name', 'text', !empty($_POST['name']) ? $_POST['name'] : '', true, 150); ?>
                         </div>
                         <div class="col-12 my-2">
-                            <?= App\Form::select('Type de catégorie', 'type', $allTypes, '', true); ?>
+                            <?= \App\Form::select('Type de catégorie', 'type', $allTypes, '', true); ?>
                         </div>
                     </div>
                     <div class="row">

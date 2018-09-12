@@ -4,7 +4,7 @@ if (isset($_SESSION['auth'.$_SERVER['HTTP_HOST']]) && !bot_detected()) {
     if (strstr($_SESSION['auth'.$_SERVER['HTTP_HOST']], '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a')) {
         list($idSession, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth'.$_SERVER['HTTP_HOST']]);
 
-        $USER = new App\Users($idSession);
+        $USER = new \App\Users($idSession);
 
         //Check if user exist & valide
         if (!$USER->exist() || !$USER->getStatut()) {
@@ -22,7 +22,7 @@ if (isset($_SESSION['auth'.$_SERVER['HTTP_HOST']]) && !bot_detected()) {
             exit();
         }
 
-        $Page = new App\Page(substr(basename($_SERVER['PHP_SELF']), 0, -4));
+        $Page = new \App\Page(substr(basename($_SERVER['PHP_SELF']), 0, -4));
 
         //Check if user have right access to this page
         if (!$Page->isExist() OR $Page->getMinRoleId() > $USER->getRole()) {

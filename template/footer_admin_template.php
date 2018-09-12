@@ -3,7 +3,7 @@
 </div><!-- END DIV MAIN CONTENT-->
 </div><!-- END DIV MAIN -->
 <div id="notifications_footer"><?php getSessionNotifications(); ?></div>
-<?php App\Flash::constructAndDisplay(); ?>
+<?php \App\Flash::constructAndDisplay(); ?>
 <div id="overlay">
     <div id="overlayContent" class="overlayContent"></div>
 </div>

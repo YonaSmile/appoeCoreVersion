@@ -16,9 +16,9 @@ if (!checkMaintenance() && pageSlug() != 'hibour') {
 appBackup();
 
 //Get needed Models
-$Cms = new App\Plugin\Cms\Cms();
-$CmsMenu = new App\Plugin\Cms\CmsMenu();
-$Traduction = new App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
+$Cms = new \App\Plugin\Cms\Cms();
+$CmsMenu = new \App\Plugin\Cms\CmsMenu();
+$Traduction = new \App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
 
 //Get Page parameters
 $Cms->setSlug(!empty($_GET['slug']) ? $_GET['slug'] : (pageSlug() != 'index' && pageSlug() != '' ? pageSlug() : 'home'));

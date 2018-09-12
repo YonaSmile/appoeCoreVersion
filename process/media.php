@@ -9,7 +9,7 @@ if (checkPostAndTokenRequest()) {
         $html = '';
         $selectedFilesCount = 0;
 
-        $Media = new App\Media();
+        $Media = new \App\Media();
         $Media->setTypeId($_POST['library']);
         $ArticleMedia->setUserId(getUserIdSession());
 
@@ -39,6 +39,6 @@ if (checkPostAndTokenRequest()) {
             $html .= trans('Fichiers sélectionnés enregistrés') . ' <strong>' . $selectedFilesCount . '</strong>.';
         }
 
-        App\Flash::setMsg($html, 'secondary');
+        \App\Flash::setMsg($html, 'secondary');
     }
 }

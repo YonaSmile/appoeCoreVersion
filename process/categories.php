@@ -4,7 +4,7 @@ if (checkPostAndTokenRequest()) {
     //Clean data
     $_POST = cleanRequest($_POST);
 
-    $Response = new App\Response();
+    $Response = new \App\Response();
 
     if (isset($_POST['ADDCATEGORY'])) {
 
@@ -13,7 +13,7 @@ if (checkPostAndTokenRequest()) {
             && !empty($_POST['parentId'])
         ) {
 
-            $Category = new App\Category();
+            $Category = new \App\Category();
 
             //Add Page
             $Category->feed($_POST);
@@ -21,7 +21,7 @@ if (checkPostAndTokenRequest()) {
                 if ($Category->save()) {
 
                     //Add Translation
-                    $Traduction = new App\Plugin\Traduction\Traduction();
+                    $Traduction = new \App\Plugin\Traduction\Traduction();
                     $Traduction->setLang(LANG);
                     $Traduction->setMetaKey($Category->getName());
                     $Traduction->setMetaValue($Category->getName());

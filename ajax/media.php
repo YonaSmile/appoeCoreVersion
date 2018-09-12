@@ -10,7 +10,7 @@ if (checkAjaxRequest()) {
             && isset($_POST['description']) && isset($_POST['link']) && isset($_POST['position'])
             && !empty($_POST['typeId']) && is_numeric($_POST['typeId'])) {
 
-            $Media = new App\Media();
+            $Media = new \App\Media();
             $Media->setId($_POST['idImage']);
             if ($Media->show()) {
                 $Media->setDescription($_POST['description']);
@@ -41,7 +41,7 @@ if (checkAjaxRequest()) {
 
         if (isset($_POST['deleteImage']) && !empty($_POST['idImage'])) {
 
-            $Media = new App\Media();
+            $Media = new \App\Media();
             $Media->setId($_POST['idImage']);
             if ($Media->show()) {
                 if ($Media->delete()) {
@@ -74,7 +74,7 @@ if (checkAjaxRequest()) {
         }
 
         if (!empty($_POST['deleteDefinitelyImageByName']) && !empty($_POST['filename'])) {
-            $File = new App\File();
+            $File = new \App\File();
             $File->setName($_POST['filename']);
             $fileDeleted = $File->deleteFileByPath();
 

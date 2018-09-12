@@ -14,7 +14,7 @@ if (checkAjaxRequest()) {
             && isset($_POST['statut'])
             && isset($_POST['order_menu'])
         ) {
-            $Menu = new App\Menu();
+            $Menu = new \App\Menu();
             if ($Menu->updateMenu($_POST['id'],
                 $_POST['name'], $_POST['min_role_id'],
                 $_POST['statut'], $_POST['order_menu'])
@@ -34,7 +34,7 @@ if (checkAjaxRequest()) {
             && isset($_POST['order_menu'])
             && isset($_POST['pluginName'])
         ) {
-            $Menu = new App\Menu();
+            $Menu = new \App\Menu();
             if ($Menu->insertMenu($_POST['id'], $_POST['slug'],
                 $_POST['name'], $_POST['min_role_id'],
                 $_POST['statut'], $_POST['parent_id'],
