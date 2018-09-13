@@ -131,7 +131,12 @@ class Form
         $require = $require ? 'required="true"' : '';
 
         $html = '';
-        $html .= '<div class="form-group" ><label for="' . $name . '" > ' . trans($title) . ' </label >';
+        $html .= '<div class="form-group">';
+
+        if (!empty($placeholder)) {
+            $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
+        }
+
         $html .= '<input type="' . $type . '" name = "' . $name . '" id = "' . $name . '" value="' . $value . '" placeholder="' . $placeholder . '" class="form-control ' . $otherClasses . '" ' . $othersAttrs . ' maxlength="' . $maxLength . '"' . $require . '>';
 
         $html .= !empty($helpInput) ? $helpInput : '';
@@ -149,15 +154,20 @@ class Form
      * @param bool $require
      * @param string $otherAttr
      * @param string $otherClass
+     * @param string $placeholder
      * @return string
      */
-    public static function textarea($title, $name, $value = '', $rows = 5, $require = false, $otherAttr = '', $otherClass = '')
+    public static function textarea($title, $name, $value = '', $rows = 5, $require = false, $otherAttr = '', $otherClass = '', $placeholder = '')
     {
 
         $require = $require ? 'required="true"' : '';
 
         $html = '';
-        $html .= '<div class="form-group" ><label for="' . $name . '" > ' . trans($title) . ' </label >';
+        $html .= '<div class="form-group">';
+
+        if (!empty($placeholder)) {
+            $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
+        }
         $html .= '<textarea name = "' . $name . '" id = "' . $name . '" rows="' . $rows . '" class="form-control ' . $otherClass . '" ' . $require . ' ' . $otherAttr . '>' . $value . '</textarea>';
         $html .= '</div>';
 
