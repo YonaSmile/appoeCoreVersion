@@ -168,7 +168,7 @@ class Form
         if (empty($placeholder)) {
             $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
         }
-        $html .= '<textarea name = "' . $name . '" id = "' . $name . '" rows="' . $rows . '" class="form-control ' . $otherClass . '" ' . $require . ' ' . $otherAttr . '>' . $value . '</textarea>';
+        $html .= '<textarea name = "' . $name . '" id = "' . $name . '" rows="' . $rows . '" class="form-control ' . $otherClass . '" ' . $require . ' ' . $otherAttr . ' placeholder="' . $placeholder . '">' . $value . '</textarea>';
         $html .= '</div>';
 
         return $html;
