@@ -133,7 +133,7 @@ class Form
         $html = '';
         $html .= '<div class="form-group">';
 
-        if (!empty($placeholder)) {
+        if (empty($placeholder)) {
             $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
         }
 
@@ -165,7 +165,7 @@ class Form
         $html = '';
         $html .= '<div class="form-group">';
 
-        if (!empty($placeholder)) {
+        if (empty($placeholder)) {
             $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
         }
         $html .= '<textarea name = "' . $name . '" id = "' . $name . '" rows="' . $rows . '" class="form-control ' . $otherClass . '" ' . $require . ' ' . $otherAttr . '>' . $value . '</textarea>';
