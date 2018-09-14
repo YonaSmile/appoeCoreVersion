@@ -1852,32 +1852,25 @@ function includePluginsStyles()
 }
 
 /**
+ * @param $updateUserStatus
  * @return bool
  */
-function checkPostAndTokenRequest()
+function checkPostAndTokenRequest($updateUserStatus = true)
 {
-    if (
-        $_SERVER["REQUEST_METHOD"] == "POST"
-        && !empty($_POST['_token'])
-        && !empty($_SESSION['_token'])
-        && $_POST['_token'] == $_SESSION['_token']
-    ) {
+    if (!empty($_POST['_token']) && !empty($_SESSION['_token']) && $_POST['_token'] == $_SESSION['_token']) {
+
         unsetToken();
 
-        $excludeSlug = array(
-            'hibour'
-        );
-
-        if (!in_array(pageSlug(), $excludeSlug)) {
-            if (function_exists('mehoubarim_connecteUser')) {
-                mehoubarim_connecteUser();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if ($updateUserStatus) {
+                if (function_exists('mehoubarim_connecteUser')) {
+                    mehoubarim_connecteUser();
+                }
             }
+
+            return true;
         }
-
-        return true;
     }
-
-    unsetToken();
 
     return false;
 }
