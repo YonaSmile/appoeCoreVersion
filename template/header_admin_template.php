@@ -43,6 +43,7 @@ $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
           integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
           crossorigin="anonymous">
+    <script type="text/javascript" src="<?= APP_ROOT; ?>js/push/bin/push.js"></script>
     <script type="text/javascript" src="<?= APP_ROOT; ?>js/all.js"></script>
     <?php includePluginsJs(); ?>
 </head>

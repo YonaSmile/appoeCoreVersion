@@ -57,6 +57,12 @@
 <script>
     (function ($) {
 
+        //cookie for welcome message
+        if (!getCookie('welcomeMsg')) {
+            Notif('Bienvenu sur APPOE', 'Ces notifications vont vous permettre de suivre de près l\'évolution de votre travail avec APPOE.', 10000);
+        }
+        setCookie('welcomeMsg', 'OK', 356);
+
         //cookie for sidebar
         if (!getCookie('toggleSidebar')) {
             setCookie('toggleSidebar', 'open', 1);

@@ -95,6 +95,18 @@ function systemAjaxRequest(data) {
     return $.post('/app/ajax/plugin.php', data);
 }
 
+function Notif(title, text = '', timeout = 4000, icon = '/app/images/logo_app.png') {
+    Push.create(title, {
+        body: text,
+        icon: icon,
+        timeout: timeout,
+        onClick: function () {
+            window.focus();
+            this.close();
+        }
+    });
+}
+
 $(document).ready(function () {
 
     var selectedFiles = [];
