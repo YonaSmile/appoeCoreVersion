@@ -224,7 +224,7 @@
             });
 
             $('#updateSystem').on('click', function () {
-
+                Notif('APPOE', 'Une mise à jour du système est en cours...', 5000);
                 systemAjaxRequest({
                     downloadSystemCore: 'OK'
                 }).done(function (data) {
@@ -239,7 +239,7 @@
             });
 
             $('#updateSitemap').on('click', function () {
-
+                Notif('APPOE', 'Une mise à jour des extensions est en cours...', 5000);
                 systemAjaxRequest({
                     updateSitemap: 'OK'
                 }).done(function (data) {
