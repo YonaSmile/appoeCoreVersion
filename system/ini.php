@@ -51,42 +51,19 @@ ini_set('log_errors', 1);
 ini_set('error_log', ROOT_PATH . 'error.log');
 
 /**
- * Set interface lang
+ * Set website lang
  */
-if (!empty($_REQUEST['interface_lang'])) {
-
-    define('APP_LANG', $_REQUEST['APP_LANG']);
-    setcookie('APP_LANG', APP_LANG, strtotime('+30 days'), WEB_DIR, '', false, true);
-
-} elseif (!empty($_COOKIE['APP_LANG'])) {
-    define('APP_LANG', $_COOKIE['APP_LANG']);
-
-} else {
-
-    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-        define('APP_LANG', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
-    } else {
-        define('APP_LANG', 'fr');
-    }
-
-    setcookie('APP_LANG', APP_LANG, strtotime('+30 days'), WEB_DIR, '', false, true);
-}
-
-
-/**
- * Set content lang
- */
-if (!empty($_REQUEST['lang'])) {
+if (!empty($_REQUEST['lang']) && langExist($_REQUEST['lang'])) {
 
     define('LANG', $_REQUEST['lang']);
     setcookie('LANG', LANG, strtotime('+30 days'), WEB_DIR, '', false, true);
 
-} elseif (!empty($_COOKIE['LANG'])) {
+} elseif (!empty($_COOKIE['LANG']) && langExist($_COOKIE['LANG'])) {
     define('LANG', $_COOKIE['LANG']);
 
 } else {
 
-    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) && langExist($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         define('LANG', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
     } else {
         define('LANG', 'fr');
@@ -96,20 +73,12 @@ if (!empty($_REQUEST['lang'])) {
 }
 
 /**
- * Defined interface languages
- */
-const INTERFACE_LANGUAGES = array(
-    'fr' => 'Français',
-    'en' => 'English',
-);
-
-/**
  * Defined local timezone & date format
  */
 setlocale(LC_ALL, strtolower(LANG) . '_' . strtoupper(LANG) . '.UTF-8');
 
 /**
- * Defined App const
+ * Defined App const & params
  */
 define('NUM_OF_ATTEMPTS', 30);
 

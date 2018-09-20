@@ -323,6 +323,15 @@ function getAppImg($name)
     return WEB_APP_IMG . $name;
 }
 
+function langExist($lang)
+{
+
+    if (array_key_exists($lang, LANGUAGES)) {
+        return true;
+    }
+    return false;
+}
+
 /**
  * @return bool
  */
