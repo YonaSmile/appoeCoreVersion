@@ -53,17 +53,17 @@ ini_set('error_log', ROOT_PATH . 'error.log');
 /**
  * Set website lang
  */
-if (!empty($_REQUEST['lang']) && langExist($_REQUEST['lang'])) {
+if (!empty($_REQUEST['lang']) && array_key_exists($_REQUEST['lang'], LANGUAGES)) {
 
     define('LANG', $_REQUEST['lang']);
     setcookie('LANG', LANG, strtotime('+30 days'), WEB_DIR, '', false, true);
 
-} elseif (!empty($_COOKIE['LANG']) && langExist($_COOKIE['LANG'])) {
+} elseif (!empty($_COOKIE['LANG']) && array_key_exists($_COOKIE['LANG'], LANGUAGES)) {
     define('LANG', $_COOKIE['LANG']);
 
 } else {
 
-    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) && langExist($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) && array_key_exists($_SERVER['HTTP_ACCEPT_LANGUAGE'], LANGUAGES)) {
         define('LANG', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
     } else {
         define('LANG', 'fr');
