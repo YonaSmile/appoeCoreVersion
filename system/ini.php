@@ -51,6 +51,11 @@ ini_set('log_errors', 1);
 ini_set('error_log', ROOT_PATH . 'error.log');
 
 /**
+ * Set App Interface lang
+ */
+define('APP_LANG', 'fr');
+
+/**
  * Set website lang
  */
 if (!empty($_REQUEST['lang']) && array_key_exists($_REQUEST['lang'], LANGUAGES)) {
