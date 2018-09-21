@@ -1704,18 +1704,21 @@ function showTemplateZones($pageSlug, $pageData)
 function getTemplateZonesTypes(array $templateZones)
 {
 
-    //zones types array
+    //Clean data
+    $templateZones = cleanRequest($templateZones);
+
+    //Zones types array
     $templateZonesTypes = array();
 
     //Authorised form manage data
     $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
 
     //Authorised tags
-    $acceptedHTMLTags = array('hr');
+    $acceptedHTMLTags = array('hr', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em');
 
     foreach ($templateZones as $i => $adminZone) {
 
-        //Check for form types
+        //Check for form type
         if (strpos($adminZone, '_')) {
 
             //Get data
@@ -1730,9 +1733,27 @@ function getTemplateZonesTypes(array $templateZones)
                 }
             }
 
-        } elseif (in_array($adminZone, $acceptedHTMLTags)) {
+        } elseif (is_string($adminZone)) {
 
-            $templateZonesTypes[] = '<' . $adminZone . '>';
+            //Check for tag & text type
+            if (strpos($adminZone, '#')) {
+
+                //Get data
+                list($htmlTag, $text) = array_pad(explode('#', $adminZone), 2, '');
+
+                //Check tag authorised data
+                if (in_array($htmlTag, $acceptedHTMLTags)) {
+
+                    $templateZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag">' . ucfirst($text) . '</' . $htmlTag . '>';
+                }
+
+            } else {
+
+                //Check tag authorised data
+                if (in_array($adminZone, $acceptedHTMLTags)) {
+                    $templateZonesTypes[] = '<' . $adminZone . ' class="templateZoneTag">';
+                }
+            }
         }
 
     }
