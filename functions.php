@@ -323,6 +323,10 @@ function getAppImg($name)
     return WEB_APP_IMG . $name;
 }
 
+/**
+ * @param $lang
+ * @return bool
+ */
 function langExist($lang)
 {
 
@@ -1638,19 +1642,13 @@ function showTemplateZones($pageSlug, $pageData)
 
     if (preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
 
-        //Filter uniques zones
-        $template = array_unique($match[1]);
-
-        //Authorised form manage data
-        $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
-
-        //Authorised tags
-        $acceptedHTMLTags = array('hr');
-
         //Default values
         $defaultCol = '12';
 
-        foreach ($template as $i => $adminZone) {
+        //Get & Check zones types
+        $zonesType = getTemplateZonesTypes($match[1]);
+
+        foreach ($zonesType as $i => $adminZone) {
 
             //Check for form types
             if (strpos($adminZone, '_')) {
@@ -1658,46 +1656,86 @@ function showTemplateZones($pageSlug, $pageData)
                 //Get data
                 list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
 
-                //Check form authorised data
-                if (in_array($formType, $acceptedFormType)) {
+                //Get input value
+                $metaKeyDisplay = ucfirst(str_replace('-', ' ', $metaKey));
+                $idCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->id : '';
+                $valueCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->metaValue : '';
 
-                    //Get input value
-                    $metaKeyDisplay = ucfirst(str_replace('-', ' ', $metaKey));
-                    $idCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->id : '';
-                    $valueCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->metaValue : '';
-
-                    //Display input zone
-                    if (!empty($group)) {
-                        if ($group == 'begin') {
-                            $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
-                            $html .= '<div class="row"><div class="col-12 my-2">';
-                        } else {
-                            $html .= '<div class="col-12 my-2">';
-                        }
-                    } else {
+                //Display input zone
+                if (!empty($group)) {
+                    if ($group == 'begin') {
                         $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
-                    }
-
-                    //Display input
-                    if ($formType == 'textarea') {
-                        $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
-                    } elseif ($formType == 'urlFile') {
-                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile');
+                        $html .= '<div class="row"><div class="col-12 my-2">';
                     } else {
-                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
+                        $html .= '<div class="col-12 my-2">';
                     }
-
-                    $html .= '</div>';
-                    if (!empty($group) && $group == 'end') {
-                        $html .= '</div></div>';
-                    }
+                } else {
+                    $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
                 }
-            } elseif (in_array($adminZone, $acceptedHTMLTags)) {
-                $html .= '<' . $adminZone . '>';
+
+                //Display input
+                if ($formType == 'textarea') {
+                    $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
+                } elseif ($formType == 'urlFile') {
+                    $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile');
+                } else {
+                    $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
+                }
+
+                $html .= '</div>';
+                if (!empty($group) && $group == 'end') {
+                    $html .= '</div></div>';
+                }
+
+            } else {
+                $html .= $adminZone;
             }
         }
     }
     return $html;
+}
+
+/**
+ * @param array $templateZones
+ * @return array
+ */
+function getTemplateZonesTypes(array $templateZones)
+{
+
+    //zones types array
+    $templateZonesTypes = array();
+
+    //Authorised form manage data
+    $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
+
+    //Authorised tags
+    $acceptedHTMLTags = array('hr');
+
+    foreach ($templateZones as $i => $adminZone) {
+
+        //Check for form types
+        if (strpos($adminZone, '_')) {
+
+            //Get data
+            list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
+
+            //Check form authorised data
+            if (in_array($formType, $acceptedFormType)) {
+
+                //Filter uniques form zones
+                if (!in_array($adminZone, $templateZonesTypes)) {
+                    $templateZonesTypes[] = $adminZone;
+                }
+            }
+
+        } elseif (in_array($adminZone, $acceptedHTMLTags)) {
+
+            $templateZonesTypes[] = '<' . $adminZone . '>';
+        }
+
+    }
+
+    return $templateZonesTypes;
 }
 
 /**
