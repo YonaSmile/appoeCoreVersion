@@ -37,6 +37,12 @@ img {
     display: block;
 }
 
+h5.templateZoneTag {
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
 #loader {
     background: #FFF;
     position: fixed;
