@@ -1644,6 +1644,9 @@ function showTemplateZones($pageSlug, $pageData)
         //Authorised form manage data
         $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
 
+        //Authorised tags
+        $acceptedHTMLTags = array('hr');
+
         //Default values
         $defaultCol = '12';
 
@@ -1655,7 +1658,7 @@ function showTemplateZones($pageSlug, $pageData)
                 //Get data
                 list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
 
-                //Check data
+                //Check form authorised data
                 if (in_array($formType, $acceptedFormType)) {
 
                     //Get input value
@@ -1689,6 +1692,8 @@ function showTemplateZones($pageSlug, $pageData)
                         $html .= '</div></div>';
                     }
                 }
+            } elseif (in_array($adminZone, $acceptedHTMLTags)) {
+                $html .= '<' . $adminZone . '>';
             }
         }
     }
