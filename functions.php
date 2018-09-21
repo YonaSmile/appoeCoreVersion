@@ -1617,6 +1617,8 @@ function showTemplateContent($pageSlug, $pageData)
 
                 list($metaKey, $formType) = explode('_', $adminZone);
                 $pageContent = str_replace($match[0][$i], sprintf('%s', !empty($pageData[$metaKey]) ? htmlSpeCharDecode($pageData[$metaKey]->metaValue) : '•••'), $pageContent);
+            } else {
+                $pageContent = str_replace($match[0][$i], '', $pageContent);
             }
         }
     }
