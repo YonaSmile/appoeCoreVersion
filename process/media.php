@@ -11,7 +11,7 @@ if (checkPostAndTokenRequest()) {
 
         $Media = new \App\Media();
         $Media->setTypeId($_POST['library']);
-        $ArticleMedia->setUserId(getUserIdSession());
+        $Media->setUserId(getUserIdSession());
 
         //Get uploaded files
         if (!empty($_FILES)) {
