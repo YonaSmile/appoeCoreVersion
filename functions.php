@@ -1713,8 +1713,9 @@ function getTemplateZonesTypes(array $templateZones)
     //Authorised form manage data
     $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
 
-    //Authorised tags
-    $acceptedHTMLTags = array('hr', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em');
+    //Authorised HTML
+    $acceptedHTMLContainer = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em');
+    $acceptedHTMLTags = array('hr');
 
     foreach ($templateZones as $i => $adminZone) {
 
@@ -1741,8 +1742,8 @@ function getTemplateZonesTypes(array $templateZones)
                 //Get data
                 list($htmlTag, $text) = array_pad(explode('#', $adminZone), 2, '');
 
-                //Check tag authorised data
-                if (in_array($htmlTag, $acceptedHTMLTags)) {
+                //Check container authorised data
+                if (in_array($htmlTag, $acceptedHTMLContainer)) {
 
                     $templateZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag">' . ucfirst($text) . '</' . $htmlTag . '>';
                 }
