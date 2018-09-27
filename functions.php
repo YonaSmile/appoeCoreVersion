@@ -1711,7 +1711,7 @@ function getTemplateZonesTypes(array $templateZones)
     $templateZonesTypes = array();
 
     //Authorised form manage data
-    $acceptedFormType = array('text', 'textarea', 'email', 'url', 'color', 'number', 'urlFile');
+    $acceptedFormType = array('text', 'textarea', 'email', 'tel', 'url', 'color', 'number', 'urlFile');
 
     //Authorised HTML
     $acceptedHTMLContainer = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em');
