@@ -1644,6 +1644,9 @@ function showTemplateZones($pageSlug, $pageData)
 
     if (preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
 
+        //Unique metaKey container for unique input
+        $metaKeyContainer = array();
+
         //Default values
         $defaultCol = '12';
 
@@ -1675,13 +1678,19 @@ function showTemplateZones($pageSlug, $pageData)
                     $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
                 }
 
-                //Display input
-                if ($formType == 'textarea') {
-                    $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
-                } elseif ($formType == 'urlFile') {
-                    $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile');
-                } else {
-                    $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
+                //Check unique input
+                if (!in_array($metaKey, $metaKeyContainer)) {
+
+                    //Display input
+                    if ($formType == 'textarea') {
+                        $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
+                    } elseif ($formType == 'urlFile') {
+                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile');
+                    } else {
+                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
+                    }
+
+                    array_push($metaKeyContainer, $metaKey);
                 }
 
                 $html .= '</div>';
@@ -1711,10 +1720,10 @@ function getTemplateZonesTypes(array $templateZones)
     $templateZonesTypes = array();
 
     //Authorised form manage data
-    $acceptedFormType = array('text', 'textarea', 'email', 'tel', 'url', 'color', 'number', 'urlFile');
+    $acceptedFormType = array('text', 'textarea', 'email', 'tel', 'url', 'color', 'number', 'date', 'urlFile');
 
     //Authorised HTML
-    $acceptedHTMLContainer = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em');
+    $acceptedHTMLContainer = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em', 'div');
     $acceptedHTMLTags = array('hr');
 
     foreach ($templateZones as $i => $adminZone) {
