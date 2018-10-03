@@ -1681,13 +1681,26 @@ function showTemplateZones($pageSlug, $pageData)
                 //Check unique input
                 if (!in_array($metaKey, $metaKeyContainer)) {
 
-                    //Display input
-                    if ($formType == 'textarea') {
-                        $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
-                    } elseif ($formType == 'urlFile') {
-                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile');
+                    //Display form input
+                    if (strpos($formType, ':')) {
+
+                        //Get form options
+                        $options = explode(':', $formType);
+
+                        //Get form type
+                        $formType = array_shift($options);
+
+                        if ($formType == 'select') {
+                            $html .= \App\Form::select($metaKeyDisplay, $metaKey, array_combine($options, $options), $valueCmsContent, false, 'data-idcmscontent="' . $idCmsContent . '"');
+                        }
                     } else {
-                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
+                        if ($formType == 'textarea') {
+                            $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
+                        } elseif ($formType == 'urlFile') {
+                            $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile');
+                        } else {
+                            $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
+                        }
                     }
 
                     array_push($metaKeyContainer, $metaKey);
@@ -1720,7 +1733,7 @@ function getTemplateZonesTypes(array $templateZones)
     $templateZonesTypes = array();
 
     //Authorised form manage data
-    $acceptedFormType = array('text', 'textarea', 'email', 'tel', 'url', 'color', 'number', 'date', 'urlFile');
+    $acceptedFormType = array('text', 'textarea', 'email', 'tel', 'url', 'color', 'number', 'date', 'urlFile', 'select', 'radio', 'checkbox');
 
     //Authorised HTML
     $acceptedHTMLContainer = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em', 'div');
@@ -1733,6 +1746,13 @@ function getTemplateZonesTypes(array $templateZones)
 
             //Get data
             list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
+
+            //Check form type with options
+            if (strpos($formType, ':')) {
+
+                $options = explode(':', $formType);
+                $formType = array_shift($options);
+            }
 
             //Check form authorised data
             if (in_array($formType, $acceptedFormType)) {
