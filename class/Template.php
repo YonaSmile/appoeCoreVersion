@@ -34,7 +34,7 @@ class Template
         //Check zones types
         if (preg_match_all("/{{(.*?)}}/", self::$pageHtmlContent, $match)) {
 
-            //Check if return admin zone template
+            //Check if return admin zone template or content
             if (!$getHtmlContent) {
 
                 //Get zones types

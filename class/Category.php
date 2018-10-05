@@ -262,7 +262,7 @@ class Category
                 $data = $stmt->fetch(\PDO::FETCH_OBJ);
 
                 if ($forUpdate) {
-                    if ($data->name == $this->name && $data->slug == $this->type) {
+                    if ($data->id == $this->id) {
                         return true;
                     }
                 }

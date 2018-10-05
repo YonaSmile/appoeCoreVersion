@@ -1580,17 +1580,18 @@ function getColor()
 
 /**
  * @param $dbname
- * @param string $colomn
- * @param string $order
+ * @param string $groupBy
  * @param int $limit
- * @return bool
+ * @param string $column
+ * @param string $order
+ * @return array|bool
  */
-function getLastFromDb($dbname, $colomn = 'updated_at', $order = 'DESC', $limit = 2)
+function getLastFromDb($dbname, $groupBy = '', $limit = 2, $column = 'updated_at', $order = 'DESC')
 {
 
     $dbh = \App\DB::connect();
 
-    $sql = 'SELECT * FROM appoe_' . $dbname . ' ORDER BY ' . $colomn . ' ' . $order . ' LIMIT ' . $limit;
+    $sql = 'SELECT * FROM appoe_' . $dbname . ' ORDER BY ' . $column . ' ' . $order;
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
     $error = $stmt->errorInfo();
@@ -1599,7 +1600,10 @@ function getLastFromDb($dbname, $colomn = 'updated_at', $order = 'DESC', $limit 
         return false;
     }
 
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
+    return
+        empty($groupBy)
+            ? $stmt->fetchAll(PDO::FETCH_OBJ)
+            : array_slice(array_unique(extractFromObjToSimpleArr($stmt->fetchAll(PDO::FETCH_OBJ), $groupBy)), 0, $limit);
 }
 
 /**

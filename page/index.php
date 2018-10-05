@@ -8,53 +8,64 @@
                         <hr class="mx-4">
                     </div>
                     <?php
-                    $lastPage = getLastFromDb('plugin_cms');
-                    $lastArticle = getLastFromDb('plugin_itemGlue_articles');
+                    $lastPage = getLastFromDb('plugin_cms_content', 'idCms');
+                    $Cms = new \App\Plugin\Cms\Cms();
+
+                    $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle');
+                    $Article = new \App\Plugin\ItemGlue\Article();
                     ?>
                     <div class="card-body pt-0" id="recentUpdates">
                         <?php if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
                             <strong><?= trans('Pages'); ?></strong>
                             <div class="my-4">
-                                <?php foreach ($lastPage as $page): ?>
-                                    <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
-                                        <span class="mr-2"><?= $page->name; ?></span>
-                                        <span class="visitsStatsBadge bgColorPrimary">
-                                        <a href="<?= getPluginUrl('cms/page/pageContent/', $page->id) ?>"
+                                <?php foreach ($lastPage as $id => $idPage):
+                                    $Cms->setId($idPage);
+                                    if ($Cms->show()): ?>
+                                        <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
+                                            <span class="mr-2"><?= $Cms->getName(); ?></span>
+                                            <span class="visitsStatsBadge bgColorPrimary">
+                                        <a href="<?= getPluginUrl('cms/page/pageContent/', $Cms->getId()) ?>"
                                            class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                 <span class="text-white"><i class="fas fa-cog"></i></span>
                                             </a>
-                                            <?php if ($USER->getRole() > 3): ?>
-                                                <a href="<?= getPluginUrl('cms/page/update/', $page->id) ?>"
-                                                   class="btn btn-sm p-0 align-top" title="<?= trans('Modifier'); ?>">
+                                                <?php if ($USER->getRole() > 3): ?>
+                                                    <a href="<?= getPluginUrl('cms/page/update/', $Cms->getId()) ?>"
+                                                       class="btn btn-sm p-0 align-top"
+                                                       title="<?= trans('Modifier'); ?>">
                                                 <span class="text-white"><i class="fas fa-wrench"></i></span>
                                             </a>
-                                            <?php endif; ?>
+                                                <?php endif; ?>
                                         </span>
-                                    </div>
-                                <?php endforeach; ?>
+                                        </div>
+                                    <?php endif;
+                                endforeach; ?>
                             </div>
                         <?php endif; ?>
 
                         <?php if (is_array($lastArticle) && !isArrayEmpty($lastArticle)): ?>
                             <strong><?= trans('Articles'); ?></strong>
                             <div class="my-4">
-                                <?php foreach ($lastArticle as $article): ?>
-                                    <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
-                                        <span class="mr-2"><?= $article->name; ?></span>
-                                        <span class="visitsStatsBadge bgColorPrimary">
-                                        <a href="<?= getPluginUrl('itemGlue/page/articleContent/', $article->id) ?>"
+                                <?php foreach ($lastArticle as $id => $idArticle):
+                                    $Article->setId($idArticle);
+                                    if ($Article->show()): ?>
+                                        <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
+                                            <span class="mr-2"><?= $Article->getName(); ?></span>
+                                            <span class="visitsStatsBadge bgColorPrimary">
+                                        <a href="<?= getPluginUrl('itemGlue/page/articleContent/', $Article->getId()) ?>"
                                            class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                             <span class="text-white"><i class="fas fa-cog"></i></span>
                                         </a>
-                                            <?php if ($USER->getRole() > 3): ?>
-                                                <a href="<?= getPluginUrl('itemGlue/page/update/', $article->id) ?>"
-                                                   class="btn btn-sm p-0 align-top" title="<?= trans('Modifier'); ?>">
+                                                <?php if ($USER->getRole() > 3): ?>
+                                                    <a href="<?= getPluginUrl('itemGlue/page/update/', $Article->getId()) ?>"
+                                                       class="btn btn-sm p-0 align-top"
+                                                       title="<?= trans('Modifier'); ?>">
                                                 <span class="text-white"><i class="fas fa-wrench"></i></span>
                                             </a>
-                                            <?php endif; ?>
+                                                <?php endif; ?>
                                         </span>
-                                    </div>
-                                <?php endforeach; ?>
+                                        </div>
+                                    <?php endif;
+                                endforeach; ?>
                             </div>
                         <?php endif; ?>
                     </div>
