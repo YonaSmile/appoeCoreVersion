@@ -3,7 +3,7 @@
 namespace App;
 class Users
 {
-    private $id = null;
+    private $id;
     private $email;
     private $password;
     private $role;
@@ -78,7 +78,7 @@ class Users
      */
     public function getRole()
     {
-        return $this->role;
+        return strlen($this->role) < 2 ? $this->role : \App\Shinoui::Decrypter($this->role);
     }
 
     /**
@@ -86,7 +86,7 @@ class Users
      */
     public function setRole($role)
     {
-        $this->role = $role;
+        $this->role = strlen($role) > 2 ? $role : \App\Shinoui::Crypter($role);
     }
 
     /**
@@ -162,7 +162,7 @@ class Users
                 	`email` VARCHAR(200) NOT NULL,
                 	UNIQUE KEY (`email`),
   					`password` VARCHAR(255) NOT NULL,
-  					`role` INT(11) UNSIGNED NOT NULL,
+  					`role` VARCHAR(255) NOT NULL,
   					`nom` VARCHAR(100) NOT NULL,
   					`prenom` VARCHAR(100) NOT NULL,
   					`options` TEXT NULL DEFAULT NULL,
@@ -300,7 +300,7 @@ class Users
     public function update()
     {
 
-        if ($this->id != '150092') {
+        if ($this->id != '157092') {
             $sql = 'UPDATE appoe_users SET email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut WHERE id = :id';
             $stmt = $this->dbh->prepare($sql);
             $stmt->bindParam(':id', $this->id);

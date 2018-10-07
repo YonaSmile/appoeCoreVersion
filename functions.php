@@ -173,6 +173,25 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 }
 
 /**
+ * @param $roleId
+ * @return mixed
+ */
+function getRoleName($roleId)
+{
+    $roleId = strlen($roleId) < 2 ? $roleId : \App\Shinoui::Decrypter($roleId);
+    return ROLES[$roleId];
+}
+
+/**
+ * @param $cryptedRole
+ * @return string
+ */
+function getRoleId($cryptedRole)
+{
+    return strlen($cryptedRole) < 2 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
+}
+
+/**
  * @param $mediaPath
  * @return bool
  */
