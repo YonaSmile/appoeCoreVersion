@@ -879,7 +879,7 @@ function saveFiles($folder = 'public')
         }
     }
 
-    $saveFileName = $dest . DIRECTORY_SEPARATOR . 'files.zip';
+    $saveFileName = $dest . DIRECTORY_SEPARATOR . WEB_TITLE . '-files.zip';
     $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . 'files.zip';
 
     // Initialize archive object
