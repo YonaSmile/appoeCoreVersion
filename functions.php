@@ -730,9 +730,27 @@ function activePlugin($setupPath)
 }
 
 /**
- * DB Backup
+ * @param $octets
+ * @return string
+ */
+function getSizeName($octets)
+{
+    $resultat = $octets;
+    for ($i = 0; $i < 8 && $resultat >= 1024; $i++) {
+        $resultat = $resultat / 1024;
+    }
+    if ($i > 0) {
+        return preg_replace('/,00$/', '', number_format($resultat, 2, ',', ''))
+            . ' ' . substr('KMGTPEZY', $i - 1, 1) . 'o';
+    } else {
+        return $resultat . ' o';
+    }
+}
+
+/**
  * @param bool $DB
  * @return bool
+ * @throws phpmailerException
  */
 function appBackup($DB = true)
 {
@@ -840,6 +858,64 @@ function rcopy($src, $dest)
     }
 
     return true;
+}
+
+/**
+ * @param string $folder
+ * @return array|bool
+ */
+function saveFiles($folder = 'public')
+{
+
+    // Get real path for our folder
+    $rootPath = realpath(getenv('DOCUMENT_ROOT') . DIRECTORY_SEPARATOR . $folder);
+
+    $dest = ROOT_PATH . 'app/backup/' . date('Y-m-d');
+
+    if (!is_dir($dest) && !is_file($dest)) {
+        if (!mkdir($dest)) {
+            // If the destination directory could not be created stop processing
+            return false;
+        }
+    }
+
+    $saveFileName = $dest . DIRECTORY_SEPARATOR . 'files.zip';
+    $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . 'files.zip';
+
+    // Initialize archive object
+    $zip = new ZipArchive();
+    if ($zip->open($dest . DIRECTORY_SEPARATOR . 'files.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+
+        // Create recursive directory iterator
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($rootPath),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        $filesSize = 0;
+
+        foreach ($files as $name => $file) {
+
+            // Skip directories (they would be added automatically)
+            if (!$file->isDir()) {
+
+                // Get real and relative path for current file
+                $filePath = $file->getRealPath();
+                $relativePath = substr($filePath, strlen($rootPath) + 1);
+
+                // Add current file to archive
+                $zip->addFile($filePath, $relativePath);
+
+                $filesSize += $file->getSize();
+            }
+        }
+
+        // Zip archive will be created only after closing object
+        $zip->close();
+
+        return array('copySize' => $filesSize, 'zipSize' => filesize($saveFileName), 'downloadLink' => $downloadFileName);
+    }
+    return false;
 }
 
 /**

@@ -101,6 +101,14 @@ if (checkAjaxRequest()) {
                 }
             }
         }
-        echo 'Tables Optimisés: ' . $optimizeTables;
+        echo trans('Tables enregistrées') . '. Tables Optimisés: ' . $optimizeTables;
+    }
+
+    if (!empty($_POST['saveFile'])) {
+
+        $saveFiles = saveFiles();
+        if (false !== $saveFiles) {
+            echo getSizeName($saveFiles['copySize']) . trans(' Fichiers enregistrés'), '. <a href="' . $saveFiles['downloadLink'] . '"> ' . trans('Télécharger les fichiers') . ' (' . getSizeName($saveFiles['zipSize']) . ')</a>';
+        }
     }
 }

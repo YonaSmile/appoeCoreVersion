@@ -84,11 +84,14 @@
                     </div>
                     <div class="col-12">
                         <div class="p-3 bg-info text-white">
-                            <?= mb_strtoupper(trans('Base de données')); ?>
+                            <?= mb_strtoupper(trans('Enregistrement')); ?>
                         </div>
                         <div class="p-2 mb-2 bg-light">
                             <button type="button" id="cleanDataBase" class="btn btn-warning btn-sm operationBtn">
-                                <?= trans('Enregistrement & Nettoyage'); ?>
+                                <?= trans('Base de donnée'); ?>
+                            </button>
+                            <button type="button" id="saveFiles" class="btn btn-warning btn-sm operationBtn">
+                                <?= trans('Fichiers'); ?>
                             </button>
                         </div>
                         <div class="my-4"></div>
@@ -210,7 +213,7 @@
             }, 2000);
 
             $('#updatePlugins').on('click', function () {
-                Notif('APPOE', 'Une mise à jour des extensions est en cours...', 5000);
+                Notif('APPOE', 'Une mise à jour des extensions est en cours.<br>Veuillez ne pas quitter votre navigateur !', 5000);
                 systemAjaxRequest({
                     downloadPlugins: 'OK'
                 }).done(function (data) {
@@ -224,7 +227,7 @@
             });
 
             $('#updateSystem').on('click', function () {
-                Notif('APPOE', 'Une mise à jour du système est en cours...', 5000);
+                Notif('APPOE', 'Une mise à jour du système est en cours.<br>Veuillez ne pas quitter votre navigateur !', 5000);
                 systemAjaxRequest({
                     downloadSystemCore: 'OK'
                 }).done(function (data) {
@@ -274,7 +277,24 @@
                 }).done(function (data) {
                     if (data) {
                         $btn.remove();
-                        $parent.html('<p>' + data + '</p>');
+                        $parent.prepend('<p>' + data + '</p>');
+                    }
+                    enableBtns();
+                    $('#loader').fadeOut();
+                });
+            });
+
+            $('#saveFiles').on('click', function () {
+
+                var $btn = $(this);
+                var $parent = $btn.parent();
+
+                systemAjaxRequest({
+                    saveFile: true
+                }).done(function (data) {
+                    if (data) {
+                        $btn.remove();
+                        $parent.prepend('<p>' + data + '</p>');
                     }
                     enableBtns();
                     $('#loader').fadeOut();
