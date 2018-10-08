@@ -879,7 +879,7 @@ function saveFiles($folder = 'public')
         }
     }
 
-    $filename = WEB_TITLE . '-files.zip';
+    $filename = string2url(WEB_TITLE . '-files.zip');
     $saveFileName = $dest . DIRECTORY_SEPARATOR . $filename;
     $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . $filename;
 
@@ -912,9 +912,9 @@ function saveFiles($folder = 'public')
         }
 
         // Zip archive will be created only after closing object
-        $zip->close();
-
-        return array('copySize' => $filesSize, 'zipSize' => filesize($saveFileName), 'downloadLink' => $downloadFileName);
+        if ($zip->close()) {
+            return array('copySize' => $filesSize, 'zipSize' => filesize($saveFileName), 'downloadLink' => $downloadFileName);
+        }
     }
     return false;
 }
@@ -2227,6 +2227,22 @@ function getPluginUrl($file, $param = null)
     }
 
     return WEB_PLUGIN_URL . $file . $url;
+}
+
+/**
+ * @param $str
+ * @return null|string|string[]
+ */
+function string2url($str)
+{
+    $str = trim($str);
+    $str = strtr($str, "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ", "aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuynn");
+    $str = strtr($str, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz");
+    $str = preg_replace('#([^.a-z0-9]+)#i', '-', $str);
+    $str = preg_replace('#-{2,}#', '-', $str);
+    $str = preg_replace('#-$#', '', $str);
+    $str = preg_replace('#^-#', '', $str);
+    return $str;
 }
 
 /**
