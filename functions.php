@@ -879,12 +879,13 @@ function saveFiles($folder = 'public')
         }
     }
 
-    $saveFileName = $dest . DIRECTORY_SEPARATOR . WEB_TITLE . '-files.zip';
-    $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . 'files.zip';
+    $filename = WEB_TITLE . '-files.zip';
+    $saveFileName = $dest . DIRECTORY_SEPARATOR . $filename;
+    $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . $filename;
 
     // Initialize archive object
     $zip = new ZipArchive();
-    if ($zip->open($dest . DIRECTORY_SEPARATOR . 'files.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+    if ($zip->open($saveFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
 
         // Create recursive directory iterator
         $files = new RecursiveIteratorIterator(

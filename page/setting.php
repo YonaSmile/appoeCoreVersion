@@ -213,7 +213,7 @@
             }, 2000);
 
             $('#updatePlugins').on('click', function () {
-                Notif('APPOE', 'Une mise à jour des extensions est en cours.<br>Veuillez ne pas quitter votre navigateur !', 5000);
+                Notif('APPOE', 'Une mise à jour des extensions est en cours. Veuillez ne pas quitter votre navigateur !', 5000);
                 systemAjaxRequest({
                     downloadPlugins: 'OK'
                 }).done(function (data) {
@@ -227,7 +227,7 @@
             });
 
             $('#updateSystem').on('click', function () {
-                Notif('APPOE', 'Une mise à jour du système est en cours.<br>Veuillez ne pas quitter votre navigateur !', 5000);
+                Notif('APPOE', 'Une mise à jour du système est en cours. Veuillez ne pas quitter votre navigateur !', 5000);
                 systemAjaxRequest({
                     downloadSystemCore: 'OK'
                 }).done(function (data) {
