@@ -39,16 +39,17 @@ function pageSlug()
 /**
  * @param $url
  * @param $prefix
+ * @param $classNameAdded
  * @return string
  */
-function activePage($url, $prefix = '')
+function activePage($url, $prefix = '', $classNameAdded = 'active')
 {
     if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
-        return $prefix . 'active ';
+        return $prefix . $classNameAdded;
     }
 
-    if (strstr(basename($_SERVER['REQUEST_URI']), $url)) {
-        return $prefix . 'active ';
+    if (false !== strpos($url, basename($_SERVER['REQUEST_URI']))) {
+        return $prefix . $classNameAdded;
     }
 
     return '';
