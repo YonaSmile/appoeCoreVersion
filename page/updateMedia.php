@@ -23,70 +23,75 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
         <div class="tab-pane fade show active" id="nav-allLibraries" role="tabpanel" aria-labelledby="nav-home-tab">
             <?php if ($allLibrary): ?>
                 <div class="container-fluid">
-                    <div id="shortAccessBtns" class="mb-4"></div>
+                    <div id="shortAccessBtns" class="mb-4 float-right">
+                        <button type="button" class="btn btn-sm btn-secondary"
+                                data-libraryid="all"><?= trans('Tous'); ?></button>
+                    </div>
                     <?php foreach ($allLibrary as $id => $name): ?>
                         <?php
                         $Media->setTypeId($id);
                         $allFiles = $Media->showFiles();
                         if ($allFiles): ?>
-                            <h5 class="libraryName p-3" id="media-<?= $id; ?>"><?= $name; ?></h5>
-                            <hr class="my-3 mx-5">
-                            <div class="card-columns">
-                                <?php foreach ($allFiles as $file): ?>
-                                    <div class="card fileContent bg-none border-0">
-                                        <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
-                                            <img src="<?= getThumb($file->name, 370); ?>"
-                                                 alt="<?= $file->description; ?>"
-                                                 data-originsrc="<?= WEB_DIR_INCLUDE . $file->name; ?>"
-                                                 data-filename="<?= $file->name; ?>"
-                                                 class="img-fluid seeOnOverlay seeDataOnHover">
-                                        <?php else: ?>
-                                            <a href="<?= WEB_DIR_INCLUDE . $file->name; ?>" target="_blank">
-                                                <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>"
+                            <div class="mediaContainer" data-libraryid="media-<?= $id; ?>">
+                                <h5 class="libraryName p-3" id="media-<?= $id; ?>"><?= $name; ?></h5>
+                                <hr class="my-3 mx-5">
+                                <div class="card-columns">
+                                    <?php foreach ($allFiles as $file): ?>
+                                        <div class="card fileContent bg-none border-0">
+                                            <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
+                                                <img src="<?= getThumb($file->name, 370); ?>"
+                                                     alt="<?= $file->description; ?>"
+                                                     data-originsrc="<?= WEB_DIR_INCLUDE . $file->name; ?>"
                                                      data-filename="<?= $file->name; ?>"
-                                                     class="seeDataOnHover">
-                                            </a>
-                                        <?php endif; ?>
-                                        <div class="form-group mt-1 mb-0">
-                                            <small style="font-size: 9px;">
-                                                <strong class="fileLink"
-                                                        data-src="<?= WEB_DIR_INCLUDE . $file->name; ?>">
-                                                    <button class="btn btn-sm btn-outline-info btn-block copyLinkOnClick">
-                                                        <?= trans('Copier le lien du média'); ?>
-                                                    </button>
-                                                </strong>
-                                            </small>
-                                            <form method="post" data-imageid="<?= $file->id; ?>">
-                                                <input type="text" name="description"
-                                                       class="form-control form-control-sm imageDescription"
-                                                       value="<?= $file->description; ?>"
-                                                       placeholder="<?= trans('Description'); ?>">
-                                                <input type="url" name="link"
-                                                       class="form-control form-control-sm imagelink"
-                                                       value="<?= $file->link; ?>"
-                                                       placeholder="<?= trans('Lien'); ?>">
-                                                <input type="tel" name="position"
-                                                       class="form-control form-control-sm imagePosition"
-                                                       value="<?= $file->position; ?>"
-                                                       placeholder="<?= trans('Position'); ?>">
-                                                <select class="custom-select custom-select-sm imageTypeId"
-                                                        name="typeId">
-                                                    <?php foreach ($listCatgories as $typeId => $name): ?>
-                                                        <option value="<?= $typeId; ?>" <?= $typeId == $file->typeId ? 'selected' : ''; ?>><?= $name; ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <small class="infosMedia"></small>
-                                            </form>
+                                                     class="img-fluid seeOnOverlay seeDataOnHover">
+                                            <?php else: ?>
+                                                <a href="<?= WEB_DIR_INCLUDE . $file->name; ?>" target="_blank">
+                                                    <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>"
+                                                         data-filename="<?= $file->name; ?>"
+                                                         class="seeDataOnHover">
+                                                </a>
+                                            <?php endif; ?>
+                                            <div class="form-group mt-1 mb-0">
+                                                <small style="font-size: 9px;">
+                                                    <strong class="fileLink"
+                                                            data-src="<?= WEB_DIR_INCLUDE . $file->name; ?>">
+                                                        <button class="btn btn-sm btn-outline-info btn-block copyLinkOnClick">
+                                                            <?= trans('Copier le lien du média'); ?>
+                                                        </button>
+                                                    </strong>
+                                                </small>
+                                                <form method="post" data-imageid="<?= $file->id; ?>">
+                                                    <input type="text" name="description"
+                                                           class="form-control form-control-sm imageDescription"
+                                                           value="<?= $file->description; ?>"
+                                                           placeholder="<?= trans('Description'); ?>">
+                                                    <input type="url" name="link"
+                                                           class="form-control form-control-sm imagelink"
+                                                           value="<?= $file->link; ?>"
+                                                           placeholder="<?= trans('Lien'); ?>">
+                                                    <input type="tel" name="position"
+                                                           class="form-control form-control-sm imagePosition"
+                                                           value="<?= $file->position; ?>"
+                                                           placeholder="<?= trans('Position'); ?>">
+                                                    <select class="custom-select custom-select-sm imageTypeId"
+                                                            name="typeId">
+                                                        <?php foreach ($listCatgories as $typeId => $name): ?>
+                                                            <option value="<?= $typeId; ?>" <?= $typeId == $file->typeId ? 'selected' : ''; ?>><?= $name; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <small class="infosMedia"></small>
+                                                </form>
+                                            </div>
+                                            <button type="button" class="deleteImage btn btn-danger btn-sm"
+                                                    style="position: absolute; top: 0; right: 0;z-index: 10"
+                                                    data-imageid="<?= $file->id; ?>">
+                                                <i class="fas fa-times"></i>
+                                            </button>
                                         </div>
-                                        <button type="button" class="deleteImage btn btn-danger btn-sm"
-                                                style="position: absolute; top: 0; right: 0;z-index: 10"
-                                                data-imageid="<?= $file->id; ?>">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="my-3"></div>
                             </div>
-                            <div class="my-3"></div>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
@@ -142,13 +147,37 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
 
             $('#allMediaModalContainer').load('/app/ajax/media.php?getAllMedia');
 
+            $('img.seeDataOnHover').popover({
+                html: true,
+                trigger: 'hover',
+                placement: 'top',
+                content: function () {
+                    return '<div><strong>Largeur:</strong> ' + $(this).data('width') + 'px<br><strong>Hauteur:</strong> ' + $(this).data('height') + 'px</div>';
+                }
+            });
+
             $('form#galleryForm').submit(function () {
                 $('#loader').fadeIn('fast');
             });
 
             $.each($('h5.libraryName'), function () {
                 var id = $(this).attr('id');
-                $('#shortAccessBtns').append('<a class="btn btn-info mr-3 mb-3" href="#' + id + '">' + $(this).text() + '</a>');
+                $('#shortAccessBtns').append('<button type="button" class="btn btn-sm btn-secondary" data-libraryid="' + id + '">' + $(this).text() + '</button>');
+            });
+
+            $('#shortAccessBtns button').on('click', function (event) {
+                event.preventDefault();
+
+                var libraryId = $(this).data('libraryid');
+
+                if (libraryId !== 'all') {
+                    $('div.mediaContainer').hide();
+                    $('div.mediaContainer[data-libraryid="' + libraryId + '"]').show();
+                } else {
+                    $('div.mediaContainer').show();
+                }
+
+                return false;
             });
 
             $('input.imageDescription, input.imagelink, input.imagePosition, select.imageTypeId ').on('keyup change', function () {

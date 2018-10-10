@@ -237,11 +237,10 @@ $(window).load(function () {
             img.src = $Img.attr('data-originsrc');
             img.onload = function () {
 
-                $('<div class="contentOnHover"><div class="d-none d-lg-block">Largeur: ' + this.width + 'px<br>Hauteur: ' + this.height + 'px</div>' +
-                    '<div class="d-lg-none">' + this.width + 'px / ' + this.height + 'px</div></div>')
-                    .insertAfter($Img).hide().fadeIn(500);
-                $($Img).data('width', this.width);
-                $($Img).data('height', this.height);
+                $Img.attr('data-toggle', 'popover');
+                $Img.attr('data-width', this.width);
+                $Img.attr('data-height', this.height);
+
             };
         } else {
             $('<div class="contentOnHover"><div class="d-block">' + $Img.data('filename') + '</div></div>')
