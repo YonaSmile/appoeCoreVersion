@@ -33,7 +33,7 @@ if (false !== $menu_data) {
                     </ul>
                 </li>
             <?php else: ?>
-                <li class="<?= activePage($menu['slug']) . 'icon-' . $menu['slug']; ?>"
+                <li class="<?= activePage($menu['slug']) . ' icon-' . $menu['slug']; ?>"
                     id="menu-<?= $menu['slug']; ?>">
                     <a href="<?= (!empty($menu['pluginName'])) ? getPluginUrl($menu['pluginName'] . '/page/' . $menu['slug'] . '/') : getUrl(($menu['slug'] == 'index') ? 'home' : $menu['slug'] . '/'); ?>"><?= trans($menu['name']); ?></a>
                 </li>
