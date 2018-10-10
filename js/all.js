@@ -232,19 +232,16 @@ $(window).load(function () {
         var $Img = $(this);
         var img = new Image();
 
+        $Img.attr('data-toggle', 'popover');
         if ($Img.attr('data-originsrc') !== undefined) {
 
             img.src = $Img.attr('data-originsrc');
             img.onload = function () {
-
-                $Img.attr('data-toggle', 'popover');
                 $Img.attr('data-width', this.width);
                 $Img.attr('data-height', this.height);
-
             };
         } else {
-            $('<div class="contentOnHover"><div class="d-block">' + $Img.data('filename') + '</div></div>')
-                .insertAfter($Img).hide().fadeIn(500);
+            $Img.attr('data-filename', $Img.data('filename'));
         }
     });
 });

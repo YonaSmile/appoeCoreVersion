@@ -152,7 +152,12 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                 trigger: 'hover',
                 placement: 'top',
                 content: function () {
-                    return '<div><strong>Largeur:</strong> ' + $(this).data('width') + 'px<br><strong>Hauteur:</strong> ' + $(this).data('height') + 'px</div>';
+
+                    if ($(this).data('width') !== undefined && $(this).data('height') !== undefined) {
+                        return '<div><strong>Largeur:</strong> ' + $(this).data('width') + 'px<br><strong>Hauteur:</strong> ' + $(this).data('height') + 'px</div>';
+                    } else if ($(this).data('filename').length > 0) {
+                        return '<div><strong>' + $(this).data('filename') + '</strong></div>';
+                    }
                 }
             });
 
