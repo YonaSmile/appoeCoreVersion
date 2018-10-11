@@ -234,9 +234,9 @@ button[disabled], a[disabled], input[disabled] {
     padding: 0 10px;
 }
 
-#sidebarCollapse:active,
-#sidebarCollapse:focus,
-#sidebarCollapse:hover {
+.sidebarCollapse:active,
+.sidebarCollapse:focus,
+.sidebarCollapse:hover {
     outline: 0 !important;
     box-shadow: none !important;
 }
@@ -336,7 +336,7 @@ a[data-toggle="collapse"] {
     width: 100%;
 }
 
-#sidebarCollapse {
+.sidebarCollapse {
     background: transparent;
     transition: all 0.7s;
     border: 0;
@@ -352,7 +352,7 @@ a[data-toggle="collapse"] {
     */
 }
 
-#sidebarCollapse.active {
+.sidebarCollapse.active {
     color: #FFF;
     border: 0;
 }
@@ -393,7 +393,7 @@ ul#usersStatsSubMenu li {
         padding: 0;
     }
 
-    #sidebarCollapse span {
+    .sidebarCollapse span {
         display: none;
     }
 }

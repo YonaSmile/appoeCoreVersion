@@ -1,12 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white" id="navbarUser">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarUserDetails"
+    <button class="mr-auto d-sm-inline-block d-md-none sidebarCollapse" type="button">
+        <i class="fas fa-align-left"></i>
+    </button>
+    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarUserDetails"
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarUserDetails">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <button type="button" class="nav-link btn" id="sidebarCollapse">
+            <li class="nav-item d-none d-md-inline-block">
+                <button type="button" class="nav-link btn sidebarCollapse">
                     <i class="fas fa-align-left"></i>
                 </button>
             </li>
