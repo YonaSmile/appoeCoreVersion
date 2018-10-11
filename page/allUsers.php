@@ -50,28 +50,5 @@ $listUsers = $USER->showAll(); ?>
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function () {
-
-            $('.deleteUser').click(function () {
-
-                if (confirm('<?= trans('Vous allez archiver cet utilisateur'); ?> !')) {
-                    var $btn = $(this);
-                    var idUser = $btn.data('iduser');
-
-                    $.post(
-                        '<?= WEB_DIR; ?>app/ajax/users.php',
-                        {
-                            idDeleteUser: idUser
-                        },
-                        function (data) {
-                            if (true === data || data == 'true') {
-                                $btn.parent('td').parent('tr').slideUp();
-                            }
-                        }
-                    );
-                }
-            });
-        });
-    </script>
+    <script type="text/javascript" src="/app/js/user.js"></script>
 <?php require('footer.php'); ?>

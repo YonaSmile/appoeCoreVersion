@@ -1,0 +1,194 @@
+$(document).ready(function () {
+
+    function disableBtns() {
+        $('.operationBtn').attr('disabled', 'disabled').addClass('disabled');
+    }
+
+    function enableBtns() {
+        $('.operationBtn').attr('disabled', false).removeClass('disabled');
+    }
+
+    $.each($('.plugin'), function (index, val) {
+
+        var pluginName = $(this).data('name');
+        var $returnContenaire = $(this).find('div.returnContainer');
+
+        if ($(this).find('button.activePlugin').length) {
+
+            var $btn = $(this).find('button.activePlugin');
+
+            $btn.attr('disabled', 'disabled').addClass('disabled').html('<i class="fas fa-circle-notch fa-spin"></i>');
+            $.post(
+                '/app/ajax/plugin.php',
+                {
+                    checkTable: pluginName
+                },
+                function (response) {
+                    response = parseInt(response);
+                    if (response > 0) {
+                        $btn.remove();
+                        $returnContenaire.html('<p><strong>Plugin Activé</strong></p><p>Tables activés : ' + response + '</p>');
+                    } else {
+                        $btn.attr('disabled', false).removeClass('disabled').html('Activer');
+                    }
+                });
+        } else {
+            $returnContenaire.html('<p><strong>Plugin Activé</strong></p>');
+        }
+    });
+
+    setTimeout(function () {
+        busyApp();
+        $.each($('.pluginVersion'), function (index, val) {
+            var $versionContenair = $(this);
+            var pluginName = $versionContenair.data('pluginname');
+            var responseVersion = $versionContenair.next('small.responseVersion');
+            responseVersion.html('<i class="fas fa-circle-notch fa-spin"></i>');
+            $.post(
+                '/app/ajax/plugin.php',
+                {
+                    checkVersion: pluginName
+                },
+                function (response) {
+                    if (response) {
+                        try {
+                            response = $.parseJSON(response);
+                            if (response.version != $.trim($versionContenair.text())) {
+                                $('#pluginSystemContenair').slideDown('fast');
+                                responseVersion.html('<em class="text-danger">' + response.version + '</em>');
+                            } else {
+                                responseVersion.html('<em class="text-info">' + response.version + '</em>');
+                            }
+                        } catch (e) {
+
+                        }
+                    }
+                }
+            );
+        });
+        availableApp();
+    }, 2000);
+
+    setTimeout(function () {
+        var $versionContenair = $('#systemVersion');
+        var systemVersion = $.trim($versionContenair.data('systemversion'));
+        var responseVersion = $versionContenair.next('small.responseVersion');
+        responseVersion.html('<i class="fas fa-circle-notch fa-spin"></i>');
+        $.post(
+            '/app/ajax/plugin.php',
+            {
+                checkSystemVersion: 'ok'
+            },
+            function (response) {
+                if (response) {
+                    try {
+                        response = $.parseJSON(response);
+                        if (response.version != systemVersion) {
+                            $('#updateSystemBtnContainer').slideDown('fast');
+                            responseVersion.html('<em class="text-danger">' + response.version + '</em>');
+                        } else {
+                            responseVersion.html('<em class="text-info">' + response.version + '</em>');
+                        }
+                    } catch (e) {
+
+                    }
+                }
+            }
+        );
+    }, 2000);
+
+    $('#updatePlugins').on('click', function () {
+        Notif('APPOE', 'Une mise à jour des extensions est en cours. Veuillez ne pas quitter votre navigateur !', 5000);
+        systemAjaxRequest({
+            downloadPlugins: 'OK'
+        }).done(function (data) {
+            if (data) {
+                window.location = window.location.href;
+                window.location.reload(true);
+            } else {
+                $('#loader').fadeOut();
+            }
+        });
+    });
+
+    $('#updateSystem').on('click', function () {
+        Notif('APPOE', 'Une mise à jour du système est en cours. Veuillez ne pas quitter votre navigateur !', 5000);
+        systemAjaxRequest({
+            downloadSystemCore: 'OK'
+        }).done(function (data) {
+                if (data) {
+                    window.location = window.location.href;
+                    window.location.reload(true);
+                } else {
+                    $('#loader').fadeOut();
+                }
+            }
+        );
+    });
+
+    $('#updateSitemap').on('click', function () {
+        Notif('APPOE', 'L\'actualisation du sitemap est en cours...', 5000);
+        systemAjaxRequest({
+            updateSitemap: 'OK'
+        }).done(function (data) {
+            if (data === true || data == 'true') {
+                $('#updateSitemap').removeClass('operationBtn').html('Sitemap actualisé');
+                enableBtns();
+            }
+            $('#loader').fadeOut();
+        });
+    });
+
+    $('.activePlugin').on('click', function () {
+        busyApp();
+        var $btn = $(this);
+        var pluginPath = $btn.data('pluginpath');
+        $btn.attr('disabled', 'disabled').addClass('disabled').html('<i class="fas fa-circle-notch fa-spin"></i>');
+        var $returnContenaire = $btn.parent('div').next('div.returnContainer');
+        $returnContenaire.load('/app/ajax/plugin.php', {setupPath: pluginPath}, function () {
+            $returnContenaire.append('<p><strong>Vous devez recharger la page pour voir les nouvelles fonctionnalités.</strong></p>');
+            $btn.html('Activé');
+        });
+        availableApp();
+    });
+
+    $('#cleanDataBase').on('click', function () {
+
+        var $btn = $(this);
+        var $parent = $btn.parent();
+
+        systemAjaxRequest({
+            optimizeDb: true
+        }).done(function (data) {
+            if (data) {
+                $btn.remove();
+                $parent.prepend('<p>' + data + '</p>');
+            }
+            enableBtns();
+            $('#loader').fadeOut();
+        });
+    });
+
+    $('#saveFiles').on('click', function () {
+
+        var $btn = $(this);
+        var $parent = $btn.parent();
+
+        systemAjaxRequest({
+            saveFile: true
+        }).done(function (data) {
+            if (data) {
+                $btn.remove();
+                $parent.prepend('<p>' + data + '</p>');
+            }
+            enableBtns();
+            $('#loader').fadeOut();
+        });
+    });
+
+    $('.operationBtn').on('click', function (e) {
+        e.preventDefault();
+        $(this).html('<i class="fas fa-circle-notch fa-spin"></i>');
+        disableBtns();
+    });
+});

@@ -83,15 +83,22 @@ class Form
      * @param string $otherAttr
      * @param string $compareVal
      * @param string $compareOperator
+     * @param string $otherClasses
+     * @param bool $showTitle
      * @return string
      */
-    public static function select($title, $name, array $values, $chosenValue = '', $require = false, $otherAttr = '', $compareVal = '', $compareOperator = '')
+    public static function select($title, $name, array $values, $chosenValue = '', $require = false, $otherAttr = '', $compareVal = '', $compareOperator = '', $otherClasses = '', $showTitle = true)
     {
 
         $require = $require ? 'required="true"' : '';
         $html = '';
-        $html .= '<div class="form-group" ><label for="' . $name . '" > ' . trans($title) . ' </label >';
-        $html .= '<select ' . $otherAttr . ' name = "' . $name . '" id = "' . $name . '" class="form-control custom-select" ' . $require . '>';
+        $html .= '<div class="form-group">';
+
+        if ($showTitle) {
+            $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label >';
+        }
+
+        $html .= '<select ' . $otherAttr . ' name = "' . $name . '" id = "' . $name . '" class="form-control custom-select ' . $otherClasses . '" ' . $require . '>';
 
         if (empty($chosenValue)) {
             $html .= '<option disabled="disabled" selected="selected" value="0">' . trans('Choisissez') . '...</option>';
@@ -137,7 +144,7 @@ class Form
             $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
         }
 
-        $html .= '<input type="' . $type . '" name = "' . $name . '" id = "' . $name . '" value="' . $value . '" placeholder="' . $placeholder . '" class="form-control ' . $otherClasses . '" ' . $othersAttrs . ' maxlength="' . $maxLength . '"' . $require . '>';
+        $html .= '<input type="' . $type . '" name = "' . $name . '" id = "' . $name . '" value="' . $value . '" placeholder="' . trans($placeholder) . '" class="form-control ' . $otherClasses . '" ' . $othersAttrs . ' maxlength="' . $maxLength . '"' . $require . '>';
 
         $html .= !empty($helpInput) ? $helpInput : '';
 
