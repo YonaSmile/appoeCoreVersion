@@ -90,7 +90,7 @@ class Template
         $html = '';
 
         //Check for form types
-        if (strpos($zone, '_')) {
+        if (false !== strpos($zone, '_')) {
 
             //Get data
             list($metaKey, $formType, $col, $group) = array_pad(explode('_', $zone), 4, '');
@@ -101,22 +101,14 @@ class Template
             $valueCmsContent = !empty(self::$pageDbData[$metaKey]) ? self::$pageDbData[$metaKey]->metaValue : '';
 
             //Display input zone
-            if (!empty($group)) {
-                if ($group == 'begin') {
-                    $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : self::$defaultCol) . ' my-2 templateZoneInput">';
-                    $html .= '<div class="row"><div class="col-12 my-2">';
-                } else {
-                    $html .= '<div class="col-12 my-2">';
-                }
-            } else {
-                $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : self::$defaultCol) . ' my-2 templateZoneInput">';
-            }
+            $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : self::$defaultCol) . ' my-2 templateZoneInput">';
+
 
             //Check unique input
             if (!in_array($metaKey, self::$allMetaKeys)) {
 
                 //Display form input
-                if (strpos($formType, ':')) {
+                if (false !== strpos($formType, ':')) {
 
                     //Get form options
                     $options = explode(':', $formType);
@@ -141,9 +133,6 @@ class Template
             }
 
             $html .= '</div>';
-            if (!empty($group) && $group == 'end') {
-                $html .= '</div></div>';
-            }
 
         } else {
             $html .= $zone;
@@ -167,13 +156,13 @@ class Template
         foreach ($zones as $i => $adminZone) {
 
             //Check for form type
-            if (strpos($adminZone, '_')) {
+            if (false !== strpos($adminZone, '_')) {
 
                 //Get data
                 list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
 
                 //Check form type with options
-                if (strpos($formType, ':')) {
+                if (false !== strpos($formType, ':')) {
 
                     $options = explode(':', $formType);
                     $formType = array_shift($options);
@@ -188,24 +177,43 @@ class Template
                     }
                 }
 
-            } elseif (strpos($adminZone, '#')) {
-
-                //Get data
-                list($htmlTag, $text) = array_pad(explode('#', $adminZone), 2, '');
-
-                //Check container authorised data
-                if (self::isAuthorisedHtmlContainer($htmlTag)) {
-
-                    $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag">' . ucfirst($text) . '</' . $htmlTag . '>';
-                }
-
             } else {
+                if (false !== strpos($adminZone, '#')) {
 
-                //Check tag authorised data
-                if (self::isAuthorisedHtmlTags($adminZone)) {
-                    $pageHtmlZonesTypes[] = '<' . $adminZone . ' class="templateZoneTag">';
+                    //Get data
+                    list($htmlTag, $text) = array_pad(explode('#', $adminZone), 2, '');
+
+                    //Get Container Classes
+                    $extract = self::extractClassFromHtmlTag($htmlTag);
+                    $htmlTag = $extract['tag'];
+                    $class = $extract['class'];
+
+                    //Check container authorised data
+                    if (self::isAuthorisedHtmlContainer($htmlTag)) {
+
+                        $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag ' . $class . ' ">' . ucfirst($text) . '</' . $htmlTag . '>';
+                    }
+
+                } else {
+
+                    //Get closed html tag condition
+                    $closeTag = false;
+                    if (false !== strpos($adminZone, '/')) {
+                        $closeTag = true;
+                        $adminZone = str_replace('/', '', $adminZone);
+                    }
+
+                    //Get Container Classes
+                    $extract = self::extractClassFromHtmlTag($adminZone);
+                    $htmlTag = $extract['tag'];
+                    $class = $extract['class'];
+
+                    //Check authorised html tag
+                    if (self::isAuthorisedHtmlContainer($htmlTag)) {
+                        $pageHtmlZonesTypes[] = '<' . ($closeTag ? '/' : '') . $htmlTag . ' class="templateZoneTag ' . $class . ' ">';
+                    }
+
                 }
-
             }
         }
 
@@ -233,22 +241,22 @@ class Template
     {
 
         //Authorised HTML Container
-        $acceptedHtmlContainer = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em', 'div');
+        $acceptedHtmlContainer = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em', 'div', 'hr', 'br');
 
         return in_array($formType, $acceptedHtmlContainer);
     }
 
-    /**
-     * @param $formType
-     * @return bool
-     */
-    public static function isAuthorisedHtmlTags($formType)
+    public static function extractClassFromHtmlTag($htmlTag = '')
     {
+        $class = '';
+        if (strpos($htmlTag, '.')) {
+            list($htmlTag, $class) = explode('.', $htmlTag, 2);
 
-        //Authorised HTML Tags
-        $acceptedHtmlTags = array('hr');
-
-        return in_array($formType, $acceptedHtmlTags);
+            if (strpos($class, '.')) {
+                $class = str_replace('.', ' ', $class);
+            }
+        }
+        return array('tag' => $htmlTag, 'class' => $class);
     }
 
     /**
