@@ -72,7 +72,7 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                                                 </div>
                                                 <button type="button" class="deleteImage btn btn-danger btn-sm"
                                                         style="position: absolute; top: 0; right: 0;z-index: 10"
-                                                        data-imageid="<?= $file->id; ?>">
+                                                        data-imageid="<?= $file->id; ?>" data-thumbwidth="370">
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </div>

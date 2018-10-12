@@ -44,6 +44,11 @@ if (checkAjaxRequest()) {
             $Media = new \App\Media();
             $Media->setId($_POST['idImage']);
             if ($Media->show()) {
+
+                if (!empty($_POST['thumbWidth'])) {
+                    deleteThumb($Media->getName(), $_POST['thumbWidth']);
+                }
+
                 if ($Media->delete()) {
                     echo 'true';
                 }
@@ -60,9 +65,9 @@ if (checkAjaxRequest()) {
                 $html .= '<div class="card fileContent allMediaCard" data-filename="' . $includeFile . '">';
 
                 if (isImage(FILE_DIR_PATH . $includeFile)) {
-                    $html .= '<img src="' . WEB_DIR_INCLUDE . $includeFile . '" class="img-fluid seeOnOverlay" data-originsrc="' . WEB_DIR_INCLUDE . $includeFile . '">';
+                    $html .= '<img src="' . WEB_DIR_INCLUDE . $includeFile . '" class="img-fluid seeOnOverlay seeDataOnHover" data-originsrc="' . WEB_DIR_INCLUDE . $includeFile . '">';
                 } else {
-                    $html .= '<span class="contentOnHover">' . $includeFile . '</span><a href="' . WEB_DIR_INCLUDE . $includeFile . '" target="_blank"><img src = "' . getImgAccordingExtension(getFileExtension($includeFile)) . '" class="img-fluid"></a>';
+                    $html .= '<span class="contentOnHover">' . $includeFile . '</span><a href="' . WEB_DIR_INCLUDE . $includeFile . '" target="_blank"><img src = "' . getImgAccordingExtension(getFileExtension($includeFile)) . '" class="img-fluid seeDataOnHover"></a>';
                 }
 
                 $html .= '<button class="btn btn-sm littleBtn addLittleBtn selectParentOnClick bgColorPrimary"><i class="fas fa-plus"></i></button>';

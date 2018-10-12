@@ -1497,6 +1497,22 @@ function getThumb($filename, $desired_width, $quality = 100)
 }
 
 /**
+ * @param $filename
+ * @param $desired_width
+ * @return bool
+ */
+function deleteThumb($filename, $desired_width)
+{
+    $thumbPath = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
+    if (file_exists($thumbPath)) {
+        if (unlink($thumbPath)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * @param $path
  * @return string
  */

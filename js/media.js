@@ -89,12 +89,14 @@ $(document).ready(function () {
             busyApp();
             var $btn = $(this);
             var idImage = $btn.data('imageid');
+            var thumbWidth = $btn.data('thumbwidth');
 
             $.post(
                 '/app/ajax/media.php',
                 {
                     deleteImage: 'OK',
-                    idImage: idImage
+                    idImage: idImage,
+                    thumbWidth: thumbWidth
                 },
                 function (data) {
                     if (data && (data == 'true' || data === true)) {
