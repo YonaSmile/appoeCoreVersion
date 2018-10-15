@@ -209,10 +209,34 @@ function isImage($mediaPath)
  */
 function shortenText($text, $size)
 {
-    return mb_strimwidth(
-        strip_tags(
-            html_entity_decode(
-                htmlspecialchars_decode($text))), 0, $size, '...', 'utf-8');
+    return
+        mb_strimwidth(
+            strip_tags(
+                html_entity_decode(
+                    htmlspecialchars_decode($text))), 0, $size, '...', 'utf-8');
+}
+
+/**
+ * Unset same key in array and return it sliced
+ *
+ * @param array $data
+ * @param $compareKey
+ * @param bool $returnSliceArray
+ * @return array
+ */
+function unsetSameKeyInArr(array $data, $compareKey, $returnSliceArray = false)
+{
+    $position = array_search($compareKey, array_keys($data));
+
+    if (false !== $position) {
+        unset($data[$position]);
+    }
+
+    if (false !== $returnSliceArray && is_int($returnSliceArray)) {
+        $data = array_slice($data, 0, $returnSliceArray, true);
+    }
+
+    return $data;
 }
 
 /**
