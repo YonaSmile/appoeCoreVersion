@@ -226,10 +226,9 @@ function shortenText($text, $size)
  */
 function unsetSameKeyInArr(array $data, $compareKey, $returnSliceArray = false)
 {
-    $position = array_search($compareKey, array_keys($data));
 
-    if (false !== $position) {
-        unset($data[$position]);
+    if (in_array($compareKey, array_keys($data))) {
+        unset($data[$compareKey]);
     }
 
     if (false !== $returnSliceArray && is_int($returnSliceArray)) {
