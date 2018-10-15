@@ -2290,6 +2290,19 @@ function getPluginUrl($file, $param = null)
 }
 
 /**
+ * @param $type
+ * @return bool|string
+ */
+function getPageTypes($type)
+{
+    if (in_array(mb_strtolower($type), array_keys(PAGE_TYPES))) {
+        return PAGE_TYPES[mb_strtolower($type)];
+    }
+
+    return false;
+}
+
+/**
  * @param $str
  * @return null|string|string[]
  */

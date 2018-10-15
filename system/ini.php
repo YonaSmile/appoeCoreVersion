@@ -108,3 +108,13 @@ const CATEGORY_TYPES = array(
     'MEDIA',
     'AUTRE'
 );
+
+const PAGE_TYPES = array(
+    'boutique' => 'SHOP',
+    'shop' => 'SHOP',
+    'produit' => 'SHOP',
+    'product' => 'SHOP',
+    'article' => 'ITEMGLUE',
+    'news' => 'ITEMGLUE',
+    'blog' => 'ITEMGLUE'
+);

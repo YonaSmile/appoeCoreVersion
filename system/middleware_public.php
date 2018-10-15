@@ -35,19 +35,64 @@ $currentPageID = 0;
 $currentPageName = WEB_TITLE;
 $currentPageDescription = WEB_TITLE;
 
-//Check if is Article or Page
-if (!empty($_GET['id'])) {
+//Check if is Page or plugin page
+if (!empty($_GET['type'])) {
+
+    if (!empty($_GET['id'])) {
+
+        $pluginType = getPageTypes($_GET['type']);
+        if (false !== $pluginType) {
+
+            $pluginSlug = $_GET['id'];
+
+            if ($pluginType == 'ITEMGLUE') {
+
+                //Get Article infos
+                $ArticlePage = new \App\Plugin\ItemGlue\Article();
+                $ArticlePage->setSlug($pluginSlug);
+
+
+                //Check if Article exist
+                if ($ArticlePage->showBySlug()) {
+
+                    $currentPageID = $ArticlePage->getId();
+                    $currentPageName = shortenText($Traduction->trans($ArticlePage->getName()), 70);
+                    $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
+                }
+
+            } elseif ($pluginType == 'SHOP') {
+
+                //Get Product infos
+                $ProductPage = new \App\Plugin\Shop\Product();
+                $ProductPage->setSlug($pluginSlug);
+
+                //Check if Product exist
+                if ($ProductPage->showBySlug()) {
+
+                    $ProductPageContent = new \App\Plugin\Shop\ProductContent($ProductPage->getId(), LANG);
+
+                    $currentPageID = $ProductPage->getId();
+                    $currentPageName = shortenText($Traduction->trans($ProductPage->getName()), 70);
+                    $currentPageDescription = shortenText($ProductPageContent->getResume(), 170);
+                }
+            }
+        }
+    }
+
+    //shortcut for articles
+} elseif (!empty($_GET['id'])) {
 
     //Get Article infos
-    $articleDetails = getSpecificArticlesDetailsBySlug($_GET['id']);
+    $ArticlePage = new \App\Plugin\ItemGlue\Article();
+    $ArticlePage->setSlug($_GET['id']);
+
 
     //Check if Article exist
-    if ($articleDetails) {
-        $Article = $articleDetails['article'];
-        $ArticleContent = $articleDetails['content'];
-        $currentPageID = $Article->getId();
-        $currentPageName = shortenText($Traduction->trans($Article->getName()), 70);
-        $currentPageDescription = shortenText($ArticleContent->getContent(), 170);
+    if ($ArticlePage->showBySlug()) {
+
+        $currentPageID = $ArticlePage->getId();
+        $currentPageName = shortenText($Traduction->trans($ArticlePage->getName()), 70);
+        $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
     }
 
 } else {
