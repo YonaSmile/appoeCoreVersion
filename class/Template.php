@@ -19,6 +19,14 @@ class Template
         echo !empty(self::$html) ? self::$html : self::$pageHtmlContent;
     }
 
+    /**
+     * @return string
+     */
+    public static function get()
+    {
+        return !empty(self::$html) ? self::$html : self::$pageHtmlContent;
+    }
+
 
     /**
      * @param $pageSlug
@@ -246,6 +254,10 @@ class Template
         return in_array($formType, $acceptedHtmlContainer);
     }
 
+    /**
+     * @param string $htmlTag
+     * @return array
+     */
     public static function extractClassFromHtmlTag($htmlTag = '')
     {
         $class = '';
