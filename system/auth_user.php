@@ -12,7 +12,10 @@ if (isset($_POST['APPOECONNEXION'])) {
         //Clean form
         $_POST = cleanRequest($_POST);
 
-        if (!empty($_POST['emailInput']) AND !empty($_POST['passwordInput']) AND empty($_POST['identifiant'])) {
+        if (!empty($_POST['emailInput'])
+            AND !empty($_POST['passwordInput'])
+            AND empty($_POST['identifiant'])
+            AND !empty($_POST['checkPass'])) {
 
             $email = str_replace(' ', '', strtolower($_POST['emailInput']));
             $pass = $_POST['passwordInput'];

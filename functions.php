@@ -1531,6 +1531,26 @@ function getFileContent($path)
 }
 
 /**
+ * Place fields for verification and control of the login form
+ *
+ * @return string
+ */
+function getFieldsControls()
+{
+    $html = '';
+
+    $html .= getTokenField();
+    $html .= '<input type="hidden" name="identifiant" value="">';
+    $html .= '<input type="hidden" id="checkPass" name="checkPass" value="">';
+    $html .= '<script type="text/javascript">';
+    $html .= 'window.setTimeout(function(){';
+    $html .= 'document.getElementById("checkPass").value = "APPOE";';
+    $html .= '}, 600)</script>';
+
+    return $html;
+}
+
+/**
  * @param int $id
  * @param bool $parentId
  * @param string $categoryType
