@@ -130,9 +130,10 @@ class Form
      * @param string $helpInput
      * @param string $otherClasses
      * @param string $placeholder
+     * @param bool $noTitleWithPlaceholder
      * @return string
      */
-    public static function text($title, $name, $type = 'text', $value = '', $require = false, $maxLength = 300, $othersAttrs = '', $helpInput = '', $otherClasses = '', $placeholder = '')
+    public static function text($title, $name, $type = 'text', $value = '', $require = false, $maxLength = 300, $othersAttrs = '', $helpInput = '', $otherClasses = '', $placeholder = '', $noTitleWithPlaceholder = true)
     {
 
         $require = $require ? 'required="true"' : '';
@@ -140,7 +141,7 @@ class Form
         $html = '';
         $html .= '<div class="form-group">';
 
-        if (empty($placeholder)) {
+        if (empty($placeholder) || !$noTitleWithPlaceholder) {
             $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
         }
 
