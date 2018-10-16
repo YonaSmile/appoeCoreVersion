@@ -30,21 +30,22 @@ if ((!$existPage && pageName() == 'Non définie') || $Cms->getStatut() != 1) {
     exit();
 }
 
-//default page infos
-$currentPageID = 0;
-$currentPageName = WEB_TITLE;
-$currentPageDescription = WEB_TITLE;
+//Get default page informations
+$currentPageID = $Cms->getId();
+$currentPageName = shortenText($Traduction->trans($Cms->getName()), 70);
+$currentPageDescription = shortenText($Traduction->trans($Cms->getDescription()), 170);
 
 //Check if is Page or plugin page
 if (!empty($_GET['type'])) {
 
-    if (!empty($_GET['id'])) {
+    if (!empty($_GET['typeSlug'])) {
 
         $pluginType = getPageTypes($_GET['type']);
         if (false !== $pluginType) {
 
-            $pluginSlug = $_GET['id'];
+            $pluginSlug = $_GET['typeSlug'];
 
+            // Type ITEMGLUE
             if ($pluginType == 'ITEMGLUE') {
 
                 //Get Article infos
@@ -60,6 +61,7 @@ if (!empty($_GET['type'])) {
                     $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
                 }
 
+                //TYPE SHOP
             } elseif ($pluginType == 'SHOP') {
 
                 //Get Product infos
@@ -95,12 +97,6 @@ if (!empty($_GET['type'])) {
         $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
     }
 
-} else {
-
-    //Get Page infos
-    $currentPageID = $Cms->getId();
-    $currentPageName = shortenText($Traduction->trans($Cms->getName()), 70);
-    $currentPageDescription = shortenText($Traduction->trans($Cms->getDescription()), 170);
 }
 
 //Set page infos
