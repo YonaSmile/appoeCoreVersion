@@ -1610,6 +1610,33 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
 }
 
 /**
+ * Raise an grandchildren array, at the level of children
+ *
+ * @param array|null $multipleArrays
+ * @return array
+ */
+function transformMultipleArraysTo1(array $multipleArrays = null)
+{
+    foreach ($multipleArrays as $ckey => $child) {
+        foreach ($child as $gckey => $grandchild) {
+            if (is_array($grandchild)) {
+                $multipleArrays[] = $grandchild;
+                array_splice($multipleArrays[$ckey], $gckey);
+            }
+        }
+    }
+    $length = count($multipleArrays);
+    for ($i = 0; $i < $length; $i++) {
+        if (!empty($multipleArrays[$i][0]) && is_array($multipleArrays[$i][0])) {
+            array_splice($multipleArrays, $i, 1);
+            $i = -1;
+            $length = count($multipleArrays);
+        }
+    }
+    return $multipleArrays;
+}
+
+/**
  * @param $allContentArr
  * @param $key
  * @return array
