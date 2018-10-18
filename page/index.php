@@ -14,8 +14,11 @@
                     $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle');
                     $Article = new \App\Plugin\ItemGlue\Article();
 
-                    $lastProducts = getLastFromDb('plugin_shop_products_content', 'product_id');
-                    $Product = new \App\Plugin\Shop\Product();
+                    $lastProducts = array();
+                    if (class_exists('App\Plugin\Shop\Product')) {
+                        $lastProducts = getLastFromDb('plugin_shop_products_content', 'product_id');
+                        $Product = new \App\Plugin\Shop\Product();
+                    }
                     ?>
                     <div class="card-body pt-0" id="recentUpdates">
                         <?php if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
