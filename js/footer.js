@@ -103,15 +103,6 @@ $(document).ready(function () {
         minDate: 0
     });
 
-    //sort Table
-    $('.sortableTable').DataTable({
-        "language": {
-            "url": dataTableLang
-        },
-        "info": false,
-        "iDisplayLength": 25,
-    });
-
     //Loading text on submit form
     $('form').on('submit', function () {
         $('[type="submit"]', this).attr('disabled', 'disabled').html(loaderHtml()).addClass('disabled');
@@ -148,6 +139,15 @@ $(document).ready(function () {
 
     var appLang = $('html').attr('lang');
     var dataTableLang = '//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json';
+
+    //sort Table
+    $('.sortableTable').DataTable({
+        "language": {
+            "url": dataTableLang
+        },
+        "info": false,
+        "iDisplayLength": 25,
+    });
 
     switch (appLang) {
         case 'fr':
