@@ -499,6 +499,12 @@ hr.hrStyle:after {
     transform: rotate(60deg);
 }
 
+.floatOnrightElement {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+
 .inputLabel {
     display: block;
     margin-bottom: 5px;
@@ -1166,6 +1172,7 @@ textarea {
 
 .bg_grey_hover {
     transition: all 0.3s;
+    transform: scaleX(1);
     -webkit-transform: scale(1);
 }
 
@@ -1226,6 +1233,7 @@ table.table {
 table.table tr {
     border: 0 none !important;
     transition: all 0.3s;
+    transform: scaleX(1);
 }
 
 table.table tr.even {
@@ -1237,8 +1245,9 @@ table.table tr.odd {
 }
 
 table.table tbody tr:focus,
-table.table tbody tr:hover {
+table.table tbody tr:hover{
     transform: scaleX(1.01);
+    -webkit-transform: scaleX(1.01);
 }
 
 table.table th {
@@ -1291,6 +1300,10 @@ label {
     color: #4b5b68;
 }
 
+.btnPrice {
+    color: #009294;
+}
+
 .btnArchive {
     color: #e62b19;
 }
@@ -1301,6 +1314,24 @@ label {
 
 button {
     background: inherit;
+}
+
+.hiddenList {
+    transition: all 0.3s ease-out;
+    display: none;
+}
+
+.displayHiddenListOnHover {
+    transition: all 0.3s;
+}
+
+.displayHiddenListOnHover:focus .hiddenList,
+.displayHiddenListOnHover:hover .hiddenList {
+    display: block;
+}
+
+.successInput {
+    border-color: #28a745 !important;
 }
 
 /**
