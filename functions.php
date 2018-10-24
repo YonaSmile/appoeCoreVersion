@@ -1629,6 +1629,15 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
 }
 
 /**
+ * @param $amount
+ * @return string
+ */
+function financial($amount)
+{
+    return is_float($amount) ? number_format($amount, 2, '.', ' ') : $amount;
+}
+
+/**
  * Raise an grandchildren array, at the level of children
  *
  * @param array|null $multipleArrays
@@ -1653,6 +1662,26 @@ function transformMultipleArraysTo1(array $multipleArrays = null)
         }
     }
     return $multipleArrays;
+}
+
+/**
+ * @param array $data
+ * @param string $keyName
+ * @return array
+ */
+function groupMultipleKeysObjectsArray(array $data, $keyName)
+{
+    $tmp = array();
+    foreach ($data as $arg) {
+        $tmp[$arg->$keyName][] = $arg;
+    }
+
+    $output = array();
+    foreach ($tmp as $type => $labels) {
+        $output[cleanData($type)] = $labels;
+    }
+
+    return $output;
 }
 
 /**
