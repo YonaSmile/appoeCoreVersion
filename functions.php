@@ -2205,6 +2205,18 @@ function valideToken()
 }
 
 /**
+ * @return bool
+ */
+function valideAjaxToken()
+{
+    if (!empty($_POST['_token']) && !empty($_SESSION['_token']) && $_POST['_token'] == $_SESSION['_token']) {
+
+        return true;
+    }
+    return false;
+}
+
+/**
  * @param $updateUserStatus
  * @return bool
  */

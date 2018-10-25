@@ -1,8 +1,8 @@
 <?php
-if (isset($_SESSION['auth'.$_SERVER['HTTP_HOST']]) && !bot_detected()) {
+if (isset($_SESSION['auth' . $_SERVER['HTTP_HOST']]) && !bot_detected()) {
 
-    if (strstr($_SESSION['auth'.$_SERVER['HTTP_HOST']], '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a')) {
-        list($idSession, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth'.$_SERVER['HTTP_HOST']]);
+    if (strstr($_SESSION['auth' . $_SERVER['HTTP_HOST']], '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a')) {
+        list($idSession, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth' . $_SERVER['HTTP_HOST']]);
 
         $USER = new \App\Users($idSession);
 
