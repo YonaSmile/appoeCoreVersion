@@ -1755,7 +1755,7 @@ function extractFromObjToSimpleArr($allContentArr, $key, $value = '', $value2 = 
             foreach ($allContentArr as $contentArr) {
 
                 if (!empty($value2)) {
-                    $allContent[$contentArr->$key] = $contentArr->$value . $separator . $value2;
+                    $allContent[$contentArr->$key] = $contentArr->$value . $separator . $contentArr->$value2;
                 } else {
                     $allContent[$contentArr->$key] = $contentArr->$value;
                 }
