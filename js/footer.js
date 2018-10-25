@@ -78,7 +78,7 @@ $(document).ready(function () {
             var urlPage = window.location.href.split('/');
 
             if (jQuery.inArray(pluginName, urlPage) >= 0) {
-                if (menu.has('ul')) {
+                if (menu.children("ul").length) {
                     menu.children('a').attr('aria-expanded', 'true').removeClass('collapsed').next('ul').addClass('show');
                 }
             }
