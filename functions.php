@@ -2060,7 +2060,7 @@ function includePluginsDashboard()
             if (file_exists($filePath)) {
 
                 $dashboard = getFileContent($filePath);
-                if ($dashboard) {
+                if ($dashboard && !isArrayEmpty($dashboard)) {
                     $dashboardDetails[] = json_decode($dashboard, true);
                 }
             }
