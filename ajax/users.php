@@ -1,15 +1,19 @@
 <?php
-require_once( 'header.php' );
+require_once('header.php');
 
-if ( checkAjaxRequest() ) {
+if (checkAjaxRequest()) {
 
-	if ( getUserIdSession() ) {
+    if (getUserIdSession()) {
 
-		if ( ! empty( $_POST['idDeleteUser'] ) ) {
-			$User = new \App\Users( $_POST['idDeleteUser'] );
-			if ( $User->delete() ) {
-				echo json_encode( true );
-			}
-		}
-	}
+        if (!empty($_POST['idDeleteUser'])) {
+            $User = new \App\Users($_POST['idDeleteUser']);
+            if ($User->delete()) {
+                echo json_encode(true);
+            }
+        }
+
+        if (!empty($_POST['GETUSERSROLES'])) {
+            echo json_encode(getRoles(), JSON_UNESCAPED_UNICODE);
+        }
+    }
 }

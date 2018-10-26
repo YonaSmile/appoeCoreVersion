@@ -38,7 +38,7 @@ $allPermissions = $Menu->displayMenuAll();
                                 <td class="changeableTd" data-dbname="name"><?= $permission->name ?></td>
                                 <td><?= $permission->slug ?></td>
                                 <td class="changeableTd"
-                                    data-dbname="min_role_id"><?= ROLES[$permission->min_role_id] ?></td>
+                                    data-dbname="min_role_id"><?= getRoleName($permission->min_role_id) ?></td>
                                 <td class="changeableTd" data-dbname="statut"><?= $permission->statut ?></td>
                                 <td class="changeableTd" data-dbname="order_menu"><?= $permission->order_menu ?></td>
                                 <td><?= $permission->pluginName ?></td>
@@ -79,7 +79,7 @@ $allPermissions = $Menu->displayMenuAll();
                             <?= \App\Form::text('Nom', 'name', 'text', !empty($_POST['name']) ? $_POST['name'] : '', true, 50); ?>
                         </div>
                         <div class="col-12 my-2">
-                            <?= \App\Form::select('Rôle requis', 'min_role_id', ROLES, '', true); ?>
+                            <?= \App\Form::select('Rôle requis', 'min_role_id', getRoles(), '', true); ?>
                         </div>
                         <div class="col-12 my-2">
                             <?= \App\Form::text('Statut', 'statut', 'number', !empty($_POST['statut']) ? $_POST['statut'] : '', true, 11); ?>

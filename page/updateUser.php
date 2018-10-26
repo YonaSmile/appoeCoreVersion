@@ -35,7 +35,7 @@ if (!empty($_GET['id'])):
                                 </div>
                                 <?php if ($UpdateUser->getId() != $USER->getId()): ?>
                                     <div class="col-12 my-2">
-                                        <?= \App\Form::select('Rôle', 'role', array_map('trans', ROLES), $UpdateUser->getRole(), true, '', $USER->getRole(), '>'); ?>
+                                        <?= \App\Form::select('Rôle', 'role', array_map('trans', getRoles()), $UpdateUser->getRole(), true, '', $USER->getRole(), '>'); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>

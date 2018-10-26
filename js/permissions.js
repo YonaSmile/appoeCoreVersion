@@ -1,12 +1,14 @@
 $(document).ready(function () {
 
-    var Roles = {
-        1: 'Rédacteur',
-        2: 'Responsable',
-        3: 'Administrateur',
-        4: 'Technicien',
-        5: 'King'
-    };
+    var Roles = {};
+
+    $.post('/app/ajax/users.php', {GETUSERSROLES: 'OK'},
+        function (data) {
+            if (data) {
+                Roles = JSON.parse(data);
+            }
+        }
+    );
 
     $('#permissionTable').on('click', '.updatePermissionBtn', function () {
 
@@ -20,7 +22,11 @@ $(document).ready(function () {
             var originalContent = $(this).text();
 
             if ($(this).data('dbname') === 'min_role_id') {
-                originalContent = getKeyByValueInObject(Roles, $.trim($(this).text()));
+                var roleId = $.trim($(this).text());
+                if (roleId > Object.keys(Roles).length) {
+                    roleId = 1;
+                }
+                originalContent = getKeyByValueInObject(Roles, roleId);
             }
 
             $(this).html('<input value="' + originalContent + '" class="w-100">');

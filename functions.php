@@ -175,13 +175,24 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 }
 
 /**
+ * @return array
+ */
+function getRoles()
+{
+    return defined('ROLES') ? ROLES : array();
+}
+
+/**
  * @param $roleId
  * @return mixed
  */
 function getRoleName($roleId)
 {
-    $roleId = strlen($roleId) < 2 ? $roleId : \App\Shinoui::Decrypter($roleId);
-    return ROLES[$roleId];
+    if (defined('ROLES')) {
+        $roleId = strlen($roleId) < 2 ? $roleId : \App\Shinoui::Decrypter($roleId);
+        return ROLES[$roleId];
+    }
+    return $roleId;
 }
 
 /**

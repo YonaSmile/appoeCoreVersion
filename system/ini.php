@@ -87,14 +87,6 @@ setlocale(LC_ALL, strtolower(LANG) . '_' . strtoupper(LANG) . '.UTF-8');
  */
 define('NUM_OF_ATTEMPTS', 30);
 
-const ROLES = array(
-    1 => 'Rédacteur',
-    2 => 'Responsable',
-    3 => 'Administrateur',
-    4 => 'Technicien',
-    5 => 'King'
-);
-
 const APP_TABLES = array(
     'appoe_users',
     'appoe_menu',
