@@ -146,6 +146,7 @@ $(document).ready(function () {
         },
         "info": false,
         "iDisplayLength": 25,
+        "order": []
     });
 
     switch (appLang) {

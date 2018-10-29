@@ -10,7 +10,7 @@ class Users
     private $nom;
     private $prenom;
     private $options = null;
-    private $statut;
+    private $statut = 1;
     private $dbh = null;
 
     public function __construct($userId = null)
@@ -243,12 +243,19 @@ class Users
     }
 
     /**
-     * @return bool | array
+     * @param $minStatus
+     * @return bool|array
      */
-    public function showAll()
+    public function showAll($minStatus = false)
     {
-        $sql = 'SELECT * FROM appoe_users WHERE statut = TRUE ORDER BY created_at ASC';
+        if ($minStatus) {
+            $sqlStatus = ' statut >= :statut ';
+        } else {
+            $sqlStatus = ' statut = :statut ';
+        }
+        $sql = 'SELECT * FROM appoe_users WHERE ' . $sqlStatus . ' ORDER BY statut DESC, created_at ASC';
         $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':statut', $this->statut);
         $stmt->execute();
         $count = $stmt->rowCount();
         $error = $stmt->errorInfo();
