@@ -175,36 +175,6 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 }
 
 /**
- * @return array
- */
-function getRoles()
-{
-    return defined('ROLES') ? ROLES : array();
-}
-
-/**
- * @param $roleId
- * @return mixed
- */
-function getRoleName($roleId)
-{
-    if (defined('ROLES')) {
-        $roleId = strlen($roleId) < 2 ? $roleId : \App\Shinoui::Decrypter($roleId);
-        return ROLES[$roleId];
-    }
-    return $roleId;
-}
-
-/**
- * @param $cryptedRole
- * @return string
- */
-function getRoleId($cryptedRole)
-{
-    return strlen($cryptedRole) < 2 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
-}
-
-/**
  * @param $mediaPath
  * @return bool
  */
@@ -2303,12 +2273,132 @@ function getUserIdSession()
 }
 
 /**
- * @param $idUser
- * @return \App\Users
+ * @param string $userId
+ * @return bool|string
  */
-function getUserData($idUser)
+function getEmptyUserId($userId = '')
 {
-    return new App\Users($idUser);
+    if (empty($userId)) {
+        $userId = getUserIdSession();
+    }
+    return $userId;
+}
+
+/**
+ * @param $idUser
+ * @return array
+ */
+function getUserData($idUser = '')
+{
+    $idUser = getEmptyUserId($idUser);
+
+    global $ALLUSERS;
+    return $ALLUSERS[$idUser];
+}
+
+/**
+ * @param $idUser
+ * @return string
+ */
+function getUserName($idUser = '')
+{
+    $idUser = getEmptyUserId($idUser);
+
+    global $ALLUSERS;
+    return $ALLUSERS[$idUser]->nom;
+}
+
+/**
+ * @param $idUser
+ * @return string
+ */
+function getUserFirstName($idUser = '')
+{
+    $idUser = getEmptyUserId($idUser);
+
+    global $ALLUSERS;
+    return $ALLUSERS[$idUser]->prenom;
+}
+
+/**
+ * @param $idUser
+ * @param string $separator
+ * @return string
+ */
+function getUserEntitled($idUser = '', $separator = ' ')
+{
+    $idUser = getEmptyUserId($idUser);
+
+    global $ALLUSERS;
+    return $ALLUSERS[$idUser]->nom . $separator . $ALLUSERS[$idUser]->prenom;
+}
+
+/**
+ * @param $idUser
+ * @return array
+ */
+function getUserEmail($idUser = '')
+{
+    $idUser = getEmptyUserId($idUser);
+
+    global $ALLUSERS;
+    return $ALLUSERS[$idUser]->email;
+}
+
+/**
+ * @param string $idUser
+ * @return string
+ */
+function getUserRoleId($idUser = '')
+{
+
+    $idUser = getEmptyUserId($idUser);
+
+    global $ALLUSERS;
+    return getRoleId($ALLUSERS[$idUser]->role);
+}
+
+/**
+ * @param string $idUser
+ * @return mixed
+ */
+function getUserRoleName($idUser = '')
+{
+
+    $idUser = getEmptyUserId($idUser);
+
+    global $ALLUSERS;
+    return getRoleName($ALLUSERS[$idUser]->role);
+}
+
+/**
+ * @return array
+ */
+function getRoles()
+{
+    return defined('ROLES') ? ROLES : array();
+}
+
+/**
+ * @param $roleId
+ * @return mixed
+ */
+function getRoleName($roleId)
+{
+    if (defined('ROLES')) {
+        $roleId = getRoleId($roleId);
+        return ROLES[$roleId];
+    }
+    return $roleId;
+}
+
+/**
+ * @param $cryptedRole
+ * @return string
+ */
+function getRoleId($cryptedRole)
+{
+    return strlen($cryptedRole) < 2 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
 }
 
 /**

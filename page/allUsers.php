@@ -1,6 +1,5 @@
 <?php require('header.php');
-$USER->setStatut(0);
-$listUsers = $USER->showAll(true); ?>
+global $ALLUSERS; ?>
 <?= getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
         <div class="row">
@@ -18,29 +17,29 @@ $listUsers = $USER->showAll(true); ?>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if ($listUsers): ?>
-                            <?php foreach ($listUsers as $user): ?>
-                                <?php if (getRoleId($user->role) <= $USER->getRole()): ?>
+                        <?php if ($ALLUSERS): ?>
+                            <?php foreach ($ALLUSERS as $userId => $user): ?>
+                                <?php if (getRoleId($user->role) <= getUserRoleId()): ?>
                                     <tr class="<?= $user->statut == 0 ? 'table-warning' : ''; ?>">
                                         <td><?= $user->nom ?></td>
                                         <td><?= $user->prenom ?></td>
                                         <td><?= $user->email ?></td>
                                         <td><?= getRoleName($user->role) ?></td>
                                         <td>
-                                            <?php if ($USER->getId() == $user->id || ($USER->getRole() >= 3 && $USER->getRole() >= getRoleId($user->role))): ?>
+                                            <?php if (getUserIdSession() == $user->id || (getUserRoleId() >= 3 && getUserRoleId() >= getRoleId($user->role))): ?>
                                                 <a href="<?= getUrl('user/', $user->id) ?>"
                                                    class="btn btn-sm" title="<?= trans('Modifier'); ?>">
                                                     <span class="btnEdit"><i class="fas fa-wrench"></i></span>
                                                 </a>
                                             <?php endif; ?>
-                                            <?php if ($user->id != $USER->getId() && $USER->getRole() >= 3 && $USER->getRole() > getRoleId($user->role) && $user->statut > 0): ?>
+                                            <?php if ($user->id != getUserIdSession() && getUserRoleId() >= 3 && getUserRoleId() > getRoleId($user->role) && $user->statut > 0): ?>
                                                 <button type="button" class="btn btn-sm deleteUser"
                                                         title="<?= trans('Bannir'); ?>"
                                                         data-iduser="<?= $user->id ?>">
                                                     <span class="btnArchive"><i class="fas fa-ban"></i></span>
                                                 </button>
                                             <?php endif; ?>
-                                            <?php if ($user->id != $USER->getId() && $USER->getRole() >= 3 && $USER->getRole() > getRoleId($user->role) && $user->statut == 0): ?>
+                                            <?php if ($user->id != getUserIdSession() && getUserRoleId() >= 3 && getUserRoleId() > getRoleId($user->role) && $user->statut == 0): ?>
                                                 <button type="button" class="btn btn-sm valideUser"
                                                         title="<?= trans('Archiver'); ?>"
                                                         data-iduser="<?= $user->id ?>">

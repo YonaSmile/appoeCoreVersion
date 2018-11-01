@@ -14,6 +14,10 @@ if (isset($_SESSION['auth' . $_SERVER['HTTP_HOST']]) && !bot_detected()) {
 
         $key = sha1($USER->getEmail() . $_SERVER['REMOTE_ADDR']);
 
+        //Get all users in a global var ALLUSERS
+        $USER->setStatut(0);
+        $ALLUSERS = extractFromObjArr($USER->showAll(true), 'id');
+
         //Check valid session
         if ($key != $emailSession) {
 
