@@ -1611,11 +1611,12 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
 
 /**
  * @param $amount
+ * @param $forDB
  * @return string
  */
-function financial($amount)
+function financial($amount, $forDB = false)
 {
-    return is_float($amount) ? number_format($amount, 2, '.', ' ') : $amount;
+    return is_float($amount) ? number_format($amount, 2, '.', (!$forDB ? ' ' : '')) : $amount;
 }
 
 /**
