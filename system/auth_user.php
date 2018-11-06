@@ -36,7 +36,7 @@ if (isset($_POST['APPOECONNEXION'])) {
                         \App\Flash::setMsg(trans('Vous n\'êtes pas identifié') . ' !');
 
                     } else {
-
+                        session_regenerate_id();
                         $_SESSION['auth' . $_SERVER['HTTP_HOST']] = $User->getId() . '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a' . sha1($User->getEmail() . $_SERVER['REMOTE_ADDR']);
 
                         mehoubarim_connecteUser();
