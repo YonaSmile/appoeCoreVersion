@@ -44,14 +44,16 @@ function pageSlug()
  */
 function activePage($url, $prefix = '', $classNameAdded = 'active')
 {
-    if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
-        return $prefix . $classNameAdded;
-    }
+    if (!empty($url)) {
 
-    if (false !== strpos($url, basename($_SERVER['REQUEST_URI']))) {
-        return $prefix . $classNameAdded;
-    }
+        if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
+            return $prefix . $classNameAdded;
+        }
 
+        if (false !== strpos(basename($_SERVER['REQUEST_URI']), $url)) {
+            return $prefix . $classNameAdded;
+        }
+    }
     return '';
 }
 
