@@ -1538,6 +1538,28 @@ function deleteThumb($filename, $desired_width)
 }
 
 /**
+ * @param $url
+ * @param array $params
+ * @return mixed|string
+ */
+function postHttpRequest($url, array $params)
+{
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSLVERSION, 6);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+    curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, "TLSv1");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    $errorRequest = curl_error($ch);
+
+    curl_close($ch);
+
+    return !empty($response) ? $response : $errorRequest;
+}
+
+/**
  * @param $path
  * @return string
  */
