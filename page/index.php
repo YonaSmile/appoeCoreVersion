@@ -22,6 +22,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
 }
 ?>
     <div class="container-fluid">
+        <?= implode('', includePersoPluginsDashboard()); ?>
         <?php if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
             <div class="row mb-3">
                 <div class="d-flex col-12 col-lg-8">
@@ -44,7 +45,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
                                            class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                 <span class="text-white"><i class="fas fa-cog"></i></span>
                                             </a>
-                                                <?php if ($USER->getRole() > 3): ?>
+                                                <?php if (getUserRoleId() > 3): ?>
                                                     <a href="<?= getPluginUrl('cms/page/update/', $Cms->getId()) ?>"
                                                        class="btn btn-sm p-0 align-top"
                                                        title="<?= trans('Modifier'); ?>">
@@ -70,7 +71,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
                                                    class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                     <span class="text-white"><i class="fas fa-cog"></i></span>
                                                 </a>
-                                                    <?php if ($USER->getRole() > 3): ?>
+                                                    <?php if (getUserRoleId() > 3): ?>
                                                         <a href="<?= getPluginUrl('itemGlue/page/update/', $Article->getId()) ?>"
                                                            class="btn btn-sm p-0 align-top"
                                                            title="<?= trans('Modifier'); ?>">
@@ -125,7 +126,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
 
         $dashboardDetails = includePluginsDashboard();
 
-        if ($USER->getRole() >= 4) {
+        if (getUserRoleId() >= 4) {
             $Category = new \App\Category();
             $dashboardDetails[] = array(
                 'name' => trans('Catégories'),
@@ -135,7 +136,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
         }
 
         $Menu = new \App\Menu();
-        if ($Menu->checkUserPermission($USER->getRole(), 'updateMedia')) {
+        if ($Menu->checkUserPermission(getUserRoleId(), 'updateMedia')) {
             $File = new \App\File();
             $dashboardDetails[] = array(
                 'name' => trans('Média'),

@@ -2043,6 +2043,33 @@ function includePluginsDashboard()
 }
 
 /**
+ *
+ */
+function includePersoPluginsDashboard()
+{
+    $dashboardDetails = array();
+    $plugins = getPlugins();
+
+    if (is_array($plugins) && !empty($plugins)) {
+
+        foreach ($plugins as $plugin) {
+
+            $filePath = $plugin['pluginPath'] . 'perso_dashboard.php';
+            if (file_exists($filePath)) {
+
+                $dashboard = getFileContent($filePath);
+                if (!empty($dashboard)) {
+                    $dashboardDetails[] = $dashboard;
+                }
+            }
+
+        }
+    }
+
+    return $dashboardDetails;
+}
+
+/**
  * @param $forApp
  */
 function includePluginsFiles($forApp = false)
@@ -2438,7 +2465,9 @@ function bot_detected()
 {
     return (
         isset($_SERVER['HTTP_USER_AGENT'])
-        && preg_match('/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo|contaxe|libwww-perl|facebookexternalhit|mediapartners|baidu|bingbot|facebookexternalhit|googlebot|-google|ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/i', $_SERVER['HTTP_USER_AGENT'])
+        && preg_match('/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo
+        |contaxe|libwww-perl|facebookexternalhit|mediapartners|baidu|bingbot|facebookexternalhit|googlebot|-google
+        |ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/i', $_SERVER['HTTP_USER_AGENT'])
     );
 }
 
