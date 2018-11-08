@@ -3389,3 +3389,65 @@ function ConvNumCent($Nombre, $Langue)
 
     return $NumCent;
 }
+
+/****** JOURS FERIES ******/
+function dimanche_paques($annee)
+{
+    return date("Y-m-d", easter_date($annee));
+}
+
+function vendredi_saint($annee)
+{
+    $dimanche_paques = dimanche_paques($annee);
+    return date("Y-m-d", strtotime("$dimanche_paques -2 day"));
+}
+
+function lundi_paques($annee)
+{
+    $dimanche_paques = dimanche_paques($annee);
+    return date("Y-m-d", strtotime("$dimanche_paques +1 day"));
+}
+
+function jeudi_ascension($annee)
+{
+    $dimanche_paques = dimanche_paques($annee);
+    return date("Y-m-d", strtotime("$dimanche_paques +39 day"));
+}
+
+function lundi_pentecote($annee)
+{
+    $dimanche_paques = dimanche_paques($annee);
+    return date("Y-m-d", strtotime("$dimanche_paques +50 day"));
+}
+
+
+function jours_feries($annee, $alsacemoselle = false)
+{
+    $jours_feries = array(
+        dimanche_paques($annee),
+        lundi_paques($annee),
+        jeudi_ascension($annee),
+        lundi_pentecote($annee),
+        "$annee-01-01",
+        "$annee-05-01",
+        "$annee-05-08",
+        "$annee-05-15",
+        "$annee-07-14",
+        "$annee-11-11",
+        "$annee-11-01",
+        "$annee-12-25"
+    );
+    if ($alsacemoselle) {
+        $jours_feries[] = "$annee-12-26";
+        $jours_feries[] = vendredi_saint($annee);
+    }
+    sort($jours_feries);
+    return $jours_feries;
+}
+
+function isferie($jour, $alsacemoselle = false)
+{
+    $jour = date("Y-m-d", strtotime($jour));
+    $annee = substr($jour, 0, 4);
+    return in_array($jour, jours_feries($annee, $alsacemoselle));
+}
