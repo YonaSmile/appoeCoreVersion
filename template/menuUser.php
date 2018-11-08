@@ -13,33 +13,35 @@
                     <i class="fas fa-align-left"></i>
                 </button>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" target="_blank" href="<?= WEB_DIR_URL; ?>">
-                    <span class="colorPrimary"><i class="fas fa-eye"></i></span> Visualiser le site
-                </a>
-            </li>
-            <li class="nav-item" id="languageSelectorContainer">
-                <div class="dropdown">
-                    <button class="btn btn-white" type="button" id="languageSelectorBtn"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
-                        <?= LANGUAGES[LANG]; ?>
-                    </button>
-                    <div class="dropdown-menu" id="languageSelectorContent"
-                         aria-labelledby="languageSelectorBtn">
-                        <?php foreach (getLangs() as $lang => $language): if ($lang != LANG): ?>
-                            <button class="dropdown-item langSelector" id="<?= $lang; ?>" type="button">
-                                <img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>">
-                                <?= LANGUAGES[$lang]; ?>
-                            </button>
-                        <?php endif; endforeach; ?>
+            <?php if (class_exists('App\Plugin\Cms\Cms')): ?>
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="<?= WEB_DIR_URL; ?>">
+                        <span class="colorPrimary"><i class="fas fa-eye"></i></span> Visualiser le site
+                    </a>
+                </li>
+                <li class="nav-item" id="languageSelectorContainer">
+                    <div class="dropdown">
+                        <button class="btn btn-white" type="button" id="languageSelectorBtn"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
+                            <?= LANGUAGES[LANG]; ?>
+                        </button>
+                        <div class="dropdown-menu" id="languageSelectorContent"
+                             aria-labelledby="languageSelectorBtn">
+                            <?php foreach (getLangs() as $lang => $language): if ($lang != LANG): ?>
+                                <button class="dropdown-item langSelector" id="<?= $lang; ?>" type="button">
+                                    <img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>">
+                                    <?= LANGUAGES[$lang]; ?>
+                                </button>
+                            <?php endif; endforeach; ?>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            <?php endif; ?>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <?php if ($USER->getRole() > 3): ?>
+                <?php if (getUserRoleId() > 3): ?>
                     <a class="nav-link" href="<?= getUrl('setting/'); ?>">
                         <i class="fas fa-cog"></i>
                     </a>
@@ -50,11 +52,11 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserMenu" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2">
-                        <?= $USER->getPrenom() . ucfirst(substr($USER->getNom(), 0, 1)); ?>
+                        <?= getUserFirstName() . ucfirst(substr(getUserName(), 0, 1)); ?>
                     </span> <i class="fas fa-user"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
-                    <a class="dropdown-item" href="<?= getUrl('user/', $USER->getId()); ?>">
+                    <a class="dropdown-item" href="<?= getUrl('user/', getUserIdSession()); ?>">
                         <small><span class="mr-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?></small>
                     </a>
                     <a class="dropdown-item" href="<?= WEB_APP_URL . 'logout.php'; ?>">

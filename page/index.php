@@ -9,7 +9,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
 
 //Check for ITEMGLUE
 $lastArticle = array();
-if (class_exists('App\Plugin\Cms\Cms')) {
+if (class_exists('App\Plugin\ItemGlue\Article')) {
     $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle');
     $Article = new \App\Plugin\ItemGlue\Article();
 }
