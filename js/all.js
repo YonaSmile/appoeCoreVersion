@@ -23,6 +23,10 @@ function eraseCookie(name) {
     document.cookie = name + '=; Max-Age=-99999999;';
 }
 
+function financial(x) {
+    return Number.parseFloat(x).toFixed(2);
+}
+
 function copyToClipboard(text) {
     var $temp = $("<input>");
     $("body").append($temp);
