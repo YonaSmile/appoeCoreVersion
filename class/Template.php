@@ -7,9 +7,17 @@ class Template
     public static $pageSlug;
     public static $pageHtmlContent;
     public static $pageHtmlZones;
+    public static $html = '';
+
+    public static $pageSecondaryDbData;
+    public static $pageSecondarySlug;
+    public static $pageSecondaryHtmlContent;
+    public static $pageSecondaryHtmlZones;
+    public static $htmlSecondary = '';
+
     public static $defaultCol = '12';
     public static $allMetaKeys = array();
-    public static $html = '';
+
 
     /**
      * Show content
@@ -25,6 +33,14 @@ class Template
     public static function get()
     {
         return !empty(self::$html) ? self::$html : self::$pageHtmlContent;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getSecondary()
+    {
+        return !empty(self::$htmlSecondary) ? self::$htmlSecondary : self::$pageSecondaryHtmlContent;
     }
 
 
@@ -64,6 +80,25 @@ class Template
     }
 
     /**
+     * @param $pageSlug
+     * @param $pageDbData
+     */
+    public static function setSecondary($pageSlug, $pageDbData)
+    {
+        self::$pageSecondarySlug = $pageSlug;
+        self::$pageSecondaryDbData = extractFromObjArr($pageDbData, 'metaKey');
+        self::$pageSecondaryHtmlContent = getFileContent(self::$pageSecondarySlug);
+
+        //Check zones types
+        if (preg_match_all("/{{(.*?)}}/", self::$pageSecondaryHtmlContent, $match)) {
+
+            //Get zones content
+            self::$pageSecondaryHtmlZones = $match;
+            self::$htmlSecondary = self::buildSecondaryHtmlContent();
+        }
+    }
+
+    /**
      * @return mixed
      */
     public static function buildHtmlContent()
@@ -86,6 +121,31 @@ class Template
         }
 
         return self::$pageHtmlContent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function buildSecondaryHtmlContent()
+    {
+
+        foreach (self::$pageSecondaryHtmlZones[1] as $i => $adminZone) {
+
+            if (strpos($adminZone, '_')) {
+
+                //Get data
+                list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
+
+                //Set data
+                self::$pageSecondaryHtmlContent = str_replace(self::$pageSecondaryHtmlZones[0][$i], sprintf('%s', !empty(self::$pageSecondaryDbData[$metaKey]) ? htmlSpeCharDecode(self::$pageSecondaryDbData[$metaKey]->metaValue) : ''), self::$pageSecondaryHtmlContent);
+
+            } else {
+
+                self::$pageSecondaryHtmlContent = str_replace(self::$pageSecondaryHtmlZones[0][$i], '', self::$pageSecondaryHtmlContent);
+            }
+        }
+
+        return self::$pageSecondaryHtmlContent;
     }
 
     /**
