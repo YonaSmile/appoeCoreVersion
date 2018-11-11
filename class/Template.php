@@ -3,108 +3,76 @@
 namespace App;
 class Template
 {
-    public static $pageDbData;
-    public static $pageSlug;
-    public static $pageHtmlContent;
-    public static $pageHtmlZones;
-    public static $html = '';
+    protected $pageDbData;
+    protected $pageSlug;
+    protected $pageHtmlContent;
+    protected $pageHtmlZones;
 
-    public static $pageSecondaryDbData;
-    public static $pageSecondarySlug;
-    public static $pageSecondaryHtmlContent;
-    public static $pageSecondaryHtmlZones;
-    public static $htmlSecondary = '';
+    protected $defaultCol = '12';
+    protected $allMetaKeys = array();
+    protected $html = '';
 
-    public static $defaultCol = '12';
-    public static $allMetaKeys = array();
-
+    public function __construct($pageSlug, $pageDbData, $getHtmlContent = false)
+    {
+        $this->pageSlug = $pageSlug;
+        $this->pageDbData = extractFromObjArr($pageDbData, 'metaKey');
+        $this->pageHtmlContent = getFileContent($this->pageSlug);
+        $this->set($getHtmlContent);
+    }
 
     /**
      * Show content
      */
-    public static function show()
+    public function show()
     {
-        echo !empty(self::$html) ? self::$html : self::$pageHtmlContent;
+        echo !empty($this->html) ? $this->html : $this->pageHtmlContent;
     }
 
     /**
      * @return string
      */
-    public static function get()
+    public function get()
     {
-        return !empty(self::$html) ? self::$html : self::$pageHtmlContent;
+        return !empty($this->html) ? $this->html : $this->pageHtmlContent;
     }
 
     /**
-     * @return string
-     */
-    public static function getSecondary()
-    {
-        return !empty(self::$htmlSecondary) ? self::$htmlSecondary : self::$pageSecondaryHtmlContent;
-    }
-
-
-    /**
-     * @param $pageSlug
-     * @param $pageDbData
      * @param bool $getHtmlContent
      */
-    public static function set($pageSlug, $pageDbData, $getHtmlContent = false)
+    public function set($getHtmlContent = false)
     {
-        self::$pageSlug = $pageSlug;
-        self::$pageDbData = extractFromObjArr($pageDbData, 'metaKey');
-        self::$pageHtmlContent = getFileContent(self::$pageSlug);
 
         //Check zones types
-        if (preg_match_all("/{{(.*?)}}/", self::$pageHtmlContent, $match)) {
+        if (preg_match_all("/{{(.*?)}}/", $this->pageHtmlContent, $match)) {
 
             //Check if return admin zone template or content
             if (!$getHtmlContent) {
 
                 //Get zones types
-                self::$pageHtmlZones = self::getZones($match[1]);
+                $this->pageHtmlZones = $this->getZones($match[1]);
 
-                foreach (self::$pageHtmlZones as $adminZone) {
+                foreach ($this->pageHtmlZones as $adminZone) {
 
-                    self::$html .= self::buildHtmlZone($adminZone);
+                    $this->html .= $this->buildHtmlZone($adminZone);
                 }
 
             } else {
 
                 //Get zones content
-                self::$pageHtmlZones = $match;
-                self::$html = self::buildHtmlContent();
+                $this->pageHtmlZones = $match;
+                $this->html = $this->buildHtmlContent();
 
             }
         }
     }
 
     /**
-     * @param $pageSlug
-     * @param $pageDbData
-     */
-    public static function setSecondary($pageSlug, $pageDbData)
-    {
-        self::$pageSecondarySlug = $pageSlug;
-        self::$pageSecondaryDbData = extractFromObjArr($pageDbData, 'metaKey');
-        self::$pageSecondaryHtmlContent = getFileContent(self::$pageSecondarySlug);
-
-        //Check zones types
-        if (preg_match_all("/{{(.*?)}}/", self::$pageSecondaryHtmlContent, $match)) {
-
-            //Get zones content
-            self::$pageSecondaryHtmlZones = $match;
-            self::$htmlSecondary = self::buildSecondaryHtmlContent();
-        }
-    }
-
-    /**
      * @return mixed
      */
-    public static function buildHtmlContent()
+    public function buildHtmlContent()
     {
 
-        foreach (self::$pageHtmlZones[1] as $i => $adminZone) {
+        foreach ($this->pageHtmlZones[1] as $i => $adminZone) {
 
             if (strpos($adminZone, '_')) {
 
@@ -112,47 +80,22 @@ class Template
                 list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
 
                 //Set data
-                self::$pageHtmlContent = str_replace(self::$pageHtmlZones[0][$i], sprintf('%s', !empty(self::$pageDbData[$metaKey]) ? htmlSpeCharDecode(self::$pageDbData[$metaKey]->metaValue) : ''), self::$pageHtmlContent);
+                $this->pageHtmlContent = str_replace($this->pageHtmlZones[0][$i], sprintf('%s', !empty($this->pageDbData[$metaKey]) ? htmlSpeCharDecode($this->pageDbData[$metaKey]->metaValue) : ''), $this->pageHtmlContent);
 
             } else {
 
-                self::$pageHtmlContent = str_replace(self::$pageHtmlZones[0][$i], '', self::$pageHtmlContent);
+                $this->pageHtmlContent = str_replace($this->pageHtmlZones[0][$i], '', $this->pageHtmlContent);
             }
         }
 
-        return self::$pageHtmlContent;
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function buildSecondaryHtmlContent()
-    {
-
-        foreach (self::$pageSecondaryHtmlZones[1] as $i => $adminZone) {
-
-            if (strpos($adminZone, '_')) {
-
-                //Get data
-                list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
-
-                //Set data
-                self::$pageSecondaryHtmlContent = str_replace(self::$pageSecondaryHtmlZones[0][$i], sprintf('%s', !empty(self::$pageSecondaryDbData[$metaKey]) ? htmlSpeCharDecode(self::$pageSecondaryDbData[$metaKey]->metaValue) : ''), self::$pageSecondaryHtmlContent);
-
-            } else {
-
-                self::$pageSecondaryHtmlContent = str_replace(self::$pageSecondaryHtmlZones[0][$i], '', self::$pageSecondaryHtmlContent);
-            }
-        }
-
-        return self::$pageSecondaryHtmlContent;
+        return $this->pageHtmlContent;
     }
 
     /**
      * @param $zone
      * @return string
      */
-    public static function buildHtmlZone($zone)
+    public function buildHtmlZone($zone)
     {
 
         $html = '';
@@ -165,15 +108,15 @@ class Template
 
             //Get input value
             $metaKeyDisplay = ucfirst(str_replace('-', ' ', $metaKey));
-            $idCmsContent = !empty(self::$pageDbData[$metaKey]) ? self::$pageDbData[$metaKey]->id : '';
-            $valueCmsContent = !empty(self::$pageDbData[$metaKey]) ? self::$pageDbData[$metaKey]->metaValue : '';
+            $idCmsContent = !empty($this->pageDbData[$metaKey]) ? $this->pageDbData[$metaKey]->id : '';
+            $valueCmsContent = !empty($this->pageDbData[$metaKey]) ? $this->pageDbData[$metaKey]->metaValue : '';
 
             //Display input zone
-            $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : self::$defaultCol) . ' my-2 templateZoneInput">';
+            $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $this->defaultCol) . ' my-2 templateZoneInput">';
 
 
             //Check unique input
-            if (!in_array($metaKey, self::$allMetaKeys)) {
+            if (!in_array($metaKey, $this->allMetaKeys)) {
 
                 //Display form input
                 if (false !== strpos($formType, ':')) {
@@ -197,7 +140,7 @@ class Template
                     }
                 }
 
-                array_push(self::$allMetaKeys, $metaKey);
+                array_push($this->allMetaKeys, $metaKey);
             }
 
             $html .= '</div>';
@@ -213,7 +156,7 @@ class Template
      * @param array $zones
      * @return array
      */
-    public static function getZones(array $zones)
+    public function getZones(array $zones)
     {
         //Clean data
         $zones = cleanRequest($zones);
@@ -237,7 +180,7 @@ class Template
                 }
 
                 //Check form authorised data
-                if (self::isAuthorisedFormType($formType)) {
+                if ($this->isAuthorisedFormType($formType)) {
 
                     //Filter uniques form zones
                     if (!in_array($adminZone, $pageHtmlZonesTypes)) {
@@ -252,12 +195,12 @@ class Template
                     list($htmlTag, $text) = array_pad(explode('#', $adminZone), 2, '');
 
                     //Get Container Classes
-                    $extract = self::extractClassFromHtmlTag($htmlTag);
+                    $extract = $this->extractClassFromHtmlTag($htmlTag);
                     $htmlTag = $extract['tag'];
                     $class = $extract['class'];
 
                     //Check container authorised data
-                    if (self::isAuthorisedHtmlContainer($htmlTag)) {
+                    if ($this->isAuthorisedHtmlContainer($htmlTag)) {
 
                         $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag ' . $class . ' ">' . ucfirst($text) . '</' . $htmlTag . '>';
                     }
@@ -272,12 +215,12 @@ class Template
                     }
 
                     //Get Container Classes
-                    $extract = self::extractClassFromHtmlTag($adminZone);
+                    $extract = $this->extractClassFromHtmlTag($adminZone);
                     $htmlTag = $extract['tag'];
                     $class = $extract['class'];
 
                     //Check authorised html tag
-                    if (self::isAuthorisedHtmlContainer($htmlTag)) {
+                    if ($this->isAuthorisedHtmlContainer($htmlTag)) {
                         $pageHtmlZonesTypes[] = '<' . ($closeTag ? '/' : '') . $htmlTag . ' class="templateZoneTag ' . $class . ' ">';
                     }
 
@@ -292,7 +235,7 @@ class Template
      * @param $formType
      * @return bool
      */
-    public static function isAuthorisedFormType($formType)
+    public function isAuthorisedFormType($formType)
     {
 
         //Authorised form manage data
@@ -305,7 +248,7 @@ class Template
      * @param $formType
      * @return bool
      */
-    public static function isAuthorisedHtmlContainer($formType)
+    public function isAuthorisedHtmlContainer($formType)
     {
 
         //Authorised HTML Container
@@ -318,7 +261,7 @@ class Template
      * @param string $htmlTag
      * @return array
      */
-    public static function extractClassFromHtmlTag($htmlTag = '')
+    public function extractClassFromHtmlTag($htmlTag = '')
     {
         $class = '';
         if (strpos($htmlTag, '.')) {
@@ -334,7 +277,7 @@ class Template
     /**
      * @return string
      */
-    public static function showErrorPage()
+    public function showErrorPage()
     {
         return '<div class="container"><h4>' . trans('Cette page n\'existe pas') . '</h4></div>';
     }
