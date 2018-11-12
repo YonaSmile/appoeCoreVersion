@@ -1743,18 +1743,18 @@ function extractFromObjToArrForList($allContentArr, $key)
 }
 
 /**
- * @param $allContentArr
+ * @param array $allContentArr
  * @param $key
  * @param string $value
  * @param string $value2
  * @param string $separator
  * @return array
  */
-function extractFromObjToSimpleArr($allContentArr, $key, $value = '', $value2 = '', $separator = ' ')
+function extractFromObjToSimpleArr(array $allContentArr, $key, $value = '', $value2 = '', $separator = ' ')
 {
     $allContent = array();
 
-    if ($allContentArr) {
+    if ($allContentArr && !isArrayEmpty($allContentArr)) {
 
         if (!empty($value)) {
 
