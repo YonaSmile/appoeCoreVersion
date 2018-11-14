@@ -229,9 +229,9 @@ $(document).ready(function () {
         content: function () {
 
             if ($(this).data('width') !== undefined && $(this).data('height') !== undefined) {
-                return '<div><strong>Largeur:</strong> ' + $(this).data('width') + 'px<br><strong>Hauteur:</strong> ' + $(this).data('height') + 'px</div>';
+                return '<div><strong>Nom:</strong> ' + $(this).data('filename') + '<br><strong>Largeur:</strong> ' + $(this).data('width') + 'px<br><strong>Hauteur:</strong> ' + $(this).data('height') + 'px</div>';
             } else if ($(this).data('filename').length > 0) {
-                return '<div><strong>' + $(this).data('filename') + '</strong></div>';
+                return '<div><strong>Nom:</strong> ' + $(this).data('filename') + '</div>';
             }
         }
     });
