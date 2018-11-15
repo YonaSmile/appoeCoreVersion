@@ -58,6 +58,27 @@ function activePage($url, $prefix = '', $classNameAdded = 'active')
 }
 
 /**
+ * @param int $primaryIndex
+ * @param int $parent
+ * @return array
+ */
+function getSessionMenu($primaryIndex = 1, $parent = 10)
+{
+
+    $sessionMenu = array();
+    if (!isArrayEmpty($_SESSION['MENU']) && array_key_exists($primaryIndex, $_SESSION['MENU'])) {
+
+        if (array_key_exists($parent, $_SESSION['MENU'][$primaryIndex])) {
+            return $_SESSION['MENU'][$primaryIndex][$parent];
+        }
+
+        return $_SESSION['MENU'][$primaryIndex];
+    };
+
+    return $sessionMenu;
+}
+
+/**
  * @param string $jsonKey
  *
  * @return mixed
@@ -3396,24 +3417,40 @@ function dimanche_paques($annee)
     return date("Y-m-d", easter_date($annee));
 }
 
+/**
+ * @param $annee
+ * @return false|string
+ */
 function vendredi_saint($annee)
 {
     $dimanche_paques = dimanche_paques($annee);
     return date("Y-m-d", strtotime("$dimanche_paques -2 day"));
 }
 
+/**
+ * @param $annee
+ * @return false|string
+ */
 function lundi_paques($annee)
 {
     $dimanche_paques = dimanche_paques($annee);
     return date("Y-m-d", strtotime("$dimanche_paques +1 day"));
 }
 
+/**
+ * @param $annee
+ * @return false|string
+ */
 function jeudi_ascension($annee)
 {
     $dimanche_paques = dimanche_paques($annee);
     return date("Y-m-d", strtotime("$dimanche_paques +39 day"));
 }
 
+/**
+ * @param $annee
+ * @return false|string
+ */
 function lundi_pentecote($annee)
 {
     $dimanche_paques = dimanche_paques($annee);
@@ -3421,6 +3458,11 @@ function lundi_pentecote($annee)
 }
 
 
+/**
+ * @param $annee
+ * @param bool $alsacemoselle
+ * @return array
+ */
 function jours_feries($annee, $alsacemoselle = false)
 {
     $jours_feries = array(
@@ -3445,6 +3487,11 @@ function jours_feries($annee, $alsacemoselle = false)
     return $jours_feries;
 }
 
+/**
+ * @param $jour
+ * @param bool $alsacemoselle
+ * @return bool
+ */
 function isferie($jour, $alsacemoselle = false)
 {
     $jour = date("Y-m-d", strtotime($jour));
