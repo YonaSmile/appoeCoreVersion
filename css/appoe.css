@@ -1245,7 +1245,7 @@ table.table tr.odd {
 }
 
 table.table tbody tr:focus,
-table.table tbody tr:hover{
+table.table tbody tr:hover {
     transform: scaleX(1.01);
     -webkit-transform: scaleX(1.01);
 }
@@ -1390,11 +1390,6 @@ ICONS
     box-shadow: 0 0 12px .2rem rgba(0, 123, 255, .25) !important;
 }
 
-@page {
-    size: auto;
-    margin: 4mm;
-}
-
 @media screen and (max-width: 1440px) {
 
     h2.card-title {
@@ -1451,6 +1446,11 @@ ICONS
         -moz-column-count: 1;
         column-count: 1;
     }
+}
+
+@page {
+    size: auto;
+    margin: 0 4mm;
 }
 
 @media only print {
