@@ -2478,7 +2478,7 @@ function getRoleName($roleId)
  */
 function getRoleId($cryptedRole)
 {
-    return strlen($cryptedRole) <= 2 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
+    return strlen($cryptedRole) < 3 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
 }
 
 function isTechnicien($roleId)
