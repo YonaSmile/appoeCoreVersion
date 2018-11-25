@@ -5,9 +5,10 @@ class Shinoui
 {
     //key length must be equal to 64
     private static $clef = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+
     //private static $clef = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-    public static function Crypter($a, $b = DBHOST, $d = DBUSER, $xx = 2)
+    public static function Crypter($a, $b = 'APPOE', $d = 'Aoe*', $xx = 2)
     {
         $a = strval($a);
         if ($a == "" || $b == "" || $d == "" || !is_int($xx)) return $a;
@@ -48,11 +49,11 @@ class Shinoui
         return substr_replace($t, $u, -$r, -$r);
     }
 
-    public static function Decrypter($a, $b = DBHOST, $d = DBUSER, $xx = 2)
+    public static function Decrypter($a, $b = 'APPOE', $d = 'Aoe*', $xx = 2)
     {
         $a = strval($a);
 
-        if(!preg_match("/^[A-z0-9_-]+$/",$a)||$b=="")return $a;
+        if (!preg_match("/^[A-z0-9_-]+$/", $a) || $b == "") return $a;
 
         //if (!preg_match("/^[A-z0-9\/+]+$/", $a) || $b == "" || $d == "" || !is_int($xx)) return $a;
         $c = strlen($a) - $xx;
