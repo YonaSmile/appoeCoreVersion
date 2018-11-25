@@ -20,30 +20,30 @@ global $ALLUSERS; ?>
                         <?php if ($ALLUSERS): ?>
                             <?php foreach ($ALLUSERS as $userId => $user): ?>
                                 <?php if (getRoleId($user->role) <= getUserRoleId()): ?>
-                                    <tr class="<?= $user->statut == 0 ? 'table-warning' : ''; ?>">
+                                    <tr class="<?= $user->statut == 0 ? 'table-secondary' : ''; ?>">
                                         <td><?= $user->nom ?></td>
                                         <td><?= $user->prenom ?></td>
                                         <td><?= $user->email ?></td>
                                         <td><?= getRoleName($user->role) ?></td>
                                         <td>
-                                            <?php if (getUserIdSession() == $user->id || (getUserRoleId() >= 3 && getUserRoleId() >= getRoleId($user->role))): ?>
+                                            <?php if (getUserIdSession() == $user->id || (isTechnicien(getUserRoleId()) && getUserRoleId() >= getRoleId($user->role))): ?>
                                                 <a href="<?= getUrl('user/', $user->id) ?>"
                                                    class="btn btn-sm" title="<?= trans('Modifier'); ?>">
                                                     <span class="btnEdit"><i class="fas fa-wrench"></i></span>
                                                 </a>
                                             <?php endif; ?>
-                                            <?php if ($user->id != getUserIdSession() && getUserRoleId() >= 3 && getUserRoleId() > getRoleId($user->role) && $user->statut > 0): ?>
+                                            <?php if ($user->id != getUserIdSession() && isTechnicien(getUserRoleId()) && getUserRoleId() > getRoleId($user->role) && $user->statut > 0): ?>
                                                 <button type="button" class="btn btn-sm deleteUser"
                                                         title="<?= trans('Bannir'); ?>"
                                                         data-iduser="<?= $user->id ?>">
                                                     <span class="btnArchive"><i class="fas fa-ban"></i></span>
                                                 </button>
                                             <?php endif; ?>
-                                            <?php if ($user->id != getUserIdSession() && getUserRoleId() >= 3 && getUserRoleId() > getRoleId($user->role) && $user->statut == 0): ?>
+                                            <?php if ($user->id != getUserIdSession() && isTechnicien(getUserRoleId()) && getUserRoleId() > getRoleId($user->role) && $user->statut == 0): ?>
                                                 <button type="button" class="btn btn-sm valideUser"
-                                                        title="<?= trans('Archiver'); ?>"
+                                                        title="<?= trans('Valider'); ?>"
                                                         data-iduser="<?= $user->id ?>">
-                                                    <span class="btnCheck"><i class="fas fa-user-check"></i></span>
+                                                    <span class="btnEdit"><i class="fas fa-user-check"></i></span>
                                                 </button>
                                             <?php endif; ?>
                                         </td>

@@ -78,7 +78,7 @@ class Users
      */
     public function getRole()
     {
-        return strlen($this->role) < 2 ? $this->role : \App\Shinoui::Decrypter($this->role);
+        return strlen($this->role) <= 2 ? $this->role : \App\Shinoui::Decrypter($this->role);
     }
 
     /**
@@ -86,7 +86,7 @@ class Users
      */
     public function setRole($role)
     {
-        $this->role = strlen($role) > 2 ? $role : \App\Shinoui::Crypter($role);
+        $this->role = strlen($role) >= 2 ? $role : \App\Shinoui::Crypter($role);
     }
 
     /**

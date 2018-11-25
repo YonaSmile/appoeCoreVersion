@@ -45,7 +45,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
                                            class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                 <span class="text-white"><i class="fas fa-cog"></i></span>
                                             </a>
-                                                <?php if (getUserRoleId() > 3): ?>
+                                                <?php if (isTechnicien(getUserRoleId())): ?>
                                                     <a href="<?= getPluginUrl('cms/page/update/', $Cms->getId()) ?>"
                                                        class="btn btn-sm p-0 align-top"
                                                        title="<?= trans('Modifier'); ?>">
@@ -71,7 +71,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
                                                    class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                     <span class="text-white"><i class="fas fa-cog"></i></span>
                                                 </a>
-                                                    <?php if (getUserRoleId() > 3): ?>
+                                                    <?php if (isTechnicien(getUserRoleId())): ?>
                                                         <a href="<?= getPluginUrl('itemGlue/page/update/', $Article->getId()) ?>"
                                                            class="btn btn-sm p-0 align-top"
                                                            title="<?= trans('Modifier'); ?>">
@@ -126,7 +126,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
 
         $dashboardDetails = includePluginsDashboard();
 
-        if (getUserRoleId() >= 4) {
+        if (isTechnicien(getUserRoleId())) {
             $Category = new \App\Category();
             $dashboardDetails[] = array(
                 'name' => trans('Catégories'),

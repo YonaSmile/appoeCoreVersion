@@ -1,6 +1,6 @@
 <?php require('header.php');
 if (!empty($_GET['id'])):
-    if ($_GET['id'] == $USER->getId() || $USER->getRole() >= 3): ?>
+    if ($_GET['id'] == $USER->getId() || isTechnicien($USER->getRole())): ?>
         <?php
         require_once(WEB_PROCESS_PATH . 'users.php');
         $UpdateUser = new \App\Users();

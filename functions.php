@@ -2349,7 +2349,7 @@ function getUserIdSession()
  * @param string $userId
  * @return bool|string
  */
-function getEmptyUserId($userId = '')
+function checkAndGetUserId($userId = '')
 {
     if (empty($userId)) {
         $userId = getUserIdSession();
@@ -2363,7 +2363,7 @@ function getEmptyUserId($userId = '')
  */
 function getUserData($idUser = '')
 {
-    $idUser = getEmptyUserId($idUser);
+    $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
     return $ALLUSERS[$idUser];
@@ -2375,7 +2375,7 @@ function getUserData($idUser = '')
  */
 function getUserName($idUser = '')
 {
-    $idUser = getEmptyUserId($idUser);
+    $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
     return $ALLUSERS[$idUser]->nom;
@@ -2387,7 +2387,7 @@ function getUserName($idUser = '')
  */
 function getUserFirstName($idUser = '')
 {
-    $idUser = getEmptyUserId($idUser);
+    $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
     return $ALLUSERS[$idUser]->prenom;
@@ -2400,7 +2400,7 @@ function getUserFirstName($idUser = '')
  */
 function getUserEntitled($idUser = '', $separator = ' ')
 {
-    $idUser = getEmptyUserId($idUser);
+    $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
     return $ALLUSERS[$idUser]->nom . $separator . $ALLUSERS[$idUser]->prenom;
@@ -2412,7 +2412,7 @@ function getUserEntitled($idUser = '', $separator = ' ')
  */
 function getUserEmail($idUser = '')
 {
-    $idUser = getEmptyUserId($idUser);
+    $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
     return $ALLUSERS[$idUser]->email;
@@ -2425,7 +2425,7 @@ function getUserEmail($idUser = '')
 function getUserRoleId($idUser = '')
 {
 
-    $idUser = getEmptyUserId($idUser);
+    $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
     return getRoleId($ALLUSERS[$idUser]->role);
@@ -2438,7 +2438,7 @@ function getUserRoleId($idUser = '')
 function getUserRoleName($idUser = '')
 {
 
-    $idUser = getEmptyUserId($idUser);
+    $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
     return getRoleName($ALLUSERS[$idUser]->role);
@@ -2449,7 +2449,14 @@ function getUserRoleName($idUser = '')
  */
 function getRoles()
 {
-    return defined('ROLES') ? ROLES : array();
+    $usersRoles = array(11 => 'Technicien', 12 => 'King');
+    if (defined('ROLES')) {
+
+        $usersRoles = $usersRoles + ROLES;
+        ksort($usersRoles);
+        return $usersRoles;
+    }
+    return $usersRoles;
 }
 
 /**
@@ -2460,7 +2467,7 @@ function getRoleName($roleId)
 {
     if (defined('ROLES')) {
         $roleId = getRoleId($roleId);
-        return ROLES[$roleId];
+        return getRoles()[$roleId];
     }
     return $roleId;
 }
@@ -2471,7 +2478,18 @@ function getRoleName($roleId)
  */
 function getRoleId($cryptedRole)
 {
-    return strlen($cryptedRole) < 2 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
+    return strlen($cryptedRole) <= 2 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
+}
+
+function isTechnicien($roleId)
+{
+
+    $userRole = getRoleId($roleId);
+    if ($userRole >= 11) {
+        return true;
+    }
+
+    return false;
 }
 
 /**

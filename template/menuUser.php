@@ -41,7 +41,7 @@
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <?php if (getUserRoleId() > 3): ?>
+                <?php if (isTechnicien(getUserRoleId())): ?>
                     <a class="nav-link" href="<?= getUrl('setting/'); ?>">
                         <i class="fas fa-cog"></i>
                     </a>
