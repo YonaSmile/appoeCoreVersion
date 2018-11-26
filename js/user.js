@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     $('.deleteUser').click(function () {
 
-        if (confirm('Vous allez archiver cet utilisateur !')) {
+        if (confirm('Vous allez bannir cet utilisateur !')) {
             var $btn = $(this);
             var idUser = $btn.data('iduser');
 
