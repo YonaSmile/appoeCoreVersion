@@ -1,11 +1,11 @@
 <?php require('header.php');
 if (!empty($_GET['id'])):
-    if ($_GET['id'] == $USER->getId() || isTechnicien($USER->getRole())): ?>
+    if ($_GET['id'] == getUserIdSession() || isTechnicien(getUserRoleId())): ?>
         <?php
         require_once(WEB_PROCESS_PATH . 'users.php');
         $UpdateUser = new \App\Users();
         $UpdateUser->setId($_GET['id']);
-        if ($UpdateUser->show() && $UpdateUser->getRole() <= $USER->getRole()): ?>
+        if ($UpdateUser->show() && $UpdateUser->getRole() <= getUserRoleId()): ?>
             <?= getTitle($Page->getName(), $Page->getSlug()); ?>
             <div class="container-fluid">
                 <?php if (isset($Response)): ?>
@@ -25,7 +25,10 @@ if (!empty($_GET['id'])):
                             <input type="hidden" name="id" value="<?= $UpdateUser->getId() ?>">
                             <div class="row">
                                 <div class="col-12 my-2">
-                                    <?= \App\Form::text('Email', 'email', 'email', $UpdateUser->getEmail(), true, 60, 'aria-describedby="emailHelp"', '<small id="emailHelp" class="form-text text-muted">' . trans('En changeant votre adresse email vous serez déconnecté du logiciel') . '</small>'); ?>
+                                    <?php
+                                    $help = '<small id="emailHelp" class="form-text text-muted">' . trans('En changeant votre adresse email vous serez déconnecté du logiciel') . '</small>';
+                                    ?>
+                                    <?= \App\Form::text('Email', 'email', 'email', $UpdateUser->getEmail(), true, 60, 'aria-describedby="emailHelp"', $UpdateUser->getId() == getUserIdSession() ? $help : ''); ?>
                                 </div>
                                 <div class="col-12 my-2">
                                     <?= \App\Form::text('Nom', 'nom', 'text', $UpdateUser->getNom(), true, 40); ?>
@@ -33,9 +36,9 @@ if (!empty($_GET['id'])):
                                 <div class="col-12 my-2">
                                     <?= \App\Form::text('Prénom', 'prenom', 'text', $UpdateUser->getPrenom(), true, 40); ?>
                                 </div>
-                                <?php if ($UpdateUser->getId() != $USER->getId()): ?>
+                                <?php if ($UpdateUser->getId() != getUserIdSession() && $UpdateUser->getRole() < (getTechnicienRoleId() + 1)): ?>
                                     <div class="col-12 my-2">
-                                        <?= \App\Form::select('Rôle', 'role', array_map('trans', getRoles()), $UpdateUser->getRole(), true, '', $USER->getRole(), '>'); ?>
+                                        <?= \App\Form::select('Rôle', 'role', array_map('trans', getRoles()), $UpdateUser->getRole(), true, '', getUserRoleId(), '>'); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>

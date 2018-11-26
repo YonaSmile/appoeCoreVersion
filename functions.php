@@ -2481,6 +2481,19 @@ function getRoleId($cryptedRole)
     return strlen($cryptedRole) < 3 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
 }
 
+
+/**
+ * @return false|int|string
+ */
+function getTechnicienRoleId()
+{
+    return array_search('Technicien', getRoles());
+}
+
+/**
+ * @param $roleId
+ * @return bool
+ */
 function isTechnicien($roleId)
 {
 

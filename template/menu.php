@@ -1,6 +1,6 @@
 <?php
 $Menu = new \App\Menu();
-$menu_data = array_sort($Menu->displayMenu($USER->getRole()), 'order_menu');
+$menu_data = array_sort($Menu->displayMenu(getUserRoleId()), 'order_menu');
 $menuAll = array();
 
 if (false !== $menu_data) {
