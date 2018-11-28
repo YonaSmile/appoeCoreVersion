@@ -2346,27 +2346,38 @@ function getUserIdSession()
 }
 
 /**
- * @param string $userId
+ * @param string $idUser
  * @return bool|string
  */
-function checkAndGetUserId($userId = '')
+function checkAndGetUserId($idUser = '')
 {
-    if (empty($userId)) {
-        $userId = getUserIdSession();
+    if (empty($idUser)) {
+        $idUser = getUserIdSession();
     }
-    return $userId;
+    return $idUser;
 }
 
 /**
  * @param $idUser
- * @return array
+ * @return bool
+ */
+function isUserExist($idUser)
+{
+
+    global $ALLUSERS;
+    return array_key_exists($idUser, $ALLUSERS);
+}
+
+/**
+ * @param $idUser
+ * @return string|array
  */
 function getUserData($idUser = '')
 {
     $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
-    return $ALLUSERS[$idUser];
+    return isUserExist($idUser) ? $ALLUSERS[$idUser] : '';
 }
 
 /**
@@ -2378,7 +2389,7 @@ function getUserName($idUser = '')
     $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
-    return $ALLUSERS[$idUser]->nom;
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->nom : '';
 }
 
 /**
@@ -2390,7 +2401,7 @@ function getUserFirstName($idUser = '')
     $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
-    return $ALLUSERS[$idUser]->prenom;
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->prenom : '';
 }
 
 /**
@@ -2403,7 +2414,7 @@ function getUserEntitled($idUser = '', $separator = ' ')
     $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
-    return $ALLUSERS[$idUser]->nom . $separator . $ALLUSERS[$idUser]->prenom;
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->nom . $separator . $ALLUSERS[$idUser]->prenom : '';
 }
 
 /**
@@ -2415,7 +2426,7 @@ function getUserEmail($idUser = '')
     $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
-    return $ALLUSERS[$idUser]->email;
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->email : '';
 }
 
 /**
@@ -2428,7 +2439,7 @@ function getUserRoleId($idUser = '')
     $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
-    return getRoleId($ALLUSERS[$idUser]->role);
+    return isUserExist($idUser) ? getRoleId($ALLUSERS[$idUser]->role) : '';
 }
 
 /**
@@ -2441,7 +2452,15 @@ function getUserRoleName($idUser = '')
     $idUser = checkAndGetUserId($idUser);
 
     global $ALLUSERS;
-    return getRoleName($ALLUSERS[$idUser]->role);
+    return isUserExist($idUser) ? getRoleName($ALLUSERS[$idUser]->role) : '';
+}
+
+/**
+ * @return array
+ */
+function getAdminRoles()
+{
+    return array(11 => 'Technicien', 12 => 'King');
 }
 
 /**
@@ -2449,7 +2468,7 @@ function getUserRoleName($idUser = '')
  */
 function getRoles()
 {
-    $usersRoles = array(11 => 'Technicien', 12 => 'King');
+    $usersRoles = getAdminRoles();
     if (defined('ROLES')) {
 
         $usersRoles = $usersRoles + ROLES;
@@ -3520,12 +3539,12 @@ function jours_feries($annee, $alsacemoselle = false)
 
 /**
  * @param $jour
- * @param bool $alsacemoselle
+ * @param bool $alsaceMoselle
  * @return bool
  */
-function isferie($jour, $alsacemoselle = false)
+function isferie($jour, $alsaceMoselle = false)
 {
     $jour = date("Y-m-d", strtotime($jour));
     $annee = substr($jour, 0, 4);
-    return in_array($jour, jours_feries($annee, $alsacemoselle));
+    return in_array($jour, jours_feries($annee, $alsaceMoselle));
 }
