@@ -149,27 +149,29 @@ if (class_exists('App\Plugin\Shop\Product')) {
                 <?php
                 $dashboardDetails = transformMultipleArraysTo1($dashboardDetails);
                 foreach ($dashboardDetails as $dashboard):
-                    $posUrl = strrpos($dashboard['url'], '/', -2);
-                    $icon = '';
-                    if (false !== $posUrl) {
-                        $icon = substr($dashboard['url'], $posUrl + 1, -1);
-                    }
-                    ?>
-                    <div class="col-12 col-lg-4 mb-3">
-                        <div class="card d-flex justify-content-start py-4 border-0 dashboardCard">
-                            <div class="card-body">
-                                <h2 class="card-title m-0 icon-<?= $icon; ?>"><a
-                                            href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
-                                <span class="dashboardNum bgColorPrimary"><?= $dashboard['count']; ?></span>
-                            </div>
-                            <?php if (!empty($dashboard['html'])): ?>
-                                <div class="d-none d-lg-flex justify-content-around htmlDashboard">
-                                    <?= $dashboard['html']; ?>
+                    if (!isArrayEmpty($dashboard)):
+                        $posUrl = strrpos($dashboard['url'], '/', -2);
+                        $icon = '';
+                        if (false !== $posUrl) {
+                            $icon = substr($dashboard['url'], $posUrl + 1, -1);
+                        }
+                        ?>
+                        <div class="col-12 col-lg-4 mb-3">
+                            <div class="card d-flex justify-content-start py-4 border-0 dashboardCard">
+                                <div class="card-body">
+                                    <h2 class="card-title m-0 icon-<?= $icon; ?>"><a
+                                                href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
+                                    <span class="dashboardNum bgColorPrimary"><?= $dashboard['count']; ?></span>
                                 </div>
-                            <?php endif; ?>
+                                <?php if (!empty($dashboard['html'])): ?>
+                                    <div class="d-none d-lg-flex justify-content-around htmlDashboard">
+                                        <?= $dashboard['html']; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endif;
+                endforeach; ?>
             </div>
         <?php endif; ?>
     </div>
