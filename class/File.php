@@ -13,6 +13,7 @@ class File
     protected $position = null;
     protected $options = null;
 
+    protected $filePath = FILE_DIR_PATH;
     protected $uploadFiles = null;
     protected $dbh = null;
 
@@ -165,6 +166,22 @@ class File
     public function setOptions($options)
     {
         $this->options = $options;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilePath()
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * @param string $filePath
+     */
+    public function setFilePath(string $filePath)
+    {
+        $this->filePath = $filePath;
     }
 
     /**
@@ -394,9 +411,9 @@ class File
                         ) {
 
                             $this->name = $filename;
-                            if (!file_exists(FILE_DIR_PATH . $filename)) {
+                            if (!file_exists($this->filePath . $filename)) {
 
-                                if (move_uploaded_file($tmp_name, FILE_DIR_PATH . $filename) === false) {
+                                if (move_uploaded_file($tmp_name, $this->filePath . $filename) === false) {
                                     continue;
                                 }
                             }
@@ -427,7 +444,7 @@ class File
      */
     public function deleteFileByPath()
     {
-        $path_file = FILE_DIR_PATH . $this->name;
+        $path_file = $this->filePath . $this->name;
 
         if ($this->countFile() < 2) {
             if (file_exists($path_file)) {
