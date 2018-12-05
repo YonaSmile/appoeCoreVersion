@@ -21,6 +21,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
     $Product = new \App\Plugin\Shop\Product();
 }
 ?>
+<?= getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
         <?= implode('', includePersoPluginsDashboard()); ?>
         <?php if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>

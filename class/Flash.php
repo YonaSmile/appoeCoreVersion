@@ -31,7 +31,7 @@ class Flash
     /**
      * @param string $location
      */
-    public static function setLocation(string $location)
+    public static function setLocation($location)
     {
         self::$location = $location;
     }

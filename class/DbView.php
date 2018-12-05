@@ -132,7 +132,7 @@ class DbView
             $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
 
             if (is_callable(array($this, $method))) {
-                $this->$method(null);
+                $this->$method('');
             }
         }
     }

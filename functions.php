@@ -115,7 +115,7 @@ function getTitle($name = '', $slug = '', $appendName = '')
 {
     $html = '<div class="container-fluid"><div class="row"><div class="col-12">
             <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary mr-2"></span>' . trans($name) . $appendName . '</h1>
-            </div></div><hr class="m-5"></div>';
+            </div></div><hr class="mx-5 mt-3 mb-4"></div>';
 
     return $html;
 }
