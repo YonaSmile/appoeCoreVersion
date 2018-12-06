@@ -72,7 +72,7 @@ $(document).ready(function () {
 
         var menu = $(this);
 
-        if ($(val).attr('id').indexOf('-') >= 0) {
+        if ($(val).attr('id') !== undefined && $(val).attr('id').indexOf('-') >= 0) {
 
             var pluginName = $(val).attr('id').split('-')[1];
             var urlPage = window.location.href.split('/');

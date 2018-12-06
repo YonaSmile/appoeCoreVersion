@@ -46,11 +46,11 @@ function activePage($url, $prefix = '', $classNameAdded = 'active')
 {
     if (!empty($url)) {
 
-        if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
+        if ($url == 'home' && empty(basename($_SERVER['SCRIPT_NAME']))) {
             return $prefix . $classNameAdded;
         }
 
-        if (false !== strpos(basename($_SERVER['REQUEST_URI']), $url)) {
+        if (false !== strpos(basename($_SERVER['SCRIPT_NAME']), $url)) {
             return $prefix . $classNameAdded;
         }
     }
