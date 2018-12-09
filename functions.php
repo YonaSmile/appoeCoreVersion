@@ -2365,7 +2365,10 @@ function isUserExist($idUser)
 {
 
     global $ALLUSERS;
-    return array_key_exists($idUser, $ALLUSERS);
+    if (is_array($ALLUSERS)) {
+        return array_key_exists($idUser, $ALLUSERS);
+    }
+    return false;
 }
 
 /**
@@ -2419,7 +2422,7 @@ function getUserEntitled($idUser = '', $separator = ' ')
 
 /**
  * @param $idUser
- * @return array
+ * @return array|string
  */
 function getUserEmail($idUser = '')
 {
@@ -2427,6 +2430,18 @@ function getUserEmail($idUser = '')
 
     global $ALLUSERS;
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->email : '';
+}
+
+/**
+ * @param $idUser
+ * @return array|bool
+ */
+function getUserStatus($idUser = '')
+{
+    $idUser = checkAndGetUserId($idUser);
+
+    global $ALLUSERS;
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->statut : false;
 }
 
 /**
@@ -2518,6 +2533,21 @@ function isTechnicien($roleId)
 
     $userRole = getRoleId($roleId);
     if ($userRole >= 11) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * @param $roleId
+ * @return bool
+ */
+function isKing($roleId)
+{
+
+    $userRole = getRoleId($roleId);
+    if ($userRole == 12) {
         return true;
     }
 
