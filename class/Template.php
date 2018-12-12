@@ -25,7 +25,7 @@ class Template
      */
     public function show()
     {
-        echo !empty($this->html) ? $this->html : $this->pageHtmlContent;
+        echo !empty($this->html) ? $this->html : '';
     }
 
     /**
