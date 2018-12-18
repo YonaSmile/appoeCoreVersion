@@ -40,28 +40,18 @@ function pageSlug()
  * @param $url
  * @param $prefix
  * @param $classNameAdded
- * @param $ajaxPage
  * @return string
  */
-function activePage($url, $prefix = '', $classNameAdded = 'active', $ajaxPage = false)
+function activePage($url, $prefix = '', $classNameAdded = 'active')
 {
     if (!empty($url)) {
-        if (!$ajaxPage) {
-            if ($url == 'home' && empty(basename($_SERVER['SCRIPT_NAME']))) {
-                return $prefix . $classNameAdded;
-            }
 
-            if (false !== strpos(basename($_SERVER['SCRIPT_NAME']), $url)) {
-                return $prefix . $classNameAdded;
-            }
-        } else {
-            if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
-                return $prefix . $classNameAdded;
-            }
+        if ($url == 'home' && empty(basename($_SERVER['SCRIPT_NAME']))) {
+            return $prefix . $classNameAdded;
+        }
 
-            if (false !== strpos(basename($_SERVER['REQUEST_URI']), $url)) {
-                return $prefix . $classNameAdded;
-            }
+        if (false !== strpos(basename($_SERVER['SCRIPT_NAME']), $url)) {
+            return $prefix . $classNameAdded;
         }
     }
     return '';
