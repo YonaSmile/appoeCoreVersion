@@ -40,18 +40,28 @@ function pageSlug()
  * @param $url
  * @param $prefix
  * @param $classNameAdded
+ * @param $ajaxPage
  * @return string
  */
-function activePage($url, $prefix = '', $classNameAdded = 'active')
+function activePage($url, $prefix = '', $classNameAdded = 'active', $ajaxPage = false)
 {
     if (!empty($url)) {
+        if (!$ajaxPage) {
+            if ($url == 'home' && empty(basename($_SERVER['SCRIPT_NAME']))) {
+                return $prefix . $classNameAdded;
+            }
 
-        if ($url == 'home' && empty(basename($_SERVER['SCRIPT_NAME']))) {
-            return $prefix . $classNameAdded;
-        }
+            if (false !== strpos(basename($_SERVER['SCRIPT_NAME']), $url)) {
+                return $prefix . $classNameAdded;
+            }
+        } else {
+            if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
+                return $prefix . $classNameAdded;
+            }
 
-        if (false !== strpos(basename($_SERVER['SCRIPT_NAME']), $url)) {
-            return $prefix . $classNameAdded;
+            if (false !== strpos(basename($_SERVER['REQUEST_URI']), $url)) {
+                return $prefix . $classNameAdded;
+            }
         }
     }
     return '';
@@ -3167,9 +3177,9 @@ function sendMail(array $data, array $otherAddr = null)
 /**
  * @param $month
  *
- * @return mixed
+ * @return array|boolean
  */
-function getMonth($month)
+function getMonth($month = '')
 {
     $month_arr[1] = "Janvier";
     $month_arr[2] = "Février";
@@ -3184,7 +3194,7 @@ function getMonth($month)
     $month_arr[11] = "Novembre";
     $month_arr[12] = "Décembre";
 
-    return $month_arr[$month];
+    return !empty($month) && array_key_exists($month, $month_arr) ? $month_arr[$month] : $month_arr;
 }
 
 /**

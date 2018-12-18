@@ -306,25 +306,21 @@ class Users
 
     public function update()
     {
-
-        if ($this->id != '157092') {
-            $sql = 'UPDATE appoe_users SET email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut WHERE id = :id';
-            $stmt = $this->dbh->prepare($sql);
-            $stmt->bindParam(':id', $this->id);
-            $stmt->bindParam(':email', $this->email);
-            $stmt->bindParam(':nom', $this->nom);
-            $stmt->bindParam(':prenom', $this->prenom);
-            $stmt->bindParam(':role', $this->role);
-            $stmt->bindParam(':statut', $this->statut);
-            $stmt->execute();
-            $error = $stmt->errorInfo();
-            if ($error[0] != '00000') {
-                return false;
-            } else {
-                return true;
-            }
+        $sql = 'UPDATE appoe_users SET email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut WHERE id = :id';
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':nom', $this->nom);
+        $stmt->bindParam(':prenom', $this->prenom);
+        $stmt->bindParam(':role', $this->role);
+        $stmt->bindParam(':statut', $this->statut);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            return true;
         }
-        return false;
     }
 
     /**
