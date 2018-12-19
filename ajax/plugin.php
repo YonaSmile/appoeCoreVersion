@@ -86,7 +86,7 @@ if (checkAjaxRequest()) {
     if (!empty($_POST['optimizeDb'])) {
 
         $tables = \App\DB::initialize()->getTables();
-        \App\DB::backup(date('Y-m-d'), 'db-' . date('H:i'));
+        \App\DB::backup(date('Y-m-d'), 'db-' . date('H_i'));
         $Menu = new \App\Menu();
         $optimizeTables = 0;
         foreach ($tables as $table) {
