@@ -109,7 +109,7 @@ class DB
     }
 
     /**
-     * @return bool
+     * @return bool|array
      */
     public static function getTables()
     {

@@ -23,8 +23,17 @@ function eraseCookie(name) {
     document.cookie = name + '=; Max-Age=-99999999;';
 }
 
-function financial(x) {
-    return Number.parseFloat(x).toFixed(2);
+function financial(x, useSpace = true) {
+    if (!useSpace) {
+        return Number.parseFloat(x).toFixed(2);
+    }
+    return numberWithSpaces(Number.parseFloat(x).toFixed(2));
+}
+
+function numberWithSpaces(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return parts.join(".");
 }
 
 function copyToClipboard(text) {

@@ -1,0 +1,132 @@
+/**
+COLORS
+ */
+.colorPrimary {
+    color: #3eb293 !important;
+}
+
+.bgColorPrimary {
+    background: #3eb293 !important;
+    color: #FFF !important;
+}
+
+.borderColorPrimary {
+    border-color: #3eb293 !important;
+}
+
+[class*="colorPrimary"] {
+    transition: all 0.3s;
+}
+
+a[class*="colorPrimary"]:focus,
+a[class*="colorPrimary"]:hover,
+button[class*="colorPrimary"]:focus,
+button[class*="colorPrimary"]:hover {
+    color: #FFF;
+    background: #3eb293;
+}
+
+.colorSecondary {
+    color: #3eb293;
+}
+
+.bgColorSecondary {
+    background: #3eb293;
+    color: #FFF;
+}
+
+.borderColorSecondary {
+    border-color: #3eb293;
+}
+
+[class*="colorSecondary"] {
+    transition: all 0.3s;
+}
+
+a[class*="colorSecondary"]:focus,
+a[class*="colorSecondary"]:hover,
+button[class*="colorSecondary"]:focus,
+button[class*="colorSecondary"]:hover {
+    color: #FFF;
+    background: #3eb293;
+}
+
+/**
+ELEMENTS COLORS
+ */
+
+#sidebar.bgColorPrimary ul li a:hover {
+    color: #3eb293;
+    background: #FFF;
+}
+
+#sidebar.bgColorPrimary .sidebar-header {
+    background: #379e82;
+}
+
+#sidebar.bgColorPrimary ul li.active > a {
+    color: #fff;
+    background: #379e82;
+}
+
+#sidebar.bgColorPrimary ul ul a {
+    background: #3eb293;
+}
+
+.dashboardCard {
+    transition: all 0.3s;
+}
+
+.dashboardCard .htmlDashboard {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.dashboardCard .htmlDashboard > span {
+    margin: 4px;
+    padding: 4px;
+    font-size: 0.8em;
+    font-weight: 300;
+}
+
+.dashboardCard a {
+    color: #4b5b68;
+}
+
+.dashboardCard h2 a:before {
+    color: #d8d8da;
+}
+
+.dashboardCard:focus a,
+.dashboardCard:hover a {
+    color: #fff;
+}
+
+.dashboardCard:focus,
+.dashboardCard:hover {
+    background: #3eb293;
+    color: #FFF;
+}
+
+.dashboardNum {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    display: block;
+    font-weight: 500;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 38px;
+    transition: all 0.3s;
+}
+
+.dashboardCard:focus span.dashboardNum,
+.dashboardCard:hover span.dashboardNum {
+    background: #FFF !important;
+    color: #3eb293 !important;
+}
