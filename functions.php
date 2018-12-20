@@ -68,6 +68,32 @@ function activePage($url, $prefix = '', $classNameAdded = 'active', $ajaxPage = 
 }
 
 /**
+ * Construct general menu
+ * @param $allPages
+ *
+ * @return array
+ */
+
+function constructMenu($allPages)
+{
+    //Create menu
+    $menu = array();
+    if (!empty($allPages)) {
+        foreach ($allPages as $menuPage) {
+
+            //check if is Page or URL
+            if (is_null($menuPage->slug)) {
+                $menuPage->slug = $menuPage->idCms;
+            }
+
+            //First level menu sorting by location and second level by parent Id.
+            $menu[$menuPage->location][$menuPage->parentId][] = $menuPage;
+        }
+    }
+    return $menu;
+}
+
+/**
  * @param int $primaryIndex
  * @param int $parent
  * @return array
@@ -86,6 +112,25 @@ function getSessionMenu($primaryIndex = 1, $parent = 10)
     };
 
     return $sessionMenu;
+}
+
+/**
+ * @param int $primaryIndex
+ * @return bool
+ */
+function hasMenu($primaryIndex = 1)
+{
+    return !isArrayEmpty($_SESSION['MENU']) && array_key_exists($primaryIndex, $_SESSION['MENU']);
+}
+
+/**
+ * @param $index
+ * @param int $menuPrimaryIndex
+ * @return bool
+ */
+function hasSubMenu($index, $menuPrimaryIndex = 1)
+{
+    return array_key_exists($index, $_SESSION['MENU'][$menuPrimaryIndex]);
 }
 
 /**
@@ -2927,32 +2972,6 @@ function getImgAccordingExtension($extension)
 function getContainerErrorMsg($msg)
 {
     return '<div class="container-fluid"><div class="row"><div class="col-12"><p>' . $msg . '</p></div></div></div>';
-}
-
-/**
- * Construct general menu
- * @param $allPages
- *
- * @return array
- */
-
-function constructMenu($allPages)
-{
-    //Create menu
-    $menu = array();
-    if (!empty($allPages)) {
-        foreach ($allPages as $menuPage) {
-
-            //check if is Page or URL
-            if (is_null($menuPage->slug)) {
-                $menuPage->slug = $menuPage->idCms;
-            }
-
-            //First level menu sorting by location and second level by parent Id.
-            $menu[$menuPage->location][$menuPage->parentId][] = $menuPage;
-        }
-    }
-    return $menu;
 }
 
 /**
