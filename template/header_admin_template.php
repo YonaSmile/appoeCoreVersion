@@ -14,7 +14,8 @@ $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
     <meta name="application-name" content="APPOE">
     <title><?= trans($Page->getName()); ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
-          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+          crossorigin="anonymous">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
     <link rel="styleSheet" href="<?= APP_ROOT; ?>css/font.css" type="text/css">
