@@ -2817,20 +2817,28 @@ function getFileTemplatePosition($filesArray, $position, $forcedPosition = false
  * @param $imageArray
  * @param $otherClass
  * @param $thumbSize
+ * @param $onlyUrl
+ * @param $onlyPath
  * @return bool|string
  */
-function getFirstImage($imageArray, $otherClass = '', $thumbSize = false)
+function getFirstImage($imageArray, $otherClass = '', $thumbSize = false, $onlyUrl = false, $onlyPath = false)
 {
     if ($imageArray) {
         $firstImage = current($imageArray);
         if (isImage(FILE_DIR_PATH . $firstImage->name)) {
-            return '<img src="' .
-                (
-                !$thumbSize
-                    ? WEB_DIR_INCLUDE . $firstImage->name
-                    : getThumb($firstImage->name, $thumbSize)
-                )
-                . '" alt="' . $firstImage->description . '" data-originsrc="' . WEB_DIR_INCLUDE . $firstImage->name . '" class="' . $otherClass . '">';
+            if ($onlyUrl) {
+                return WEB_DIR_INCLUDE . $firstImage->name;
+            } else if ($onlyPath) {
+                return FILE_DIR_PATH . $firstImage->name;
+            } else {
+                return '<img src="' .
+                    (
+                    !$thumbSize
+                        ? WEB_DIR_INCLUDE . $firstImage->name
+                        : getThumb($firstImage->name, $thumbSize)
+                    )
+                    . '" alt="' . $firstImage->description . '" data-originsrc="' . WEB_DIR_INCLUDE . $firstImage->name . '" class="' . $otherClass . '">';
+            }
         } else {
             return getFirstImage(array_slice($imageArray, 1), $otherClass, $thumbSize);
         }
