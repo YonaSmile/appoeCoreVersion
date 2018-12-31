@@ -33,7 +33,7 @@ class DB
                 }
             }
         }
-        //self::updateTable();
+        self::updateTable();
         return self::$dbh;
     }
 
@@ -75,7 +75,7 @@ class DB
      */
     public static function updateTable()
     {
-        $sql = 'ALTER TABLE `appoe_files` ADD `options` TEXT NULL DEFAULT NULL AFTER `position`;';
+        $sql = 'ALTER TABLE `appoe_plugin_itemGlue_articles` DROP COLUMN content;';
         $stmt = self::$dbh->prepare($sql);
         $stmt->execute();
         $error = $stmt->errorInfo();

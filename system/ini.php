@@ -108,5 +108,6 @@ const PAGE_TYPES = array(
     'product' => 'SHOP',
     'article' => 'ITEMGLUE',
     'news' => 'ITEMGLUE',
+    'archives' => 'ITEMGLUE',
     'blog' => 'ITEMGLUE'
 );
