@@ -92,7 +92,8 @@ const APP_TABLES = array(
     'appoe_menu',
     'appoe_files',
     'appoe_categories',
-    'appoe_categoryRelations'
+    'appoe_categoryRelations',
+    'appoe_logging'
 );
 
 const CATEGORY_TYPES = array(
