@@ -13,7 +13,7 @@ class Logging
 
     private $dbh = null;
 
-    public function __construct()
+    public function __construct($type = null, $status = null, $context = null)
     {
         if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
@@ -22,6 +22,14 @@ class Logging
         $this->date = date('Y-m-d H:i:s');
         $this->user = getUserIdSession();
         $this->userName = getUserEntitled();
+
+        if ($type && $status && $context) {
+
+            $this->type = $type;
+            $this->status = $status;
+            $this->context = $context;
+            $this->save();
+        }
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php require('header.php');
-global $ALLUSERS; ?>
-<?= getTitle($Page->getName(), $Page->getSlug()); ?>
+echo getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -17,8 +16,8 @@ global $ALLUSERS; ?>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if ($ALLUSERS):
-                            foreach ($ALLUSERS as $userId => $user):
+                        <?php if (defined('ALLUSERS')):
+                            foreach (unserialize(ALLUSERS) as $userId => $user):
                                 if (getRoleId($user->role) <= getUserRoleId()): ?>
                                     <tr class="<?= $user->statut == 0 ? 'table-secondary' : ''; ?>">
                                         <td><?= $user->nom ?></td>

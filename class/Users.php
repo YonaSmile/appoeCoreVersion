@@ -237,7 +237,7 @@ class Users
                 return true;
 
             } else {
-                return false; // L'utilisateur n'existe pas;
+                return false;
             }
         }
     }
@@ -248,12 +248,10 @@ class Users
      */
     public function showAll($minStatus = false)
     {
-        if ($minStatus) {
-            $sqlStatus = ' statut >= :statut ';
-        } else {
-            $sqlStatus = ' statut = :statut ';
-        }
+
+        $sqlStatus = !$minStatus ? ' statut >= :statut ' : ' statut = :statut ';
         $sql = 'SELECT * FROM appoe_users WHERE ' . $sqlStatus . ' ORDER BY statut DESC, created_at ASC';
+
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':statut', $this->statut);
         $stmt->execute();
@@ -282,6 +280,7 @@ class Users
         $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
         $sql = 'INSERT INTO appoe_users (email, password, role,  nom, prenom, options, created_at) 
                     VALUES (:email, :password, :role, :nom, :prenom, :options, CURDATE())';
+
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':password', $hash_password);
@@ -306,7 +305,10 @@ class Users
 
     public function update()
     {
-        $sql = 'UPDATE appoe_users SET email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut WHERE id = :id';
+        $sql = 'UPDATE appoe_users 
+        SET email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut 
+        WHERE id = :id';
+
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':email', $this->email);

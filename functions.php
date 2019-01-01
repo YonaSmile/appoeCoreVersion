@@ -2,6 +2,10 @@
 
 require ROOT_PATH . 'ressources/PHPMailer/PHPMailerAutoload.php';
 
+//Get all users in a const
+$USER = new \App\Users();
+define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
+
 /**
  * @return string
  */
@@ -2404,12 +2408,9 @@ function getUserIdSession()
  * @param string $idUser
  * @return bool|string
  */
-function checkAndGetUserId($idUser = '')
+function checkAndGetUserId($idUser = null)
 {
-    if (empty($idUser)) {
-        $idUser = getUserIdSession();
-    }
-    return $idUser;
+    return $idUser ? $idUser : getUserIdSession();
 }
 
 /**
@@ -2419,7 +2420,7 @@ function checkAndGetUserId($idUser = '')
 function isUserExist($idUser)
 {
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     if (is_array($ALLUSERS)) {
         return array_key_exists($idUser, $ALLUSERS);
     }
@@ -2434,7 +2435,7 @@ function getUserData($idUser = '')
 {
     $idUser = checkAndGetUserId($idUser);
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     return isUserExist($idUser) ? $ALLUSERS[$idUser] : '';
 }
 
@@ -2446,7 +2447,7 @@ function getUserName($idUser = '')
 {
     $idUser = checkAndGetUserId($idUser);
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->nom : '';
 }
 
@@ -2458,7 +2459,7 @@ function getUserFirstName($idUser = '')
 {
     $idUser = checkAndGetUserId($idUser);
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->prenom : '';
 }
 
@@ -2471,7 +2472,7 @@ function getUserEntitled($idUser = '', $separator = ' ')
 {
     $idUser = checkAndGetUserId($idUser);
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->nom . $separator . $ALLUSERS[$idUser]->prenom : '';
 }
 
@@ -2483,7 +2484,7 @@ function getUserEmail($idUser = '')
 {
     $idUser = checkAndGetUserId($idUser);
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->email : '';
 }
 
@@ -2495,7 +2496,7 @@ function getUserStatus($idUser = '')
 {
     $idUser = checkAndGetUserId($idUser);
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->statut : false;
 }
 
@@ -2508,7 +2509,7 @@ function getUserRoleId($idUser = '')
 
     $idUser = checkAndGetUserId($idUser);
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     return isUserExist($idUser) ? getRoleId($ALLUSERS[$idUser]->role) : '';
 }
 
@@ -2521,7 +2522,7 @@ function getUserRoleName($idUser = '')
 
     $idUser = checkAndGetUserId($idUser);
 
-    global $ALLUSERS;
+    $ALLUSERS = unserialize(ALLUSERS);
     return isUserExist($idUser) ? getRoleName($ALLUSERS[$idUser]->role) : '';
 }
 
