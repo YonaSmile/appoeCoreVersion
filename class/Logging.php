@@ -10,10 +10,11 @@ class Logging
     private $type = 'APP';
     private $status = 'info';
     private $context;
+    private $message;
 
     private $dbh = null;
 
-    public function __construct($type = null, $status = null, $context = null)
+    public function __construct($type = null, $status = null, $context = null, $message = null)
     {
         if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
@@ -23,11 +24,12 @@ class Logging
         $this->user = getUserIdSession();
         $this->userName = getUserEntitled();
 
-        if ($type && $status && $context) {
+        if ($type && $status && $context && $message) {
 
             $this->type = $type;
             $this->status = $status;
             $this->context = $context;
+            $this->message = $message;
             $this->save();
         }
     }
@@ -144,6 +146,22 @@ class Logging
         $this->context = $context;
     }
 
+    /**
+     * @return null
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param null $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
     public function createTable()
     {
         $sql = 'CREATE TABLE IF NOT EXISTS `appoe_logging` (
@@ -154,7 +172,8 @@ class Logging
                     `userName` VARCHAR(250) NOT NULL,
                     `type` VARCHAR(150) NOT NULL,
                     `status` VARCHAR(150) NOT NULL,
-                    `context` VARCHAR(150) NOT NULL,
+                    `context` VARCHAR(255) NULL DEFAULT NULL,
+                    `message` TEXT NOT NULL,
                     UNIQUE (`date`, `user`, `context`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
 
@@ -196,8 +215,8 @@ class Logging
      */
     public function save()
     {
-        $sql = 'INSERT INTO appoe_logging (date, user, userName, type, status, context) 
-        VALUES(:date, :user, :userName, :type, :status, :context)';
+        $sql = 'INSERT INTO appoe_logging (date, user, userName, type, status, context, message) 
+        VALUES(:date, :user, :userName, :type, :status, :context, :message)';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':date', $this->date);
@@ -206,6 +225,7 @@ class Logging
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':status', $this->status);
         $stmt->bindParam(':context', $this->context);
+        $stmt->bindParam(':message', $this->message);
         $stmt->execute();
         $error = $stmt->errorInfo();
 
@@ -222,7 +242,7 @@ class Logging
     public function update()
     {
         $sql = 'UPDATE appoe_logging 
-        SET date = :date, user = :user, userName = :userName, type = :type, status = :status, context = :context 
+        SET date = :date, user = :user, userName = :userName, type = :type, status = :status, context = :context, message = :message 
         WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
@@ -232,6 +252,7 @@ class Logging
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':status', $this->status);
         $stmt->bindParam(':context', $this->context);
+        $stmt->bindParam(':message', $this->message);
         $stmt->bindParam(':id', $this->id);
         $stmt->execute();
         $error = $stmt->errorInfo();

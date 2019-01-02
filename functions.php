@@ -4,6 +4,7 @@ require ROOT_PATH . 'ressources/PHPMailer/PHPMailerAutoload.php';
 
 //Get all users in a const
 $USER = new \App\Users();
+$USER->setStatut(0);
 define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
 
 /**

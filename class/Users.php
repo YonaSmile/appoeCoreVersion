@@ -246,10 +246,10 @@ class Users
      * @param $minStatus
      * @return bool|array
      */
-    public function showAll($minStatus = false)
+    public function showAll($minStatus = true)
     {
 
-        $sqlStatus = !$minStatus ? ' statut >= :statut ' : ' statut = :statut ';
+        $sqlStatus = $minStatus ? ' statut >= :statut ' : ' statut = :statut ';
         $sql = 'SELECT * FROM appoe_users WHERE ' . $sqlStatus . ' ORDER BY statut DESC, created_at ASC';
 
         $stmt = $this->dbh->prepare($sql);
@@ -261,9 +261,7 @@ class Users
             return false;
         } else {
             if ($count > 0) {
-                $data = $stmt->fetchAll(\PDO::FETCH_OBJ);
-
-                return $data;
+                return $stmt->fetchAll(\PDO::FETCH_OBJ);
 
             } else {
                 return false;
