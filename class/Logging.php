@@ -174,7 +174,7 @@ class Logging
                     `status` VARCHAR(150) NOT NULL,
                     `context` VARCHAR(255) NULL DEFAULT NULL,
                     `message` TEXT NOT NULL,
-                    UNIQUE (`date`, `user`, `context`)
+                    UNIQUE (`date`, `user`, `type`, `context`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
 
         $stmt = $this->dbh->prepare($sql);
