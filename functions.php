@@ -2396,13 +2396,8 @@ function checkAjaxRequest()
  */
 function getUserIdSession()
 {
-    if (!empty($_SESSION['auth' . $_SERVER['HTTP_HOST']])) {
-        list($idUser, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth' . $_SERVER['HTTP_HOST']]);
-
-        return $idUser;
-    }
-
-    return false;
+    $userConnexion = getUserConnexion();
+    return $userConnexion ? $userConnexion['idUserConnexion'] : false;
 }
 
 /**
@@ -2612,13 +2607,77 @@ function isKing($roleId)
 }
 
 /**
- *
+ * Unset User Session & Cookie
  */
 function deconnecteUser()
 {
     unset($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
+
+    setcookie('hibour' . $_SERVER['HTTP_HOST'], '', -3600, '/app/', '', false, true);
+    unset($_COOKIE['auth' . $_SERVER['HTTP_HOST']]);
 }
 
+/**
+ * @return bool|string
+ */
+function getUserSession()
+{
+    return base64_decode($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
+}
+
+/**
+ * @return bool|string
+ */
+function getUserCookie()
+{
+    return base64_decode($_COOKIE['auth' . $_SERVER['HTTP_HOST']]);
+}
+
+/**
+ *
+ */
+function setUserSession()
+{
+    $_SESSION['auth' . $_SERVER['HTTP_HOST']] = base64_encode(getUserCookie());
+}
+
+/**
+ * @return bool
+ */
+function isUserSessionExist()
+{
+    return !empty(getUserSession());
+}
+
+/**
+ * @return bool
+ */
+function isUserCookieExist()
+{
+    return !empty(getUserCookie());
+}
+
+/**
+ * @return array|bool
+ */
+function getUserConnexion()
+{
+
+    $pos = false;
+    if (isUserSessionExist()) {
+
+        $pos = strpos(getUserSession(), '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a');
+        list($idUserConnexion, $emailUserConnexion) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', getUserSession());
+
+    } elseif (isUserCookieExist()) {
+
+        $pos = strpos(getUserCookie(), '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a');
+        list($idUserConnexion, $emailUserConnexion) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', getUserSession());
+        setUserSession();
+    }
+
+    return $pos !== false ? array('idUserConnexion' => $idUserConnexion, 'emailUserConnexion' => $emailUserConnexion) : false;
+}
 
 /**
  * get real file path

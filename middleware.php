@@ -1,11 +1,12 @@
 <?php
-if (isset($_SESSION['auth' . $_SERVER['HTTP_HOST']]) && !bot_detected()) {
+if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
 
-    if (strstr($_SESSION['auth' . $_SERVER['HTTP_HOST']], '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a')) {
-        list($idSession, $emailSession) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', $_SESSION['auth' . $_SERVER['HTTP_HOST']]);
+    $userConnexion = getUserConnexion();
+
+    if ($userConnexion) {
 
         //Check if user exist & valide
-        $USER = new \App\Users($idSession);
+        $USER = new \App\Users($userConnexion['idUserConnexion']);
         if (!$USER->exist() || !$USER->getStatut()) {
             header('location:' . WEB_DIR_URL);
             exit();
@@ -13,7 +14,7 @@ if (isset($_SESSION['auth' . $_SERVER['HTTP_HOST']]) && !bot_detected()) {
 
         //Check valid session
         $key = sha1($USER->getEmail() . $_SERVER['REMOTE_ADDR']);
-        if ($key != $emailSession) {
+        if ($key != $userConnexion['emailUserConnexion']) {
 
             deconnecteUser();
             header('location:' . WEB_DIR_URL);

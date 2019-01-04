@@ -2,6 +2,8 @@
 if (pageSlug() == 'hibour') {
     if (!empty($_SESSION['auth' . $_SERVER['HTTP_HOST']])) {
         header('location:app/page/');
+    } else {
+        deconnecteUser();
     }
 }
 
@@ -37,8 +39,8 @@ if (isset($_POST['APPOECONNEXION'])) {
 
                     } else {
                         session_regenerate_id();
-                        $_SESSION['auth' . $_SERVER['HTTP_HOST']] = $User->getId() . '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a' . sha1($User->getEmail() . $_SERVER['REMOTE_ADDR']);
-
+                        $_SESSION['auth' . $_SERVER['HTTP_HOST']] = base64_encode($User->getId() . '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a' . sha1($User->getEmail() . $_SERVER['REMOTE_ADDR']));
+                        setcookie('hibour' . $_SERVER['HTTP_HOST'], getUserSession(), time() + (12 * 3600), '/app/', '', false, true);
                         mehoubarim_connecteUser();
 
                         //Backup database
