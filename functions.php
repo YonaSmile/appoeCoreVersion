@@ -836,6 +836,7 @@ function getSizeName($octets)
     }
 }
 
+
 /**
  * @param bool $DB
  * @return bool
@@ -2663,16 +2664,17 @@ function isUserCookieExist()
 function getUserConnexion()
 {
 
+    $checkStr = '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a';
     $pos = false;
     if (isUserSessionExist()) {
 
-        $pos = strpos(getUserSession(), '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a');
-        list($idUserConnexion, $emailUserConnexion) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', getUserSession());
+        $pos = strpos(getUserSession(), $checkStr);
+        list($idUserConnexion, $emailUserConnexion) = explode($checkStr, getUserSession());
 
     } elseif (isUserCookieExist()) {
 
-        $pos = strpos(getUserCookie(), '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a');
-        list($idUserConnexion, $emailUserConnexion) = explode('351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a', getUserSession());
+        $pos = strpos(getUserCookie(), $checkStr);
+        list($idUserConnexion, $emailUserConnexion) = explode($checkStr, getUserSession());
         setUserSession();
     }
 
