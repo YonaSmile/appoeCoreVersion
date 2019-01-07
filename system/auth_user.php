@@ -2,9 +2,9 @@
 if (pageSlug() == 'hibour') {
     if (!empty($_SESSION['auth' . $_SERVER['HTTP_HOST']])) {
         header('location:app/page/');
-    } else {
-        deconnecteUser();
+        exit();
     }
+    deconnecteUser();
 }
 
 if (isset($_POST['APPOECONNEXION'])) {
@@ -47,6 +47,7 @@ if (isset($_POST['APPOECONNEXION'])) {
                         appBackup();
 
                         header('location:app/page/');
+                        exit();
                     }
                 }
             }
