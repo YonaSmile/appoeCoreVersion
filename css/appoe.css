@@ -280,6 +280,7 @@ a[data-toggle="collapse"] {
 #sidebar .sidebar-header {
     padding: 5px 20px;
     text-align: center;
+    height: 60px;
 }
 
 #sidebar ul.components {
