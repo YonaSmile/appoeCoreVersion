@@ -1167,19 +1167,6 @@ textarea {
     width: auto;
 }
 
-.positionMenuSpan {
-    position: relative;
-    left: -16px;
-    background: #444;
-    color: #FFF;
-    padding: 11px 10px;
-    border-radius: 4px 0 0 4px;
-    width: 45px;
-    border: 0;
-    text-align: center;
-    font-weight: bold;
-}
-
 .bg_grey_hover {
     transition: all 0.3s;
     transform: scaleX(1);
@@ -1189,46 +1176,6 @@ textarea {
 .bg_grey_hover:hover {
     transform: scaleX(1.01);
     -webkit-transform: scaleX(1.01);
-}
-
-.templateZoneInput {
-    transition: all 0.4s;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;
-    -webkit-transition-property: transform;
-    transition-property: transform;
-}
-
-.templateZoneInput:hover,
-.templateZoneInput:focus,
-.templateZoneInput:active {
-    -webkit-transform: scaleX(1.03);
-    transform: scaleX(1.03);
-}
-
-#menuAdminUpdate input[type=text] {
-    background: none;
-    border: 0;
-    width: 70%;
-}
-
-#menuAdminUpdate .inputInfo {
-    position: absolute;
-    bottom: 2px;
-    right: 10px;
-    color: #777;
-}
-
-#menuAdminUpdate .close {
-    position: absolute;
-    color: #000;
-    opacity: .5;
-    top: 2px;
-    right: 5px;
-    font-size: inherit;
 }
 
 .progress {
