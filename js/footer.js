@@ -85,21 +85,29 @@ $(document).ready(function () {
         }
     });
 
+    //Date & Time Picker
+    $.datetimepicker.setLocale($('html').attr('lang'));
+    $('.datetimepicker').datetimepicker({
+        step: 5,
+        format: 'Y-m-d H:i',
+        formatDate: 'Y-m-d H:i'
+    });
+    $('.datepicker').datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d'
+    });
+    $('.timepicker').datetimepicker({
+        datepicker: false,
+        step: 5,
+        format: 'H:i',
+        formatDate: 'H:i'
+    });
+
     //anchor link event
     $('html,body').on('click', 'a[href^="#"]:not(.sidebarLink)', function (e) {
         e.preventDefault();
         $('html,body').animate({scrollTop: $($(this).attr('href')).offset().top}, 'slow');
-    });
-
-    //datePicker
-    $('.datepicker').datepicker({
-        altFormat: "yy-mm-dd",
-        dateFormat: "yy-mm-dd",
-        dayNames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-        dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
-        dayNamesShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-        monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
-        monthNamesShort: ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jul", "Aou", "Sep", "Oct", "Nov", "Dec"]
     });
 
     //Loading text on submit form

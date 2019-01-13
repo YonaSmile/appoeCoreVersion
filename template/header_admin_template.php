@@ -19,9 +19,7 @@ $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
     <link rel="styleSheet" href="<?= APP_ROOT; ?>css/font.css" type="text/css">
-    <link rel="stylesheet" href="<?= WEB_DIR; ?>ressources/jquery-datepicker-effects/jquery-ui.theme.css"
-          type="text/css">
-    <link rel="stylesheet" href="<?= WEB_DIR; ?>ressources/jquery-datepicker-effects/jquery-ui.structure.css"
+    <link rel="stylesheet" href="<?= APP_ROOT; ?>css/jquery.datetimepicker.css"
           type="text/css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
@@ -39,7 +37,7 @@ $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
             integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
             crossorigin="anonymous"></script>
     <script src="https://cdn.ckeditor.com/4.10.1/full/ckeditor.js"></script>
-    <script src="<?= WEB_DIR; ?>ressources/jquery-datepicker-effects/jquery-ui.js"></script>
+    <script src="<?= APP_ROOT; ?>js/jquery.datetimepicker.full.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
           integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
           crossorigin="anonymous">
