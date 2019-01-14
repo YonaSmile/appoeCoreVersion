@@ -1532,14 +1532,30 @@ function getSessionNotifications()
 }
 
 /**
+ * @param $assetName
+ * @return bool|false|string
+ */
+function getAsset($assetName)
+{
+    if (file_exists(WEB_SYSTEM_PATH . 'assets/' . $assetName . '.php')) {
+        include_once(WEB_SYSTEM_PATH . 'assets/' . $assetName . '.php');
+    }
+
+    return false;
+}
+
+
+/**
  * @param $filename
- * @param $desired_width
- * @param $quality
+ * @param int $desired_width
+ * @param int $quality
+ * @return bool|int
  */
 function thumb($filename, $desired_width = 100, $quality = 80)
 {
     $src = FILE_DIR_PATH . $filename;
     $dest = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
+
 
     if (!file_exists(FILE_DIR_PATH . 'thumb/')) {
         mkdir(FILE_DIR_PATH . 'thumb', 0705);
@@ -1547,44 +1563,50 @@ function thumb($filename, $desired_width = 100, $quality = 80)
 
     if (is_file($src) && !is_file($dest) && isImage($src)) {
 
-        // Find format
-        $ext = strtoupper(pathinfo($src, PATHINFO_EXTENSION));
-        $source_image = '';
+        list($src_width, $src_height, $src_type, $src_attr) = getimagesize($src);
 
-        /* read the source image */
-        if ($ext == "JPG" OR $ext == "JPEG") {
-            $source_image = imagecreatefromjpeg($src);
-        } elseif ($ext == "PNG") {
-            $source_image = ImageCreateFromPNG($src);
-        } elseif ($ext == "GIF") {
-            $source_image = ImageCreateFromGIF($src);
-        }
+        //check if thumb can be realized
+        if ($desired_width < $src_width) {
 
-        $width = imagesx($source_image);
-        $height = imagesy($source_image);
+            // Find format
+            $ext = strtoupper(pathinfo($src, PATHINFO_EXTENSION));
+            $source_image = '';
 
-        if ($desired_width > $width) {
-            $desired_width = $width;
-        }
+            /* read the source image */
+            if ($ext == "JPG" OR $ext == "JPEG") {
+                $source_image = imagecreatefromjpeg($src);
+            } elseif ($ext == "PNG") {
+                $source_image = ImageCreateFromPNG($src);
+            } elseif ($ext == "GIF") {
+                $source_image = ImageCreateFromGIF($src);
+            }
 
-        /* find the "desired height" of this thumbnail, relative to the desired width  */
-        $desired_height = floor($height * ($desired_width / $width));
+            $width = imagesx($source_image);
+            $height = imagesy($source_image);
 
-        /* create a new, "virtual" image */
-        $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
 
-        /* copy source image at a resized size */
-        imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
+            /* find the "desired height" of this thumbnail, relative to the desired width  */
+            $desired_height = floor($height * ($desired_width / $width));
 
-        /* create the physical thumbnail image to its destination */
-        if ($ext == "JPG" OR $ext == "JPEG") {
-            imagejpeg($virtual_image, $dest, $quality);
-        } elseif ($ext == "PNG") {
-            imagePNG($virtual_image, $dest);
-        } elseif ($ext == "GIF") {
-            imageGIF($virtual_image, $dest);
+            /* create a new, "virtual" image */
+            $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
+
+            /* copy source image at a resized size */
+            imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
+
+            /* create the physical thumbnail image to its destination */
+            if ($ext == "JPG" OR $ext == "JPEG") {
+                imagejpeg($virtual_image, $dest, $quality);
+            } elseif ($ext == "PNG") {
+                imagePNG($virtual_image, $dest);
+            } elseif ($ext == "GIF") {
+                imageGIF($virtual_image, $dest);
+            }
+
+            return true;
         }
     }
+    return false;
 }
 
 /**
@@ -1595,11 +1617,14 @@ function thumb($filename, $desired_width = 100, $quality = 80)
  */
 function getThumb($filename, $desired_width, $quality = 100)
 {
+    //Check if file exist
     if (is_file(FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename)) {
         return WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
     } else {
-        thumb($filename, $desired_width, $quality);
-        return isImage($filename) ? getThumb($filename, $desired_width) : WEB_DIR_INCLUDE . $filename;
+
+        //Create thumb
+        $thumb = thumb($filename, $desired_width, $quality);
+        return $thumb ? getThumb($filename, $desired_width) : WEB_DIR_INCLUDE . $filename;
     }
 }
 

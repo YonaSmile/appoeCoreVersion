@@ -5,7 +5,7 @@ $(document).ready(function () {
         $('#loader').fadeIn('fast');
     });
 
-    $.each($('h5.libraryName'), function () {
+    $.each($('.libraryName'), function () {
         var id = $(this).attr('id');
         $('#shortAccessBtns').append('<button type="button" class="btn btn-sm btn-secondary" data-libraryid="' + id + '">' + $(this).text() + '</button>');
     });

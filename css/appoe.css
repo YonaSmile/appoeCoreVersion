@@ -733,7 +733,8 @@ table#currentProjetTable tr {
 }
 
 [data-toggle="tab"].active {
-    border: 0;
+    border-bottom: 0;
+    outline: none;
 }
 
 .visitsStatsBadge {
