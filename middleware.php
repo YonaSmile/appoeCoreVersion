@@ -1,6 +1,6 @@
 <?php
 if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
-
+    
     $userConnexion = getUserConnexion();
 
     if ($userConnexion) {
