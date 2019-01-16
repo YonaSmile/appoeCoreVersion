@@ -2647,7 +2647,10 @@ function deconnecteUser()
  */
 function getUserSession()
 {
-    return base64_decode($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
+    if (!empty($_SESSION['auth' . $_SERVER['HTTP_HOST']])) {
+        return base64_decode($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
+    }
+    return false;
 }
 
 /**
@@ -2655,7 +2658,10 @@ function getUserSession()
  */
 function getUserCookie()
 {
-    return base64_decode($_COOKIE['hibour' . $_SERVER['HTTP_HOST']]);
+    if (!empty($_COOKIE['hibour' . $_SERVER['HTTP_HOST']])) {
+        return base64_decode($_COOKIE['hibour' . $_SERVER['HTTP_HOST']]);
+    }
+    return false;
 }
 
 /**
