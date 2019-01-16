@@ -840,7 +840,6 @@ function getSizeName($octets)
 /**
  * @param bool $DB
  * @return bool
- * @throws phpmailerException
  */
 function appBackup($DB = true)
 {

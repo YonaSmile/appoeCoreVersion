@@ -15,94 +15,97 @@ if (!checkMaintenance() && pageSlug() != 'hibour') {
 //Backup database
 appBackup();
 
-//Get needed Models
-$Cms = new \App\Plugin\Cms\Cms();
-$CmsMenu = new \App\Plugin\Cms\CmsMenu();
-$Traduction = new \App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
+if (class_exists('App\Plugin\Cms\Cms')) {
 
-//Get Page parameters
-$Cms->setSlug(!empty($_GET['slug']) ? $_GET['slug'] : (pageSlug() != 'index' && pageSlug() != '' ? pageSlug() : 'home'));
-$existPage = $Cms->showBySlug();
+    //Get needed Models
+    $Cms = new \App\Plugin\Cms\Cms();
+    $CmsMenu = new \App\Plugin\Cms\CmsMenu();
+    $Traduction = new \App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
 
-//Check if Page exist and accessible
-if ((!$existPage && pageName() == 'Non définie') || $Cms->getStatut() != 1) {
-    header('location:' . WEB_DIR_URL);
-    exit();
-}
+    //Get Page parameters
+    $Cms->setSlug(!empty($_GET['slug']) ? $_GET['slug'] : (pageSlug() != 'index' && pageSlug() != '' ? pageSlug() : 'home'));
+    $existPage = $Cms->showBySlug();
 
-//Get default page informations
-$currentPageID = $Cms->getId();
-$currentPageName = shortenText($Traduction->trans($Cms->getName()), 70);
-$currentPageDescription = shortenText($Traduction->trans($Cms->getDescription()), 170);
+    //Check if Page exist and accessible
+    if ((!$existPage && pageName() == 'Non définie') || $Cms->getStatut() != 1) {
+        header('location:' . WEB_DIR_URL);
+        exit();
+    }
 
-//Check if is Page or plugin page
-if (!empty($_GET['type'])) {
+    //Get default page informations
+    $currentPageID = $Cms->getId();
+    $currentPageName = shortenText($Traduction->trans($Cms->getName()), 70);
+    $currentPageDescription = shortenText($Traduction->trans($Cms->getDescription()), 170);
 
-    if (!empty($_GET['typeSlug'])) {
+    //Check if is Page or plugin page
+    if (!empty($_GET['type'])) {
 
-        $pluginType = getPageTypes($_GET['type']);
-        if (false !== $pluginType) {
+        if (!empty($_GET['typeSlug'])) {
 
-            $pluginSlug = $_GET['typeSlug'];
+            $pluginType = getPageTypes($_GET['type']);
+            if (false !== $pluginType) {
 
-            // Type ITEMGLUE
-            if ($pluginType == 'ITEMGLUE') {
+                $pluginSlug = $_GET['typeSlug'];
 
-                //Get Article infos
-                $ArticlePage = new \App\Plugin\ItemGlue\Article();
-                $ArticlePage->setSlug($pluginSlug);
+                // Type ITEMGLUE
+                if ($pluginType == 'ITEMGLUE') {
+
+                    //Get Article infos
+                    $ArticlePage = new \App\Plugin\ItemGlue\Article();
+                    $ArticlePage->setSlug($pluginSlug);
 
 
-                //Check if Article exist
-                if ($ArticlePage->showBySlug()) {
+                    //Check if Article exist
+                    if ($ArticlePage->showBySlug()) {
 
-                    $currentPageID = $ArticlePage->getId();
-                    $currentPageName = shortenText($Traduction->trans($ArticlePage->getName()), 70);
-                    $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
-                }
+                        $currentPageID = $ArticlePage->getId();
+                        $currentPageName = shortenText($Traduction->trans($ArticlePage->getName()), 70);
+                        $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
+                    }
 
-                //TYPE SHOP
-            } elseif ($pluginType == 'SHOP') {
+                    //TYPE SHOP
+                } elseif ($pluginType == 'SHOP') {
 
-                //Get Product infos
-                $ProductPage = new \App\Plugin\Shop\Product();
-                $ProductPage->setSlug($pluginSlug);
+                    //Get Product infos
+                    $ProductPage = new \App\Plugin\Shop\Product();
+                    $ProductPage->setSlug($pluginSlug);
 
-                //Check if Product exist
-                if ($ProductPage->showBySlug()) {
+                    //Check if Product exist
+                    if ($ProductPage->showBySlug()) {
 
-                    $ProductPageContent = new \App\Plugin\Shop\ProductContent($ProductPage->getId(), LANG);
+                        $ProductPageContent = new \App\Plugin\Shop\ProductContent($ProductPage->getId(), LANG);
 
-                    $currentPageID = $ProductPage->getId();
-                    $currentPageName = shortenText($Traduction->trans($ProductPage->getName()), 70);
-                    $currentPageDescription = shortenText($ProductPageContent->getResume(), 170);
+                        $currentPageID = $ProductPage->getId();
+                        $currentPageName = shortenText($Traduction->trans($ProductPage->getName()), 70);
+                        $currentPageDescription = shortenText($ProductPageContent->getResume(), 170);
+                    }
                 }
             }
         }
+
+        //shortcut for articles
+    } elseif (!empty($_GET['id'])) {
+
+        //Get Article infos
+        $ArticlePage = new \App\Plugin\ItemGlue\Article();
+        $ArticlePage->setSlug($_GET['id']);
+
+
+        //Check if Article exist
+        if ($ArticlePage->showBySlug()) {
+
+            $currentPageID = $ArticlePage->getId();
+            $currentPageName = shortenText($Traduction->trans($ArticlePage->getName()), 70);
+            $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
+        }
+
     }
 
-    //shortcut for articles
-} elseif (!empty($_GET['id'])) {
+    //Set page infos
+    $_SESSION['currentPageID'] = $existPage ? $currentPageID : 0;
+    $_SESSION['currentPageName'] = $existPage ? $currentPageName : trans(pageName());
+    $_SESSION['currentPageDescription'] = $existPage ? $currentPageDescription : trans(pageDescription());
 
-    //Get Article infos
-    $ArticlePage = new \App\Plugin\ItemGlue\Article();
-    $ArticlePage->setSlug($_GET['id']);
-
-
-    //Check if Article exist
-    if ($ArticlePage->showBySlug()) {
-
-        $currentPageID = $ArticlePage->getId();
-        $currentPageName = shortenText($Traduction->trans($ArticlePage->getName()), 70);
-        $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
-    }
-
+    //Create menu
+    $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
 }
-
-//Set page infos
-$_SESSION['currentPageID'] = $existPage ? $currentPageID : 0;
-$_SESSION['currentPageName'] = $existPage ? $currentPageName : trans(pageName());
-$_SESSION['currentPageDescription'] = $existPage ? $currentPageDescription : trans(pageDescription());
-
-//Create menu
-$_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
