@@ -13,8 +13,8 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
         }
 
         //Check valid session
-        $key = sha1($USER->getEmail() . $_SERVER['REMOTE_ADDR']);
-        if ($key != $userConnexion['emailUserConnexion']) {
+        $key = sha1($USER->getLogin() . $_SERVER['REMOTE_ADDR']);
+        if ($key != $userConnexion['loginUserConnexion']) {
 
             deconnecteUser();
             header('location:' . WEB_DIR_URL);

@@ -8,8 +8,7 @@ if (checkPostAndTokenRequest()) {
     $Response = new \App\Response();
 
     if (isset($_POST['ADDUSER'])
-        && !empty($_POST['email'])
-        && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)
+        && !empty($_POST['login'])
         && !empty($_POST['password'])
         && !empty($_POST['role'])
         && !empty($_POST['nom'])
@@ -41,7 +40,7 @@ if (checkPostAndTokenRequest()) {
 
             $Response->status = 'warning';
             $Response->error_code = 2;
-            $Response->error_msg = trans('Cette adresse Email est déjà utilisé par un utilisateur');
+            $Response->error_msg = trans('Ce Login est déjà utilisé par un utilisateur');
         }
     } else {
 
@@ -53,7 +52,7 @@ if (checkPostAndTokenRequest()) {
     if (isset($_POST['UPDATEUSER'])) {
 
         if (!empty($_POST['id'])
-            && !empty($_POST['email'] && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+            && !empty($_POST['login'])
             && !empty($_POST['nom'])
             && !empty($_POST['prenom'])
         ) {
@@ -82,7 +81,7 @@ if (checkPostAndTokenRequest()) {
 
                 $Response->status = 'warning';
                 $Response->error_code = 2;
-                $Response->error_msg = trans('Cette adresse Email est déjà utilisé par un utilisateur');
+                $Response->error_msg = trans('Ce Login est déjà utilisé par un utilisateur');
             }
         } else {
 

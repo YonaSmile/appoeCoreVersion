@@ -75,7 +75,11 @@ class DB
      */
     public static function updateTable()
     {
-        $sql = 'ALTER TABLE `appoe_plugin_itemGlue_articles` DROP COLUMN content;';
+        $sql = 'ALTER TABLE `appoe_users` ADD `login` VARCHAR(70) NOT NULL AFTER `id`;';
+        $sql .= 'ALTER TABLE `appoe_users` DROP INDEX `email`;';
+        $sql .= 'UPDATE `appoe_users` SET `login`= `email` WHERE 1;';
+        $sql .= 'ALTER TABLE `appoe_users` ADD UNIQUE(`login`);';
+        $sql .= 'ALTER TABLE `appoe_users` CHANGE `email` `email` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `role`;';
         $stmt = self::$dbh->prepare($sql);
         $stmt->execute();
         $error = $stmt->errorInfo();

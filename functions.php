@@ -862,19 +862,7 @@ function appBackup($DB = true)
 
                 //check if db was saved
                 if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d') . DIRECTORY_SEPARATOR . 'db.sql.gz')) {
-
-                    //send error by Mail
-                    $data = array(
-                        'fromEmail' => 'maintenance@aoe-communication.com',
-                        'fromName' => 'Maintenance AOE',
-                        'toEmail' => 'yonasmilevitch@gmail.com',
-                        'toName' => 'Smilevitch Yona',
-                        'object' => WEB_TITLE . ' - sauvegarde de la base de données non effectué',
-                        'message' => date('d/m/Y H:i') . ' : La sauvegarde de la base de données de <strong>' . WEB_TITLE . '</strong> n\'a pas été effectué.'
-                    );
-
-                    $otherAddr = array('flauble@free.fr' => 'Shoshana Picard');
-                    sendMail($data, $otherAddr);
+                    error_log(date('d/m/Y H:i') . ' : La sauvegarde de la base de données de ' . WEB_TITLE . ' n\'a pas été effectué.', 0);
                 }
             }
         }
@@ -2502,6 +2490,18 @@ function getUserEntitled($idUser = '', $separator = ' ')
  * @param $idUser
  * @return array|string
  */
+function getUserLogin($idUser = '')
+{
+    $idUser = checkAndGetUserId($idUser);
+
+    $ALLUSERS = unserialize(ALLUSERS);
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->login : '';
+}
+
+/**
+ * @param $idUser
+ * @return array|string
+ */
 function getUserEmail($idUser = '')
 {
     $idUser = checkAndGetUserId($idUser);
@@ -2694,16 +2694,16 @@ function getUserConnexion()
     if (isUserSessionExist()) {
 
         $pos = strpos(getUserSession(), $checkStr);
-        list($idUserConnexion, $emailUserConnexion) = explode($checkStr, getUserSession());
+        list($idUserConnexion, $loginUserConnexion) = explode($checkStr, getUserSession());
 
     } elseif (isUserCookieExist()) {
 
         $pos = strpos(getUserCookie(), $checkStr);
-        list($idUserConnexion, $emailUserConnexion) = explode($checkStr, getUserSession());
+        list($idUserConnexion, $loginUserConnexion) = explode($checkStr, getUserSession());
         setUserSession();
     }
 
-    return $pos !== false ? array('idUserConnexion' => $idUserConnexion, 'emailUserConnexion' => $emailUserConnexion) : false;
+    return $pos !== false ? array('idUserConnexion' => $idUserConnexion, 'loginUserConnexion' => $loginUserConnexion) : false;
 }
 
 /**

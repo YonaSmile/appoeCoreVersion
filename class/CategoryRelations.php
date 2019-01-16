@@ -221,7 +221,6 @@ class CategoryRelations
     }
 
     /**
-     *
      * @return bool
      */
     public function delete()

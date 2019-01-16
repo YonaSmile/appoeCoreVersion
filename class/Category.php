@@ -195,7 +195,6 @@ class Category
     }
 
     /**
-     *
      * @return bool
      */
     public function save()
@@ -216,7 +215,6 @@ class Category
     }
 
     /**
-     *
      * @return bool
      */
     public function update()

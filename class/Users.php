@@ -4,13 +4,15 @@ namespace App;
 class Users
 {
     private $id;
-    private $email;
+    private $login;
     private $password;
     private $role;
+    private $email;
     private $nom;
     private $prenom;
     private $options = null;
     private $statut = 1;
+
     private $dbh = null;
 
     public function __construct($userId = null)
@@ -44,17 +46,17 @@ class Users
     /**
      * @return mixed
      */
-    public function getEmail()
+    public function getLogin()
     {
-        return $this->email;
+        return $this->login;
     }
 
     /**
-     * @param mixed $email
+     * @param mixed $login
      */
-    public function setEmail($email)
+    public function setLogin($login)
     {
-        $this->email = $email;
+        $this->login = $login;
     }
 
     /**
@@ -87,6 +89,22 @@ class Users
     public function setRole($role)
     {
         $this->role = strlen($role) > 3 ? $role : \App\Shinoui::Crypter($role);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /**
@@ -159,10 +177,11 @@ class Users
         $sql = 'CREATE TABLE IF NOT EXISTS `appoe_users` (
   					`id` INT(11) NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
-                	`email` VARCHAR(200) NOT NULL,
-                	UNIQUE KEY (`email`),
+                	`login` VARCHAR(70) NOT NULL,
+                	UNIQUE KEY (`login`),
   					`password` VARCHAR(255) NOT NULL,
   					`role` VARCHAR(255) NOT NULL,
+  					`email` VARCHAR(200) NOT NULL,
   					`nom` VARCHAR(100) NOT NULL,
   					`prenom` VARCHAR(100) NOT NULL,
   					`options` TEXT NULL DEFAULT NULL,
@@ -187,9 +206,9 @@ class Users
      */
     public function authUser()
     {
-        $sql = 'SELECT * FROM appoe_users WHERE email = :email AND statut = TRUE';
+        $sql = 'SELECT * FROM appoe_users WHERE login = :login AND statut = TRUE';
         $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':login', $this->login);
         $stmt->execute();
         $count = $stmt->rowCount();
         $error = $stmt->errorInfo();
@@ -276,10 +295,11 @@ class Users
     public function save()
     {
         $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO appoe_users (email, password, role,  nom, prenom, options, created_at) 
-                    VALUES (:email, :password, :role, :nom, :prenom, :options, CURDATE())';
+        $sql = 'INSERT INTO appoe_users (login, email, password, role,  nom, prenom, options, created_at) 
+                    VALUES (:login, :email, :password, :role, :nom, :prenom, :options, CURDATE())';
 
         $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':login', $this->login);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':password', $hash_password);
         $stmt->bindParam(':role', $this->role);
@@ -304,11 +324,12 @@ class Users
     public function update()
     {
         $sql = 'UPDATE appoe_users 
-        SET email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut 
+        SET login = :login, email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut 
         WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':login', $this->login);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':nom', $this->nom);
         $stmt->bindParam(':prenom', $this->prenom);
@@ -324,16 +345,16 @@ class Users
     }
 
     /**
-     * @param bool $email
-     * if $email is true, ignoring User email from results
+     * @param bool $login
+     * if $login is true, ignoring User login from results
      *
      * @return bool
      */
-    public function exist($email = false)
+    public function exist($login = false)
     {
-        $sql = 'SELECT email FROM appoe_users WHERE email = :email';
+        $sql = 'SELECT login FROM appoe_users WHERE login = :login';
         $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':login', $this->login);
         $stmt->execute();
         $count = $stmt->rowCount();
         $error = $stmt->errorInfo();
@@ -343,9 +364,9 @@ class Users
             if ($count == 0) {
                 return false;
             } else {
-                if ($email && $count == 1) {
+                if ($login && $count == 1) {
                     $row = $stmt->fetch(\PDO::FETCH_OBJ);
-                    if ($row->email == $this->email) {
+                    if ($row->login == $this->login) {
                         return false;
                     }
                 }
@@ -363,10 +384,10 @@ class Users
     public function updatePassword()
     {
         $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = 'UPDATE appoe_users SET password = :password WHERE email = :email';
+        $sql = 'UPDATE appoe_users SET password = :password WHERE login = :login';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':password', $hash_password);
-        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':login', $this->login);
         $stmt->execute();
         $error = $stmt->errorInfo();
         if ($error[0] != '00000') {

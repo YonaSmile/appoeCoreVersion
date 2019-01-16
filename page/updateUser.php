@@ -24,9 +24,9 @@ if (!empty($_GET['id'])):
                         <div class="row">
                             <div class="col-12 my-2">
                                 <?php
-                                $help = '<small id="emailHelp" class="form-text text-muted">' . trans('En changeant votre adresse email vous serez déconnecté du logiciel') . '</small>';
+                                $help = '<small id="loginHelp" class="form-text text-muted">' . trans('En changeant votre login vous serez déconnecté du logiciel') . '</small>';
+                                echo \App\Form::text('Login', 'login', 'text', $UpdateUser->getLogin(), true, 70, 'aria-describedby="loginHelp"', $UpdateUser->getId() == getUserIdSession() ? $help : '');
                                 ?>
-                                <?= \App\Form::text('Email', 'email', 'email', $UpdateUser->getEmail(), true, 60, 'aria-describedby="emailHelp"', $UpdateUser->getId() == getUserIdSession() ? $help : ''); ?>
                             </div>
                             <div class="col-12 my-2">
                                 <?= \App\Form::text('Nom', 'nom', 'text', $UpdateUser->getNom(), true, 40); ?>
@@ -39,6 +39,9 @@ if (!empty($_GET['id'])):
                                     <?= \App\Form::select('Rôle', 'role', array_map('trans', getRoles()), $UpdateUser->getRole(), true, '', getUserRoleId(), '>'); ?>
                                 </div>
                             <?php endif; ?>
+                            <div class="col-12 my-2">
+                                <?= \App\Form::text('Email', 'email', 'email', $UpdateUser->getEmail(), false); ?>
+                            </div>
                         </div>
                         <div class="my-2"></div>
                         <div class="row">
