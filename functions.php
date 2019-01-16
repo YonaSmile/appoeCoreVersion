@@ -2639,7 +2639,7 @@ function deconnecteUser()
     unset($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
 
     setcookie('hibour' . $_SERVER['HTTP_HOST'], '', -3600, '/app/', '', false, true);
-    unset($_COOKIE['auth' . $_SERVER['HTTP_HOST']]);
+    unset($_COOKIE['hibour' . $_SERVER['HTTP_HOST']]);
 }
 
 /**
@@ -2655,7 +2655,7 @@ function getUserSession()
  */
 function getUserCookie()
 {
-    return base64_decode($_COOKIE['auth' . $_SERVER['HTTP_HOST']]);
+    return base64_decode($_COOKIE['hibour' . $_SERVER['HTTP_HOST']]);
 }
 
 /**
