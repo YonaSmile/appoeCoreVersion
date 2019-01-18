@@ -155,14 +155,33 @@ function getConfigContent($jsonKey = 'pages_name')
  * @param $filename
  * @param string $jsonKey
  *
- * @return mixed
+ * @return array
  */
 function getJsonContent($filename, $jsonKey = '')
 {
     $json = file_get_contents($filename);
     $parsed_json = json_decode($json, true);
 
-    return (!empty($jsonKey)) ? $parsed_json[$jsonKey] : $parsed_json;
+    return !empty($jsonKey) ? $parsed_json[$jsonKey] : $parsed_json;
+}
+
+/**
+ * @param $filename
+ * @param $content
+ * @param $mode
+ *
+ * @return bool
+ */
+function putJsonContent($filename, $content, $mode = 'w+')
+{
+
+    $json_file = fopen($filename, $mode);
+    if (false !== $json_file) {
+        fwrite($json_file, json_encode($content));
+        return fclose($json_file);
+    }
+
+    return false;
 }
 
 /**
