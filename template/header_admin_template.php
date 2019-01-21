@@ -18,14 +18,14 @@ $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
           crossorigin="anonymous">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
-    <link rel="styleSheet" href="<?= APP_ROOT; ?>css/font.css" type="text/css">
+    <link rel="stylesheet" href="<?= APP_ROOT; ?>css/font.css" type="text/css">
     <link rel="stylesheet" href="<?= APP_ROOT; ?>css/jquery.datetimepicker.css"
           type="text/css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link href="https://use.fontawesome.com/releases/v5.0.3/css/all.css" rel="stylesheet">
-    <link rel="styleSheet" href="<?= APP_ROOT; ?>css/appoe.css?v=<?= time(); ?>" type="text/css">
-    <link rel="styleSheet"
+    <link rel="stylesheet" href="<?= APP_ROOT; ?>css/appoe.css?v=<?= time(); ?>" type="text/css">
+    <link rel="stylesheet"
           href="<?= APP_ROOT; ?>css/<?= file_exists(ROOT_PATH . 'app/css/perso.css') ? 'perso.css' : 'perso_default.css'; ?>?v=<?= time(); ?>"
           type="text/css">
     <?php includePluginsStyles(); ?>

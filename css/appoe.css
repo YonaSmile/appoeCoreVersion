@@ -24,6 +24,7 @@ body {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    margin: 0;
 }
 
 img {
@@ -369,38 +370,6 @@ ul#usersStatsSubMenu li {
 
 }
 
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-
-    #sidebar.active {
-        margin-left: 0;
-    }
-
-    #mainContent {
-        padding: 60px 0 0 0;
-        width: 100%;
-    }
-
-    #mainContent.active {
-        width: -webkit-calc(100% - 250px);
-        width: calc(100% - 250px);
-    }
-
-    #navbarUser {
-        width: 100%;
-    }
-
-    #navbarUser li {
-        padding: 0;
-    }
-
-    .sidebarCollapse span {
-        display: none;
-    }
-}
-
 .mainOverlay {
     position: absolute;
     top: 0;
@@ -414,6 +383,64 @@ ul#usersStatsSubMenu li {
 
 .mainOverlay.active {
     width: 100%;
+}
+
+#hibourContainer {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    box-sizing: border-box;
+}
+
+#hibourContent {
+    margin: auto;
+    min-width: 220px;
+    max-width: 450px;
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+#hibourTitle {
+    font-weight: 100;
+    color: #434343;
+    font-size: 2em;
+    margin: 0 0 10px;
+    line-height: 35px;
+    box-sizing: border-box;
+}
+
+#hibourContent form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background: #dfdfdf;
+    transition: all 0.3s;
+}
+
+#hibourContent form input:focus,
+#hibourContent form input:hover {
+    background: #d5d5d5;
+}
+
+#hibourContent form button[type="submit"] {
+    float: right;
+    padding: 10px;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+    background: #888;
+    transition: all 0.3s;
+    color: #FFF;
+}
+
+#hibourContent form button[type="submit"]:hover {
+    background: #434343;
+}
+
+#hibourContent form button[type="submit"]:active {
+    background: #222;
 }
 
 ul.listIcone {
@@ -1377,7 +1404,38 @@ ICONS
     }
 }
 
-@media screen and (max-width: 770px) {
+@media (max-width: 770px) {
+
+    #sidebar {
+        margin-left: -250px;
+    }
+
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+    #mainContent {
+        padding: 60px 0 0 0;
+        width: 100%;
+    }
+
+    #mainContent.active {
+        width: -webkit-calc(100% - 250px);
+        width: calc(100% - 250px);
+    }
+
+    #navbarUser {
+        width: 100%;
+    }
+
+    #navbarUser li {
+        padding: 0;
+    }
+
+    .sidebarCollapse span {
+        display: none;
+    }
+
     .card-columns {
         -webkit-column-count: 2;
         -moz-column-count: 2;

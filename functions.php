@@ -541,7 +541,7 @@ function generateSitemap($data)
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
+       http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
 
     $sitemap .= '<url>';
     $sitemap .= '<loc>' . WEB_DIR_URL . '</loc>';
@@ -694,60 +694,8 @@ function displayCompleteDate($date, $hour = false)
     $Date->add(new \DateInterval('PT1H'));
     $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
     $strFtime = $hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y";
+
     return ucwords(strftime($strFtime, strtotime($time)));
-}
-
-
-/**
- * @param $dateDebut
- * @param $dateFin
- *
- * @return string
- */
-function displayEventDates($dateDebut, $dateFin)
-{
-
-    //Initialise Dates
-    $DateDebut = new \DateTime($dateDebut);
-    $DateFin = new \DateTime($dateFin);
-
-    $html = '';
-    if ($DateDebut->format('d') == $DateFin->format('d')) {
-        $html .= '<strong>' . trans('Le') . ' ' . ucwords(strftime("%A ", strtotime($DateDebut->format("Y-m-d")))) . '</strong>';
-    } else {
-        $html .= '<strong>' . trans('De') . ' ' . ucwords(strftime("%A ", strtotime($DateDebut->format("Y-m-d"))));
-        $html .= trans('A ') . ' ' . ucwords(strftime("%A ", strtotime($DateFin->format("Y-m-d")))) . '</strong>';
-    }
-
-    $html .= ' ' . trans('de') . ' ' . $DateDebut->format('H:i') . ' ' . trans('à') . ' ' . $DateFin->format('H:i');
-
-
-    return $html;
-}
-
-/**
- * @param $date
- *
- * @return string
- */
-function getDayNameFromDate($date)
-{
-    $Date = new \DateTime($date);
-
-    return ucwords(strftime("%A ", strtotime($Date->format("Y-m-d"))));
-}
-
-
-/**
- * @param $date
- *
- * @return string
- */
-function getDateFormatFR($date)
-{
-    list($annee, $mois, $jour) = explode('-', $date);
-
-    return $jour . ' ' . getMonth($mois) . ' ' . $annee;
 }
 
 /**
@@ -975,7 +923,7 @@ function saveFiles($folder = 'public')
         }
     }
 
-    $filename = string2url(WEB_TITLE . '-files.zip');
+    $filename = slugify(WEB_TITLE . '-files.zip');
     $saveFileName = $dest . DIRECTORY_SEPARATOR . $filename;
     $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . $filename;
 
@@ -1917,25 +1865,6 @@ function buildTree(array $elements, $parentId = 0)
 }
 
 /**
- * @return mixed
- */
-function getColor()
-{
-    $colors = array(
-        1 => '3C989E',
-        'ed5276',
-        'e37b40',
-        '324d5c',
-        '28b799',
-        'f8bf39',
-        '3588a5',
-        'f04b0d'
-    );
-
-    return $colors[rand(1, count($colors))];
-}
-
-/**
  * @param $dbname
  * @param string $groupBy
  * @param int $limit
@@ -1961,195 +1890,6 @@ function getLastFromDb($dbname, $groupBy = '', $limit = 2, $column = 'updated_at
         empty($groupBy)
             ? $stmt->fetchAll(PDO::FETCH_OBJ)
             : array_slice(array_unique(extractFromObjToSimpleArr($stmt->fetchAll(PDO::FETCH_OBJ), $groupBy)), 0, $limit);
-}
-
-/**
- * @param $pageSlug
- * @param $pageData
- * @return mixed|string
- */
-function showTemplateContent($pageSlug, $pageData)
-{
-    $pageContent = getFileContent($pageSlug);
-    if (preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
-
-        foreach ($match[1] as $i => $adminZone) {
-            if (strpos($adminZone, '_')) {
-
-                list($metaKey, $formType) = explode('_', $adminZone);
-                $pageContent = str_replace($match[0][$i], sprintf('%s', !empty($pageData[$metaKey]) ? htmlSpeCharDecode($pageData[$metaKey]->metaValue) : '•••'), $pageContent);
-            } else {
-                $pageContent = str_replace($match[0][$i], '', $pageContent);
-            }
-        }
-    }
-
-    return $pageContent;
-}
-
-/**
- * @param $pageSlug
- * @param $pageData
- * @return string
- */
-function showTemplateZones($pageSlug, $pageData)
-{
-
-    //Get template Content
-    $allContent = extractFromObjArr($pageData, 'metaKey');
-
-    //Get template Zones
-    $pageContent = $pageView = getFileContent($pageSlug);
-
-    $html = '';
-
-    if (preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
-
-        //Unique metaKey container for unique input
-        $metaKeyContainer = array();
-
-        //Default values
-        $defaultCol = '12';
-
-        //Get & Check zones types
-        $zonesType = getTemplateZonesTypes($match[1]);
-
-        foreach ($zonesType as $i => $adminZone) {
-
-            //Check for form types
-            if (strpos($adminZone, '_')) {
-
-                //Get data
-                list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
-
-                //Get input value
-                $metaKeyDisplay = ucfirst(str_replace('-', ' ', $metaKey));
-                $idCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->id : '';
-                $valueCmsContent = !empty($allContent[$metaKey]) ? $allContent[$metaKey]->metaValue : '';
-
-                //Display input zone
-                if (!empty($group)) {
-                    if ($group == 'begin') {
-                        $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
-                        $html .= '<div class="row"><div class="col-12 my-2">';
-                    } else {
-                        $html .= '<div class="col-12 my-2">';
-                    }
-                } else {
-                    $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $defaultCol) . ' my-2 templateZoneInput">';
-                }
-
-                //Check unique input
-                if (!in_array($metaKey, $metaKeyContainer)) {
-
-                    //Display form input
-                    if (strpos($formType, ':')) {
-
-                        //Get form options
-                        $options = explode(':', $formType);
-
-                        //Get form type
-                        $formType = array_shift($options);
-
-                        if ($formType == 'select') {
-                            $html .= \App\Form::select($metaKeyDisplay, $metaKey, array_combine($options, $options), $valueCmsContent, false, 'data-idcmscontent="' . $idCmsContent . '"');
-                        }
-                    } else {
-                        if ($formType == 'textarea') {
-                            $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
-                        } elseif ($formType == 'urlFile') {
-                            $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', 'urlFile');
-                        } else {
-                            $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
-                        }
-                    }
-
-                    array_push($metaKeyContainer, $metaKey);
-                }
-
-                $html .= '</div>';
-                if (!empty($group) && $group == 'end') {
-                    $html .= '</div></div>';
-                }
-
-            } else {
-                $html .= $adminZone;
-            }
-        }
-    }
-    return $html;
-}
-
-/**
- * @param array $templateZones
- * @return array
- */
-function getTemplateZonesTypes(array $templateZones)
-{
-
-    //Clean data
-    $templateZones = cleanRequest($templateZones);
-
-    //Zones types array
-    $templateZonesTypes = array();
-
-    //Authorised form manage data
-    $acceptedFormType = array('text', 'textarea', 'email', 'tel', 'url', 'color', 'number', 'date', 'urlFile', 'select', 'radio', 'checkbox');
-
-    //Authorised HTML
-    $acceptedHTMLContainer = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em', 'div');
-    $acceptedHTMLTags = array('hr');
-
-    foreach ($templateZones as $i => $adminZone) {
-
-        //Check for form type
-        if (strpos($adminZone, '_')) {
-
-            //Get data
-            list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
-
-            //Check form type with options
-            if (strpos($formType, ':')) {
-
-                $options = explode(':', $formType);
-                $formType = array_shift($options);
-            }
-
-            //Check form authorised data
-            if (in_array($formType, $acceptedFormType)) {
-
-                //Filter uniques form zones
-                if (!in_array($adminZone, $templateZonesTypes)) {
-                    $templateZonesTypes[] = $adminZone;
-                }
-            }
-
-        } elseif (is_string($adminZone)) {
-
-            //Check for tag & text type
-            if (strpos($adminZone, '#')) {
-
-                //Get data
-                list($htmlTag, $text) = array_pad(explode('#', $adminZone), 2, '');
-
-                //Check container authorised data
-                if (in_array($htmlTag, $acceptedHTMLContainer)) {
-
-                    $templateZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag">' . ucfirst($text) . '</' . $htmlTag . '>';
-                }
-
-            } else {
-
-                //Check tag authorised data
-                if (in_array($adminZone, $acceptedHTMLTags)) {
-                    $templateZonesTypes[] = '<' . $adminZone . ' class="templateZoneTag">';
-                }
-            }
-        }
-
-    }
-
-    return $templateZonesTypes;
 }
 
 /**
@@ -2842,22 +2582,6 @@ function getPageTypes($type)
 }
 
 /**
- * @param $str
- * @return null|string|string[]
- */
-function string2url($str)
-{
-    $str = trim($str);
-    $str = strtr($str, "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ", "aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuynn");
-    $str = strtr($str, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz");
-    $str = preg_replace('#([^.a-z0-9]+)#i', '-', $str);
-    $str = preg_replace('#-{2,}#', '-', $str);
-    $str = preg_replace('#-$#', '', $str);
-    $str = preg_replace('#^-#', '', $str);
-    return $str;
-}
-
-/**
  * @param $path
  *
  * @return mixed
@@ -3272,7 +2996,7 @@ function formatBillingNB($nb)
  * @param array $data
  * @param array|null $otherAddr
  * @return bool
- * @throws phpmailerException
+ * @throws Exception
  */
 function sendMail(array $data, array $otherAddr = null)
 {
