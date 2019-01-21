@@ -401,7 +401,7 @@ ul#usersStatsSubMenu li {
 }
 
 #hibourTitle {
-    font-weight: 100;
+    font-weight: 300;
     color: #434343;
     font-size: 2em;
     margin: 0 0 10px;
@@ -414,33 +414,31 @@ ul#usersStatsSubMenu li {
     padding: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
-    background: #dfdfdf;
-    transition: all 0.3s;
+    border: 1px solid #999;
+    background: #f8f8f8;
+    transition: all 0.1s;
 }
 
 #hibourContent form input:focus,
 #hibourContent form input:hover {
-    background: #d5d5d5;
+    border: 1px solid #000;
 }
 
 #hibourContent form button[type="submit"] {
     float: right;
     padding: 10px;
     margin: 0;
-    border: 0;
     cursor: pointer;
     box-sizing: border-box;
-    background: #888;
+    border: 1px solid #434343;
+    background: #f8f8f8;
     transition: all 0.3s;
-    color: #FFF;
+    color: #434343;
 }
 
 #hibourContent form button[type="submit"]:hover {
-    background: #434343;
-}
-
-#hibourContent form button[type="submit"]:active {
-    background: #222;
+    background: #000;
+    color: #FFF;
 }
 
 ul.listIcone {
