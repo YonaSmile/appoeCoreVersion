@@ -49,7 +49,7 @@
             </li>
             <?php includePluginsSecondaryMenu(); ?>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserMenu" role="button"
+                <a class="nav-link dropdown-toggle sidebarLink" href="#" id="navbarDropdownUserMenu" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2">
                         <?= getUserFirstName() . ucfirst(substr(getUserName(), 0, 1)); ?>
