@@ -36,6 +36,10 @@ function numberWithSpaces(x) {
     return parts.join(".");
 }
 
+function parseReelFloat(x) {
+    return Number.parseFloat(x.replace(/ /g, ""));
+}
+
 function copyToClipboard(text) {
     var $temp = $("<input>");
     $("body").append($temp);
