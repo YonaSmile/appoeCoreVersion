@@ -37,7 +37,7 @@ function numberWithSpaces(x) {
 }
 
 function parseReelFloat(x) {
-    return Number.parseFloat(x.toString().replace(/ /g, ""));
+    return x ? Number.parseFloat(x.toString().replace(/ /g, "")) : 0;
 }
 
 function copyToClipboard(text) {

@@ -1638,6 +1638,21 @@ function getFileContent($path)
     return $pageContent;
 }
 
+
+/**
+ * @param $object
+ * @param $attribute
+ * @return bool|string
+ */
+function getXmlAttribute($object, $attribute)
+{
+    if (isset($object[$attribute])) {
+        return (string)$object[$attribute];
+    }
+
+    return false;
+}
+
 /**
  * Place fields for verification and control of the login form
  *
