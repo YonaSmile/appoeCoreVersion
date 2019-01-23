@@ -1987,6 +1987,7 @@ function includePluginsFiles($forApp = false)
     }
 }
 
+
 /**
  *
  */
@@ -2010,6 +2011,7 @@ function includePluginsFilesForApp()
     }
 }
 
+
 /**
  *
  */
@@ -2031,6 +2033,7 @@ function includePluginsPrimaryMenu()
         }
     }
 }
+
 
 /**
  *
@@ -2054,6 +2057,7 @@ function includePluginsSecondaryMenu()
     }
 }
 
+
 /**
  *
  */
@@ -2076,6 +2080,7 @@ function includePluginsJs()
         }
     }
 }
+
 
 /**
  *
@@ -2911,12 +2916,12 @@ function removeAccents($str, $charset = 'utf-8')
     return $str;
 }
 
+
 /**
- *
- * @param DateTime $start
- * @param DateTime|null $end
- *
+ * @param $start
+ * @param null $end
  * @return string
+ * @throws Exception
  */
 function formatDateDiff($start, $end = null)
 {
@@ -3123,12 +3128,21 @@ function fichierType($file)
  */
 function getLogo()
 {
+    $urlFolder = WEB_DIR_IMG;
+    $pathFolder = WEB_PUBLIC_PATH . 'images/';
+    $name = 'appoe-logo';
+    $extensions = array('png', 'jpg', 'jpeg', 'gif', 'svg');
 
-    $defaultSrc = WEB_APP_URL . 'images/appoe-logo.gif';
-    $src = file_exists(WEB_PUBLIC_PATH . 'images/logo_app.png')
-        ? WEB_PUBLIC_URL . 'images/logo_app.png' : $defaultSrc;
+    $src = WEB_APP_IMG . 'logo_app.png';
+    foreach ($extensions as $extension) {
 
-    return '<img class="img-responsive logoNavbar" src="' . $src . '">';
+        $logo = $name . '.' . $extension;
+        if (file_exists($pathFolder . $logo)) {
+            $src = $urlFolder . $logo;
+        }
+    }
+
+    return '<img class="img-responsive logoNavbar" src="' . $src . '" alt="APPOE">';
 }
 
 /* --------------------------------------------------------------------------
