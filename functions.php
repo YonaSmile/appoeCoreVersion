@@ -3133,7 +3133,7 @@ function getLogo()
     $name = 'appoe-logo';
     $extensions = array('png', 'jpg', 'jpeg', 'gif', 'svg');
 
-    $src = WEB_APP_IMG . 'logo_app.png';
+    $src = WEB_APP_IMG . 'appoe-logo-white.png';
     foreach ($extensions as $extension) {
 
         $logo = $name . '.' . $extension;
