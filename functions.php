@@ -1716,7 +1716,7 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
  */
 function financial($amount, $forDB = false)
 {
-    return is_float($amount) ? number_format($amount, 2, '.', (!$forDB ? ' ' : '')) : $amount;
+    return is_numeric($amount) ? number_format($amount, 2, '.', (!$forDB ? ' ' : '')) : $amount;
 }
 
 /**
@@ -2219,7 +2219,7 @@ function isUserExist($idUser)
  * @param $idUser
  * @return string|array
  */
-function getUserData($idUser = '')
+function getUserData($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
@@ -2231,7 +2231,7 @@ function getUserData($idUser = '')
  * @param $idUser
  * @return string
  */
-function getUserName($idUser = '')
+function getUserName($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
@@ -2243,7 +2243,7 @@ function getUserName($idUser = '')
  * @param $idUser
  * @return string
  */
-function getUserFirstName($idUser = '')
+function getUserFirstName($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
@@ -2256,7 +2256,7 @@ function getUserFirstName($idUser = '')
  * @param string $separator
  * @return string
  */
-function getUserEntitled($idUser = '', $separator = ' ')
+function getUserEntitled($idUser = null, $separator = ' ')
 {
     $idUser = checkAndGetUserId($idUser);
 
@@ -2268,7 +2268,7 @@ function getUserEntitled($idUser = '', $separator = ' ')
  * @param $idUser
  * @return array|string
  */
-function getUserLogin($idUser = '')
+function getUserLogin($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
@@ -2280,7 +2280,7 @@ function getUserLogin($idUser = '')
  * @param $idUser
  * @return array|string
  */
-function getUserEmail($idUser = '')
+function getUserEmail($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
@@ -2292,7 +2292,7 @@ function getUserEmail($idUser = '')
  * @param $idUser
  * @return array|bool
  */
-function getUserStatus($idUser = '')
+function getUserStatus($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
@@ -2304,7 +2304,7 @@ function getUserStatus($idUser = '')
  * @param string $idUser
  * @return string
  */
-function getUserRoleId($idUser = '')
+function getUserRoleId($idUser = null)
 {
 
     $idUser = checkAndGetUserId($idUser);
@@ -2317,7 +2317,7 @@ function getUserRoleId($idUser = '')
  * @param string $idUser
  * @return mixed
  */
-function getUserRoleName($idUser = '')
+function getUserRoleName($idUser = null)
 {
 
     $idUser = checkAndGetUserId($idUser);

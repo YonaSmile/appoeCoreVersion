@@ -131,7 +131,9 @@ class Template
                         $html .= \App\Form::select($metaKeyDisplay, $metaKey, array_combine($options, $options), $valueCmsContent, false, 'data-idcmscontent="' . $idCmsContent . '"');
                     }
                 } else {
-                    if ($formType == 'textarea') {
+                    if ($formType == 'textBig') {
+                        $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', '');
+                    } elseif ($formType == 'textarea') {
                         $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
                     } elseif ($formType == 'urlFile') {
                         $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '" rel="cms-img-popover"', '', 'urlFile');
@@ -239,7 +241,7 @@ class Template
     {
 
         //Authorised form manage data
-        $acceptedFormType = array('text', 'textarea', 'email', 'tel', 'url', 'color', 'number', 'date', 'select', 'radio', 'checkbox', 'urlFile');
+        $acceptedFormType = array('text', 'textarea', 'textBig', 'email', 'tel', 'url', 'color', 'number', 'date', 'select', 'radio', 'checkbox', 'urlFile');
 
         return in_array($formType, $acceptedFormType);
     }
