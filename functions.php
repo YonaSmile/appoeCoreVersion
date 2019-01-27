@@ -2193,6 +2193,17 @@ function getUserIdSession()
 }
 
 /**
+ * @param $slug
+ * @return bool
+ */
+function isUserAuthorized($slug)
+{
+
+    $Menu = new \App\Menu();
+    return $Menu->checkUserPermission(getUserRoleId(), $slug);
+}
+
+/**
  * @param string $idUser
  * @return bool|string
  */

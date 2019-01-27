@@ -56,9 +56,13 @@
                     </span> <i class="fas fa-user"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
-                    <a class="dropdown-item" href="<?= getUrl('user/', getUserIdSession()); ?>">
-                        <small><span class="mr-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?></small>
-                    </a>
+                    <?php if (isUserAuthorized('updateUser')): ?>
+                        <a class="dropdown-item" href="<?= getUrl('user/', getUserIdSession()); ?>">
+                            <small>
+                                <span class="mr-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?>
+                            </small>
+                        </a>
+                    <?php endif; ?>
                     <a class="dropdown-item" href="<?= WEB_APP_URL . 'logout.php'; ?>">
                         <small><span class="mr-2"><i class="fas fa-power-off"></i></span> <?= trans('Déconnexion'); ?>
                         </small>
