@@ -198,6 +198,14 @@ $(document).ready(function () {
         }
     });
 
+    $('.modal').on('show.bs.modal', function () {
+        $('html').css('overflow', 'hidden');
+    });
+
+    $('.modal').on('hide.bs.modal', function () {
+        $('html').css('overflow', 'auto');
+    })
+
 });
 
 $(window).on("load", function () {

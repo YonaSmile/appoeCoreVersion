@@ -89,6 +89,15 @@ function fixeTableHeader(top) {
     }
 }
 
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 function copyToClipboard(text) {
     var $temp = $("<input>");
     $("body").append($temp);

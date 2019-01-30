@@ -1,6 +1,10 @@
 <?php
 
-require ROOT_PATH . 'ressources/PHPMailer/PHPMailerAutoload.php';
+//Get PHPMAILER
+$phpMailerAutoLoadFile = ROOT_PATH . 'ressources/PHPMailer/PHPMailerAutoload.php';
+if (file_exists($phpMailerAutoLoadFile)) {
+    require_once($phpMailerAutoLoadFile);
+}
 
 //Get all users in a const
 $USER = new \App\Users();
@@ -687,6 +691,7 @@ function displayTimeStamp($timestamp, $hour = true)
  * @param bool $hour
  * @return string
  * @throws Exception
+ * @noinspection PhpUnhandledExceptionInspection
  */
 function displayCompleteDate($date, $hour = false)
 {
@@ -807,6 +812,8 @@ function getSizeName($octets)
 /**
  * @param bool $DB
  * @return bool
+ * @throws phpmailerException
+ * @noinspection PhpUnhandledExceptionInspection
  */
 function appBackup($DB = true)
 {
@@ -1622,13 +1629,16 @@ function postHttpRequest($url, array $params)
 
 /**
  * @param $path
+ * @param $activeTraduction
  * @return string
  */
-function getFileContent($path)
+function getFileContent($path, $activeTraduction = true)
 {
     ob_start();
 
-    $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
+    if ($activeTraduction) {
+        $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
+    }
 
     if (file_exists($path)) {
         include $path;
@@ -1663,12 +1673,13 @@ function getFieldsControls()
     $html = '';
 
     $html .= getTokenField();
+    $html .= '<noscript><input type="hidden" name="secure-connection" value="..."></noscript>';
     $html .= '<input type="hidden" name="identifiant" value="">';
     $html .= '<input type="hidden" id="checkPass" name="checkPass" value="">';
     $html .= '<script type="text/javascript">';
     $html .= 'window.setTimeout(function(){';
     $html .= 'document.getElementById("checkPass").value = "APPOE";';
-    $html .= '}, 600)</script>';
+    $html .= '}, 1000)</script>';
 
     return $html;
 }
