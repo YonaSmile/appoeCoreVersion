@@ -2224,13 +2224,21 @@ function checkAndGetUserId($idUser = null)
 }
 
 /**
+ * @return mixed
+ */
+function getAllUsers()
+{
+    return unserialize(ALLUSERS);
+}
+
+/**
  * @param $idUser
  * @return bool
  */
 function isUserExist($idUser)
 {
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     if (is_array($ALLUSERS)) {
         return array_key_exists($idUser, $ALLUSERS);
     }
@@ -2245,7 +2253,7 @@ function getUserData($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? $ALLUSERS[$idUser] : '';
 }
 
@@ -2257,7 +2265,7 @@ function getUserName($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->nom : '';
 }
 
@@ -2269,7 +2277,7 @@ function getUserFirstName($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->prenom : '';
 }
 
@@ -2282,7 +2290,7 @@ function getUserEntitled($idUser = null, $separator = ' ')
 {
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->nom . $separator . $ALLUSERS[$idUser]->prenom : '';
 }
 
@@ -2294,7 +2302,7 @@ function getUserLogin($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->login : '';
 }
 
@@ -2306,7 +2314,7 @@ function getUserEmail($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->email : '';
 }
 
@@ -2318,7 +2326,7 @@ function getUserStatus($idUser = null)
 {
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? $ALLUSERS[$idUser]->statut : false;
 }
 
@@ -2331,7 +2339,7 @@ function getUserRoleId($idUser = null)
 
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? getRoleId($ALLUSERS[$idUser]->role) : '';
 }
 
@@ -2344,7 +2352,7 @@ function getUserRoleName($idUser = null)
 
     $idUser = checkAndGetUserId($idUser);
 
-    $ALLUSERS = unserialize(ALLUSERS);
+    $ALLUSERS = getAllUsers();
     return isUserExist($idUser) ? getRoleName($ALLUSERS[$idUser]->role) : '';
 }
 

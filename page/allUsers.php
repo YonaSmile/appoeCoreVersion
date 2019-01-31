@@ -18,7 +18,7 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                         </thead>
                         <tbody>
                         <?php if (defined('ALLUSERS')):
-                            foreach (unserialize(ALLUSERS) as $userId => $user):
+                            foreach (getAllUsers() as $userId => $user):
                                 if (getRoleId($user->role) <= getUserRoleId()): ?>
                                     <tr class="<?= $user->statut == 0 ? 'table-secondary' : ''; ?>">
                                         <td><?= $user->login ?></td>
