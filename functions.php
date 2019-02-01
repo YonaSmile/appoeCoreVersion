@@ -47,29 +47,28 @@ function pageSlug()
 
 /**
  * @param $url
- * @param $prefix
  * @param $classNameAdded
  * @param $scriptPage
  * @return string
  */
-function activePage($url, $prefix = '', $classNameAdded = 'active', $scriptPage = false)
+function activePage($url, $classNameAdded = 'active', $scriptPage = false)
 {
     if (!empty($url)) {
         if (!$scriptPage) {
             if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
-                return $prefix . $classNameAdded;
+                return $classNameAdded;
             }
 
             if (false !== strpos(basename($_SERVER['REQUEST_URI']), $url)) {
-                return $prefix . $classNameAdded;
+                return $classNameAdded;
             }
         } else {
             if ($url == 'home' && empty(basename($_SERVER['SCRIPT_NAME']))) {
-                return $prefix . $classNameAdded;
+                return $classNameAdded;
             }
 
             if (false !== strpos(basename($_SERVER['SCRIPT_NAME']), $url)) {
-                return $prefix . $classNameAdded;
+                return $classNameAdded;
             }
         }
     }
