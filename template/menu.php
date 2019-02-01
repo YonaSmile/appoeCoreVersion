@@ -23,7 +23,7 @@ if (false !== $menu_data) {
                        aria-expanded="false" class="sidebarLink"><?= trans($menu['name']); ?></a>
                     <ul class="collapse list-unstyled" id="<?= 'menu-admin' . $menu['id']; ?>">
                         <?php foreach ($menuAll[$menu['id']] as $sous_menu): ?>
-                            <li class="<?= activePage($sous_menu['slug'], '', 'active', true); ?>"
+                            <li class="<?= activePage($sous_menu['slug'], 'active', true); ?>"
                                 id="sousmenu-<?= $sous_menu['slug']; ?>">
                                 <a href="<?= (!empty($menu['pluginName'])) ? getPluginUrl($menu['pluginName'] . '/page/' . $sous_menu['slug']) : getUrl($sous_menu['slug']); ?>/">
                                     <?= trans($sous_menu['name']); ?>
@@ -33,7 +33,7 @@ if (false !== $menu_data) {
                     </ul>
                 </li>
             <?php else: ?>
-                <li class="<?= activePage($menu['slug'], '', 'active', true) . ' icon-' . $menu['slug']; ?>"
+                <li class="<?= activePage($menu['slug'], 'active', true) . ' icon-' . $menu['slug']; ?>"
                     id="menu-<?= $menu['slug']; ?>">
                     <a href="<?= (!empty($menu['pluginName'])) ? getPluginUrl($menu['pluginName'] . '/page/' . $menu['slug'] . '/') : getUrl(($menu['slug'] == 'index') ? 'home' : $menu['slug'] . '/'); ?>"><?= trans($menu['name']); ?></a>
                 </li>
