@@ -2,23 +2,24 @@ CKEDITOR.replaceAll('ckeditor');
 CKEDITOR.config.height = 400;
 CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
 CKEDITOR.config.shiftEnterMode = CKEDITOR.ENTER_P;
+CKEDITOR.config.colorButton_enableAutomatic = false;
+CKEDITOR.config.colorButton_enableMore = false;
 CKEDITOR.config.toolbar = [
     {
         name: 'basicstyles',
         groups: ['basicstyles', 'cleanup'],
-        items: ['Bold', 'Italic', 'Underline', 'Strike', 'Superscript', '-', 'RemoveFormat']
+        items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']
     },
     {
         name: 'paragraph',
         groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
-        items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+        items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
     },
-    {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
-    {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
-    {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+    {name: 'links', items: ['Link', 'Unlink']},
+    {name: 'styles', items: ['Format', 'FontSize']},
     {name: 'colors', items: ['TextColor', 'BGColor']},
     {name: 'tools', items: ['ShowBlocks']},
-    {name: 'clipboard', groups: ['clipboard', 'undo'], items: ['PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+    {name: 'clipboard', groups: ['clipboard', 'undo'], items: ['Undo', 'Redo']},
     {name: 'editing', groups: ['find', 'selection', 'spellchecker'], items: ['Scayt']},
     {name: 'document', groups: ['mode', 'document', 'doctools'], items: ['Source']}
 ];
