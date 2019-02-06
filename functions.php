@@ -1764,8 +1764,28 @@ function transformMultipleArraysTo1(array $multipleArrays = null)
 function groupMultipleKeysObjectsArray(array $data, $keyName)
 {
     $tmp = array();
-    foreach ($data as $arg) {
-        $tmp[$arg->$keyName][] = $arg;
+    foreach ($data as $key => $arg) {
+        $tmp[$arg->$keyName][$key] = $arg;
+    }
+
+    $output = array();
+    foreach ($tmp as $type => $labels) {
+        $output[cleanData($type)] = $labels;
+    }
+
+    return $output;
+}
+
+/**
+ * @param array $data
+ * @param string $keyName
+ * @return array
+ */
+function groupMultipleKeysArray(array $data, $keyName)
+{
+    $tmp = array();
+    foreach ($data as $key => $arg) {
+        $tmp[$arg[$keyName]][$key] = $arg;
     }
 
     $output = array();
