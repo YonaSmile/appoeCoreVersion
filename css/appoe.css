@@ -36,13 +36,35 @@ img {
     float: none;
 }
 
+
 h5.templateZoneTag {
-    margin-top: 25px;
-    margin-bottom: 25px;
-    border-top: 1px solid #ccc;
-    padding: 20px 40px;
-    border-bottom: 1px solid #ccc;
+    margin: 25px 0;
+    padding: 3px 0;
+    display: block;
+    clear: both;
+    position: relative;
+    float: none;
+    width: 100%;
+}
+
+h5.templateZoneTag:before {
+    content: '';
     display: inline-block;
+    border-top: 1px solid #ccc;
+    position: absolute;
+    width: 12px;
+    top: 0;
+    left: 0;
+}
+
+h5.templateZoneTag:after {
+    content: '';
+    display: inline-block;
+    border-top: 1px solid #ccc;
+    position: absolute;
+    width: 12px;
+    bottom: 0;
+    left: 0;
 }
 
 #loader {

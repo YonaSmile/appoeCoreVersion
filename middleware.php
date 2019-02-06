@@ -1,6 +1,6 @@
 <?php
 if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
-    
+
     $userConnexion = getUserConnexion();
 
     if ($userConnexion) {
@@ -8,6 +8,8 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
         //Check if user exist & valide
         $USER = new \App\Users($userConnexion['idUserConnexion']);
         if (!$USER->exist() || !$USER->getStatut()) {
+
+            deconnecteUser();
             header('location:' . WEB_DIR_URL);
             exit();
         }
