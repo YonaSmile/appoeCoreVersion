@@ -12,33 +12,33 @@
                     <h2 class="subTitle text-uppercase"><?= trans('Plugins'); ?></h2>
                     <div class="row">
                         <?php foreach ($plugins as $plugin) : ?>
-                            <div class="col-md-12 col-lg-6">
-                                <div class="plugin" data-name="<?= $plugin['name']; ?>">
-                                    <div class="p-3 bg-info text-white">
-                                        <?= strtoupper(implode(' ', splitAtUpperCase($plugin['name']))); ?>
-                                        <?php if (!empty($plugin['setupPath'])): ?>
-                                            <button type="button" class="btn btn-light btn-sm activePlugin float-right"
-                                                    data-pluginpath="<?= $plugin['setupPath']; ?>"><?= trans('Activer'); ?>
-                                            </button>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="pt-2 px-2 pb-1 mb-1 bg-light returnContainer"></div>
-                                    <?php
-                                    if (!empty($plugin['versionPath'])):
-                                        \App\Version::setFile($plugin['versionPath']);
-                                        if (\App\Version::show()):
-                                            ?>
-                                            <div class="py-1 px-3 mb-2 bg-light">
-                                                <small class="pluginVersion"
-                                                       data-pluginname="<?= $plugin['name']; ?>">
-                                                    <?= \App\Version::getVersion(); ?>
-                                                </small>
-                                                <small class="responseVersion float-right"></small>
-                                            </div>
-                                        <?php endif; ?>
+                            <div class="plugin col-md-12 col-lg-6" data-name="<?= $plugin['name']; ?>">
+                                <div class="p-3 bg-info text-white">
+                                    <?= strtoupper(implode(' ', splitAtUpperCase($plugin['name']))); ?>
+                                    <?php if (!empty($plugin['setupPath'])): ?>
+                                        <button type="button" class="btn btn-light btn-sm activePlugin float-right"
+                                                data-pluginpath="<?= $plugin['setupPath']; ?>"><?= trans('Activer'); ?>
+                                        </button>
+                                    <?php else: ?>
+                                        <button type="button" class="btn btn-light btn-sm deletePlugin float-right"
+                                                data-pluginname="<?= $plugin['name']; ?>"><?= trans('Supprimer'); ?>
+                                        </button>
                                     <?php endif; ?>
-                                    <div class="my-4"></div>
                                 </div>
+                                <div class="pt-2 px-2 pb-1 mb-1 bg-light returnContainer"></div>
+                                <?php if (!empty($plugin['versionPath'])):
+                                    \App\Version::setFile($plugin['versionPath']);
+                                    if (\App\Version::show()): ?>
+                                        <div class="py-1 px-3 mb-2 bg-light">
+                                            <small class="pluginVersion"
+                                                   data-pluginname="<?= $plugin['name']; ?>">
+                                                <?= \App\Version::getVersion(); ?>
+                                            </small>
+                                            <small class="responseVersion float-right"></small>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <div class="my-4"></div>
                             </div>
                         <?php endforeach; ?>
                     </div>

@@ -21,11 +21,13 @@ if (checkPostAndTokenRequest()) {
                 if ($Category->save()) {
 
                     //Add Translation
-                    $Traduction = new \App\Plugin\Traduction\Traduction();
-                    $Traduction->setLang(LANG);
-                    $Traduction->setMetaKey($Category->getName());
-                    $Traduction->setMetaValue($Category->getName());
-                    $Traduction->save();
+                    if (class_exists('App\Plugin\Traduction\Traduction')) {
+                        $Traduction = new \App\Plugin\Traduction\Traduction();
+                        $Traduction->setLang(LANG);
+                        $Traduction->setMetaKey($Category->getName());
+                        $Traduction->setMetaValue($Category->getName());
+                        $Traduction->save();
+                    }
 
                     //Delete post data
                     unset($_POST);

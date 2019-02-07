@@ -7,6 +7,35 @@ if (checkAjaxRequest()) {
         activePlugin($_REQUEST['setupPath']);
     }
 
+    if (!empty($_REQUEST['deletePluginName'])) {
+
+        $pluginName = $_REQUEST['deletePluginName'];
+
+        //Backup
+        \App\DB::backup(date('Y-m-d'), 'db-' . date('H_i_s'));
+        saveFiles('app/plugin/' . $pluginName);
+
+        //Delete tables
+        if (file_exists(WEB_PLUGIN_PATH . $pluginName . DIRECTORY_SEPARATOR . 'ini.php')) {
+            include_once(WEB_PLUGIN_PATH . $pluginName . DIRECTORY_SEPARATOR . 'ini.php');
+
+            if (!empty(PLUGIN_TABLES)) {
+                foreach (PLUGIN_TABLES as $key => $table) {
+                    \App\DB::initialize()->deleteTable($table);
+                }
+            }
+        }
+
+        //Delete Menu
+        $Menu = new \App\Menu();
+        $Menu->deletePluginMenu($pluginName);
+
+        //Delete Directories & Files
+        deleteAllFolderContent(WEB_PLUGIN_PATH . $pluginName);
+
+        echo json_encode(true);
+    }
+
     if (!empty($_POST['checkTable'])) {
 
         $pluginName = $_POST['checkTable'];

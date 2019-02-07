@@ -2,7 +2,6 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 require_once(WEB_APP_PATH . 'middleware.php');
 includePluginsFiles(true);
-$Traduction = new \App\Plugin\Traduction\Traduction(LANG);
 ?>
 <!doctype html>
 <html lang="<?= LANG; ?>">

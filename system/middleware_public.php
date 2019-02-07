@@ -20,7 +20,6 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     //Get needed Models
     $Cms = new \App\Plugin\Cms\Cms();
     $CmsMenu = new \App\Plugin\Cms\CmsMenu();
-    $Traduction = new \App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
 
     //Get Page parameters
     $Cms->setSlug(!empty($_GET['slug']) ? $_GET['slug'] : (pageSlug() != 'index' && pageSlug() != '' ? pageSlug() : 'home'));
@@ -34,8 +33,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
 
     //Get default page informations
     $currentPageID = $Cms->getId();
-    $currentPageName = shortenText($Traduction->trans($Cms->getName()), 70);
-    $currentPageDescription = shortenText($Traduction->trans($Cms->getDescription()), 170);
+    $currentPageName = shortenText(trad($Cms->getName()), 70);
+    $currentPageDescription = shortenText(trad($Cms->getDescription()), 170);
 
     //Check if is Page or plugin page
     if (!empty($_GET['type'])) {
@@ -59,8 +58,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                     if ($ArticlePage->showBySlug()) {
 
                         $currentPageID = $ArticlePage->getId();
-                        $currentPageName = shortenText($Traduction->trans($ArticlePage->getName()), 70);
-                        $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
+                        $currentPageName = shortenText(trad($ArticlePage->getName()), 70);
+                        $currentPageDescription = shortenText(trad($ArticlePage->getDescription()), 170);
                     }
 
                     //TYPE SHOP
@@ -76,8 +75,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                         $ProductPageContent = new \App\Plugin\Shop\ProductContent($ProductPage->getId(), LANG);
 
                         $currentPageID = $ProductPage->getId();
-                        $currentPageName = shortenText($Traduction->trans($ProductPage->getName()), 70);
-                        $currentPageDescription = shortenText($ProductPageContent->getResume(), 170);
+                        $currentPageName = shortenText(trad($ProductPage->getName()), 70);
+                        $currentPageDescription = shortenText(trad($ProductPage->getResume()), 170);
                     }
                 }
             }
@@ -95,8 +94,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
         if ($ArticlePage->showBySlug()) {
 
             $currentPageID = $ArticlePage->getId();
-            $currentPageName = shortenText($Traduction->trans($ArticlePage->getName()), 70);
-            $currentPageDescription = shortenText($ArticlePage->getDescription(), 170);
+            $currentPageName = shortenText(trad($ArticlePage->getName()), 70);
+            $currentPageDescription = shortenText(trad($ArticlePage->getDescription()), 170);
         }
 
     }

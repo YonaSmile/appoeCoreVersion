@@ -382,6 +382,23 @@ function trans($key, $doc = 'general')
 
 /**
  * @param $text
+ * @param $tradToOrigin
+ * @return mixed
+ */
+function trad($text, $tradToOrigin = false)
+{
+
+    if (class_exists('App\Plugin\Traduction\Traduction')) {
+
+        $Traduction = new \App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
+
+        return !$tradToOrigin ? $Traduction->trans($text) : $Traduction->transToOrigin($text);
+    }
+    return $text;
+}
+
+/**
+ * @param $text
  * @return null|string|string[]
  */
 function slugify($text)
@@ -846,7 +863,7 @@ function appBackup($DB = true)
             if ($directory != '.' and $directory != '..') {
                 if (is_dir(WEB_BACKUP_PATH . $directory)) {
                     if ($maxAutorizedFolderDate > new \DateTime($directory)) {
-                        deleteAll(WEB_BACKUP_PATH . $directory);
+                        deleteAllFolderContent(WEB_BACKUP_PATH . $directory);
                     }
                 }
             }
@@ -920,7 +937,7 @@ function saveFiles($folder = 'public')
     // Get real path for our folder
     $rootPath = realpath(getenv('DOCUMENT_ROOT') . DIRECTORY_SEPARATOR . $folder);
 
-    $dest = ROOT_PATH . 'app/backup/' . date('Y-m-d');
+    $dest = ROOT_PATH . 'app/backup/' . date('Y-m-d_H-i-s');
 
     if (!is_dir($dest) && !is_file($dest)) {
         if (!mkdir($dest)) {
@@ -931,7 +948,7 @@ function saveFiles($folder = 'public')
 
     $filename = slugify(WEB_TITLE . '-files.zip');
     $saveFileName = $dest . DIRECTORY_SEPARATOR . $filename;
-    $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . $filename;
+    $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d_H-i-s') . DIRECTORY_SEPARATOR . $filename;
 
     // Initialize archive object
     $zip = new ZipArchive();
@@ -1009,7 +1026,7 @@ function rmove($src, $dest)
         }
     }
 
-    deleteAll($src);
+    deleteAllFolderContent($src);
     return true;
 }
 
@@ -1043,7 +1060,7 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
 
         $zip->close();
     }
-    deleteAll($tempFolder);
+    deleteAllFolderContent($tempFolder);
     if ($deleteZip) {
         unlink($src);
     }
@@ -1074,25 +1091,25 @@ function unzip($src, $path, $deleteZip = true)
 
 /**
  * Remove dir with all files
- * @param $data
+ * @param $dirPath
  */
-function deleteAll($data)
+function deleteAllFolderContent($dirPath)
 {
-    if (is_dir($data)) {
-        $objects = scandir($data);
+    if (is_dir($dirPath)) {
+        $objects = scandir($dirPath);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-                if (filetype($data . "/" . $object) == "dir") {
-                    deleteAll($data . "/" . $object);
+                if (filetype($dirPath . "/" . $object) == "dir") {
+                    deleteAllFolderContent($dirPath . "/" . $object);
                 } else {
-                    unlink($data . "/" . $object);
+                    unlink($dirPath . "/" . $object);
                 }
             }
         }
         reset($objects);
-        rmdir($data);
-    } elseif (is_file($data)) {
-        unlink($data);
+        rmdir($dirPath);
+    } elseif (is_file($dirPath)) {
+        unlink($dirPath);
     }
 }
 
@@ -1635,7 +1652,7 @@ function getFileContent($path, $activeTraduction = true)
 {
     ob_start();
 
-    if ($activeTraduction) {
+    if ($activeTraduction && class_exists('App\Plugin\Traduction\Traduction')) {
         $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
     }
 

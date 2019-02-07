@@ -143,11 +143,24 @@ $(document).ready(function () {
         busyApp();
         var $btn = $(this);
         var pluginPath = $btn.data('pluginpath');
-        $btn.attr('disabled', 'disabled').addClass('disabled').html('<i class="fas fa-circle-notch fa-spin"></i>');
+        $btn.attr('disabled', 'disabled').addClass('disabled').html(loaderHtml());
         var $returnContenaire = $btn.parent('div').next('div.returnContainer');
         $returnContenaire.load('/app/ajax/plugin.php', {setupPath: pluginPath}, function () {
             $returnContenaire.append('<p><strong>Vous devez recharger la page pour voir les nouvelles fonctionnalités.</strong></p>');
             $btn.html('Activé');
+        });
+        availableApp();
+    });
+
+    $('.deletePlugin').on('click', function () {
+        busyApp();
+        var $btn = $(this);
+        var pluginName = $btn.data('pluginname');
+        $btn.attr('disabled', 'disabled').addClass('disabled').html(loaderHtml());
+        systemAjaxRequest({deletePluginName: pluginName}).done(function (data) {
+            if (data) {
+                window.location.href = window.location.href;
+            }
         });
         availableApp();
     });
