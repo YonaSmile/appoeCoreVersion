@@ -937,7 +937,7 @@ function saveFiles($folder = 'public')
     // Get real path for our folder
     $rootPath = realpath(getenv('DOCUMENT_ROOT') . DIRECTORY_SEPARATOR . $folder);
 
-    $dest = ROOT_PATH . 'app/backup/' . date('Y-m-d_H-i-s');
+    $dest = ROOT_PATH . 'app/backup/' . date('Y-m-d');
 
     if (!is_dir($dest) && !is_file($dest)) {
         if (!mkdir($dest)) {
@@ -946,9 +946,9 @@ function saveFiles($folder = 'public')
         }
     }
 
-    $filename = slugify(WEB_TITLE . '-files.zip');
+    $filename = slugify($folder) . '-' . date('H_i_s') . '-files.zip';
     $saveFileName = $dest . DIRECTORY_SEPARATOR . $filename;
-    $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d_H-i-s') . DIRECTORY_SEPARATOR . $filename;
+    $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . $filename;
 
     // Initialize archive object
     $zip = new ZipArchive();
