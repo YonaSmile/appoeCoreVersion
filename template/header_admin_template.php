@@ -42,6 +42,7 @@ includePluginsFiles(true);
           crossorigin="anonymous">
     <script type="text/javascript" src="<?= APP_ROOT; ?>js/push/bin/push.js"></script>
     <script type="text/javascript" src="<?= APP_ROOT; ?>js/all.js"></script>
+    <script type="text/javascript" src="<?= APP_ROOT; ?>js/functions.js"></script>
     <?php includePluginsJs(); ?>
 </head>
 <body>
