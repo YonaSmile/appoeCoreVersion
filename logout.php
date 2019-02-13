@@ -2,7 +2,7 @@
 require($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 includePluginsFiles(true);
 
-mehoubarim_updateConnectedStatus('Déconnecté');
+mehoubarim_updateConnectedStatus(4);
 
 session_unset();
 session_destroy();

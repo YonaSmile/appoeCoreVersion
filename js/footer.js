@@ -88,21 +88,27 @@ $(document).ready(function () {
 
     //Date & Time Picker
     $.datetimepicker.setLocale($('html').attr('lang'));
-    $('.datetimepicker').datetimepicker({
-        step: 5,
-        format: 'Y-m-d H:i',
-        formatDate: 'Y-m-d H:i'
+    $('body').on('focus', '.datetimepicker', function () {
+        $(this).attr("autocomplete", "off").datetimepicker({
+            step: 5,
+            format: 'Y-m-d H:i',
+            formatDate: 'Y-m-d H:i'
+        })
     });
-    $('.datepicker').datetimepicker({
-        timepicker: false,
-        format: 'Y-m-d',
-        formatDate: 'Y-m-d'
+    $('body').on('focus', '.datepicker', function () {
+        $(this).attr("autocomplete", "off").datetimepicker({
+            timepicker: false,
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d'
+        })
     });
-    $('.timepicker').datetimepicker({
-        datepicker: false,
-        step: 5,
-        format: 'H:i',
-        formatDate: 'H:i'
+    $('body').on('focus', '.timepicker', function () {
+        $(this).attr("autocomplete", "off").datetimepicker({
+            datepicker: false,
+            step: 5,
+            format: 'H:i',
+            formatDate: 'H:i'
+        })
     });
 
     //anchor link event
@@ -117,20 +123,13 @@ $(document).ready(function () {
     });
 
     //clean input
-    $('form input').keyup(function (e) {
+    $('body').on('blur keyup', 'form input', function (e) {
 
         var code = e.keyCode || e.which;
         var $input = $(this).val();
         if (code == 13) {
             return false;
         }
-        var rep = $input.replace(/`|<|>|\\/gi, ' ');
-        $(this).val(rep);
-    });
-
-    //clean input
-    $('form input').blur(function (e) {
-        var $input = $(this).val();
         var rep = $input.replace(/`|<|>|\\/gi, ' ');
         $(this).val(rep);
     });
