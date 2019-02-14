@@ -76,7 +76,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
 
                         $currentPageID = $ProductPage->getId();
                         $currentPageName = shortenText(trad($ProductPage->getName()), 70);
-                        $currentPageDescription = shortenText(trad($ProductPage->getResume()), 170);
+                        $currentPageDescription = shortenText(trad($ProductPageContent->getResume()), 170);
                     }
                 }
             }

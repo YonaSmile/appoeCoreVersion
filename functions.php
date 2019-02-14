@@ -387,11 +387,9 @@ function trans($key, $doc = 'general')
  */
 function trad($text, $tradToOrigin = false)
 {
-
     if (class_exists('App\Plugin\Traduction\Traduction')) {
 
         $Traduction = new \App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
-
         return !$tradToOrigin ? $Traduction->trans($text) : $Traduction->transToOrigin($text);
     }
     return $text;
