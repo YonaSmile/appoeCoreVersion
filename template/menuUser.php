@@ -19,24 +19,26 @@
                         <span class="colorPrimary"><i class="fas fa-eye"></i></span> Visualiser le site
                     </a>
                 </li>
-                <li class="nav-item" id="languageSelectorContainer">
-                    <div class="dropdown">
-                        <button class="btn btn-white" type="button" id="languageSelectorBtn"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
-                            <?= LANGUAGES[LANG]; ?>
-                        </button>
-                        <div class="dropdown-menu" id="languageSelectorContent"
-                             aria-labelledby="languageSelectorBtn">
-                            <?php foreach (getLangs() as $lang => $language): if ($lang != LANG): ?>
-                                <button class="dropdown-item langSelector" id="<?= $lang; ?>" type="button">
-                                    <img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>">
-                                    <?= LANGUAGES[$lang]; ?>
-                                </button>
-                            <?php endif; endforeach; ?>
+                <?php if (class_exists('App\Plugin\Traduction\Traduction')): ?>
+                    <li class="nav-item" id="languageSelectorContainer">
+                        <div class="dropdown">
+                            <button class="btn btn-white" type="button" id="languageSelectorBtn"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
+                                <?= LANGUAGES[LANG]; ?>
+                            </button>
+                            <div class="dropdown-menu" id="languageSelectorContent"
+                                 aria-labelledby="languageSelectorBtn">
+                                <?php foreach (getLangs() as $lang => $language): if ($lang != LANG): ?>
+                                    <button class="dropdown-item langSelector" id="<?= $lang; ?>" type="button">
+                                        <img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>">
+                                        <?= LANGUAGES[$lang]; ?>
+                                    </button>
+                                <?php endif; endforeach; ?>
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                <?php endif; ?>
             <?php endif; ?>
         </ul>
         <ul class="navbar-nav">

@@ -102,6 +102,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
 
     //Set page infos
     $_SESSION['currentPageID'] = $existPage ? $currentPageID : 0;
+    $_SESSION['currentPageSlug'] = $Cms->getSlug();
     $_SESSION['currentPageName'] = $existPage ? $currentPageName : trans(pageName());
     $_SESSION['currentPageDescription'] = $existPage ? $currentPageDescription : trans(pageDescription());
 

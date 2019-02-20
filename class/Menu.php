@@ -81,34 +81,33 @@ class Menu
 
     public function displayMenu($role, $id = '')
     {
+        if (is_numeric($role)) {
 
-        if (!empty($id)) {
-            $sql = 'SELECT * FROM appoe_menu WHERE min_role_id <= :role AND statut = 1 AND parent_id = :id ORDER BY order_menu ASC';
-            $stmt = $this->dbh->prepare($sql);
-            $stmt->bindParam(':role', $role);
-            $stmt->bindParam(':id', $id);
-        } else {
-            $sql = 'SELECT * FROM appoe_menu WHERE min_role_id <= :role AND statut = 1 ORDER BY order_menu ASC';
-            $stmt = $this->dbh->prepare($sql);
-            $stmt->bindParam(':role', $role);
-        }
-        $stmt->execute();
-        $error = $stmt->errorInfo();
+            if (!empty($id)) {
+                $sql = 'SELECT * FROM appoe_menu WHERE min_role_id <= :role AND statut = 1 AND parent_id = :id ORDER BY order_menu ASC';
+                $stmt = $this->dbh->prepare($sql);
+                $stmt->bindParam(':id', $id);
 
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-
-            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-                $data[] = $row;
-            }
-
-            if (isset($data)) {
-                return $data;
             } else {
-                return false;
+                $sql = 'SELECT * FROM appoe_menu WHERE min_role_id <= :role AND statut = 1 ORDER BY order_menu ASC';
+                $stmt = $this->dbh->prepare($sql);
+            }
+            $stmt->bindParam(':role', $role);
+            $stmt->execute();
+            $error = $stmt->errorInfo();
+
+            if ($error[0] == '00000') {
+
+                while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                    $data[] = $row;
+                }
+
+                if (isset($data)) {
+                    return $data;
+                }
             }
         }
+        return false;
     }
 
 

@@ -145,7 +145,7 @@ if (class_exists('App\Plugin\Shop\Product')) {
                 'url' => WEB_ADMIN_URL . 'updateMedia/'
             );
         }
-        if ($dashboardDetails): ?>
+        if ($dashboardDetails && is_array($dashboardDetails)): ?>
             <div class="row">
                 <?php
                 $dashboardDetails = transformMultipleArraysTo1($dashboardDetails);

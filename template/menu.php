@@ -1,10 +1,11 @@
 <?php
 $Menu = new \App\Menu();
-$menu_data = array_sort($Menu->displayMenu(getUserRoleId()), 'order_menu');
 $menuAll = array();
+$autorisedMenu = $Menu->displayMenu(getUserRoleId());
 
-if (false !== $menu_data) {
-    foreach ($menu_data as $menuPage) {
+if (is_array($autorisedMenu)) {
+    $autorisedMenu = array_sort($autorisedMenu, 'order_menu');
+    foreach ($autorisedMenu as $menuPage) {
         $menuAll[$menuPage['parent_id']][] = $menuPage;
     }
 }

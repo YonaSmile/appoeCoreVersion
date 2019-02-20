@@ -2273,7 +2273,8 @@ function isUserExist($idUser)
 {
 
     $ALLUSERS = getAllUsers();
-    if (is_array($ALLUSERS)) {
+
+    if (is_array($ALLUSERS) && is_numeric($idUser)) {
         return array_key_exists($idUser, $ALLUSERS);
     }
     return false;
@@ -2374,7 +2375,7 @@ function getUserRoleId($idUser = null)
     $idUser = checkAndGetUserId($idUser);
 
     $ALLUSERS = getAllUsers();
-    return isUserExist($idUser) ? getRoleId($ALLUSERS[$idUser]->role) : '';
+    return isUserExist($idUser) ? getRoleId($ALLUSERS[$idUser]->role) : false;
 }
 
 /**
