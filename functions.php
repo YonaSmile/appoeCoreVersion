@@ -2482,7 +2482,7 @@ function deconnecteUser()
 {
     unset($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
 
-    setcookie('hibour' . $_SERVER['HTTP_HOST'], '', -3600, '/app/', '', false, true);
+    setcookie('hibour' . $_SERVER['HTTP_HOST'], '', -3600, '/', '', false, true);
     unset($_COOKIE['hibour' . $_SERVER['HTTP_HOST']]);
 }
 
