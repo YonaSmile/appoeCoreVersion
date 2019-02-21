@@ -14,6 +14,7 @@ if (checkAjaxRequest()) {
             if ($Category->update()) {
                 echo 'true';
             }
+            exit();
         }
 
         if (isset($_POST['getCategoriesByType']) && !empty($_POST['categoryType'])) {
@@ -25,6 +26,7 @@ if (checkAjaxRequest()) {
             if ($allCatgories) {
                 echo \App\Form::select(trans('Catégorie parente'), 'parentId', $allCatgories, '', true);
             }
+            exit();
         }
 
         if (isset($_POST['deleteCategory']) && !empty($_POST['idCategory'])) {
@@ -34,6 +36,7 @@ if (checkAjaxRequest()) {
             if ($Category->delete()) {
                 echo 'true';
             }
+            exit();
         }
 
         if (isset($_POST['restaureCategory']) && !empty($_POST['idCategoryToRestaure'])) {
@@ -44,6 +47,7 @@ if (checkAjaxRequest()) {
             if ($Category->update()) {
                 echo 'true';
             }
+            exit();
         }
     }
 }

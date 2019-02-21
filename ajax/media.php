@@ -45,6 +45,7 @@ if (checkAjaxRequest()) {
                     echo 'true';
                 }
             }
+            exit();
         }
 
         if (isset($_POST['deleteImage']) && !empty($_POST['idImage'])) {
@@ -61,6 +62,7 @@ if (checkAjaxRequest()) {
                     echo 'true';
                 }
             }
+            exit();
         }
 
         if (isset($_REQUEST['getAllMedia'])) {
@@ -84,6 +86,7 @@ if (checkAjaxRequest()) {
 
             $html .= '</div>';
             echo $html;
+            exit();
         }
 
         if (!empty($_POST['deleteDefinitelyImageByName']) && !empty($_POST['filename'])) {
@@ -107,6 +110,7 @@ if (checkAjaxRequest()) {
                     echo trans('Le fichier a été supprimé mais un problème est survenue lors de la suppression du fichier dans la base de données');
                 }
             }
+            exit();
         }
     }
 }

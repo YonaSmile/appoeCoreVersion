@@ -11,6 +11,7 @@ if (checkAjaxRequest()) {
             if ($User->delete()) {
                 echo json_encode(true);
             }
+            exit();
         }
 
         //Valide user
@@ -20,11 +21,13 @@ if (checkAjaxRequest()) {
             if ($User->update()) {
                 echo json_encode(true);
             }
+            exit();
         }
 
         //Get users roles
         if (!empty($_POST['GETUSERSROLES'])) {
             echo json_encode(getRoles(), JSON_UNESCAPED_UNICODE);
+            exit();
         }
     }
 }

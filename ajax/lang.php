@@ -21,5 +21,6 @@ if (checkAjaxRequest()) {
         }
 
         echo 'true';
+        exit();
     }
 }

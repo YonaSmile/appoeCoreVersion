@@ -5,6 +5,7 @@ if (checkAjaxRequest()) {
 
     if (!empty($_REQUEST['setupPath'])) {
         activePlugin($_REQUEST['setupPath']);
+        exit();
     }
 
     if (!empty($_REQUEST['deletePluginName'])) {
@@ -34,6 +35,7 @@ if (checkAjaxRequest()) {
         deleteAllFolderContent(WEB_PLUGIN_PATH . $pluginName);
 
         echo json_encode(true);
+        exit();
     }
 
     if (!empty($_POST['checkTable'])) {
@@ -54,6 +56,7 @@ if (checkAjaxRequest()) {
         }
 
         echo $existTable;
+        exit();
     }
 
     if (!empty($_POST['checkVersion'])) {
@@ -66,6 +69,7 @@ if (checkAjaxRequest()) {
         curl_close($ch);
 
         echo $data;
+        exit();
     }
 
     if (!empty($_POST['checkSystemVersion'])) {
@@ -78,6 +82,7 @@ if (checkAjaxRequest()) {
         curl_close($ch);
 
         echo $data;
+        exit();
     }
 
     if (!empty($_POST['downloadPlugins'])) {
@@ -87,6 +92,7 @@ if (checkAjaxRequest()) {
                 echo 'true';
             }
         }
+        exit();
     }
 
     if (!empty($_POST['downloadSystemCore'])) {
@@ -100,6 +106,7 @@ if (checkAjaxRequest()) {
                 }
             }
         }
+        exit();
     }
 
     if (!empty($_POST['updateSitemap'])) {
@@ -110,6 +117,7 @@ if (checkAjaxRequest()) {
         if (generateSitemap($data)) {
             echo 'true';
         }
+        exit();
     }
 
     if (!empty($_POST['optimizeDb'])) {
@@ -131,6 +139,7 @@ if (checkAjaxRequest()) {
             }
         }
         echo trans('Tables enregistrées') . '. Tables Optimisés: ' . $optimizeTables;
+        exit();
     }
 
     if (!empty($_POST['saveFile'])) {
@@ -139,5 +148,6 @@ if (checkAjaxRequest()) {
         if (false !== $saveFiles) {
             echo getSizeName($saveFiles['copySize']) . trans(' Fichiers enregistrés'), '. <a href="' . $saveFiles['downloadLink'] . '"> ' . trans('Télécharger les fichiers') . ' (' . getSizeName($saveFiles['zipSize']) . ')</a>';
         }
+        exit();
     }
 }

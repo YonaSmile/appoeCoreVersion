@@ -21,6 +21,7 @@ if (checkAjaxRequest()) {
             ) {
                 echo 'true';
             }
+            exit();
         }
 
         //add new permission
@@ -42,6 +43,7 @@ if (checkAjaxRequest()) {
             ) {
                 echo 'true';
             }
+            exit();
         }
     }
 }
