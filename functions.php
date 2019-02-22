@@ -2480,10 +2480,10 @@ function isKing($roleId)
  */
 function deconnecteUser()
 {
-    unset($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
+    unset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
 
-    setcookie('hibour' . $_SERVER['HTTP_HOST'], '', -3600, '/', '', false, true);
-    unset($_COOKIE['hibour' . $_SERVER['HTTP_HOST']]);
+    setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', -3600, '/', '', false, true);
+    unset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
 }
 
 /**
@@ -2491,8 +2491,8 @@ function deconnecteUser()
  */
 function getUserSession()
 {
-    if (!empty($_SESSION['auth' . $_SERVER['HTTP_HOST']])) {
-        return base64_decode($_SESSION['auth' . $_SERVER['HTTP_HOST']]);
+    if (!empty($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])])) {
+        return \App\Shinoui::Decrypter($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
     }
     return false;
 }
@@ -2502,18 +2502,18 @@ function getUserSession()
  */
 function getUserCookie()
 {
-    if (!empty($_COOKIE['hibour' . $_SERVER['HTTP_HOST']])) {
-        return base64_decode($_COOKIE['hibour' . $_SERVER['HTTP_HOST']]);
+    if (!empty($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])])) {
+        return \App\Shinoui::Decrypter($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
     }
     return false;
 }
 
 /**
- *
+ * Set user Session
  */
 function setUserSession()
 {
-    $_SESSION['auth' . $_SERVER['HTTP_HOST']] = base64_encode(getUserCookie());
+    $_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])] = $_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])];
 }
 
 /**
@@ -2521,7 +2521,7 @@ function setUserSession()
  */
 function isUserSessionExist()
 {
-    return !empty(getUserSession());
+    return isset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
 }
 
 /**
@@ -2529,7 +2529,7 @@ function isUserSessionExist()
  */
 function isUserCookieExist()
 {
-    return !empty(getUserCookie());
+    return isset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
 }
 
 /**
@@ -2538,8 +2538,9 @@ function isUserCookieExist()
 function getUserConnexion()
 {
 
-    $checkStr = '351ab51c2d33efb942cab11f25cdc517a84df66bc51ffe1f2beb!a6fgcb!f152ddb3!6ff2cd41abd35df42cbb21a';
+    $checkStr = '!a6fgcb!f152ddb3!';
     $pos = false;
+
     if (isUserSessionExist()) {
 
         $pos = strpos(getUserSession(), $checkStr);
@@ -2548,8 +2549,8 @@ function getUserConnexion()
     } elseif (isUserCookieExist()) {
 
         $pos = strpos(getUserCookie(), $checkStr);
-        list($idUserConnexion, $loginUserConnexion) = explode($checkStr, getUserSession());
         setUserSession();
+        list($idUserConnexion, $loginUserConnexion) = explode($checkStr, getUserSession());
     }
 
     return $pos !== false ? array('idUserConnexion' => $idUserConnexion, 'loginUserConnexion' => $loginUserConnexion) : false;
@@ -3109,9 +3110,17 @@ function sendMail(array $data, array $otherAddr = null)
     // Votre message
     $mail->MsgHTML($data['message']);
 
+    //Attach files from form
     if (isset($data['files']) && !empty($data['files'])) {
-        foreach ($data['files'] as $photo) {
-            $mail->AddAttachment($photo['tmp_name'], $photo['name']);
+        foreach ($data['files'] as $file) {
+            $mail->AddAttachment($file['tmp_name'], $file['name']);
+        }
+    }
+
+    //Attach files from url
+    if (!empty($data['docs'])) {
+        foreach ($data['docs'] as $doc) {
+            $mail->AddAttachment($doc['src'], $doc['name']);
         }
     }
 
