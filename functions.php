@@ -3124,6 +3124,13 @@ function sendMail(array $data, array $otherAddr = null)
         }
     }
 
+    //Attach files from string
+    if (!empty($data['strAttach'])) {
+        foreach ($data['strAttach'] as $str) {
+            $mail->addStringAttachment($str['src'], $str['name']);
+        }
+    }
+
     if (!$mail->Send()) {
         return false; //'Erreur : ' . $mail->ErrorInfo;
     } else {
