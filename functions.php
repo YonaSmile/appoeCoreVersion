@@ -3087,10 +3087,28 @@ function formatBillingNB($nb)
 function sendMail(array $data, array $otherAddr = null)
 {
     $mail = new \PHPMailer();
-    $mail->IsMail();
-    $mail->IsHTML(true);
     $mail->setLanguage('fr', '/optional/path/to/language/directory/');
     $mail->CharSet = 'utf-8';
+
+    $mail->SMTPKeepAlive = !empty($data['keepAlive']) ? $data['keepAlive'] : false;
+    $mail->SMTPDebug = !empty($data['debug']) ? $data['debug'] : 0;
+
+    if (empty($data['smtp'])) {
+
+        $mail->IsMail();
+
+    } else {
+
+        $mail->isSMTP();
+        $mail->Host = $data['smtp']['host'];
+        $mail->Port = $data['smtp']['port'];
+
+        if (!empty($data['smtp']['auth'])) {
+            $mail->SMTPAuth = $data['smtp']['auth'];
+            $mail->Username = $data['smtp']['username'];
+            $mail->Password = $data['smtp']['password'];
+        }
+    }
 
     // Expéditeur
     $mail->SetFrom($data['fromEmail'], $data['fromName']);
@@ -3098,6 +3116,7 @@ function sendMail(array $data, array $otherAddr = null)
     // Destinataire
     $mail->ClearAddresses();
     $mail->AddAddress($data['toEmail'], $data['toName']);
+
     if (!is_null($otherAddr) && is_array($otherAddr)) {
         foreach ($otherAddr as $email => $name) {
             $mail->AddAddress($email, $name);
