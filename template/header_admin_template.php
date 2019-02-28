@@ -18,7 +18,7 @@ includePluginsFiles(true);
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
     <link rel="stylesheet" href="<?= APP_ROOT; ?>css/font.css" type="text/css">
-    <link rel="stylesheet" href="<?= APP_ROOT; ?>css/jquery.datetimepicker.css"
+    <link rel="stylesheet" href="<?= WEB_LIB_URL; ?>js/datetimepicker/jquery.datetimepicker.css"
           type="text/css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
@@ -36,11 +36,10 @@ includePluginsFiles(true);
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
     <script src="https://cdn.ckeditor.com/4.11.2/full/ckeditor.js"></script>
-    <script src="<?= APP_ROOT; ?>js/jquery.datetimepicker.full.js"></script>
+    <script src="<?= WEB_LIB_URL; ?>js/datetimepicker/jquery.datetimepicker.full.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
           integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
           crossorigin="anonymous">
-    <script type="text/javascript" src="<?= APP_ROOT; ?>js/push/bin/push.js"></script>
     <script type="text/javascript" src="<?= APP_ROOT; ?>js/all.js"></script>
     <script type="text/javascript" src="<?= APP_ROOT; ?>js/functions.js"></script>
     <?php includePluginsJs(); ?>

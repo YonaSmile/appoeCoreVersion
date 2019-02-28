@@ -97,8 +97,35 @@ $(document).ready(function () {
         );
     }, 2000);
 
+    setTimeout(function () {
+        var $versionContenair = $('#libVersion');
+        var libVersion = $.trim($versionContenair.data('libversion'));
+        var responseVersion = $versionContenair.next('small.responseVersion');
+        responseVersion.html('<i class="fas fa-circle-notch fa-spin"></i>');
+        $.post(
+            '/app/ajax/plugin.php',
+            {
+                checkLibVersion: 'ok'
+            },
+            function (response) {
+                if (response) {
+                    try {
+                        response = $.parseJSON(response);
+                        if (response.version != libVersion) {
+                            $('#updateLibBtnContainer').slideDown('fast');
+                            responseVersion.html('<em class="text-danger">' + response.version + '</em>');
+                        } else {
+                            responseVersion.html('<em class="text-info">' + response.version + '</em>');
+                        }
+                    } catch (e) {
+
+                    }
+                }
+            }
+        );
+    }, 2000);
+
     $('#updatePlugins').on('click', function () {
-        Notif('APPOE', 'Une mise à jour des extensions est en cours. Veuillez ne pas quitter votre navigateur !', 5000);
         systemAjaxRequest({
             downloadPlugins: 'OK'
         }).done(function (data) {
@@ -111,8 +138,20 @@ $(document).ready(function () {
         });
     });
 
+    $('#updateLib').on('click', function () {
+        systemAjaxRequest({
+            downloadLib: 'OK'
+        }).done(function (data) {
+            if (data) {
+                window.location = window.location.href;
+                window.location.reload(true);
+            } else {
+                $('#loader').fadeOut();
+            }
+        });
+    });
+
     $('#updateSystem').on('click', function () {
-        Notif('APPOE', 'Une mise à jour du système est en cours. Veuillez ne pas quitter votre navigateur !', 5000);
         systemAjaxRequest({
             downloadSystemCore: 'OK'
         }).done(function (data) {
@@ -127,7 +166,6 @@ $(document).ready(function () {
     });
 
     $('#updateSitemap').on('click', function () {
-        Notif('APPOE', 'L\'actualisation du sitemap est en cours...', 5000);
         systemAjaxRequest({
             updateSitemap: 'OK'
         }).done(function (data) {

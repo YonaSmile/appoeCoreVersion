@@ -16,6 +16,7 @@ define('FILE_DIR_NAME', 'include/');
 define('APP_ROOT', WEB_DIR . 'app/');
 define('WEB_APP_PATH', ROOT_PATH . 'app/');
 define('WEB_PUBLIC_PATH', ROOT_PATH . 'public/');
+define('WEB_LIB_PATH', WEB_APP_PATH . 'lib/');
 define('TEMPLATES_PATH', WEB_PUBLIC_PATH . 'html/');
 define('WEB_TEMPLATE_PATH', WEB_APP_PATH . 'template/');
 define('WEB_AJAX_PATH', WEB_APP_PATH . 'ajax/');
@@ -34,6 +35,7 @@ define('INCLUDE_PLUGIN_PATH', WEB_DIR . 'app/plugin/');
  */
 define('WEB_APP_URL', WEB_DIR_URL . 'app/');
 define('WEB_ADMIN_URL', WEB_APP_URL . 'page/');
+define('WEB_LIB_URL', WEB_APP_URL . 'lib/');
 define('WEB_PLUGIN_URL', WEB_APP_URL . 'plugin/');
 define('WEB_PUBLIC_URL', WEB_DIR_URL . 'public/');
 define('WEB_DIR_IMG', WEB_PUBLIC_URL . 'images/');

@@ -29,7 +29,6 @@ $(document).ready(function () {
     //cookie for welcome message
     if (!getCookie('welcomeMsg')) {
         setCookie('welcomeMsg', 'OK', 356);
-        Notif('Bienvenu sur APPOE', 'Ces notifications vont vous permettre de suivre de près l\'évolution de votre travail avec APPOE.', 10000);
     }
 
     //cookie for sidebar

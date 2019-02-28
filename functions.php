@@ -1,7 +1,7 @@
 <?php
 
 //Get PHPMAILER
-$phpMailerAutoLoadFile = ROOT_PATH . 'ressources/PHPMailer/PHPMailerAutoload.php';
+$phpMailerAutoLoadFile = WEB_LIB_PATH . 'php/PHPMailer/PHPMailerAutoload.php';
 if (file_exists($phpMailerAutoLoadFile)) {
     require_once($phpMailerAutoLoadFile);
 }

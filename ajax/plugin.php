@@ -85,10 +85,33 @@ if (checkAjaxRequest()) {
         exit();
     }
 
+    if (!empty($_POST['checkLibVersion'])) {
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://raw.githubusercontent.com/YonaSmile/appoeLibVersion/master/version.json');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        echo $data;
+        exit();
+    }
+
     if (!empty($_POST['downloadPlugins'])) {
 
         if (downloadZip(ROOT_PATH . 'plugins.zip', 'https://github.com/YonaSmile/appoePluginsVersions/archive/master.zip')) {
             if (unzipSkipFirstFolder(ROOT_PATH . 'plugins.zip', ROOT_PATH, 'appoePluginsVersions-master', WEB_PLUGIN_PATH)) {
+                echo 'true';
+            }
+        }
+        exit();
+    }
+
+    if (!empty($_POST['downloadLib'])) {
+
+        if (downloadZip(ROOT_PATH . 'appoeLib.zip', 'https://github.com/YonaSmile/appoeLibVersion/archive/master.zip')) {
+            if (unzipSkipFirstFolder(ROOT_PATH . 'appoeLib.zip', ROOT_PATH, 'appoeLibVersion-master', WEB_LIB_PATH)) {
                 echo 'true';
             }
         }
