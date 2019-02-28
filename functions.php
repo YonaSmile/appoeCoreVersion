@@ -3089,8 +3089,6 @@ function sendMail(array $data, array $otherAddr = null)
     $mail = new \PHPMailer();
     $mail->setLanguage('fr', '/optional/path/to/language/directory/');
     $mail->CharSet = 'utf-8';
-
-    $mail->SMTPKeepAlive = !empty($data['keepAlive']) ? $data['keepAlive'] : false;
     $mail->SMTPDebug = !empty($data['debug']) ? $data['debug'] : 0;
 
     if (empty($data['smtp'])) {
@@ -3100,6 +3098,10 @@ function sendMail(array $data, array $otherAddr = null)
     } else {
 
         $mail->isSMTP();
+
+        $mail->SMTPKeepAlive = !empty($data['keepAlive']) ? $data['keepAlive'] : false;
+        $mail->SMTPSecure = !empty($data['encryption']) ? $data['encryption'] : '';
+
         $mail->Host = $data['smtp']['host'];
         $mail->Port = $data['smtp']['port'];
 
