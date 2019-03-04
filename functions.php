@@ -2104,9 +2104,9 @@ function includePluginsSecondaryMenu()
 
 
 /**
- *
+ * @param $forApp
  */
-function includePluginsJs()
+function includePluginsJs($forApp = false)
 {
     $plugins = getPlugins();
 
@@ -2118,6 +2118,33 @@ function includePluginsJs()
                 $phpFiles = getFilesFromDir($filePath);
                 foreach ($phpFiles as $file) {
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
+                    echo '<script type="text/javascript" src="' . $src . '"></script>';
+
+                }
+            }
+        }
+    }
+
+    if ($forApp) {
+        includePluginsJsForApp();
+    }
+}
+
+/**
+ *
+ */
+function includePluginsJsForApp()
+{
+    $plugins = getPlugins();
+
+    if (is_array($plugins) && !empty($plugins)) {
+
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'jsApp';
+            if (file_exists($filePath)) {
+                $phpFiles = getFilesFromDir($filePath);
+                foreach ($phpFiles as $file) {
+                    $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'jsApp' . DIRECTORY_SEPARATOR . $file;
                     echo '<script type="text/javascript" src="' . $src . '"></script>';
 
                 }
