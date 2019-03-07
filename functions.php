@@ -2648,6 +2648,18 @@ function webUrl($file, $param = null)
 }
 
 /**
+ * @param $link
+ * @return string
+ */
+function externalLink($link)
+{
+    if (substr($link, 0, 4) === "http") {
+        return ' target="_blank" ';
+    }
+    return '';
+}
+
+/**
  * get real admin file url
  *
  * @param $file
