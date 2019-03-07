@@ -13,7 +13,7 @@ CKEDITOR.config.toolbar = [
     {
         name: 'paragraph',
         groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
-        items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+        items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Blockquote', '-', 'BidiLtr', 'BidiRtl']
     },
     {name: 'links', items: ['Link', 'Unlink']},
     {name: 'styles', items: ['Format', 'FontSize']},
