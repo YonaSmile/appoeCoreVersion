@@ -24,12 +24,12 @@
                         <div class="dropdown">
                             <button class="btn btn-white" type="button" id="languageSelectorBtn"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="<?= getAppImg('flag-' . LANG . '.svg'); ?>">
-                                <?= LANGUAGES[LANG]; ?>
+                                <img src="<?= getAppImg('flag-' . APP_LANG . '.svg'); ?>">
+                                <?= LANGUAGES[APP_LANG]; ?>
                             </button>
                             <div class="dropdown-menu" id="languageSelectorContent"
                                  aria-labelledby="languageSelectorBtn">
-                                <?php foreach (getLangs() as $lang => $language): if ($lang != LANG): ?>
+                                <?php foreach (getLangs() as $lang => $language): if ($lang != APP_LANG): ?>
                                     <button class="dropdown-item langSelector" id="<?= $lang; ?>" type="button">
                                         <img src="<?= getAppImg('flag-' . $lang . '.svg'); ?>">
                                         <?= LANGUAGES[$lang]; ?>

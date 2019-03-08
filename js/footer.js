@@ -182,17 +182,13 @@ $(document).ready(function () {
             $('#languageSelectorBtn').html(imgLangChoise);
 
             setTimeout(function () {
+                $('#loader').fadeIn('fast');
 
-                if (langChoice != appLang) {
-
-                    $('#loader').fadeIn('fast');
-
-                    setLang(langChoice).done(function (data) {
-                        if (data) {
-                            window.location.href = window.location.href;
-                        }
-                    });
-                }
+                setLang(langChoice, true).done(function (data) {
+                    if (data) {
+                        window.location.href = window.location.href;
+                    }
+                });
             }, 300);
         }
     });

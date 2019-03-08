@@ -360,10 +360,10 @@ function htmlEntityDecode($item)
 function trans($key, $doc = 'general')
 {
     $trans = minimalizeText($key);
-    if (APP_LANG != 'fr' && file_exists(FILE_LANG_PATH . APP_LANG . DIRECTORY_SEPARATOR . $doc . '.json')) {
+    if (INTERFACE_LANG != 'fr' && file_exists(FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . $doc . '.json')) {
 
         //get lang file
-        $json = file_get_contents(FILE_LANG_PATH . APP_LANG . DIRECTORY_SEPARATOR . $doc . '.json');
+        $json = file_get_contents(FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . $doc . '.json');
         $parsedJson = json_decode($json, true);
 
         //preparing to compare
@@ -1651,7 +1651,7 @@ function getFileContent($path, $activeTraduction = true)
     ob_start();
 
     if ($activeTraduction && class_exists('App\Plugin\Traduction\Traduction')) {
-        $Traduction = new \App\Plugin\Traduction\Traduction(LANG);
+        $Traduction = new \App\Plugin\Traduction\Traduction(APP_LANG);
     }
 
     if (file_exists($path)) {

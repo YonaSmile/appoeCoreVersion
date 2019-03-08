@@ -4,20 +4,17 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['lang']) && !empty($_POST['interfaceLang'])) {
 
-        if ($_POST['interfaceLang'] == 'content') {
+        if ($_POST['interfaceLang'] == 'interface') {
 
-            //set lang for app content and website
-            $_COOKIE['LANG'] = $_POST['lang'];
-
-        } elseif ($_POST['interfaceLang'] == 'interface') {
-
-            //set lang for app interface
-            $_COOKIE['APP_LANG'] = $_POST['lang'];
+            //set lang for app content interface
+            $_SESSION['APP_LANG'] = $_POST['lang'];
 
         } else {
 
+            //TODO if ($_POST['interfaceLang'] == 'content') {}
+
             //default set lang for app content and website
-            $_COOKIE['LANG'] = $_POST['lang'];
+            setcookie('LANG', $_POST['lang'], strtotime('+30 days'), WEB_DIR, '', false, true);
         }
 
         echo 'true';

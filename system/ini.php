@@ -55,17 +55,21 @@ ini_set('error_log', ROOT_PATH . 'error.log');
 /**
  * Set App Interface lang
  */
-define('APP_LANG', 'fr');
+define('INTERFACE_LANG', 'fr');
+
+/**
+ * Set App Content lang
+ */
+if (!empty($_SESSION['APP_LANG'])) {
+    define('APP_LANG', $_SESSION['APP_LANG']);
+} else {
+    define('APP_LANG', 'fr');
+}
 
 /**
  * Set website lang
  */
-if (!empty($_REQUEST['lang']) && array_key_exists($_REQUEST['lang'], LANGUAGES)) {
-
-    define('LANG', $_REQUEST['lang']);
-    setcookie('LANG', LANG, strtotime('+30 days'), WEB_DIR, '', false, true);
-
-} elseif (!empty($_COOKIE['LANG']) && array_key_exists($_COOKIE['LANG'], LANGUAGES)) {
+if (!empty($_COOKIE['LANG']) && array_key_exists($_COOKIE['LANG'], LANGUAGES)) {
     define('LANG', $_COOKIE['LANG']);
 
 } else {
