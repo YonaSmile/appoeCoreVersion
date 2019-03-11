@@ -4,7 +4,7 @@ require_once(WEB_APP_PATH . 'middleware.php');
 includePluginsFiles(true);
 ?>
 <!doctype html>
-<html lang="<?= INTERFACE_LANG; ?>">
+<html lang="<?= APP_LANG; ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
