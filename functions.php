@@ -1513,7 +1513,7 @@ function getSessionNotifications()
 function getAsset($assetName)
 {
     if (file_exists(WEB_LIB_PATH . 'assets/' . $assetName . '.php')) {
-        include_once(WEB_LIB_URL . 'assets/' . $assetName . '.php');
+        include_once(WEB_LIB_PATH . 'assets/' . $assetName . '.php');
     }
 
     return false;
