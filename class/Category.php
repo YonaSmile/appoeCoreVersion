@@ -179,7 +179,6 @@ class Category
 
         $sql = 'SELECT * FROM appoe_categories WHERE status = 1 ORDER BY name ASC';
         $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':type', $this->type);
         $stmt->execute();
 
         $count = $stmt->rowCount();

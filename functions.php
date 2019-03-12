@@ -1699,6 +1699,7 @@ function getFieldsControls()
 }
 
 /**
+ * Deprecated
  * @param int $id
  * @param bool $parentId
  * @param string $categoryType
@@ -1729,6 +1730,44 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
 
         $Media->setTypeId($category->id);
         $allMedia[$category->id] = $Media->showFiles();
+    }
+
+    return $allMedia;
+}
+
+/**
+ * @param int $id
+ * @param bool $parentId
+ * @param string $type
+ * @return array
+ */
+function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
+{
+    $Media = new \App\Media();
+    $Media->setType($type);
+
+    $Category = new \App\Category();
+    $Category->setType($type);
+    $allCategories = $Category->showByType();
+
+    $allMedia = array();
+    foreach ($allCategories as $category) {
+
+        $Media->setTypeId($category->id);
+
+        if (false !== $parentId) {
+
+            if ($category->parentId != $id && $category->id != $id) {
+                continue;
+            }
+            $allMedia[$category->id] = $Media->showFiles();
+
+        } else {
+            if ($category->id != $id) {
+                continue;
+            }
+            $allMedia[] = $Media->showFiles();
+        }
     }
 
     return $allMedia;
