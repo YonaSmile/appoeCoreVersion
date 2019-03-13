@@ -1766,7 +1766,7 @@ function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
             if ($category->id != $id) {
                 continue;
             }
-            $allMedia[] = $Media->showFiles();
+            $allMedia = array_merge($allMedia, $Media->showFiles());
         }
     }
 
