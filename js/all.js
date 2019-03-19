@@ -148,6 +148,7 @@ $(document).ready(function () {
     });
 
     $('img.seeDataOnHover').popover({
+        container: 'body',
         html: true,
         trigger: 'hover',
         placement: 'top',

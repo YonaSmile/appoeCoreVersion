@@ -42,9 +42,11 @@ $(document).ready(function () {
         var $TR = $btn.parent('td').parent('tr');
 
         var name = $TR.find('td[data-dbname="name"]').children('input').val();
+        var slug = $TR.find('td[data-dbname="slug"]').children('input').val();
         var role = $TR.find('td[data-dbname="min_role_id"]').children('input').val();
         var statut = $TR.find('td[data-dbname="statut"]').children('input').val();
         var order = $TR.find('td[data-dbname="order_menu"]').children('input').val();
+        var pluginName = $TR.find('td[data-dbname="pluginName"]').children('input').val();
 
 
         $TR.find('td.changeableTd').each(function () {
@@ -66,9 +68,11 @@ $(document).ready(function () {
                     updatePermission: 'OK',
                     id: idMenu,
                     name: name,
+                    slug: slug,
                     min_role_id: role,
                     statut: statut,
-                    order_menu: order
+                    order_menu: order,
+                    pluginName: pluginName
                 },
                 function (data) {
                     if (data && (data == 'true' || data === true)) {

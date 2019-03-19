@@ -159,17 +159,21 @@ class Menu
 
     }
 
-    public function updateMenu($id, $name, $min_role, $statut, $order_menu = null)
+    public function updateMenu($id, $name, $slug, $min_role, $statut, $order_menu = null, $pluginName = null)
     {
 
-        $sql = 'UPDATE appoe_menu SET name = :name, min_role_id = :min_role_id, statut = :statut, order_menu = :order_menu WHERE id = :id';
+        $sql = 'UPDATE appoe_menu 
+        SET name = :name, slug = :slug, min_role_id = :min_role_id, statut = :statut, order_menu = :order_menu, pluginName = :pluginName 
+        WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':slug', $slug);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':min_role_id', $min_role);
         $stmt->bindParam(':statut', $statut);
         $stmt->bindParam(':order_menu', $order_menu);
+        $stmt->bindParam(':pluginName', $pluginName);
         $stmt->execute();
         $error = $stmt->errorInfo();
 
@@ -277,6 +281,4 @@ class Menu
 
         return strtolower($filename);
     }
-
-
 }

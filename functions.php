@@ -76,6 +76,14 @@ function activePage($url, $classNameAdded = 'active', $scriptPage = false)
 }
 
 /**
+ * Show Maintenance Header
+ */
+function showMaintenanceHeader()
+{
+    echo '<h1 class="bg-danger m-5 text-white">Page en maintenance !</h1>';
+}
+
+/**
  * Construct general menu
  * @param $allPages
  *

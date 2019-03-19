@@ -10,18 +10,20 @@ if (checkAjaxRequest()) {
         if (isset($_POST['updatePermission'])
             && !empty($_POST['id'])
             && !empty($_POST['name'])
+            && !empty($_POST['slug'])
             && !empty($_POST['min_role_id'])
             && isset($_POST['statut'])
             && isset($_POST['order_menu'])
+            && isset($_POST['pluginName'])
         ) {
             $Menu = new \App\Menu();
             if ($Menu->updateMenu($_POST['id'],
-                $_POST['name'], $_POST['min_role_id'],
-                $_POST['statut'], $_POST['order_menu'])
+                $_POST['name'], $_POST['slug'],
+                $_POST['min_role_id'], $_POST['statut'],
+                $_POST['order_menu'], $_POST['pluginName'])
             ) {
                 echo 'true';
             }
-            exit();
         }
 
         //add new permission
@@ -43,7 +45,6 @@ if (checkAjaxRequest()) {
             ) {
                 echo 'true';
             }
-            exit();
         }
     }
 }
