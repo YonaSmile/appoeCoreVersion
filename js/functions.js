@@ -24,6 +24,27 @@ function setLang(lang, interface_lang = false) {
         });
 }
 
+/**
+ * Input filter results by "data-filter"
+ * @param inputId
+ * @param elements like "div.card"
+ */
+function inputFilter(inputId, elements) {
+    var input, filter, element, i, txtValue;
+    input = $('#' + inputId);
+    filter = input.val().toUpperCase();
+    element = $(elements);
+
+    for (i = 0; i < element.length; i++) {
+        txtValue = element[i].getAttribute('data-filter');
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            element[i].style.display = "";
+        } else {
+            element[i].style.display = "none";
+        }
+    }
+}
+
 function setCookie(name, value, days) {
     var expires = "";
     if (days) {
