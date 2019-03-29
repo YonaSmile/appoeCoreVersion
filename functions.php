@@ -77,10 +77,11 @@ function activePage($url, $classNameAdded = 'active', $scriptPage = false)
 
 /**
  * Show Maintenance Header
+ * @param String $text
  */
-function showMaintenanceHeader()
+function showMaintenanceHeader($text = 'Page en maintenance !')
 {
-    echo '<h1 class="bg-danger m-5 text-white">Page en maintenance !</h1>';
+    echo '<h1 class="bg-danger m-5 text-white">' . $text . '</h1>';
 }
 
 /**

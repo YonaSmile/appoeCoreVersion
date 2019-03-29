@@ -9,12 +9,12 @@ class Logging
     private $userName;
     private $type = 'APP';
     private $status = 'info';
-    private $context;
+    private $context = null;
     private $message;
 
     private $dbh = null;
 
-    public function __construct($type = null, $status = null, $context = null, $message = null)
+    public function __construct($message = null, $type = null, $status = null, $context = null)
     {
         if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
@@ -24,7 +24,7 @@ class Logging
         $this->user = getUserIdSession();
         $this->userName = getUserEntitled();
 
-        if ($type && $status && $context && $message) {
+        if ($message) {
 
             $this->type = $type;
             $this->status = $status;

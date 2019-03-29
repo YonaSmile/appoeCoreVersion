@@ -3,6 +3,11 @@ require_once('header.php');
 
 if (checkAjaxRequest()) {
 
+    if (!empty($_POST['checkUserSession'])) {
+        echo isUserSessionExist() ? 'true' : 'false';
+        exit();
+    }
+
     if (!empty($_REQUEST['setupPath'])) {
         activePlugin($_REQUEST['setupPath']);
         exit();
