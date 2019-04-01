@@ -392,13 +392,14 @@ function trans($key, $doc = 'general')
 /**
  * @param $text
  * @param $tradToOrigin
+ * @param $lang
  * @return mixed
  */
-function trad($text, $tradToOrigin = false)
+function trad($text, $tradToOrigin = false, $lang = LANG)
 {
     if (class_exists('App\Plugin\Traduction\Traduction')) {
 
-        $Traduction = new \App\Plugin\Traduction\Traduction(defined('LANG') ? LANG : 'fr');
+        $Traduction = new \App\Plugin\Traduction\Traduction($lang);
         return !$tradToOrigin ? $Traduction->trans($text) : $Traduction->transToOrigin($text);
     }
     return $text;
