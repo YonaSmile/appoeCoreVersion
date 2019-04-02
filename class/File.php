@@ -13,6 +13,7 @@ class File
     protected $position = null;
     protected $options = null;
 
+    protected $maxSize = 5621440;
     protected $filePath = FILE_DIR_PATH;
     protected $uploadFiles = null;
     protected $dbh = null;
@@ -22,6 +23,8 @@ class File
         if (is_null($this->dbh)) {
             $this->dbh = \App\DB::connect();
         }
+
+        $this->userId = getUserIdSession();
     }
 
     /**
@@ -388,27 +391,9 @@ class File
                     $filename = $this->cleanText($files['name'][$i]);
                     $type = $files['type'][$i];
                     $size = $files['size'][$i];
-                    if ($size <= 5621440) {
+                    if ($size <= $this->maxSize) {
 
-                        if (
-                            $type == 'image/jpeg' || $type == 'image/png' || $type == 'image/gif'
-                            || $type == 'image/jpg' || $type == 'image/svg+xml' || $type == 'image/tiff'
-                            || $type == 'application/pdf' || $type == 'application/vnd.ms-word'
-                            || $type == 'application/vnd.ms-powerpoint' || $type == 'application/vnd.ms-excel'
-                            || $type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                            || $type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                            || $type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-                            || $type == 'application/vnd.oasis.opendocument.presentation'
-                            || $type == 'application/vnd.oasis.opendocument.spreadsheet'
-                            || $type == 'application/vnd.oasis.opendocument.text'
-                            || $type == 'text/csv' || $type == 'application/msword' || $type == 'application/json'
-                            || $type == 'audio/aac' || $type == 'audio/x-mpegurl' || $type == 'audio/m4a'
-                            || $type == 'audio/x-midi' || $type == 'audio/x-ms-wma' || $type == 'audio/mpeg'
-                            || $type == 'audio/ogg' || $type == 'audio/wav' || $type == 'audio/x-wav'
-                            || $type == 'audio/webm' || $type == 'audio/3gpp'
-                            || $type == 'video/x-msvideo' || $type == 'video/mpeg' || $type == 'video/ogg'
-                            || $type == 'video/webm' || $type == 'video/3gpp' || $type == 'video/mp4'
-                        ) {
+                        if ($this->authorizedMediaFormat($type)) {
 
                             $this->name = $filename;
                             if (!file_exists($this->filePath . $filename)) {
@@ -522,6 +507,32 @@ class File
         } else {
             return $stmt->rowCount();
         }
+    }
+
+    public function authorizedMediaFormat($format)
+    {
+
+        $authorizedFormat = array(
+            'image/jpeg', 'image/png', 'image/gif',
+            'image/jpg', 'image/svg+xml', 'image/tiff',
+            'application/pdf', 'application/vnd.ms-word',
+            'application/vnd.ms-powerpoint', 'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'application/vnd.oasis.opendocument.presentation',
+            'application/vnd.oasis.opendocument.spreadsheet',
+            'application/vnd.oasis.opendocument.text',
+            'text/csv', 'application/msword', 'application/json',
+            'audio/aac', 'audio/x-mpegurl', 'audio/m4a',
+            'audio/x-midi', 'audio/x-ms-wma', 'audio/mpeg',
+            'audio/ogg', 'audio/wav', 'audio/x-wav',
+            'audio/webm', 'audio/3gpp',
+            'video/x-msvideo', 'video/mpeg', 'video/ogg',
+            'video/webm', 'video/3gpp', 'video/mp4'
+        );
+
+        return in_array($format, $authorizedFormat);
     }
 
     /**

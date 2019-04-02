@@ -152,3 +152,88 @@ function copyToClipboard(text) {
     document.execCommand("copy");
     $temp.remove();
 }
+
+function getKeyByValueInObject(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
+
+function loaderHtml() {
+    return '<i class="fas fa-circle-notch fa-spin"></i>';
+}
+
+function busyApp() {
+    $('#appStatus').removeClass(function (index, className) {
+        return (className.match(/\bbg-\S+/g) || []).join(' ');
+    }).addClass('progress-bar-animated bg-warning').parent('div.progress').stop().animate({"height": "10px"}, 200);
+}
+
+function availableApp() {
+    $('#appStatus').removeClass(function (index, className) {
+        return (className.match(/\bbg-\S+/g) || []).join(' ');
+    }).removeClass('progress-bar-animated').addClass('bg-light').parent('div.progress').stop().animate({"height": "1px"}, 200);
+}
+
+function getHtmlLoader() {
+    return '<div class="spinner"><div class="rect1"></div><div class="rect2"></div>' +
+        '<div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
+}
+
+function mediaAjaxRequest(data) {
+    return $.post('/app/ajax/media.php', data);
+}
+
+function systemAjaxRequest(data) {
+
+    //Active Loader
+    $('#loader').fadeIn('fast');
+    $('#loaderInfos').html('Veuillez <strong>ne pas quitter</strong> votre navigateur');
+
+    return $.post('/app/ajax/plugin.php', data);
+}
+
+(function ($) {
+    $.fn.serializefiles = function () {
+
+        var form = $(this),
+            formData = new FormData(),
+            formParams = form.serializeArray();
+
+        $.each(form.find('input[type="file"]'), function (i, tag) {
+            $.each($(tag)[0].files, function (i, file) {
+                formData.append(tag.name, file);
+            });
+        });
+
+        $.each(formParams, function (i, val) {
+            formData.append(val.name, val.value);
+        });
+
+        return formData;
+
+    };
+})(jQuery);
+
+function sendPostFiles($form) {
+
+    busyApp();
+
+    $.ajax({
+        url: $form.attr('action'),
+        type: 'POST',
+        data: $form.serializefiles(),
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (data, textStatus, jqXHR) {
+            if (typeof data.error === 'undefined') {
+                availableApp();
+                return data;
+            } else {
+                console.log('ERRORS RESPONSE: ' + data.error);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('ERRORS SENDING: ' + textStatus, 'DETAILS: ' + errorThrown);
+        }
+    });
+}

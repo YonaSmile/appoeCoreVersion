@@ -2174,6 +2174,8 @@ function includePluginsJs($forApp = false)
         }
     }
 
+    echo '<script type="text/javascript" src="' . APP_ROOT . 'js/functions.js"></script>';
+
     if ($forApp) {
         includePluginsJsForApp();
     }
@@ -2200,6 +2202,8 @@ function includePluginsJsForApp()
             }
         }
     }
+
+    echo '<script type="text/javascript" src="' . APP_ROOT . 'js/all.js"></script>';
 }
 
 
