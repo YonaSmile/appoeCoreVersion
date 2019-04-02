@@ -215,25 +215,15 @@ function systemAjaxRequest(data) {
 
 function sendPostFiles($form) {
 
-    busyApp();
-
-    $.ajax({
+    return $.ajax({
         url: $form.attr('action'),
+        method: 'POST',
         type: 'POST',
         data: $form.serializefiles(),
         processData: false,
         contentType: false,
         cache: false,
-        success: function (data, textStatus, jqXHR) {
-            if (typeof data.error === 'undefined') {
-                availableApp();
-                return data;
-            } else {
-                console.log('ERRORS RESPONSE: ' + data.error);
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log('ERRORS SENDING: ' + textStatus, 'DETAILS: ' + errorThrown);
-        }
+        async: false,
+        dataType: "json"
     });
 }
