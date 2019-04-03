@@ -136,6 +136,14 @@ function fixeTableHeader(top) {
     }
 }
 
+function getMonthsName(month = null) {
+
+    let months = ['', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août',
+        'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+    return month !== null ? months[month] : months;
+}
+
 function escapeHtml(text) {
     return text
         .replace(/&/g, "&amp;")

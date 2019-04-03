@@ -166,15 +166,15 @@ function getConfigContent($jsonKey = 'pages_name')
 /**
  * @param $filename
  * @param string $jsonKey
- *
+ * @param string $jsonSecondKey
  * @return array
  */
-function getJsonContent($filename, $jsonKey = '')
+function getJsonContent($filename, $jsonKey = '', $jsonSecondKey = '')
 {
     $json = file_get_contents($filename);
     $parsed_json = json_decode($json, true);
 
-    return !empty($jsonKey) ? $parsed_json[$jsonKey] : $parsed_json;
+    return !empty($jsonKey) ? (!empty($jsonSecondKey) ? $parsed_json[$jsonKey][$jsonSecondKey] : $parsed_json[$jsonKey]) : $parsed_json;
 }
 
 /**
