@@ -87,55 +87,6 @@ function parseReelFloat(x) {
     return x ? Number.parseFloat(x.toString().replace(/ /g, "")) : 0;
 }
 
-function fixeTableHeader(top) {
-
-    if ($('.fixed-header').length) {
-
-        var thSize = [];
-        var tdSize = [];
-        var tablePosition = parseInt($('.fixed-header').offset().top);
-
-
-        $('.fixed-header tbody tr:has(td) > *').each(function (index, val) {
-            tdSize[index] = $(this).width();
-        });
-
-        $('.fixed-header thead th').each(function (index, val) {
-            thSize[index] = $(this).width();
-        });
-
-        if (top > tablePosition) {
-            $('.fixed-header thead').stop().css({
-                top: (top - tablePosition),
-                left: 0,
-                position: 'absolute'
-            });
-            $('.fixed-header thead th').each(function (index, val) {
-                $(this).width(thSize[index]);
-            });
-
-            var tdLength = $('.fixed-header tbody tr:has(td):eq(0) > *').length;
-            if (tdLength > Object.keys(thSize).length) {
-                $('.fixed-header tbody tr:has(td):eq(0) > *').each(function (index, val) {
-                    if ($(this).width() == tdSize[index]) {
-                        return false;
-                    } else {
-                        $('.fixed-header tbody tr:has(td) > *').each(function (index, val) {
-                            $(this).width(tdSize[index]);
-                        });
-                        return false;
-                    }
-
-                });
-            }
-
-        } else {
-            $('.fixed-header thead').css({top: 0, left: 0, position: 'static'});
-        }
-
-    }
-}
-
 function getMonthsName(month = null) {
 
     let months = ['', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août',
