@@ -181,7 +181,7 @@ class Users
                 	UNIQUE KEY (`login`),
   					`password` VARCHAR(255) NOT NULL,
   					`role` VARCHAR(255) NOT NULL,
-  					`email` VARCHAR(200) NOT NULL,
+  					`email` VARCHAR(200) NULL DEFAULT NULL,
   					`nom` VARCHAR(100) NOT NULL,
   					`prenom` VARCHAR(100) NOT NULL,
   					`options` TEXT NULL DEFAULT NULL,

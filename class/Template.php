@@ -80,7 +80,7 @@ class Template
                 list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
 
                 //Set data
-                $this->pageHtmlContent = str_replace($this->pageHtmlZones[0][$i], sprintf('%s', !empty($this->pageDbData[$metaKey]) ? nl2br(htmlSpeCharDecode($this->pageDbData[$metaKey]->metaValue)) : ''), $this->pageHtmlContent);
+                $this->pageHtmlContent = str_replace($this->pageHtmlZones[0][$i], sprintf('%s', !empty($this->pageDbData[$metaKey]) ? $this->formatText($this->pageDbData[$metaKey]->metaValue) : ''), $this->pageHtmlContent);
 
             } else {
 
@@ -231,6 +231,17 @@ class Template
         }
 
         return $pageHtmlZonesTypes;
+    }
+
+    /**
+     * @param $text
+     * @return string
+     */
+    public function formatText($text)
+    {
+
+        $htmlTags = htmlSpeCharDecode($text);
+        return false !== strpos($htmlTags, '<br') ? $htmlTags : nl2br($htmlTags);
     }
 
     /**

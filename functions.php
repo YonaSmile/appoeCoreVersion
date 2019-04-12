@@ -204,9 +204,9 @@ function putJsonContent($filename, $content, $mode = 'w+')
  */
 function getTitle($name = '', $slug = '', $appendName = '')
 {
-    $html = '<div class="container-fluid"><div class="row"><div class="col-12">
+    $html = '<div class="row"><div class="col-12">
             <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary mr-2"></span>' . trans($name) . $appendName . '</h1>
-            </div></div><hr class="mx-5 mt-3 mb-4"></div>';
+            </div></div><hr class="mx-5 mt-3 mb-4">';
 
     return $html;
 }
@@ -578,7 +578,7 @@ function generateSitemap($data)
     $sitemap .= '</url>';
 
     foreach ($data as $key => $url) {
-        if (file_exists(TEMPLATES_PATH . $url->slug . '.php')) {
+        if (file_exists(WEB_PATH . $url->slug . '.php')) {
             $sitemap .= '<url>';
             $sitemap .= '<loc>' . WEB_DIR_URL . $url->slug . '/</loc>';
             $sitemap .= '<changefreq>weekly</changefreq>';
@@ -2174,7 +2174,7 @@ function includePluginsJs($forApp = false)
         }
     }
 
-    echo '<script type="text/javascript" src="' . APP_ROOT . 'js/functions.js"></script>';
+    echo '<script type="text/javascript" src="' . WEB_LIB_URL . 'js/functions.js"></script>';
 
     if ($forApp) {
         includePluginsJsForApp();
@@ -2203,7 +2203,7 @@ function includePluginsJsForApp()
         }
     }
 
-    echo '<script type="text/javascript" src="' . APP_ROOT . 'js/all.js"></script>';
+    echo '<script type="text/javascript" src="' . WEB_TEMPLATE_URL . 'js/all.js"></script>';
 }
 
 
@@ -3318,16 +3318,20 @@ function fichierType($file)
 }
 
 /**
+ * Get APPOE logo. if $appoelogo is true, return only appoe logo
+ * @param $appoeLogo
  * @return string
  */
-function getLogo()
+function getLogo($appoeLogo = false)
 {
+    $src = WEB_APP_IMG . 'appoe-logo-white.png';
+    if ($appoeLogo) return $src;
+
     $urlFolder = WEB_DIR_IMG;
     $pathFolder = WEB_PUBLIC_PATH . 'images/';
     $name = 'appoe-logo';
     $extensions = array('png', 'jpg', 'jpeg', 'gif', 'svg');
 
-    $src = WEB_APP_IMG . 'appoe-logo-white.png';
     foreach ($extensions as $extension) {
 
         $logo = $name . '.' . $extension;

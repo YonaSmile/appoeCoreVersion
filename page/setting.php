@@ -133,5 +133,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="/app/js/setting.js"></script>
+    <script type="text/javascript" src="/app/lib/template/js/setting.js"></script>
 <?php require('footer.php'); ?>
