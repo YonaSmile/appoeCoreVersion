@@ -159,11 +159,11 @@ class Menu
 
     }
 
-    public function updateMenu($id, $name, $slug, $min_role, $statut, $order_menu = null, $pluginName = null)
+    public function updateMenu($id, $name, $slug, $min_role, $statut, $parentId, $order_menu = null, $pluginName = null)
     {
 
         $sql = 'UPDATE appoe_menu 
-        SET name = :name, slug = :slug, min_role_id = :min_role_id, statut = :statut, order_menu = :order_menu, pluginName = :pluginName 
+        SET name = :name, slug = :slug, min_role_id = :min_role_id, statut = :statut, parent_id = :parent_id, order_menu = :order_menu, pluginName = :pluginName 
         WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
@@ -172,6 +172,7 @@ class Menu
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':min_role_id', $min_role);
         $stmt->bindParam(':statut', $statut);
+        $stmt->bindParam(':parent_id', $parentId);
         $stmt->bindParam(':order_menu', $order_menu);
         $stmt->bindParam(':pluginName', $pluginName);
         $stmt->execute();

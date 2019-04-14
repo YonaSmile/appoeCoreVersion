@@ -3,62 +3,64 @@ require('header.php');
 $Menu = new \App\Menu();
 $allPermissions = $Menu->displayMenuAll();
 echo getTitle($Page->getName(), $Page->getSlug()); ?>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <button id="addPermission" type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal"
-                        data-target="#modalAddPermission">
-                    <?= trans('Nouvelle Permission'); ?>
-                </button>
+
+    <div class="row">
+        <div class="col-12">
+            <button id="addPermission" type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal"
+                    data-target="#modalAddPermission">
+                <?= trans('Nouvelle Permission'); ?>
+            </button>
+        </div>
+    </div>
+<?php if ($allPermissions): ?>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table id="permissionTable"
+                       class="sortableTable table table-bordered">
+                    <thead>
+                    <tr>
+                        <th><?= trans('ID'); ?></th>
+                        <th><?= trans('Nom'); ?></th>
+                        <th><?= trans('Slug'); ?></th>
+                        <th><?= trans('Rôle requis'); ?></th>
+                        <th><?= trans('Statut'); ?></th>
+                        <th><?= trans('Ordre'); ?></th>
+                        <th><?= trans('Parent'); ?></th>
+                        <th><?= trans('Plugin'); ?></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($allPermissions as $permission): ?>
+                        <tr class="changeableTr" data-idmenu="<?= $permission->id; ?>">
+                            <th><?= $permission->id ?></th>
+                            <td class="changeableTd" data-dbname="name"><?= $permission->name ?></td>
+                            <td class="changeableTd" data-dbname="slug"><?= $permission->slug ?></td>
+                            <td class="changeableTd"
+                                data-dbname="min_role_id"><?= getRoleName($permission->min_role_id) ?></td>
+                            <td class="changeableTd" data-dbname="statut"><?= $permission->statut ?></td>
+                            <td class="changeableTd"
+                                data-dbname="order_menu"><?= $permission->order_menu ?></td>
+                            <td class="changeableTd"
+                                data-dbname="parent_id"><?= $permission->parent_id ?></td>
+                            <td class="changeableTd"
+                                data-dbname="pluginName"><?= $permission->pluginName ?></td>
+                            <td>
+                                <button type="button" class="btn btn-sm updatePermissionBtn"
+                                        title="<?= trans('Modifier'); ?>"
+                                        data-idmenu="<?= $permission->id; ?>">
+                                    <span class="btnEdit"><i class="fas fa-wrench"></i></span>
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <?php if ($allPermissions): ?>
-            <div class="row">
-                <div class="col-12">
-                    <div class="table-responsive">
-                        <table id="permissionTable"
-                               class="sortableTable table table-bordered">
-                            <thead>
-                            <tr>
-                                <th><?= trans('ID'); ?></th>
-                                <th><?= trans('Nom'); ?></th>
-                                <th><?= trans('Slug'); ?></th>
-                                <th><?= trans('Rôle requis'); ?></th>
-                                <th><?= trans('Statut'); ?></th>
-                                <th><?= trans('Ordre'); ?></th>
-                                <th><?= trans('Plugin'); ?></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($allPermissions as $permission): ?>
-                                <tr class="changeableTr" data-idmenu="<?= $permission->id; ?>">
-                                    <th><?= $permission->id ?></th>
-                                    <td class="changeableTd" data-dbname="name"><?= $permission->name ?></td>
-                                    <td class="changeableTd" data-dbname="slug"><?= $permission->slug ?></td>
-                                    <td class="changeableTd"
-                                        data-dbname="min_role_id"><?= getRoleName($permission->min_role_id) ?></td>
-                                    <td class="changeableTd" data-dbname="statut"><?= $permission->statut ?></td>
-                                    <td class="changeableTd"
-                                        data-dbname="order_menu"><?= $permission->order_menu ?></td>
-                                    <td class="changeableTd"
-                                        data-dbname="pluginName"><?= $permission->pluginName ?></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm updatePermissionBtn"
-                                                title="<?= trans('Modifier'); ?>"
-                                                data-idmenu="<?= $permission->id; ?>">
-                                            <span class="btnEdit"><i class="fas fa-wrench"></i></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
     </div>
+<?php endif; ?>
     <div class="modal fade" id="modalAddPermission" tabindex="-1" role="dialog"
          aria-labelledby="modalAddPermissionTitle"
          aria-hidden="true">

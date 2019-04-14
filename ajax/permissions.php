@@ -12,15 +12,15 @@ if (checkAjaxRequest()) {
             && !empty($_POST['name'])
             && !empty($_POST['slug'])
             && !empty($_POST['min_role_id'])
+            && !empty($_POST['parent_id'])
             && isset($_POST['statut'])
             && isset($_POST['order_menu'])
             && isset($_POST['pluginName'])
         ) {
             $Menu = new \App\Menu();
             if ($Menu->updateMenu($_POST['id'],
-                $_POST['name'], $_POST['slug'],
-                $_POST['min_role_id'], $_POST['statut'],
-                $_POST['order_menu'], $_POST['pluginName'])
+                $_POST['name'], $_POST['slug'], $_POST['min_role_id'], $_POST['statut'],
+                $_POST['parent_id'], $_POST['order_menu'], $_POST['pluginName'])
             ) {
                 echo 'true';
             }
