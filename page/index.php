@@ -20,11 +20,9 @@ if (class_exists('App\Plugin\Shop\Product')) {
     $lastProducts = getLastFromDb('plugin_shop_products_content', 'product_id');
     $Product = new \App\Plugin\Shop\Product();
 }
-?>
-<?= getTitle($Page->getName(), $Page->getSlug()); ?>
-
-<?= implode('', includePersoPluginsDashboard()); ?>
-<?php if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
+echo getTitle($Page->getName(), $Page->getSlug());
+echo implode('', includePersoPluginsDashboard());
+if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
     <div class="row mb-3">
         <div class="d-flex col-12 col-lg-8">
             <div class="card border-0 w-100">
@@ -165,7 +163,7 @@ if ($dashboardDetails && is_array($dashboardDetails)): ?>
                             <span class="dashboardNum bgColorPrimary"><?= $dashboard['count']; ?></span>
                         </div>
                         <?php if (!empty($dashboard['html'])): ?>
-                            <div class="d-none d-lg-flex justify-content-around htmlDashboard">
+                            <div class="d-flex justify-content-around htmlDashboard">
                                 <?= $dashboard['html']; ?>
                             </div>
                         <?php endif; ?>
@@ -174,6 +172,5 @@ if ($dashboardDetails && is_array($dashboardDetails)): ?>
             <?php endif;
         endforeach; ?>
     </div>
-<?php endif; ?>
-
-<?php require('footer.php'); ?>
+<?php endif;
+require('footer.php'); ?>
