@@ -160,7 +160,7 @@ if ($dashboardDetails && is_array($dashboardDetails)): ?>
                         <div class="card-body">
                             <h2 class="card-title m-0 icon-<?= $icon; ?>"><a
                                         href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
-                            <span class="dashboardNum bgColorPrimary"><?= $dashboard['count']; ?></span>
+                            <span class="dashboardNum"><?= $dashboard['count']; ?></span>
                         </div>
                         <?php if (!empty($dashboard['html'])): ?>
                             <div class="d-flex justify-content-around htmlDashboard">

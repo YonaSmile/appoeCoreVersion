@@ -756,17 +756,17 @@ function checkIfInArrayString($array, $searchingFor)
  */
 function checkMaintenance()
 {
-    if (MAINTENANCE) {
+    if (true === MAINTENANCE) {
         if (
             (defined('IP_ALLOWED') && in_array(getIP(), IP_ALLOWED))
             ||
             (defined('IP_PARTS_ALLOWED') && checkIfInArrayString(IP_PARTS_ALLOWED, getIP()))
         ) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 /**

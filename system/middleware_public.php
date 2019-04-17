@@ -4,7 +4,7 @@ includePluginsFiles();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
 
 //Check maintenance mode
-if (!checkMaintenance() && pageSlug() != 'hibour') {
+if (checkMaintenance() && pageSlug() != 'hibour') {
     header('HTTP/1.1 503 Service Unavailable');
     header('Status: 503 Service Temporarily Unavailable');
     header('Retry-After: 3600');
@@ -46,7 +46,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
 
                 $pluginSlug = $_GET['typeSlug'];
 
-                // Type ITEMGLUE
+                //TYPE ITEMGLUE
                 if ($pluginType == 'ITEMGLUE') {
 
                     //Get Article infos
