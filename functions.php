@@ -995,6 +995,37 @@ function saveFiles($folder = 'public')
 }
 
 /**
+ * Create folder
+ * @param string $structure
+ * @param int $chmod
+ * @return bool
+ */
+function createFolder($structure, $chmod = 0755)
+{
+    if (!is_dir($structure)) {
+        if (!mkdir($structure, $chmod)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Create file
+ * @param string $structure
+ * @return bool
+ */
+function createFile($structure)
+{
+    if (!is_file($structure)) {
+        if (!fopen($structure, 'w')) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
  * Recursively move files from one directory to another
  *
  * @param String $src - Source of files being moved
@@ -1056,11 +1087,21 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
         $directories = scandir($tempFolder . '/' . $firstFolderName);
         foreach ($directories as $directory) {
             if ($directory != '.' and $directory != '..') {
-                if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_dir($replaceInPath . $directory)) {
-                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
-                }
 
-                if (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory) && is_file($replaceInPath . $directory)) {
+                if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory)) {
+
+                    if (!is_dir($replaceInPath . $directory)) {
+                        createFolder($replaceInPath . $directory);
+                    }
+
+                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
+
+                } elseif (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory)) {
+
+                    if (!is_file($replaceInPath . $directory)) {
+                        createFile($replaceInPath . $directory);
+                    }
+
                     rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
                 }
             }
