@@ -4,7 +4,7 @@ includePluginsFiles();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
 
 //Check maintenance mode
-if (checkMaintenance() && pageSlug() != 'hibour') {
+if (checkMaintenance()) {
     header('HTTP/1.1 503 Service Unavailable');
     header('Status: 503 Service Temporarily Unavailable');
     header('Retry-After: 3600');
@@ -26,7 +26,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     $existPage = $Cms->showBySlug();
 
     //Check if Page exist and accessible
-    if ((!$existPage && pageName() == 'Non définie') || $Cms->getStatut() != 1) {
+    if (!$existPage || $Cms->getStatut() != 1) {
         header('location:' . WEB_DIR_URL);
         exit();
     }
@@ -101,10 +101,10 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     }
 
     //Set page infos
-    $_SESSION['currentPageID'] = $existPage ? $currentPageID : 0;
+    $_SESSION['currentPageID'] = $currentPageID;
     $_SESSION['currentPageSlug'] = $Cms->getSlug();
-    $_SESSION['currentPageName'] = $existPage ? $currentPageName : trans(pageName());
-    $_SESSION['currentPageDescription'] = $existPage ? $currentPageDescription : trans(pageDescription());
+    $_SESSION['currentPageName'] = $currentPageName;
+    $_SESSION['currentPageDescription'] = $currentPageDescription;
 
     //Create menu
     $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());

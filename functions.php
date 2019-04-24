@@ -14,32 +14,6 @@ define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
 /**
  * @return string
  */
-function pageName()
-{
-    $slug = pageSlug();
-    $json = file_get_contents(WEB_SYSTEM_PATH . 'config.json');
-    $parsed_json = json_decode($json, true);
-    $page_name = isset($parsed_json['pages_name'][$slug]['title']) ? $parsed_json['pages_name'][$slug]['title'] : 'Non définie';
-
-    return $page_name;
-}
-
-/**
- * @return string
- */
-function pageDescription()
-{
-    $slug = pageSlug();
-    $json = file_get_contents(WEB_SYSTEM_PATH . 'config.json');
-    $parsed_json = json_decode($json, true);
-    $page_desc = isset($parsed_json['pages_name'][$slug]['description']) ? $parsed_json['pages_name'][$slug]['description'] : 'Art Of Event - Communication.';
-
-    return $page_desc;
-}
-
-/**
- * @return string
- */
 function pageSlug()
 {
     return htmlentities(basename($_SERVER['REQUEST_URI']));
@@ -151,30 +125,43 @@ function hasSubMenu($index, $menuPrimaryIndex = 1)
 }
 
 /**
- * @param string $jsonKey
- *
- * @return mixed
- */
-function getConfigContent($jsonKey = 'pages_name')
-{
-    $json = file_get_contents(WEB_SYSTEM_PATH . 'config.json');
-    $parsed_json = json_decode($json, true);
-
-    return $parsed_json[$jsonKey];
-}
-
-/**
  * @param $filename
  * @param string $jsonKey
  * @param string $jsonSecondKey
- * @return array
+ * @return bool|array
  */
 function getJsonContent($filename, $jsonKey = '', $jsonSecondKey = '')
 {
-    $json = file_get_contents($filename);
-    $parsed_json = json_decode($json, true);
+    if (file_exists($filename)) {
 
-    return !empty($jsonKey) ? (!empty($jsonSecondKey) ? $parsed_json[$jsonKey][$jsonSecondKey] : $parsed_json[$jsonKey]) : $parsed_json;
+        $json = file_get_contents($filename);
+        $parsed_json = $json ? json_decode($json, true) : false;
+
+        if (is_array($parsed_json)) {
+
+            if (!empty($jsonKey)) {
+
+                if (array_key_exists($jsonKey, $parsed_json)) {
+
+                    if (!empty($jsonSecondKey && array_key_exists($jsonSecondKey, $parsed_json))) {
+
+                        return $parsed_json[$jsonKey][$jsonSecondKey];
+                    }
+
+                    return $parsed_json[$jsonKey];
+
+                }
+
+                return false;
+
+            } else {
+                return $parsed_json;
+            }
+        }
+
+    }
+
+    return false;
 }
 
 /**
@@ -387,6 +374,20 @@ function trans($key, $doc = 'general')
     } else {
         return $key;
     }
+}
+
+/**
+ * @param string $urlPage
+ * @return mixed
+ */
+function getPageHelp($urlPage)
+{
+    $helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
+
+    //get help file
+    $fileContent = getJsonContent($helpFile, $urlPage);
+
+    return $fileContent ? $fileContent : false;
 }
 
 /**
