@@ -807,6 +807,14 @@ function getPlugins()
 }
 
 /**
+ * @return array
+ */
+function getPluginsName()
+{
+    return array_keys(groupMultipleKeysArray(getPlugins(), 'name'));
+}
+
+/**
  * @param $setupPath
  * @return bool|string
  */
@@ -1081,6 +1089,8 @@ function rmove($src, $dest)
 function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $deleteZip = true)
 {
     $tempFolder = $path . 'unzip';
+    $pluginsName = getPluginsName();
+
     $zip = new \ZipArchive;
     $res = $zip->open($src);
     if ($res === TRUE) {
@@ -1091,11 +1101,13 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
 
                 if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory)) {
 
-                    if (!is_dir($replaceInPath . $directory)) {
+                    if (!is_dir($replaceInPath . $directory) && in_array($directory, $pluginsName)) {
                         createFolder($replaceInPath . $directory);
                     }
 
-                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
+                    if (is_dir($replaceInPath . $directory)) {
+                        rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
+                    }
 
                 } elseif (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory)) {
 
