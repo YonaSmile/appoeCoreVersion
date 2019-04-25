@@ -1517,7 +1517,7 @@ function setToken()
     for ($i = 0; $i < 70; $i++) {
         $string .= $chaine[rand() % strlen($chaine)];
     }
-    $_SESSION['_token'] = $string;
+    $_SESSION['_token'] = !bot_detected() ? $string : 'a1b2c3-d4e5f6';
 }
 
 /**
@@ -1838,13 +1838,15 @@ function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
 }
 
 /**
- * @param $amount
- * @param $forDB
+ * @param int|float $amount
+ * @param bool $forDB
+ * @param int $decimals
+ * @param string $dec_point
  * @return string
  */
-function financial($amount, $forDB = false)
+function financial($amount, $forDB = false, $decimals = 2, $dec_point = '.')
 {
-    return is_numeric($amount) ? number_format($amount, 2, '.', (!$forDB ? ' ' : '')) : $amount;
+    return is_numeric($amount) ? number_format($amount, $decimals, $dec_point, (!$forDB ? ' ' : '')) : $amount;
 }
 
 /**
@@ -2288,7 +2290,7 @@ function includePluginsStyles()
  */
 function valideToken()
 {
-    if (!empty($_POST['_token']) && !empty($_SESSION['_token']) && $_POST['_token'] == $_SESSION['_token']) {
+    if (!empty($_REQUEST['_token']) && !empty($_SESSION['_token']) && $_REQUEST['_token'] == $_SESSION['_token']) {
 
         unsetToken();
         return true;
@@ -2301,7 +2303,7 @@ function valideToken()
  */
 function valideAjaxToken()
 {
-    if (!empty($_POST['_token']) && !empty($_SESSION['_token']) && $_POST['_token'] == $_SESSION['_token']) {
+    if (!empty($_REQUEST['_token']) && !empty($_SESSION['_token']) && $_REQUEST['_token'] == $_SESSION['_token']) {
 
         return true;
     }
