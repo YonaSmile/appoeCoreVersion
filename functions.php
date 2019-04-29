@@ -476,7 +476,7 @@ function getAppLangs()
  */
 function getAppImg($name)
 {
-    return WEB_APP_IMG . $name;
+    return APP_IMG_URL . $name;
 }
 
 /**
@@ -3007,7 +3007,7 @@ function getFileExtension($path)
 function getImgAccordingExtension($extension)
 {
 
-    $src = WEB_APP_URL . 'images/';
+    $src = WEB_TEMPLATE_URL . 'images/';
     switch (strtolower($extension)) {
         case 'jpg':
         case 'jpeg':
@@ -3358,17 +3358,17 @@ function fichierType($file)
     if ($type == 'jpg' || $type == 'png' || $type == 'jpeg' || $type == 'gif') {
         echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_INCLUDE . $file . '" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'doc' || $type == 'dot' || $type == 'docx') {
-        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Word.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Word.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'xlsx' || $type == 'xlt' || $type == 'xls' || $type == 'xla') {
-        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Excel.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Excel.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'pptx' || $type == 'ppt' || $type == 'pot' || $type == 'pps' || $type == 'ppa') {
-        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/PowerPoint.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/PowerPoint.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'pdf') {
-        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/Pdf.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Pdf.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'mp3') {
         echo '<audio src="' . WEB_DIR_INCLUDE . $file . '" type="audio/mpeg" controls></audio>';
     } else {
-        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_URL . 'images/AllFileType.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a><span class="fileType">' . $type . '</span>';
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/AllFileType.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a><span class="fileType">' . $type . '</span>';
     }
 
 }
@@ -3380,7 +3380,7 @@ function fichierType($file)
  */
 function getLogo($appoeLogo = false)
 {
-    $src = WEB_APP_IMG . 'appoe-logo-white.png';
+    $src = APP_IMG_URL . 'appoe-logo-white.png';
     if ($appoeLogo) return $src;
 
     $urlFolder = WEB_DIR_IMG;
