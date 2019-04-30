@@ -1,10 +1,14 @@
 <?php
 
 //Get PHPMAILER
-$phpMailerAutoLoadFile = WEB_LIB_PATH . 'php/PHPMailer/PHPMailerAutoload.php';
-if (file_exists($phpMailerAutoLoadFile)) {
-    require_once($phpMailerAutoLoadFile);
-}
+$phpMailerFolder = WEB_LIB_PATH . 'php/PHPMailer/';
+
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
+require_once $phpMailerFolder . 'Exception.php';
+require_once $phpMailerFolder . 'PHPMailer.php';
+require_once $phpMailerFolder . 'SMTP.php';
 
 //Get all users in a const
 $USER = new \App\Users();
@@ -697,7 +701,7 @@ function showDebugData()
  * @param $timestamp
  * @param bool $hour
  * @return string
- * @throws Exception
+ * @throws \Exception
  */
 function displayTimeStamp($timestamp, $hour = true)
 {
@@ -716,6 +720,7 @@ function displayTimeStamp($timestamp, $hour = true)
  * @param bool $hour
  * @return string
  * @throws Exception
+ * @throws \Exception
  * @noinspection PhpUnhandledExceptionInspection
  */
 function displayCompleteDate($date, $hour = false)
@@ -1214,6 +1219,7 @@ function displayDuree($duree)
  * @param string $date2
  *
  * @return string
+ * @throws \Exception
  */
 function getHoursFromDate($date1, $date2 = '')
 {
@@ -1232,6 +1238,7 @@ function getHoursFromDate($date1, $date2 = '')
  * @param $date
  *
  * @return string
+ * @throws \Exception
  */
 function displayFrDate($date)
 {
@@ -1249,6 +1256,7 @@ function displayFrDate($date)
  * @param $date
  *
  * @return string
+ * @throws \Exception
  */
 function displayDBDate($date)
 {
@@ -3135,7 +3143,7 @@ function removeAccents($str, $charset = 'utf-8')
  * @param $start
  * @param null $end
  * @return string
- * @throws Exception
+ * @throws \Exception
  */
 function formatDateDiff($start, $end = null)
 {
@@ -3230,80 +3238,80 @@ function formatBillingNB($nb)
  * @param array $data
  * @param array|null $otherAddr
  * @return bool
- * @throws Exception
+ * @throws \Exception
  */
 function sendMail(array $data, array $otherAddr = null)
 {
-    $mail = new \PHPMailer();
-    $mail->setLanguage('fr', '/optional/path/to/language/directory/');
-    $mail->CharSet = 'utf-8';
-    $mail->SMTPDebug = !empty($data['debug']) ? $data['debug'] : 0;
+    $Mail = new PHPMailer();
+
+    $Mail->CharSet = 'utf-8';
+    $Mail->SMTPDebug = !empty($data['debug']) ? $data['debug'] : 0;
 
     if (empty($data['smtp'])) {
 
-        $mail->IsMail();
+        $Mail->IsMail();
 
     } else {
 
-        $mail->isSMTP();
+        $Mail->isSMTP();
 
-        $mail->SMTPKeepAlive = !empty($data['keepAlive']) ? $data['keepAlive'] : false;
-        $mail->SMTPSecure = !empty($data['encryption']) ? $data['encryption'] : '';
+        $Mail->SMTPKeepAlive = !empty($data['keepAlive']) ? $data['keepAlive'] : false;
+        $Mail->SMTPSecure = !empty($data['encryption']) ? $data['encryption'] : '';
 
-        $mail->Host = $data['smtp']['host'];
-        $mail->Port = $data['smtp']['port'];
+        $Mail->Host = $data['smtp']['host'];
+        $Mail->Port = $data['smtp']['port'];
 
         if (!empty($data['smtp']['auth'])) {
-            $mail->SMTPAuth = $data['smtp']['auth'];
-            $mail->Username = $data['smtp']['username'];
-            $mail->Password = $data['smtp']['password'];
+            $Mail->SMTPAuth = $data['smtp']['auth'];
+            $Mail->Username = $data['smtp']['username'];
+            $Mail->Password = $data['smtp']['password'];
         }
     }
 
     // Expéditeur
-    $mail->SetFrom($data['fromEmail'], $data['fromName']);
+    $Mail->SetFrom($data['fromEmail'], $data['fromName']);
 
     // Destinataire
-    $mail->ClearAddresses();
-    $mail->AddAddress($data['toEmail'], $data['toName']);
+    $Mail->ClearAddresses();
+    $Mail->AddAddress($data['toEmail'], $data['toName']);
 
     if (!is_null($otherAddr) && is_array($otherAddr)) {
         foreach ($otherAddr as $email => $name) {
-            $mail->AddAddress($email, $name);
+            $Mail->AddAddress($email, $name);
         }
     }
 
     // Objet
-    $mail->Subject = $data['object'];
+    $Mail->Subject = $data['object'];
 
     // Votre message
-    $mail->MsgHTML($data['message']);
+    $Mail->MsgHTML($data['message']);
 
     //Attach files from form
     if (isset($data['files']) && !empty($data['files'])) {
         foreach ($data['files'] as $file) {
-            $mail->AddAttachment($file['tmp_name'], $file['name']);
+            $Mail->AddAttachment($file['tmp_name'], $file['name']);
         }
     }
 
     //Attach files from url
     if (!empty($data['docs'])) {
         foreach ($data['docs'] as $doc) {
-            $mail->AddAttachment($doc['src'], $doc['name']);
+            $Mail->AddAttachment($doc['src'], $doc['name']);
         }
     }
 
     //Attach files from string
     if (!empty($data['strAttach'])) {
         foreach ($data['strAttach'] as $str) {
-            $mail->addStringAttachment($str['src'], $str['name']);
+            $Mail->addStringAttachment($str['src'], $str['name']);
         }
     }
 
-    if (!$mail->Send()) {
-        return false; //'Erreur : ' . $mail->ErrorInfo;
-    } else {
+    if ($Mail->Send()) {
         return true;
+    } else {
+        return false; //$Mail->ErrorInfo
     }
 }
 
