@@ -3231,6 +3231,57 @@ function formatBillingNB($nb)
     return $nb;
 }
 
+/**
+ * Doc on https://www.kernel.org/doc/Documentation/filesystems/proc.txt (section 1.8)
+ * Return CPU of :
+ * user - normal processes executing in user mode
+ * nice - niced processes executing in user mode
+ * sys - processes executing in kernel mode
+ * idle - twiddling thumbs
+ * @return array
+ */
+function getServerPerformances()
+{
+    $cpu = array();
+    $dif = array();
+
+    $stat1 = file('/proc/stat');
+    sleep(1);
+    $stat2 = file('/proc/stat');
+
+    $info1 = explode(" ", preg_replace("!cpu +!", "", $stat1[0]));
+    $info2 = explode(" ", preg_replace("!cpu +!", "", $stat2[0]));
+
+    $dif['user'] = $info2[0] - $info1[0];
+    $dif['nice'] = $info2[1] - $info1[1];
+    $dif['sys'] = $info2[2] - $info1[2];
+    $dif['idle'] = $info2[3] - $info1[3];
+
+    $total = array_sum($dif);
+
+    foreach ($dif as $x => $y) {
+        $cpu[$x] = str_replace(',', '.', round($y / $total * 100, 1));
+    }
+    return $cpu;
+}
+
+/**
+ * @param $cpu
+ * @return string
+ */
+function getServerPerformanceColor($cpu)
+{
+
+    $color = 'success';
+
+    if ($cpu > 50) {
+        $color = 'warning';
+    } elseif ($cpu > 80) {
+        $color = 'danger';
+    }
+
+    return $color;
+}
 
 /**
  * @param array $data
