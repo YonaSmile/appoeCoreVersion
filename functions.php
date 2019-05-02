@@ -719,14 +719,12 @@ function displayTimeStamp($timestamp, $hour = true)
  * @param $date
  * @param bool $hour
  * @return string
- * @throws Exception
  * @throws \Exception
  * @noinspection PhpUnhandledExceptionInspection
  */
 function displayCompleteDate($date, $hour = false)
 {
     $Date = new \DateTime($date);
-    $Date->add(new \DateInterval('PT1H'));
     $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
     $strFtime = $hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y";
 
