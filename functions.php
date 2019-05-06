@@ -3,7 +3,6 @@
 //Get PHPMAILER
 $phpMailerFolder = WEB_LIB_PATH . 'php/PHPMailer/';
 
-use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once $phpMailerFolder . 'Exception.php';
@@ -824,6 +823,16 @@ function getPluginsName()
 function activePlugin($setupPath)
 {
     return file_get_contents($setupPath);
+}
+
+/**
+ * @param $pluginName
+ * @return bool
+ */
+function pluginExist($pluginName)
+{
+    $dir = WEB_PLUGIN_PATH . $pluginName;
+    return file_exists($dir) && is_dir($dir);
 }
 
 /**
@@ -1883,6 +1892,21 @@ function transformMultipleArraysTo1(array $multipleArrays = null)
 }
 
 /**
+ * Raise an children array, at the top level
+ *
+ * @param array| $array
+ * @return array
+ */
+function flatten(array $array)
+{
+    $return = array();
+    array_walk_recursive($array, function ($a) use (&$return) {
+        $return[] = $a;
+    });
+    return array_unique($return);
+}
+
+/**
  * @param array $data
  * @param string $keyName
  * @return array
@@ -2155,6 +2179,29 @@ function includePluginsFilesForApp()
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeApp';
+            if (file_exists($filePath)) {
+                $phpFiles = getFilesFromDir($filePath);
+
+                foreach ($phpFiles as $file) {
+                    $src = $filePath . DIRECTORY_SEPARATOR . $file;
+                    include_once($src);
+                }
+            }
+        }
+    }
+}
+
+/**
+ *
+ */
+function includePluginsFilesForAppInFooter()
+{
+    $plugins = getPlugins();
+
+    if (is_array($plugins) && !empty($plugins)) {
+
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeFooter';
             if (file_exists($filePath)) {
                 $phpFiles = getFilesFromDir($filePath);
 
