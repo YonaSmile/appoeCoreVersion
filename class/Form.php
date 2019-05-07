@@ -182,21 +182,27 @@ class Form
         return $html;
     }
 
+
     /**
-     * @param $name
+     * @param string $title
+     * @param string $name
      * @param bool $require
+     * @param string $otherAttr
+     * @param string $otherClass
+     * @param string $placeholder
      * @return string
      */
-    public static function file($name, $require = false)
+    public static function file($title, $name, $require = false, $otherAttr = '', $otherClass = '', $placeholder = 'Choisissez...')
     {
 
         $require = $require ? 'required="true"' : '';
 
         $html = '';
-        $html .= '<div class="form-group"><label class="custom-file">';
-        $html .= '<input type="file" id="' . $name . '" name="' . $name . '" class="custom-file-input" ' . $require . '><span class="custom-file-control"></span>';
+        $html .= '<div class="form-group"><label for="' . $name . '">' . $title . '</label><div class="custom-file">';
+        $html .= '<input type="file" id="' . $name . '" name="' . $name . '" class="custom-file-input ' . $otherClass . '" ' . $require . ' ' . $otherAttr . ' lang="' . APP_LANG . '">
+        <label class="custom-file-label form-control" for="' . $name . '">' . trans($placeholder) . '</label>';
 
-        $html .= '</label></div>';
+        $html .= '</div></div>';
 
         return $html;
     }

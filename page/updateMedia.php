@@ -9,8 +9,7 @@ $allLibrary = extractFromObjToSimpleArr($Category->showAll(), 'id', 'name');
 
 $Category->setType('MEDIA');
 $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
-?>
-<?= getTitle($Page->getName(), $Page->getSlug()); ?>
+echo getTitle($Page->getName(), $Page->getSlug()); ?>
     <div id="mediaContainer">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -29,8 +28,7 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                             <button type="button" class="btn btn-sm btn-secondary"
                                     data-libraryid="all"><?= trans('Tous'); ?></button>
                         </div>
-                        <?php foreach ($allLibrary as $id => $name): ?>
-                            <?php
+                        <?php foreach ($allLibrary as $id => $name):
                             $Media->setTypeId($id);
                             $allFiles = $Media->showFiles();
                             if ($allFiles): ?>
@@ -67,9 +65,9 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                                                         <?= \App\Form::text('Lien', 'link', 'url', $file->link, false, 300, '', '', 'form-control-sm imagelink', 'Lien'); ?>
                                                         <?= \App\Form::text('Position', 'position', 'text', $file->position, false, 300, '', '', 'form-control-sm imagePosition', 'Position'); ?>
                                                         <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $file->typeId, '', '', '', '', 'custom-select-sm imageTypeId', false); ?>
-                                                        <small class="infosMedia"></small>
                                                     </form>
                                                 </div>
+                                                <small class="infosMedia"></small>
                                                 <button type="button" class="deleteImage btn btn-danger btn-sm"
                                                         style="position: absolute; top: 0; right: 0;z-index: 10"
                                                         data-imageid="<?= $file->id; ?>" data-thumbwidth="370">
@@ -80,8 +78,8 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                                     </div>
                                     <div class="my-3"></div>
                                 </div>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
+                            <?php endif;
+                        endforeach; ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -90,7 +88,7 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
                     <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
                         <?= getTokenField(); ?>
                         <div class="col-12 col-lg-6 my-2">
-                            <?= \App\Form::text('Importer des médias', 'inputFile[]', 'file', '', false, 800, 'multiple'); ?>
+                            <?= \App\Form::file('Importer des médias', 'inputFile[]', false, 'multiple'); ?>
                         </div>
                         <div class="col-12 col-lg-3 my-2">
                             <textarea name="textareaSelectedFile" id="textareaSelectedFile" class="d-none"></textarea>
