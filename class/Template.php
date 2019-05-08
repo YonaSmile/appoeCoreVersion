@@ -204,7 +204,7 @@ class Template
                     //Check container authorised data
                     if ($this->isAuthorisedHtmlContainer($htmlTag)) {
 
-                        $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag templateZoneTitle' . $class . ' ">' . ucfirst($text) . '</' . $htmlTag . '>';
+                        $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag templateZoneTitle ' . $class . ' ">' . ucfirst($text) . '</' . $htmlTag . '>';
                     }
 
                 } else {
