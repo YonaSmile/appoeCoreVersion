@@ -2817,9 +2817,11 @@ function webUrl($file, $param = null)
  *
  * @return string
  */
-function articleUrl($articleSlug, $articlePage = DEFAULT_ARTICLES_PAGE)
+function articleUrl($articleSlug, $articlePage = '')
 {
-    return webUrl($articlePage . '/', $articleSlug);
+    $articlePage = !empty($articlePage) ? $articlePage :
+        defined('DEFAULT_ARTICLES_PAGE') ? DEFAULT_ARTICLES_PAGE . DIRECTORY_SEPARATOR : '/';
+    return webUrl($articlePage, $articleSlug);
 }
 
 /**
