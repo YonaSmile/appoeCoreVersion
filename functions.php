@@ -2810,6 +2810,19 @@ function webUrl($file, $param = null)
 }
 
 /**
+ * get article web url
+ *
+ * @param $articleSlug
+ * @param $articlePage
+ *
+ * @return string
+ */
+function articleUrl($articleSlug, $articlePage = DEFAULT_ARTICLES_PAGE)
+{
+    return webUrl($articlePage . '/', $articleSlug);
+}
+
+/**
  * @param $link
  * @return string
  */
