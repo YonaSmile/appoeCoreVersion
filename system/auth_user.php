@@ -44,6 +44,12 @@ if (isset($_POST['APPOECONNEXION'])) {
                     //Backup database
                     appBackup();
 
+                    //Check if user is a visitor
+                    if (!isUserAuthorized('cms') && !isUserAuthorized('itemGlue') && !isUserAuthorized('shop')) {
+                        $_SESSION['visitor'] = true;
+                    }
+
+                    //Check for forwarding page
                     if (isset($_POST['forwardPage'])) {
                         if (!empty($_POST['forwardPage'])) {
                             header('location:' . $_POST['forwardPage']);

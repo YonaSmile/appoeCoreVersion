@@ -146,7 +146,7 @@ function getJsonContent($filename, $jsonKey = '', $jsonSecondKey = '')
 
                 if (array_key_exists($jsonKey, $parsed_json)) {
 
-                    if (!empty($jsonSecondKey && array_key_exists($jsonSecondKey, $parsed_json))) {
+                    if (!empty($jsonSecondKey && array_key_exists($jsonSecondKey, $parsed_json[$jsonKey]))) {
 
                         return $parsed_json[$jsonKey][$jsonSecondKey];
                     }
@@ -403,11 +403,11 @@ function getPageHelp($urlPage)
 function isVisitor()
 {
 
-    if (isUserAuthorized('cms') || isUserAuthorized('itemGlue') || isUserAuthorized('shop')) {
-        return false;
+    if (!empty($_SESSION['visitor'])) {
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 /**
