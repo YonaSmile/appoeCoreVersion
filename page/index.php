@@ -1,28 +1,7 @@
 <?php require('header.php');
-
-//Check for CMS
-$lastPage = array();
-if (class_exists('App\Plugin\Cms\Cms')) {
-    $lastPage = getLastFromDb('plugin_cms_content', 'idCms');
-    $Cms = new \App\Plugin\Cms\Cms();
-}
-
-//Check for ITEMGLUE
-$lastArticle = array();
-if (class_exists('App\Plugin\ItemGlue\Article')) {
-    $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle');
-    $Article = new \App\Plugin\ItemGlue\Article();
-}
-
-//Check for SHOP
-$lastProducts = array();
-if (class_exists('App\Plugin\Shop\Product')) {
-    $lastProducts = getLastFromDb('plugin_shop_products_content', 'product_id');
-    $Product = new \App\Plugin\Shop\Product();
-}
 echo getTitle($Page->getName(), $Page->getSlug());
 echo implode('', includePersoPluginsDashboard());
-if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
+if (!isVisitor()): ?>
     <div class="row mb-3">
         <div class="d-flex col-12 col-lg-8">
             <div class="card border-0 w-100">
@@ -30,16 +9,23 @@ if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
                     <h5 class="m-0 pl-4 colorPrimary"><?= trans('Modifié récemment'); ?></h5>
                     <hr class="mx-4">
                 </div>
-
                 <div class="card-body pt-0" id="recentUpdates">
-                    <strong><?= trans('Pages'); ?></strong>
-                    <div class="my-4">
-                        <?php foreach ($lastPage as $id => $idPage):
-                            $Cms->setId($idPage);
-                            if ($Cms->show()): ?>
-                                <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
-                                    <span class="mr-2"><?= $Cms->getName(); ?></span>
-                                    <span class="visitsStatsBadge bgColorPrimary">
+                    <?php
+                    //Check for CMS
+                    $lastPage = array();
+                    if (class_exists('App\Plugin\Cms\Cms')) {
+                        $lastPage = getLastFromDb('plugin_cms_content', 'idCms');
+                        $Cms = new \App\Plugin\Cms\Cms();
+                    }
+                    if (!isArrayEmpty($lastPage)): ?>
+                        <strong><?= trans('Pages'); ?></strong>
+                        <div class="my-4">
+                            <?php foreach ($lastPage as $id => $idPage):
+                                $Cms->setId($idPage);
+                                if ($Cms->show()): ?>
+                                    <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
+                                        <span class="mr-2"><?= $Cms->getName(); ?></span>
+                                        <span class="visitsStatsBadge bgColorPrimary">
                                         <a href="<?= getPluginUrl('cms/page/pageContent/', $Cms->getId()) ?>"
                                            class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                 <span class="text-white"><i class="fas fa-cog"></i></span>
@@ -52,12 +38,20 @@ if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
                                             </a>
                                                 <?php endif; ?>
                                         </span>
-                                </div>
-                            <?php endif;
-                        endforeach; ?>
-                    </div>
+                                    </div>
+                                <?php endif;
+                            endforeach; ?>
+                        </div>
 
-                    <?php if (is_array($lastArticle) && !isArrayEmpty($lastArticle)): ?>
+                    <?php endif;
+
+                    //Check for ITEMGLUE
+                    $lastArticle = array();
+                    if (class_exists('App\Plugin\ItemGlue\Article')) {
+                        $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle');
+                        $Article = new \App\Plugin\ItemGlue\Article();
+                    }
+                    if (!isArrayEmpty($lastArticle)): ?>
                         <strong><?= trans('Articles'); ?></strong>
                         <div class="my-4">
                             <?php foreach ($lastArticle as $id => $idArticle):
@@ -82,9 +76,14 @@ if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
                                 <?php endif;
                             endforeach; ?>
                         </div>
-                    <?php endif; ?>
-
-                    <?php if (is_array($lastProducts) && !isArrayEmpty($lastProducts)): ?>
+                    <?php endif;
+                    //Check for SHOP
+                    $lastProducts = array();
+                    if (class_exists('App\Plugin\Shop\Product')) {
+                        $lastProducts = getLastFromDb('plugin_shop_products_content', 'product_id');
+                        $Product = new \App\Plugin\Shop\Product();
+                    }
+                    if (!isArrayEmpty($lastProducts)): ?>
                         <strong><?= trans('Produits'); ?></strong>
                         <div class="my-4">
                             <?php foreach ($lastProducts as $id => $idProduct):
@@ -121,8 +120,8 @@ if (is_array($lastPage) && !isArrayEmpty($lastPage)): ?>
             </div>
         </div>
     </div>
-<?php endif;
-
+<?php
+endif;
 $dashboardDetails = includePluginsDashboard();
 
 if (isTechnicien(getUserRoleId())) {
@@ -134,8 +133,7 @@ if (isTechnicien(getUserRoleId())) {
     );
 }
 
-$Menu = new \App\Menu();
-if ($Menu->checkUserPermission(getUserRoleId(), 'updateMedia')) {
+if (isUserAuthorized('updateMedia')) {
     $File = new \App\File();
     $dashboardDetails[] = array(
         'name' => trans('Média'),

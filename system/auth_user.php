@@ -44,8 +44,15 @@ if (isset($_POST['APPOECONNEXION'])) {
                     //Backup database
                     appBackup();
 
-                    header('location:app/page/');
-                    exit();
+                    if (isset($_POST['forwardPage'])) {
+                        if (!empty($_POST['forwardPage'])) {
+                            header('location:' . $_POST['forwardPage']);
+                            exit();
+                        }
+                    } else {
+                        header('location:/app/page/');
+                        exit();
+                    }
                 }
             }
         }

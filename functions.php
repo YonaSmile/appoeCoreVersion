@@ -385,12 +385,29 @@ function trans($key, $doc = 'general')
  */
 function getPageHelp($urlPage)
 {
-    $helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
 
-    //get help file
-    $fileContent = getJsonContent($helpFile, $urlPage);
+    if (!isVisitor()) {
+        $helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
 
-    return $fileContent ? $fileContent : false;
+        //get help file
+        $fileContent = getJsonContent($helpFile, $urlPage);
+
+        return $fileContent ? $fileContent : false;
+    }
+    return false;
+}
+
+/**
+ * @return bool
+ */
+function isVisitor()
+{
+
+    if (isUserAuthorized('cms') || isUserAuthorized('itemGlue') || isUserAuthorized('shop')) {
+        return false;
+    }
+
+    return true;
 }
 
 /**

@@ -227,18 +227,19 @@ class Menu
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':slug', $slug);
         $stmt->execute();
-        $error = $stmt->errorInfo();
 
+        $count = $stmt->rowCount();
+        $error = $stmt->errorInfo();
         if ($error[0] != '00000') {
             return false;
         } else {
-            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-            if ($row['min_role_id'] > $user_session_role) {
-                return false;
-            } else {
-                return true;
+            if ($count > 0) {
+                $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+                if ($row['min_role_id'] <= $user_session_role) {
+                    return true;
+                }
             }
-
+            return false;
         }
     }
 
