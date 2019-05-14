@@ -3074,6 +3074,21 @@ function getOnlyImages($imageArray)
 }
 
 /**
+ * @param Object $media
+ * @param $class
+ * @param $attr
+ * @return string
+ */
+function showImage($media, $class = '', $attr = '')
+{
+    if (property_exists($media, 'name') && property_exists($media, 'description')) {
+        return '<img src="' . WEB_DIR_INCLUDE . $media->name . '" 
+                alt="' . $media->description . '" class="' . $class . '" ' . $attr . '>';
+    }
+    return '';
+}
+
+/**
  * @param $path
  *
  * @return mixed
