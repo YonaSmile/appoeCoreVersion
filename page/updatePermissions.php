@@ -3,7 +3,6 @@ require('header.php');
 $Menu = new \App\Menu();
 $allPermissions = $Menu->displayMenuAll();
 echo getTitle($Page->getName(), $Page->getSlug()); ?>
-
     <div class="row">
         <div class="col-12">
             <button id="addPermission" type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal"
@@ -39,7 +38,8 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                             <td class="changeableTd" data-dbname="slug"><?= $permission->slug ?></td>
                             <td class="changeableTd"
                                 data-dbname="min_role_id"><?= getRoleName($permission->min_role_id) ?></td>
-                            <td class="changeableTd" data-dbname="statut"><?= $permission->statut ?></td>
+                            <td class="changeableTd"
+                                data-dbname="statut"><?= $permission->statut == 1 ? 'Affiché' : 'Caché'; ?></td>
                             <td class="changeableTd"
                                 data-dbname="order_menu"><?= $permission->order_menu ?></td>
                             <td class="changeableTd"
@@ -87,7 +87,7 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                 <?= \App\Form::select('Rôle requis', 'min_role_id', getRoles(), '', true); ?>
                             </div>
                             <div class="col-12 my-2">
-                                <?= \App\Form::text('Statut', 'statut', 'number', !empty($_POST['statut']) ? $_POST['statut'] : '', true, 11); ?>
+                                <?= \App\Form::select('Statut', 'statut', [0 => 'Caché', 1 => 'Affiché'], !empty($_POST['statut']) ? $_POST['statut'] : 1, true); ?>
                             </div>
                             <div class="col-12 my-2">
                                 <?= \App\Form::select('Permission Parente', 'parent_id', extractFromObjToSimpleArr($allPermissions, 'id', 'name') + array(10 => 'Aucun Parent'), '', true); ?>
