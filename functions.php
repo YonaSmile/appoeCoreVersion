@@ -714,10 +714,21 @@ function showDebugData()
 }
 
 /**
+ * @param $dateStr
+ * @param string $format
+ * @return bool
+ */
+function isValidDateTime($dateStr, $format = 'Y-m-d')
+{
+    $date = DateTime::createFromFormat($format, $dateStr);
+    return $date && ($date->format($format) === $dateStr);
+}
+
+/**
  * @param $timestamp
  * @param bool $hour
  * @return string
- * @throws \Exception
+ * @throws Exception
  */
 function displayTimeStamp($timestamp, $hour = true)
 {
@@ -734,17 +745,89 @@ function displayTimeStamp($timestamp, $hour = true)
 /**
  * @param $date
  * @param bool $hour
- * @return string
- * @throws \Exception
+ * @param string $format
+ * @return bool|string
+ * @throws Exception
  * @noinspection PhpUnhandledExceptionInspection
  */
-function displayCompleteDate($date, $hour = false)
+function displayCompleteDate($date, $hour = false, $format = '%A %d %B %Y')
 {
-    $Date = new \DateTime($date);
-    $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
-    $strFtime = $hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y";
+    if (isValidDateTime($date) || isValidDateTime($date, 'd/m/Y')) {
 
-    return ucwords(strftime($strFtime, strtotime($time)));
+        $Date = new \DateTime($date);
+        $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
+
+        $strFtime = empty($format) ? ($hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y") : $format;
+
+        return ucwords(strftime($strFtime, strtotime($time)));
+    }
+    return false;
+}
+
+/**
+ * @param $duree
+ *
+ * @return string
+ */
+function displayDuree($duree)
+{
+    return (strlen($duree) == 2) ? $duree . ' min' : $duree;
+}
+
+/**
+ * @param $date1
+ * @param string $date2
+ *
+ * @return string
+ * @throws Exception
+ */
+function getHoursFromDate($date1, $date2 = '')
+{
+    $Date1 = new \DateTime($date1);
+
+    if (empty($date2)) {
+        return $Date1->format('H:i');
+    } else {
+        $Date2 = new \DateTime($date2);
+
+        return trans('De') . ' ' . $Date1->format('H:i') . ' ' . trans('à') . ' ' . $Date2->format('H:i');
+    }
+}
+
+/**
+ * @param $date
+ *
+ * @return string
+ * @throws Exception
+ */
+function displayFrDate($date)
+{
+    if (isValidDateTime($date)) {
+
+        $Date = new \DateTime($date);
+
+        return $Date->format('d/m/Y');
+    } else {
+        return '';
+    }
+}
+
+/**
+ * @param $date
+ *
+ * @return string
+ * @throws Exception
+ */
+function displayDBDate($date)
+{
+    if (isValidDateTime($date)) {
+
+        $Date = new \DateTime($date);
+
+        return $Date->format('Y-m-d');
+    } else {
+        return '';
+    }
 }
 
 /**
@@ -1226,72 +1309,6 @@ function getAppTypes()
     }
 
     return array_merge($allTypes, $basesCategory);
-}
-
-/**
- * @param $duree
- *
- * @return string
- */
-function displayDuree($duree)
-{
-    return (strlen($duree) == 2) ? $duree . ' min' : $duree;
-}
-
-/**
- * @param $date1
- * @param string $date2
- *
- * @return string
- * @throws \Exception
- */
-function getHoursFromDate($date1, $date2 = '')
-{
-    $Date1 = new \DateTime($date1);
-
-    if (empty($date2)) {
-        return $Date1->format('H:i');
-    } else {
-        $Date2 = new \DateTime($date2);
-
-        return trans('De') . ' ' . $Date1->format('H:i') . ' ' . trans('à') . ' ' . $Date2->format('H:i');
-    }
-}
-
-/**
- * @param $date
- *
- * @return string
- * @throws \Exception
- */
-function displayFrDate($date)
-{
-    if (!empty($date) && $date != '0000-00-00') {
-
-        $Date = new \DateTime($date);
-
-        return $Date->format('d/m/Y');
-    } else {
-        return '';
-    }
-}
-
-/**
- * @param $date
- *
- * @return string
- * @throws \Exception
- */
-function displayDBDate($date)
-{
-    if (!empty($date) && $date != '0000-00-00') {
-
-        $Date = new \DateTime($date);
-
-        return $Date->format('Y-m-d');
-    } else {
-        return '';
-    }
 }
 
 /**
@@ -3235,7 +3252,7 @@ function removeAccents($str, $charset = 'utf-8')
  * @param $start
  * @param null $end
  * @return string
- * @throws \Exception
+ * @throws Exception
  */
 function formatDateDiff($start, $end = null)
 {
@@ -3381,7 +3398,7 @@ function getServerPerformanceColor($cpu)
  * @param array $data
  * @param array|null $otherAddr
  * @return bool
- * @throws \Exception
+ * @throws Exception
  */
 function sendMail(array $data, array $otherAddr = null)
 {
