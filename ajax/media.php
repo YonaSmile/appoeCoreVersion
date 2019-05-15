@@ -13,6 +13,10 @@ if (checkAjaxRequest()) {
             $Media->setId($_POST['idImage']);
             if ($Media->show()) {
 
+                if (!empty($_POST['title'])) {
+                    $Media->setTitle($_POST['title']);
+                }
+
                 if (!empty($_POST['description'])) {
                     $Media->setDescription($_POST['description']);
                 }

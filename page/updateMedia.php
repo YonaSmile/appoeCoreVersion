@@ -20,7 +20,7 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                    aria-controls="nav-newFiles" aria-selected="false"><?= trans('Téléchargement des médias'); ?></a>
             </div>
         </nav>
-        <div class="tab-content border-top-0 bg-white py-3" id="nav-mediaTabContent">
+        <div class="tab-content border border-top-0 bg-white py-3" id="nav-mediaTabContent">
             <div class="tab-pane fade show active" id="nav-allLibraries" role="tabpanel" aria-labelledby="nav-home-tab">
                 <?php if ($allLibrary): ?>
                     <div class="container-fluid">
@@ -40,7 +40,7 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                             <div class="card fileContent bg-none border-0">
                                                 <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                                     <img src="<?= getThumb($file->name, 370); ?>"
-                                                         alt="<?= $file->description; ?>"
+                                                         alt="<?= $file->title; ?>"
                                                          data-originsrc="<?= WEB_DIR_INCLUDE . $file->name; ?>"
                                                          data-filename="<?= $file->name; ?>"
                                                          class="img-fluid seeOnOverlay seeDataOnHover">
@@ -61,10 +61,11 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                                         </strong>
                                                     </small>
                                                     <form method="post" data-imageid="<?= $file->id; ?>">
-                                                        <?= \App\Form::text('Description', 'description', 'text', $file->description, false, 300, '', '', 'form-control-sm imageDescription', 'Description'); ?>
-                                                        <?= \App\Form::text('Lien', 'link', 'url', $file->link, false, 300, '', '', 'form-control-sm imagelink', 'Lien'); ?>
-                                                        <?= \App\Form::text('Position', 'position', 'text', $file->position, false, 300, '', '', 'form-control-sm imagePosition', 'Position'); ?>
-                                                        <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $file->typeId, '', '', '', '', 'custom-select-sm imageTypeId', false); ?>
+                                                        <?= \App\Form::text('Titre', 'title', 'text', $file->title, false, 255, '', '', 'form-control-sm imageTitle upImgForm', 'Titre'); ?>
+                                                        <?= \App\Form::textarea('Description', 'description', $file->description, 1, false, '', 'form-control-sm imageDescription upImgForm', 'Description'); ?>
+                                                        <?= \App\Form::text('Lien', 'link', 'url', $file->link, false, 255, '', '', 'form-control-sm imagelink upImgForm', 'Lien'); ?>
+                                                        <?= \App\Form::text('Position', 'position', 'text', $file->position, false, 5, '', '', 'form-control-sm imagePosition upImgForm', 'Position'); ?>
+                                                        <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $file->typeId, '', '', '', '', 'custom-select-sm imageTypeId upImgForm', false); ?>
                                                     </form>
                                                 </div>
                                                 <small class="infosMedia"></small>

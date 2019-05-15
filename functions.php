@@ -3009,7 +3009,7 @@ function getFirstImage($imageArray, $otherClass = '', $thumbSize = false, $onlyU
                         ? WEB_DIR_INCLUDE . $firstImage->name
                         : getThumb($firstImage->name, $thumbSize)
                     )
-                    . '" alt="' . $firstImage->description . '" data-originsrc="' . WEB_DIR_INCLUDE . $firstImage->name . '" class="' . $otherClass . '">';
+                    . '" alt="' . $firstImage->title . '" data-originsrc="' . WEB_DIR_INCLUDE . $firstImage->name . '" class="' . $otherClass . '">';
             }
         } else {
             return getFirstImage(array_slice($imageArray, 1), $otherClass, $thumbSize);
@@ -3028,7 +3028,7 @@ function getLastImage($imageArray)
         $lastImage = end($imageArray);
         if (isImage(FILE_DIR_PATH . $lastImage->name)) {
             return '<img src="' . WEB_DIR_INCLUDE . $lastImage->name . '"
-                                 alt="' . $lastImage->description . '">';
+                                 alt="' . $lastImage->title . '">';
         }
     }
     return false;
@@ -3067,7 +3067,7 @@ function getLittleImage($imageArray)
         }
 
         return '<img src="' . WEB_DIR_INCLUDE . $littleImage->name . '"
-                                 alt="' . $littleImage->description . '">';
+                                 alt="' . $littleImage->title . '">';
     }
     return false;
 }
@@ -3100,7 +3100,7 @@ function showImage($media, $class = '', $attr = '')
 {
     if (property_exists($media, 'name') && property_exists($media, 'description')) {
         return '<img src="' . WEB_DIR_INCLUDE . $media->name . '" 
-                alt="' . $media->description . '" class="' . $class . '" ' . $attr . '>';
+                alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
     }
     return '';
 }

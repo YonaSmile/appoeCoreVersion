@@ -8,6 +8,7 @@ class File
     protected $type;
     protected $typeId;
     protected $name;
+    protected $title = null;
     protected $description = null;
     protected $link = null;
     protected $position = null;
@@ -105,6 +106,22 @@ class File
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return null
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param null $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**
@@ -214,9 +231,10 @@ class File
                 	`userId` INT(11) UNSIGNED NOT NULL,
   					`type` VARCHAR(15) NOT NULL,
   					`typeId` INT(11) UNSIGNED NOT NULL,
-  					`name` VARCHAR(250) NOT NULL,
+  					`name` VARCHAR(255) NOT NULL,
   					UNIQUE (`type`, `typeId`, `name`),
-  					`description` VARCHAR(250) NULL DEFAULT NULL,
+  					`title` VARCHAR(255) NULL DEFAULT NULL,
+  					`description` VARCHAR(255) NULL DEFAULT NULL,
   					`link` VARCHAR(255) NULL DEFAULT NULL,
   					`position` INT(11) NULL DEFAULT NULL,
   					`options` TEXT NULL DEFAULT NULL,
@@ -300,7 +318,9 @@ class File
      */
     public function save()
     {
-        $sql = 'INSERT INTO appoe_files (userId, type, typeId, name, updated_at) VALUES(:userId, :type, :typeId, :name, NOW())';
+        $sql = 'INSERT INTO appoe_files (userId, type, typeId, name, updated_at) 
+        VALUES(:userId, :type, :typeId, :name, NOW())';
+
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':userId', $this->userId);
         $stmt->bindParam(':type', $this->type);
@@ -324,10 +344,14 @@ class File
      */
     public function update()
     {
-        $sql = 'UPDATE appoe_files SET userId = :userId, typeId = :typeId, description = :description, link = :link, position = :position, options = :options WHERE id = :id';
+        $sql = 'UPDATE appoe_files 
+        SET userId = :userId, typeId = :typeId, title = :title, description = :description, link = :link, position = :position, options = :options 
+        WHERE id = :id';
+
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':userId', $this->userId);
         $stmt->bindParam(':typeId', $this->typeId);
+        $stmt->bindParam(':title', $this->title);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':link', $this->link);
         $stmt->bindParam(':position', $this->position);

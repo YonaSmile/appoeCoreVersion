@@ -33,7 +33,7 @@ class DB
                 }
             }
         }
-        //self::updateTable();
+        self::updateTable();
         return self::$dbh;
     }
 
@@ -80,6 +80,9 @@ class DB
         $sql .= 'UPDATE `appoe_users` SET `login`= `email` WHERE 1;';
         $sql .= 'ALTER TABLE `appoe_users` ADD UNIQUE(`login`);';
         $sql .= 'ALTER TABLE `appoe_users` CHANGE `email` `email` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `role`;';
+        $sql .= 'ALTER TABLE `appoe_files` ADD `title` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `name`;';
+        $sql .= 'ALTER TABLE `appoe_files` CHANGE `name` `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;';
+        $sql .= 'ALTER TABLE `appoe_files` CHANGE `description` `description` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;';
         $stmt = self::$dbh->prepare($sql);
         $stmt->execute();
         $error = $stmt->errorInfo();
