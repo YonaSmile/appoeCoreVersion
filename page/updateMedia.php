@@ -36,26 +36,35 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                     <h5 class="libraryName p-3" id="media-<?= $id; ?>"><?= $name; ?></h5>
                                     <hr class="my-3 mx-5">
                                     <div class="card-columns">
-                                        <?php foreach ($allFiles as $file): ?>
+                                        <?php foreach ($allFiles as $file):
+                                            $imgSize = @getimagesize(FILE_DIR_PATH . $file->name);
+                                            ?>
                                             <div class="card fileContent bg-none border-0">
+                                                <div class="form-group m-0 fileFormData">
+                                                    <p class="m-0"><strong>Nom:</strong> <?= $file->name; ?>
+                                                        <?php if ($imgSize): ?>
+                                                            <br><strong>Largeur:</strong> <?= $imgSize[0]; ?>
+                                                            <br><strong>Hauteur:</strong> <?= $imgSize[1]; ?>
+                                                        <?php endif; ?>
+                                                    </p>
+                                                </div>
                                                 <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                                     <img src="<?= getThumb($file->name, 370); ?>"
                                                          alt="<?= $file->title; ?>"
                                                          data-originsrc="<?= WEB_DIR_INCLUDE . $file->name; ?>"
                                                          data-filename="<?= $file->name; ?>"
-                                                         class="img-fluid seeOnOverlay seeDataOnHover">
+                                                         class="img-fluid seeOnOverlay">
                                                 <?php else: ?>
                                                     <a href="<?= WEB_DIR_INCLUDE . $file->name; ?>" target="_blank">
                                                         <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>"
-                                                             data-filename="<?= $file->name; ?>"
-                                                             class="seeDataOnHover">
+                                                             data-filename="<?= $file->name; ?>">
                                                     </a>
                                                 <?php endif; ?>
-                                                <div class="form-group mt-1 mb-0">
+                                                <div class="form-group m-0 fileFormInput">
                                                     <small style="font-size: 9px;">
                                                         <strong class="fileLink"
                                                                 data-src="<?= WEB_DIR_INCLUDE . $file->name; ?>">
-                                                            <button class="btn btn-sm btn-outline-info btn-block copyLinkOnClick">
+                                                            <button class="btn btn-sm btn-info btn-block copyLinkOnClick">
                                                                 <?= trans('Copier le lien du média'); ?>
                                                             </button>
                                                         </strong>

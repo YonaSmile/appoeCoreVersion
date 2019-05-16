@@ -752,7 +752,11 @@ function displayTimeStamp($timestamp, $hour = true)
  */
 function displayCompleteDate($date, $hour = false, $format = '%A %d %B %Y')
 {
-    if (isValidDateTime($date) || isValidDateTime($date, 'd/m/Y')) {
+    if (isValidDateTime($date, 'd/m/Y')) {
+        $date = DateTime::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+    }
+
+    if (isValidDateTime($date)) {
 
         $Date = new \DateTime($date);
         $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
@@ -1809,6 +1813,18 @@ function getFieldsControls()
     $html .= '}, 1000)</script>';
 
     return $html;
+}
+
+/**
+ * @return array|bool
+ */
+function getMediaCategories()
+{
+
+    $Category = new \App\Category();
+    $Category->setType('MEDIA');
+    $allCategories = $Category->showByType();
+    return $allCategories ? extractFromObjToSimpleArr($allCategories, 'id', 'name') : false;
 }
 
 /**
