@@ -12,6 +12,11 @@ $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
 echo getTitle($Page->getName(), $Page->getSlug()); ?>
     <div id="mediaContainer">
         <nav>
+            <div class="float-right">
+                <button type="button" role="button" class="btn btn-sm listView">
+                    <i class="fas fa-th-list"></i>
+                </button>
+            </div>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-allLibraries-tab" data-toggle="tab" href="#nav-allLibraries"
                    role="tab" aria-controls="nav-allLibraries"
