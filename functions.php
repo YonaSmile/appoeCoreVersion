@@ -284,8 +284,32 @@ function array_sort($array, $keyName, $order = SORT_ASC)
  */
 function isImage($mediaPath)
 {
-    $imgExt = array('JPG', 'JPEG', 'PNG', 'GIF');
-    return @is_array(getimagesize($mediaPath)) && in_array(strtoupper(getFileExtension($mediaPath)), $imgExt) ? true : false;
+    $mime = mime_content_type($mediaPath);
+    return (false !== strpos($mime, 'image/')) ? true : false;
+}
+
+/**
+ * @param $mediaPath
+ * @return bool
+ */
+function isAudio($mediaPath)
+{
+    $mime = mime_content_type($mediaPath);
+    return (false !== strpos($mime, 'audio/')) ? true : false;
+}
+
+/**
+ * @param $mediaPath
+ * @return bool
+ */
+function isVideo($mediaPath)
+{
+    $allowed = array(
+        'application/ogg'
+    );
+
+    $mime = mime_content_type($mediaPath);
+    return (false !== strpos($mime, 'video/')) || in_array($mime, $allowed) ? true : false;
 }
 
 /**
@@ -3163,15 +3187,21 @@ function getImgAccordingExtension($extension)
         case 'pptx':
             return $src . 'PowerPoint.png';
             break;
-        case 'ogg':
         case 'mp3':
         case 'wma':
         case 'wov':
             return $src . 'Music.png';
             break;
+        case 'mp4':
+        case 'webm':
+        case 'ogg':
+        case 'ogv':
+            return $src . 'Videos.png';
+            break;
         default:
             return $src . 'AllFileType.png';
             break;
+
     }
 }
 
