@@ -50,10 +50,9 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                                    data-file-id="<?= $file->id; ?>">
                                                     <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                                         <img src="<?= getThumb($file->name, 370); ?>"
-                                                             class="img-fluid draggable">
+                                                             class="img-fluid">
                                                     <?php else: ?>
-                                                        <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>"
-                                                             class="draggable">
+                                                        <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>">
                                                     <?php endif; ?>
                                                 </a>
                                             </div>
