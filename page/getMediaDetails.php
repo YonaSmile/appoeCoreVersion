@@ -54,11 +54,21 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
 
             <form method="post" id="mediaDetailsForm" class="my-2">
                 <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
-                <?= \App\Form::text('Titre', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm', 'Titre'); ?>
-                <?= \App\Form::textarea('Description', 'description', $Media->getDescription(), 1, false, '', 'form-control-sm imageDescription upImgForm', 'Description'); ?>
-                <?= \App\Form::text('Lien', 'link', 'url', $Media->getLink(), false, 255, '', '', 'form-control-sm imagelink upImgForm', 'Lien'); ?>
-                <?= \App\Form::text('Position', 'position', 'text', $Media->getPosition(), false, 5, '', '', 'form-control-sm imagePosition upImgForm', 'Position'); ?>
-                <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), '', '', '', '', 'custom-select-sm imageTypeId upImgForm', false); ?>
+                <div class="mb-2">
+                    <?= \App\Form::text('Titre', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm'); ?>
+                </div>
+                <div class="mb-2">
+                    <?= \App\Form::textarea('Description', 'description', $Media->getDescription(), 1, false, '', 'form-control-sm imageDescription upImgForm'); ?>
+                </div>
+                <div class="mb-2">
+                    <?= \App\Form::text('Lien', 'link', 'url', $Media->getLink(), false, 255, '', '', 'form-control-sm imagelink upImgForm'); ?>
+                </div>
+                <div class="mb-2">
+                    <?= \App\Form::text('Position', 'position', 'text', $Media->getPosition(), false, 5, '', '', 'form-control-sm imagePosition upImgForm'); ?>
+                </div>
+                <div class="mb-2">
+                    <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), '', '', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
+                </div>
             </form>
 
             <small id="infosMedia" class="float-right text-success"></small>
