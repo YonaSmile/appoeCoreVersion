@@ -284,8 +284,11 @@ function array_sort($array, $keyName, $order = SORT_ASC)
  */
 function isImage($mediaPath)
 {
-    $mime = mime_content_type($mediaPath);
-    return (false !== strpos($mime, 'image/')) ? true : false;
+    if (file_exists($mediaPath)) {
+        $mime = mime_content_type($mediaPath);
+        return (false !== strpos($mime, 'image/')) ? true : false;
+    }
+    return false;
 }
 
 /**
@@ -294,8 +297,11 @@ function isImage($mediaPath)
  */
 function isAudio($mediaPath)
 {
-    $mime = mime_content_type($mediaPath);
-    return (false !== strpos($mime, 'audio/')) ? true : false;
+    if (file_exists($mediaPath)) {
+        $mime = mime_content_type($mediaPath);
+        return (false !== strpos($mime, 'audio/')) ? true : false;
+    }
+    return false;
 }
 
 /**
@@ -304,12 +310,15 @@ function isAudio($mediaPath)
  */
 function isVideo($mediaPath)
 {
-    $allowed = array(
-        'application/ogg'
-    );
+    if (file_exists($mediaPath)) {
+        $allowed = array(
+            'application/ogg'
+        );
 
-    $mime = mime_content_type($mediaPath);
-    return (false !== strpos($mime, 'video/')) || in_array($mime, $allowed) ? true : false;
+        $mime = mime_content_type($mediaPath);
+        return (false !== strpos($mime, 'video/')) || in_array($mime, $allowed) ? true : false;
+    }
+    return false;
 }
 
 /**
