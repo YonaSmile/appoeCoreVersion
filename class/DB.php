@@ -76,27 +76,37 @@ class DB
     public static function updateTable()
     {
 
-        $FileContent = new \App\FileContent();
-        if ($FileContent->createTable()) {
-
-            $sql = 'INSERT INTO appoe_files_content (fileId, title, description) 
+        $sql = 'CREATE TABLE IF NOT EXISTS `appoe_files_content` (
+  				`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                PRIMARY KEY (`id`),
+  				`fileId` INT(11) UNSIGNED NOT NULL,
+  				`title` VARCHAR(255) NOT NULL,
+  				`description` TEXT NULL DEFAULT NULL,
+  				`lang` VARCHAR(10) NOT NULL,
+  				UNIQUE (`fileId`, `lang`),
+  				`userId` int(11) UNSIGNED NOT NULL,
+                `created_at` date NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
+        $sql .= 'INSERT INTO appoe_files_content (fileId, title, description) 
             SELECT id, title, description FROM appoe_file;';
-            $sql .= 'UPDATE appoe_files_content SET lang = "fr", userId = "0", created_at = NOW();';
-            $sql .= 'ALTER TABLE `appoe_files` DROP `title`, DROP `description`;';
-            $stmt = self::$dbh->prepare($sql);
-            $stmt->execute();
-            $error = $stmt->errorInfo();
-            $count = $stmt->rowCount();
-            if ($error[0] != '00000') {
-                return false;
-            } else {
-                if ($count > 0) {
-                    return true;
-                }
+        $sql .= 'UPDATE appoe_files_content SET lang = "fr", userId = "0", created_at = NOW();';
+        $sql .= 'ALTER TABLE `appoe_files` DROP `title`, DROP `description`;';
+
+        $stmt = self::$dbh->prepare($sql);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        $count = $stmt->rowCount();
+
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            if ($count > 0) {
+                return true;
             }
         }
-        return false;
 
+        return false;
     }
 
     /**
