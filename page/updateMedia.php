@@ -53,7 +53,7 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                  aria-labelledby="nav-home-tab">
                 <?php if ($allLibrary): ?>
                     <div class="container-fluid">
-                        <div id="shortAccessBtns" class="mb-4 float-right">
+                        <div id="shortAccessBtns" class="mb-4 text-right">
                             <button type="button" class="btn btn-sm btn-secondary"
                                     data-libraryid="all"><?= trans('Tous'); ?></button>
                         </div>
