@@ -89,7 +89,7 @@ class DB
                 `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
         $sql .= 'INSERT INTO appoe_files_content (fileId, title, description) 
-            SELECT id, title, description FROM appoe_file;';
+            SELECT id, title, description FROM appoe_files;';
         $sql .= 'UPDATE appoe_files_content SET lang = "fr", userId = "0", created_at = NOW();';
         $sql .= 'ALTER TABLE `appoe_files` DROP `title`, DROP `description`;';
 
