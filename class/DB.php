@@ -33,7 +33,7 @@ class DB
                 }
             }
         }
-        self::updateTable();
+        //self::updateTable();
         return self::$dbh;
     }
 
