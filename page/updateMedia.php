@@ -6,10 +6,31 @@ $Media = new \App\Media();
 $Media->setLang(APP_LANG);
 
 $Category = new \App\Category();
-$allLibrary = extractFromObjToSimpleArr($Category->showAll(), 'id', 'name');
-
 $Category->setType('MEDIA');
-$listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
+$allCategory = $Category->showByType();
+
+$listCatgories = extractFromObjToArrForList($allCategory, 'id');
+$allLibrary = extractFromObjToSimpleArr($allCategory, 'id', 'name');
+$allLibraryParent = extractFromObjToSimpleArr($allCategory, 'id', 'parentId');
+
+$libraryParent = array();
+foreach($allLibraryParent as $id => $parentId){
+
+    if($parentId == 10){
+        $libraryParent[$id] = array('id' =>  $id, 'name' => $allLibrary[$id]);
+
+    } else {
+
+        if($allLibraryParent[$parentId] == 10){
+            $libraryParent[$id] = array('id' =>  $allLibraryParent[$id], 'name' => $allLibrary[$parentId]);
+
+        } else {
+            $libraryParent[$id] = array('id' =>  $allLibraryParent[$parentId], 'name' => $allLibrary[$allLibraryParent[$parentId]]);
+
+        }
+    }
+}
+
 echo getTitle($Page->getName(), $Page->getSlug()); ?>
     <div id="mediaContainer">
         <nav>
@@ -40,8 +61,8 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                             $Media->setTypeId($id);
                             $allFiles = $Media->showFiles();
                             if ($allFiles): ?>
-                                <div class="mediaContainer" data-libraryid="media-<?= $id; ?>">
-                                    <h5 class="libraryName p-3" id="media-<?= $id; ?>"><?= $name; ?></h5>
+                                <div class="mediaContainer" data-libraryid="media-<?= $libraryParent[$id]['id']; ?>">
+                                    <h5 class="libraryName p-3" id="media-<?= $libraryParent[$id]['id']; ?>"><?= $name; ?></h5>
                                     <hr class="my-3 mx-5">
                                     <div class="card-columns">
                                         <?php foreach ($allFiles as $file): ?>
