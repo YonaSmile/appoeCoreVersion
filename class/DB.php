@@ -33,7 +33,7 @@ class DB
                 }
             }
         }
-        //self::updateTable();
+        self::updateTable();
         return self::$dbh;
     }
 
@@ -75,20 +75,28 @@ class DB
      */
     public static function updateTable()
     {
-        $sql = 'ALTER TABLE `appoe_files` DROP `title`, DROP `description`;';
-        $stmt = self::$dbh->prepare($sql);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        $count = $stmt->rowCount();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            if ($count > 0) {
-                return true;
+
+        $FileContent = new \App\FileContent();
+        if ($FileContent->createTable()) {
+
+            $sql = 'INSERT INTO appoe_files_content (fileId, title, description) 
+            SELECT id, title, description FROM appoe_file;';
+            $sql .= 'UPDATE appoe_files_content SET lang = "fr", userId = "0", created_at = NOW();';
+            $sql .= 'ALTER TABLE `appoe_files` DROP `title`, DROP `description`;';
+            $stmt = self::$dbh->prepare($sql);
+            $stmt->execute();
+            $error = $stmt->errorInfo();
+            $count = $stmt->rowCount();
+            if ($error[0] != '00000') {
+                return false;
+            } else {
+                if ($count > 0) {
+                    return true;
+                }
             }
         }
-
         return false;
+
     }
 
     /**
