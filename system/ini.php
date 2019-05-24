@@ -99,6 +99,7 @@ const APP_TABLES = array(
     'appoe_users',
     'appoe_menu',
     'appoe_files',
+    'appoe_files_content',
     'appoe_categories',
     'appoe_categoryRelations',
     'appoe_logging'

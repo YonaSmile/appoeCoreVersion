@@ -3,6 +3,7 @@ require('header.php');
 require(WEB_PROCESS_PATH . 'media.php');
 
 $Media = new \App\Media();
+$Media->setLang(APP_LANG);
 
 $Category = new \App\Category();
 $allLibrary = extractFromObjToSimpleArr($Category->showAll(), 'id', 'name');

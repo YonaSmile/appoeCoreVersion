@@ -13,12 +13,21 @@ if (checkAjaxRequest()) {
             $Media->setId($_POST['idImage']);
             if ($Media->show()) {
 
-                if (!empty($_POST['title'])) {
-                    $Media->setTitle($_POST['title']);
-                }
+                $FileContent = new \App\FileContent();
+                $FileContent->setFileId($Media->getId());
+                $FileContent->setLang(APP_LANG);
+                $FileContent->setUserId(getUserIdSession());
 
-                if (!empty($_POST['description'])) {
-                    $Media->setDescription($_POST['description']);
+                if($FileContent->showByFile()){
+
+                    $FileContent->setTitle($_POST['title']);
+                    $FileContent->setDescription($_POST['description']);
+                    $FileContent->update();
+
+                } else {
+                    $FileContent->setTitle($_POST['title']);
+                    $FileContent->setDescription($_POST['description']);
+                    $FileContent->save();
                 }
 
                 if (!empty($_POST['link'])) {

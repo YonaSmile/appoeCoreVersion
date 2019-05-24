@@ -33,7 +33,7 @@ class DB
                 }
             }
         }
-        //self::updateTable();
+        self::updateTable();
         return self::$dbh;
     }
 
@@ -75,14 +75,7 @@ class DB
      */
     public static function updateTable()
     {
-        $sql = 'ALTER TABLE `appoe_users` ADD `login` VARCHAR(70) NOT NULL AFTER `id`;';
-        $sql .= 'ALTER TABLE `appoe_users` DROP INDEX `email`;';
-        $sql .= 'UPDATE `appoe_users` SET `login`= `email` WHERE 1;';
-        $sql .= 'ALTER TABLE `appoe_users` ADD UNIQUE(`login`);';
-        $sql .= 'ALTER TABLE `appoe_users` CHANGE `email` `email` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `role`;';
-        $sql .= 'ALTER TABLE `appoe_files` ADD `title` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `name`;';
-        $sql .= 'ALTER TABLE `appoe_files` CHANGE `name` `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;';
-        $sql .= 'ALTER TABLE `appoe_files` CHANGE `description` `description` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;';
+        $sql = 'ALTER TABLE `appoe_files` DROP `title`, DROP `description`;';
         $stmt = self::$dbh->prepare($sql);
         $stmt->execute();
         $error = $stmt->errorInfo();

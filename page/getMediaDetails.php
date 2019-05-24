@@ -8,6 +8,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
 
     $Media = new \App\Media();
     $Media->setId($_GET['fileId']);
+    $Media->setLang(APP_LANG);
 
     if ($Media->show()): ?>
         <div>

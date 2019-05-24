@@ -8,12 +8,13 @@ class File
     protected $type;
     protected $typeId;
     protected $name;
-    protected $title = null;
-    protected $description = null;
     protected $link = null;
     protected $position = null;
     protected $options = null;
 
+    protected $title;
+    protected $description;
+    protected $lang = LANG;
     protected $maxSize = 5621440;
     protected $filePath = FILE_DIR_PATH;
     protected $uploadFiles = null;
@@ -111,38 +112,6 @@ class File
     /**
      * @return null
      */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param null $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return null
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param null $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return null
-     */
     public function getLink()
     {
         return $this->link;
@@ -186,6 +155,70 @@ class File
     public function setOptions($options)
     {
         $this->options = $options;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return bool|mixed|string
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    /**
+     * @param bool|mixed|string $lang
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxSize()
+    {
+        return $this->maxSize;
+    }
+
+    /**
+     * @param int $maxSize
+     */
+    public function setMaxSize($maxSize)
+    {
+        $this->maxSize = $maxSize;
     }
 
     /**
@@ -233,8 +266,6 @@ class File
   					`typeId` INT(11) UNSIGNED NOT NULL,
   					`name` VARCHAR(255) NOT NULL,
   					UNIQUE (`type`, `typeId`, `name`),
-  					`title` VARCHAR(255) NULL DEFAULT NULL,
-  					`description` VARCHAR(255) NULL DEFAULT NULL,
   					`link` VARCHAR(255) NULL DEFAULT NULL,
   					`position` INT(11) NULL DEFAULT NULL,
   					`options` TEXT NULL DEFAULT NULL,
@@ -270,6 +301,16 @@ class File
             $row = $stmt->fetch(\PDO::FETCH_OBJ);
             $this->feed($row);
 
+            $FileContent = new \App\FileContent();
+
+            $FileContent->setFileId($this->id);
+            $FileContent->setLang($this->lang);
+
+            if ($FileContent->showByFile()) {
+                $this->title = $FileContent->getTitle();
+                $this->description = $FileContent->getDescription();
+            }
+
             return true;
         }
     }
@@ -279,7 +320,8 @@ class File
      */
     public function showFiles()
     {
-        $sql = 'SELECT * FROM appoe_files WHERE type = :type AND typeId = :typeId ORDER BY position ASC, updated_at DESC';
+        $sql = 'SELECT * FROM appoe_files AS F 
+        WHERE F.type = :type AND F.typeId = :typeId ORDER BY F.position ASC, F.updated_at DESC';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':typeId', $this->typeId);
@@ -290,7 +332,27 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
-            return $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $allFiles = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+            if ($allFiles) {
+
+                $FileContent = new \App\FileContent();
+
+                foreach ($allFiles as &$file) {
+
+                    $file->title = null;
+                    $file->description = null;
+
+                    $FileContent->setFileId($file->id);
+                    $FileContent->setLang($this->lang);
+                    if ($FileContent->showByFile()) {
+                        $file->title = $FileContent->getTitle();
+                        $file->description = $FileContent->getDescription();
+                    }
+                }
+                return $allFiles;
+            }
+            return false;
         }
     }
 
@@ -308,7 +370,27 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
-            return $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $allFiles = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+            if ($allFiles) {
+
+                $FileContent = new \App\FileContent();
+
+                foreach ($allFiles as &$file) {
+
+                    $file->title = null;
+                    $file->description = null;
+
+                    $FileContent->setFileId($file->id);
+                    $FileContent->setLang($this->lang);
+                    if ($FileContent->showByFile()) {
+                        $file->title = $FileContent->getTitle();
+                        $file->description = $FileContent->getDescription();
+                    }
+                }
+                return $allFiles;
+            }
+            return false;
         }
     }
 
@@ -345,14 +427,12 @@ class File
     public function update()
     {
         $sql = 'UPDATE appoe_files 
-        SET userId = :userId, typeId = :typeId, title = :title, description = :description, link = :link, position = :position, options = :options 
+        SET userId = :userId, typeId = :typeId, link = :link, position = :position, options = :options 
         WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':userId', $this->userId);
         $stmt->bindParam(':typeId', $this->typeId);
-        $stmt->bindParam(':title', $this->title);
-        $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':link', $this->link);
         $stmt->bindParam(':position', $this->position);
         $stmt->bindParam(':options', $this->options);
@@ -468,6 +548,9 @@ class File
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function deleteFileByName()
     {
 
@@ -495,7 +578,8 @@ class File
     {
         $this->deleteFileByPath();
 
-        $sql = 'DELETE FROM appoe_files WHERE id = :id';
+        $sql = 'DELETE FROM appoe_files WHERE id = :id;
+                DELETE FROM appoe_files_content WHERE fileId = :id;';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
@@ -533,6 +617,10 @@ class File
         }
     }
 
+    /**
+     * @param $format
+     * @return bool
+     */
     public function authorizedMediaFormat($format)
     {
 
