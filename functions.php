@@ -1922,13 +1922,20 @@ function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
             if ($category->parentId != $id && $category->id != $id) {
                 continue;
             }
-            $allMedia[$category->id] = $Media->showFiles();
+
+            $categoryMedia = $Media->showFiles();
+            if ($categoryMedia) {
+                $allMedia[$category->id] = $categoryMedia;
+            }
 
         } else {
             if ($category->id != $id) {
                 continue;
             }
-            $allMedia = array_merge($allMedia, $Media->showFiles());
+            $categoryMedia = $Media->showFiles();
+            if ($categoryMedia) {
+                $allMedia = array_merge($allMedia, $categoryMedia);
+            }
         }
     }
 
@@ -3503,9 +3510,13 @@ function sendMail(array $data, array $otherAddr = null)
     $Mail->MsgHTML($data['message']);
 
     //Attach files from form
-    if (isset($data['files']) && !empty($data['files'])) {
-        foreach ($data['files'] as $file) {
-            $Mail->AddAttachment($file['tmp_name'], $file['name']);
+    if (!empty($data['files'])) {
+        $files = $data['files'];
+        $fileCount = !empty($files['name'][0]) ? count($files['name']) : 0;
+        for ($i = 0; $i < $fileCount; $i++) {
+            if (!empty($files['name'][$i])) {
+                $Mail->AddAttachment($files['tmp_name'][$i], $files['name'][$i]);
+            }
         }
     }
 
