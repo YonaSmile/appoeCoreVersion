@@ -737,6 +737,38 @@ function cleanData($data)
 }
 
 /**
+ * @param $secret
+ * @param $token
+ * @return bool
+ */
+function checkRecaptcha($secret, $token)
+{
+
+    if (!empty($secret) && !empty($token)) {
+
+        $recaptcha_data = array(
+            'secret' => $secret,
+            'response' => $token
+        );
+
+        $recap_verify = curl_init();
+        curl_setopt($recap_verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($recap_verify, CURLOPT_POST, true);
+        curl_setopt($recap_verify, CURLOPT_POSTFIELDS, http_build_query($recaptcha_data));
+        curl_setopt($recap_verify, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($recap_verify, CURLOPT_RETURNTRANSFER, true);
+        $recap_response = curl_exec($recap_verify);
+
+        $g_response = json_decode($recap_response);
+
+        if ($g_response->success === true) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Show unlimited params in array
  */
 function showDebugData()
@@ -2891,6 +2923,10 @@ function webUrl($file, $param = null)
     $url = '';
     if (!is_null($param)) {
         $url .= $param;
+    }
+
+    if (false !== strpos($file, '#') && substr($file, -1) == '/') {
+        $file = substr($file, 0, -1);
     }
 
     if (substr($file, 0, 4) === "http") {
