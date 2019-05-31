@@ -1072,6 +1072,15 @@ function appBackup($DB = true)
 }
 
 /**
+ * @param $text
+ */
+function appLog($text)
+{
+    $AppLog = new \App\AppLogging();
+    $AppLog->write($text);
+}
+
+/**
  * @param $path
  * @param $url
  * @return bool

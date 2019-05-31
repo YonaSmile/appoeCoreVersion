@@ -154,12 +154,13 @@ class Menu
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Creating menu -> id: ' . $id . ' slug: ' . $slug . ' name: ' . $name . ' min role id: ' . $minRole . ' statut: ' . $statut . ' parent id: ' . $parent . ' order: ' . $order_menu . ' plugin: ' . $pluginName);
             return true;
         }
 
     }
 
-    public function updateMenu($id, $name, $slug, $min_role, $statut, $parentId, $order_menu = null, $pluginName = null)
+    public function updateMenu($id, $name, $slug, $minRole, $statut, $parent, $order_menu = null, $pluginName = null)
     {
 
         $sql = 'UPDATE appoe_menu 
@@ -170,9 +171,9 @@ class Menu
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':slug', $slug);
         $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':min_role_id', $min_role);
+        $stmt->bindParam(':min_role_id', $minRole);
         $stmt->bindParam(':statut', $statut);
-        $stmt->bindParam(':parent_id', $parentId);
+        $stmt->bindParam(':parent_id', $parent);
         $stmt->bindParam(':order_menu', $order_menu);
         $stmt->bindParam(':pluginName', $pluginName);
         $stmt->execute();
@@ -181,6 +182,7 @@ class Menu
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Updating menu -> id: ' . $id . ' slug: ' . $slug . ' name: ' . $name . ' min role id: ' . $minRole . ' statut: ' . $statut . ' parent id: ' . $parent . ' order: ' . $order_menu . ' plugin: ' . $pluginName);
             return true;
         }
 
@@ -199,6 +201,7 @@ class Menu
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Delete menu -> id: ' . $id);
             return true;
         }
     }
@@ -216,6 +219,8 @@ class Menu
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Delete menu -> plugin name: ' . $pluginName);
+
             return true;
         }
     }

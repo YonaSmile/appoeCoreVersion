@@ -194,6 +194,7 @@ class CategoryRelations
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Creating category relation -> type: ' . $this->type . ' typeId:' . $this->typeId . ' categoryId:' . $this->categoryId);
             return true;
         }
     }
@@ -216,6 +217,7 @@ class CategoryRelations
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Updating category relation -> id: ' . $this->id . ' type: ' . $this->type . ' typeId:' . $this->typeId . ' categoryId:' . $this->categoryId);
             return true;
         }
     }
@@ -236,6 +238,7 @@ class CategoryRelations
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Deleting category relation -> id: ' . $this->id);
             return true;
         }
     }

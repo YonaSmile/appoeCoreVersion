@@ -218,6 +218,7 @@ class FileContent
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Creating file content -> fileId: ' . $this->fileId . ' title: ' . $this->title . ' description: ' . $this->description . ' lang: ' . $this->lang);
             return true;
         }
     }
@@ -245,6 +246,7 @@ class FileContent
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Updating file content -> id: ' . $this->id . ' fileId: ' . $this->fileId . ' title: ' . $this->title . ' description: ' . $this->description . ' lang: ' . $this->lang);
             return true;
         }
     }
@@ -267,6 +269,7 @@ class FileContent
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Deleting file content -> id: ' . $this->id);
             return true;
         }
     }

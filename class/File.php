@@ -416,6 +416,7 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Creating file on db -> type: ' . $this->type . ' typeId:' . $this->typeId . ' name:' . $this->name);
             return true;
         }
     }
@@ -443,6 +444,7 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Updating file on db -> id: ' . $this->id . ' typeId:' . $this->typeId . ' link:' . $this->link . ' position:' . $this->position . ' options:' . $this->options);
             return true;
         }
     }
@@ -463,6 +465,7 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Updating file on db -> id: ' . $this->id . ' position:' . $this->position);
             return true;
         }
     }
@@ -507,6 +510,7 @@ class File
                                 }
                             }
 
+                            appLog('Upload file -> name: ' . $filename);
                             array_push($returnArr['filename'], $filename);
 
                             if (!$this->save()) {
@@ -544,7 +548,7 @@ class File
         } else {
             return trans('Ce fichier est rattaché à plusieurs données');
         }
-
+        appLog('Delete file -> name: ' . $this->name);
         return true;
     }
 
@@ -565,6 +569,7 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Delete file on db -> name: ' . $this->name);
             return true;
         }
 
@@ -590,6 +595,7 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Delete file on db -> id: ' . $this->id);
             return true;
         }
     }

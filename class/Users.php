@@ -315,7 +315,7 @@ class Users
             return false;
         } else {
             $this->setId($userId);
-
+            appLog('Creating user -> login: ' . $this->login . ' email: ' . $this->email . ' role: ' . $this->role . ' nom: ' . $this->nom . ' prenom: ' . $this->prenom . ' options: ' . $this->options);
             return true;
         }
 
@@ -340,6 +340,7 @@ class Users
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Updating user -> id: ' . $this->id . ' login: ' . $this->login . ' email: ' . $this->email . ' role: ' . $this->role . ' nom: ' . $this->nom . ' prenom: ' . $this->prenom . ' statut: ' . $this->statut);
             return true;
         }
     }
@@ -393,6 +394,7 @@ class Users
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Updating user password -> login: ' . $this->login);
             return true;
         }
     }

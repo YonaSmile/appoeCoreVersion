@@ -209,6 +209,7 @@ class Category
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Creating category -> type: ' . $this->type . ' name:' . $this->name . ' parentId:' . $this->parentId);
             return true;
         }
     }
@@ -230,6 +231,7 @@ class Category
         if ($error[0] != '00000') {
             return false;
         } else {
+            appLog('Updating category -> id:' . $this->id . ' name:' . $this->name . ' parentId:' . $this->parentId . ' status:' . $this->status);
             return true;
         }
     }
