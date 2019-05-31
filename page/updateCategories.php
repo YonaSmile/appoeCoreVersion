@@ -42,9 +42,8 @@ if ($allCategories) {
                                 </button>
                                 <input type="text" class="p-3 bg-primary text-white border-0 form-control libraryInput"
                                        data-idcategory="<?= $separetedCategory->id; ?>"
-                                       value="<?= $separetedCategory->name; ?>"
-                                       placeholder="<?= $separetedCategory->id; ?>">
-                                <small class="inputInfo"></small>
+                                       value="<?= $separetedCategory->name; ?>">
+                                <small class="inputInfo"><?= $separetedCategory->id; ?></small>
                             </div>
                             <?php if (!empty($categoryType[$separetedCategory->id])): ?>
                                 <div class="row ml-2">
@@ -58,9 +57,8 @@ if ($allCategories) {
                                                 <input type="text"
                                                        class="p-3 bg-info text-white border-0 form-control libraryInput"
                                                        data-idcategory="<?= $separetedSubCategory->id; ?>"
-                                                       value="<?= $separetedSubCategory->name; ?>"
-                                                       placeholder="<?= $separetedSubCategory->id; ?>"">
-                                                <small class="inputInfo"></small>
+                                                       value="<?= $separetedSubCategory->name; ?>">
+                                                <small class="inputInfo"><?= $separetedSubCategory->id; ?></small>
                                             </div>
                                             <?php if (!empty($categoryType[$separetedSubCategory->id])): ?>
                                                 <div class="row ml-2">
@@ -74,9 +72,8 @@ if ($allCategories) {
                                                                 <input type="text"
                                                                        class="p-3 bg-secondary text-white border-0 form-control libraryInput"
                                                                        data-idcategory="<?= $separetedSubSubCategory->id; ?>"
-                                                                       value="<?= $separetedSubSubCategory->name; ?>"
-                                                                       placeholder="<?= $separetedSubSubCategory->id; ?>">
-                                                                <small class="inputInfo"></small>
+                                                                       value="<?= $separetedSubSubCategory->name; ?>">
+                                                                <small class="inputInfo"><?= $separetedSubSubCategory->id; ?></small>
                                                             </div>
                                                         </div>
                                                     <?php endforeach; ?>
