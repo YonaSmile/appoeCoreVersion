@@ -451,7 +451,7 @@ function isVisitor()
  */
 function trad($text, $tradToOrigin = false, $lang = LANG)
 {
-    if (class_exists('App\Plugin\Traduction\Traduction')) {
+    if ($lang != 'fr' && class_exists('App\Plugin\Traduction\Traduction')) {
 
         $Traduction = new \App\Plugin\Traduction\Traduction($lang);
         return !$tradToOrigin ? $Traduction->trans($text) : $Traduction->transToOrigin($text);
