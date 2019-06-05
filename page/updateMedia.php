@@ -14,18 +14,18 @@ $allLibrary = extractFromObjToSimpleArr($allCategory, 'id', 'name');
 $allLibraryParent = extractFromObjToSimpleArr($allCategory, 'id', 'parentId');
 
 $libraryParent = array();
-foreach($allLibraryParent as $id => $parentId){
+foreach ($allLibraryParent as $id => $parentId) {
 
-    if($parentId == 10){
-        $libraryParent[$id] = array('id' =>  $id, 'name' => $allLibrary[$id]);
+    if ($parentId == 10) {
+        $libraryParent[$id] = array('id' => $id, 'name' => $allLibrary[$id]);
 
     } else {
 
-        if($allLibraryParent[$parentId] == 10){
-            $libraryParent[$id] = array('id' =>  $allLibraryParent[$id], 'name' => $allLibrary[$parentId]);
+        if ($allLibraryParent[$parentId] == 10) {
+            $libraryParent[$id] = array('id' => $allLibraryParent[$id], 'name' => $allLibrary[$parentId]);
 
         } else {
-            $libraryParent[$id] = array('id' =>  $allLibraryParent[$parentId], 'name' => $allLibrary[$allLibraryParent[$parentId]]);
+            $libraryParent[$id] = array('id' => $allLibraryParent[$parentId], 'name' => $allLibrary[$allLibraryParent[$parentId]]);
 
         }
     }
@@ -55,14 +55,17 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                     <div class="container-fluid">
                         <div id="shortAccessBtns" class="mb-4 text-right">
                             <button type="button" class="btn btn-sm btn-secondary"
-                                    data-libraryid="all"><?= trans('Tous'); ?></button>
+                                    data-library-parent-id="all"><?= trans('Tous'); ?></button>
                         </div>
                         <?php foreach ($allLibrary as $id => $name):
                             $Media->setTypeId($id);
                             $allFiles = $Media->showFiles();
                             if ($allFiles): ?>
-                                <div class="mediaContainer" data-libraryid="media-<?= $libraryParent[$id]['id']; ?>">
-                                    <h5 class="libraryName p-3" id="media-<?= $libraryParent[$id]['id']; ?>"><?= $name; ?></h5>
+                                <div class="mediaContainer"
+                                     data-library-parent-id="<?= $libraryParent[$id]['id']; ?>">
+                                    <h5 class="libraryName p-3" id="media-<?= $id; ?>"
+                                        data-library-parent-id="<?= $libraryParent[$id]['id']; ?>"
+                                        data-library-parent-name="<?= $libraryParent[$id]['name']; ?>"><?= $name; ?></h5>
                                     <hr class="my-3 mx-5">
                                     <div class="card-columns">
                                         <?php foreach ($allFiles as $file): ?>
