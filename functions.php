@@ -3192,14 +3192,14 @@ function getOnlyImages($imageArray)
 }
 
 /**
- * @param Object $media
+ * @param stdClass $media
  * @param $class
  * @param $attr
  * @return string
  */
-function showImage($media, $class = '', $attr = '')
+function showImage(stdClass $media, $class = '', $attr = '')
 {
-    if (property_exists($media, 'name') && property_exists($media, 'description')) {
+    if (property_exists($media, 'name') && property_exists($media, 'title')) {
         return '<img src="' . WEB_DIR_INCLUDE . $media->name . '" 
                 alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
     }
