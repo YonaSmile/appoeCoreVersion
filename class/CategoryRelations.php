@@ -1,6 +1,9 @@
 <?php
 
 namespace App;
+
+use PDO;
+
 class CategoryRelations
 {
     private $id;
@@ -14,7 +17,7 @@ class CategoryRelations
     public function __construct($type = null, $typeId = null)
     {
         if (is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+            $this->dbh = DB::connect();
         }
 
         if (!is_null($type) && !is_null($typeId)) {
@@ -146,7 +149,7 @@ class CategoryRelations
         if ($error[0] != '00000') {
             return false;
         } else {
-            $this->data = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $this->data = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $this->data;
         }
     }
@@ -173,7 +176,7 @@ class CategoryRelations
         if ($error[0] != '00000') {
             return false;
         } else {
-            return $stmt->fetchAll(\PDO::FETCH_OBJ);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         }
     }
 

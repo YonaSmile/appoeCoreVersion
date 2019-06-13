@@ -1,6 +1,9 @@
 <?php
 
 namespace App;
+
+use PDO;
+
 class Users
 {
     private $id;
@@ -18,7 +21,7 @@ class Users
     public function __construct($userId = null)
     {
         if (is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+            $this->dbh = DB::connect();
         }
 
         if (!is_null($userId)) {
@@ -80,7 +83,7 @@ class Users
      */
     public function getRole()
     {
-        return strlen($this->role) < 3 ? $this->role : \App\Shinoui::Decrypter($this->role);
+        return strlen($this->role) < 3 ? $this->role : Shinoui::Decrypter($this->role);
     }
 
     /**
@@ -88,7 +91,7 @@ class Users
      */
     public function setRole($role)
     {
-        $this->role = strlen($role) > 3 ? $role : \App\Shinoui::Crypter($role);
+        $this->role = strlen($role) > 3 ? $role : Shinoui::Crypter($role);
     }
 
     /**
@@ -216,7 +219,7 @@ class Users
             return false;
         } else {
             if ($count == 1) {
-                $row = $stmt->fetch(\PDO::FETCH_OBJ);
+                $row = $stmt->fetch(PDO::FETCH_OBJ);
                 if (password_verify($this->password, $row->password)) {
                     if (password_needs_rehash($row->password, PASSWORD_DEFAULT)) {
                         $this->updatePassword();
@@ -250,7 +253,7 @@ class Users
             return false;
         } else {
             if ($count == 1) {
-                $row = $stmt->fetch(\PDO::FETCH_OBJ);
+                $row = $stmt->fetch(PDO::FETCH_OBJ);
                 $this->feed($row);
 
                 return true;
@@ -280,7 +283,7 @@ class Users
             return false;
         } else {
             if ($count > 0) {
-                return $stmt->fetchAll(\PDO::FETCH_OBJ);
+                return $stmt->fetchAll(PDO::FETCH_OBJ);
 
             } else {
                 return false;
@@ -366,7 +369,7 @@ class Users
                 return false;
             } else {
                 if ($login && $count == 1) {
-                    $row = $stmt->fetch(\PDO::FETCH_OBJ);
+                    $row = $stmt->fetch(PDO::FETCH_OBJ);
                     if ($row->login == $this->login) {
                         return false;
                     }

@@ -1,6 +1,9 @@
 <?php
 
 namespace App;
+
+use PDO;
+
 class Category
 {
     private $id;
@@ -14,7 +17,7 @@ class Category
     public function __construct($idCategory = null)
     {
         if (is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+            $this->dbh = DB::connect();
         }
 
         if (!is_null($idCategory)) {
@@ -143,7 +146,7 @@ class Category
         if ($error[0] != '00000') {
             return false;
         } else {
-            $row = $stmt->fetch(\PDO::FETCH_OBJ);
+            $row = $stmt->fetch(PDO::FETCH_OBJ);
             $this->feed($row);
 
             return true;
@@ -166,7 +169,7 @@ class Category
         if ($error[0] != '00000') {
             return false;
         } else {
-            return $stmt->fetchAll(\PDO::FETCH_OBJ);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         }
     }
 
@@ -187,7 +190,7 @@ class Category
         if ($error[0] != '00000') {
             return false;
         } else {
-            $data = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $data = $stmt->fetchAll(PDO::FETCH_OBJ);
 
             return (!$categoriesCount) ? $data : $count;
         }
@@ -258,7 +261,7 @@ class Category
         } else {
             if ($count == 1) {
 
-                $data = $stmt->fetch(\PDO::FETCH_OBJ);
+                $data = $stmt->fetch(PDO::FETCH_OBJ);
 
                 if ($forUpdate) {
                     if ($data->id == $this->id) {

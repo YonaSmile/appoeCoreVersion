@@ -167,5 +167,9 @@
   "Articles": "Articles",
   "Téléphone": "Phone",
   "Message": "Message",
-  "Nom & prénom": "Last name & First Name"
+  "Nom & prénom": "Last name & First Name",
+  "Page Introuvable": "Page not found",
+  "En maintenance": "Under maintenance",
+  "Erreur": "Error",
+  "Revenir en arrière": "Go back"
 }

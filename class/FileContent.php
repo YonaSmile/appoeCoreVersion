@@ -1,6 +1,9 @@
 <?php
 
 namespace App;
+
+use PDO;
+
 class FileContent
 {
     protected $id;
@@ -14,7 +17,7 @@ class FileContent
     public function __construct()
     {
         if (is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+            $this->dbh = DB::connect();
         }
 
         $this->userId = getUserIdSession();
@@ -160,7 +163,7 @@ class FileContent
         if ($error[0] != '00000') {
             return false;
         } else {
-            $row = $stmt->fetch(\PDO::FETCH_OBJ);
+            $row = $stmt->fetch(PDO::FETCH_OBJ);
             $this->feed($row);
 
             return true;
@@ -186,7 +189,7 @@ class FileContent
             return false;
         } else {
             if ($count == 1) {
-                $row = $stmt->fetch(\PDO::FETCH_OBJ);
+                $row = $stmt->fetch(PDO::FETCH_OBJ);
                 $this->feed($row);
 
                 return true;
@@ -202,7 +205,7 @@ class FileContent
     public function save()
     {
         $sql = 'INSERT INTO appoe_files_content (fileId, title, description, lang, userId, created_at) 
-        VALUES(:fileId, :title, :description, :lang, :userId, NOW())';
+        VALUES(:fileId, :title, :description, :lang, :userId, CURDATE())';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':fileId', $this->fileId);

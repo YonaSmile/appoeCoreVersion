@@ -2,10 +2,13 @@
 require('header.php');
 require(WEB_PROCESS_PATH . 'media.php');
 
-$Media = new \App\Media();
+use App\Category;
+use App\Media;
+
+$Media = new Media();
 $Media->setLang(APP_LANG);
 
-$Category = new \App\Category();
+$Category = new Category();
 $Category->setType('MEDIA');
 $allCategory = $Category->showByType();
 

@@ -392,10 +392,11 @@ function htmlEntityDecode($item)
 function trans($key, $doc = 'general')
 {
     $trans = minimalizeText($key);
-    if (INTERFACE_LANG != 'fr' && file_exists(FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . $doc . '.json')) {
+    $currLang = isUserInApp() ? INTERFACE_LANG : LANG;
+    if ($currLang != 'fr' && file_exists(FILE_LANG_PATH . $currLang . DIRECTORY_SEPARATOR . $doc . '.json')) {
 
         //get lang file
-        $json = file_get_contents(FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . $doc . '.json');
+        $json = file_get_contents(FILE_LANG_PATH . $currLang . DIRECTORY_SEPARATOR . $doc . '.json');
         $parsedJson = json_decode($json, true);
 
         //preparing to compare
@@ -492,15 +493,38 @@ function slugify($text)
 
 /**
  * @param $dirname
- * @param $onlyFiles
+ * @param bool $onlyFiles
+ * @param bool $onlyExtension
+ * @param bool $noExtensionDisplaying
  * @return array
  */
-function getFilesFromDir($dirname, $onlyFiles = false)
+function getFilesFromDir($dirname, $onlyFiles = false, $onlyExtension = false, $noExtensionDisplaying = false)
 {
     $GLOBALS['dirname'] = $dirname;
+    $GLOBALS['onlyExtension'] = $onlyExtension;
+    $GLOBALS['noExtensionDisplaying'] = $noExtensionDisplaying;
+
     if ($onlyFiles) {
-        return array_filter(scandir($dirname), function ($item) {
-            return !is_dir($GLOBALS['dirname'] . $item);
+        return array_filter(scandir($dirname), function (&$item) {
+
+            if (!is_dir($GLOBALS['dirname'] . $item)) {
+
+                if ($GLOBALS['onlyExtension']) {
+                    $extension = getFileExtension($GLOBALS['dirname'] . $item);
+
+                    if ($extension != $GLOBALS['onlyExtension']) {
+                        return false;
+                    }
+                }
+
+                if ($GLOBALS['noExtensionDisplaying']) {
+                    $extPos = strrpos($item, '.');
+                    $item = substr($item, 0, $extPos);
+                }
+
+                return true;
+            }
+            return false;
         });
     }
     return array_diff(scandir($dirname), array('..', '.'));
@@ -646,27 +670,6 @@ function generateSitemap($data)
         if (false !== fwrite($file, $sitemap)) {
             return true;
         }
-    }
-
-    return false;
-}
-
-/**
- * @param array $concernedArray
- * @param $user
- * @param string $otherConcerned
- *
- * @return bool
- */
-function userConcerned(array $concernedArray, $user, $otherConcerned = '')
-{
-
-    if (in_array($user, $concernedArray)) {
-        return true;
-    }
-
-    if (!empty($otherConcerned)) {
-        return $user == $otherConcerned ? true : false;
     }
 
     return false;
@@ -1699,12 +1702,16 @@ function getSessionNotifications()
 
 /**
  * @param $assetName
+ * @param bool $getStream
  * @return bool|false|string
  */
-function getAsset($assetName)
+function getAsset($assetName, $getStream = false)
 {
-    if (file_exists(WEB_LIB_PATH . 'assets/' . $assetName . '.php')) {
-        include_once(WEB_LIB_PATH . 'assets/' . $assetName . '.php');
+    $fileDirname = 'assets/' . $assetName . '.php';
+    $filePath = WEB_LIB_PATH . $fileDirname;
+
+    if (file_exists($filePath)) {
+        return $getStream ? getFileContent($filePath) : include_once($filePath);
     }
 
     return false;
@@ -2874,6 +2881,16 @@ function getUserConnexion()
     }
 
     return $pos !== false ? array('idUserConnexion' => $idUserConnexion, 'loginUserConnexion' => $loginUserConnexion) : false;
+}
+
+/**
+ * Check if user is in App directory
+ * @return bool
+ */
+function isUserInApp()
+{
+    $url_parts = explode('/', $_SERVER['PHP_SELF']);
+    return in_array('app', $url_parts);
 }
 
 /**

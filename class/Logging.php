@@ -1,6 +1,9 @@
 <?php
 
 namespace App;
+
+use PDO;
+
 class Logging
 {
     private $id;
@@ -17,7 +20,7 @@ class Logging
     public function __construct($message = null, $type = null, $status = null, $context = null)
     {
         if (is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+            $this->dbh = DB::connect();
         }
 
         $this->date = date('Y-m-d H:i:s');
@@ -203,7 +206,7 @@ class Logging
         if ($error[0] != '00000') {
             return false;
         } else {
-            $row = $stmt->fetch(\PDO::FETCH_OBJ);
+            $row = $stmt->fetch(PDO::FETCH_OBJ);
             $this->feed($row);
 
             return true;

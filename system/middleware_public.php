@@ -1,14 +1,20 @@
 <?php
+
+use App\Plugin\Cms\Cms;
+use App\Plugin\Cms\CmsMenu;
+use App\Plugin\ItemGlue\Article;
+use App\Plugin\Shop\ProductContent;
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 includePluginsFiles();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
 
 //Check maintenance mode
 if (checkMaintenance()) {
-    header('HTTP/1.1 503 Service Unavailable');
+    header('HTTP/1.1 503 Service Unavailable', true, 503);
     header('Status: 503 Service Temporarily Unavailable');
     header('Retry-After: 3600');
-    echo getFileContent($_SERVER['DOCUMENT_ROOT'] . '/maintenance.php');
+    echo file_exists(ROOT_PATH . 'maintenance.php') ? getFileContent(ROOT_PATH . 'maintenance.php') : getAsset('maintenance', true);
     exit();
 }
 
@@ -18,21 +24,26 @@ appBackup();
 if (class_exists('App\Plugin\Cms\Cms')) {
 
     //Get needed Models
-    $Cms = new \App\Plugin\Cms\Cms();
-    $CmsMenu = new \App\Plugin\Cms\CmsMenu();
+    $Cms = new Cms();
+    $CmsMenu = new CmsMenu();
 
     //Get Page parameters
-    $Cms->setSlug(!empty($_GET['slug']) ? $_GET['slug'] : (pageSlug() != 'index' && pageSlug() != '' ? pageSlug() : 'home'));
-    $existPage = $Cms->showBySlug();
+    if (!empty($_GET['slug'])) {
+        $existPage = $Cms->showBySlug($_GET['slug'], LANG);
+    } else {
+        $existPage = $Cms->showDefaultSlug(LANG);
+    }
 
     //Check if Page exist and accessible
     if (!$existPage || $Cms->getStatut() != 1) {
-        header('location:' . WEB_DIR_URL);
+        header("HTTP/1.0 404 Not Found", true, 404);
+        echo (file_exists(ROOT_PATH . '404.php')) ? getFileContent(ROOT_PATH . '404.php') : getAsset('404', true);
         exit();
     }
 
     //Get default page informations
     $currentPageID = $Cms->getId();
+    $currentPageSlug = $Cms->getSlug();
     $currentPageName = shortenText(trad($Cms->getName()), 70);
     $currentPageDescription = shortenText(trad($Cms->getDescription()), 170);
 
@@ -50,7 +61,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                 if ($pluginType == 'ITEMGLUE') {
 
                     //Get Article infos
-                    $ArticlePage = new \App\Plugin\ItemGlue\Article();
+                    $ArticlePage = new Article();
                     $ArticlePage->setSlug($pluginSlug);
 
 
@@ -72,7 +83,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                     //Check if Product exist
                     if ($ProductPage->showBySlug()) {
 
-                        $ProductPageContent = new \App\Plugin\Shop\ProductContent($ProductPage->getId(), LANG);
+                        $ProductPageContent = new ProductContent($ProductPage->getId(), LANG);
 
                         $currentPageID = $ProductPage->getId();
                         $currentPageName = shortenText(trad($ProductPage->getName()), 70);
@@ -86,7 +97,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     } elseif (!empty($_GET['id'])) {
 
         //Get Article infos
-        $ArticlePage = new \App\Plugin\ItemGlue\Article();
+        $ArticlePage = new Article();
         $ArticlePage->setSlug($_GET['id']);
 
 
@@ -102,7 +113,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
 
     //Set page infos
     $_SESSION['currentPageID'] = $currentPageID;
-    $_SESSION['currentPageSlug'] = $Cms->getSlug();
+    $_SESSION['currentPageSlug'] = $currentPageSlug;
     $_SESSION['currentPageName'] = $currentPageName;
     $_SESSION['currentPageDescription'] = $currentPageDescription;
 

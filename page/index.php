@@ -16,6 +16,7 @@ if (!isVisitor()): ?>
                     if (class_exists('App\Plugin\Cms\Cms')) {
                         $lastPage = getLastFromDb('plugin_cms_content', 'idCms');
                         $Cms = new \App\Plugin\Cms\Cms();
+                        $Cms->setLang(APP_LANG);
                     }
                     if (!isArrayEmpty($lastPage)): ?>
                         <strong><?= trans('Pages'); ?></strong>

@@ -1,6 +1,9 @@
 <?php
 
 namespace App;
+
+use PDO;
+
 class File
 {
     protected $id;
@@ -23,7 +26,7 @@ class File
     public function __construct()
     {
         if (is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+            $this->dbh = DB::connect();
         }
 
         $this->userId = getUserIdSession();
@@ -298,10 +301,10 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
-            $row = $stmt->fetch(\PDO::FETCH_OBJ);
+            $row = $stmt->fetch(PDO::FETCH_OBJ);
             $this->feed($row);
 
-            $FileContent = new \App\FileContent();
+            $FileContent = new FileContent();
 
             $FileContent->setFileId($this->id);
             $FileContent->setLang($this->lang);
@@ -332,11 +335,11 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
-            $allFiles = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $allFiles = $stmt->fetchAll(PDO::FETCH_OBJ);
 
             if ($allFiles) {
 
-                $FileContent = new \App\FileContent();
+                $FileContent = new FileContent();
 
                 foreach ($allFiles as &$file) {
 
@@ -370,11 +373,11 @@ class File
         if ($error[0] != '00000') {
             return false;
         } else {
-            $allFiles = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $allFiles = $stmt->fetchAll(PDO::FETCH_OBJ);
 
             if ($allFiles) {
 
-                $FileContent = new \App\FileContent();
+                $FileContent = new FileContent();
 
                 foreach ($allFiles as &$file) {
 

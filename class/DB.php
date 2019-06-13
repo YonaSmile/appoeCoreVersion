@@ -1,6 +1,10 @@
 <?php
 
 namespace App;
+
+use PDO;
+use PDOException;
+
 class DB
 {
     private static $instance;
@@ -23,10 +27,10 @@ class DB
             while ($attempts > 0) {
 
                 try {
-                    self::$dbh = new \PDO(DBPATH, DBUSER, DBPASS);
+                    self::$dbh = new PDO(DBPATH, DBUSER, DBPASS);
                     $attempts = 0;
 
-                } catch (\PDOException $e) {
+                } catch (PDOException $e) {
 
                     $attempts--;
                     sleep(1);
@@ -76,7 +80,18 @@ class DB
     public static function updateTable()
     {
 
-        $sql = 'CREATE TABLE IF NOT EXISTS `appoe_files_content` (
+        //ADD UNIQUE `appoe_plugin_cms_content` : `type` with other
+        $sql = 'ALTER TABLE `appoe_plugin_cms_content` ADD `type` VARCHAR(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "BODY" AFTER `idCms`;';
+        $sql .= 'ALTER TABLE `appoe_plugin_cms_content` CHANGE `metaKey` `metaKey` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;';
+        $sql .= 'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "name", name, "fr", CURDATE() FROM `appoe_plugin_cms`;';
+        $sql .= 'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "description", description, "fr", CURDATE() FROM `appoe_plugin_cms`;';
+        $sql .= 'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "slug", slug, "fr", CURDATE() FROM `appoe_plugin_cms`;';
+        $sql .= 'ALTER TABLE `appoe_plugin_cms` DROP `name`, DROP `description`, DROP `slug`, DROP `content`;';
+        $sql .= 'ALTER TABLE `appoe_plugin_cms` ADD `filename` VARCHAR (255) NOT NULL AFTER `type`;';
+        $sql .= 'ALTER TABLE `appoe_plugin_cms` ADD UNIQUE(`type`, `filename`);';
+        $sql .= 'UPDATE `appoe_plugin_cms` AS C SET C.filename = (SELECT CC.metaValue FROM appoe_plugin_cms_content AS CC WHERE CC.idCms = C.id AND CC.type = "HEADER" AND CC.metaKey = "slug") WHERE 1;';
+        $sql .= 'ALTER TABLE `appoe_plugin_cms_menu` CHANGE `name` `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;';
+        $sql .= 'CREATE TABLE IF NOT EXISTS `appoe_files_content` (
   				`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 PRIMARY KEY (`id`),
   				`fileId` INT(11) UNSIGNED NOT NULL,
@@ -140,7 +155,7 @@ class DB
             return false;
         } else {
             if ($count > 0) {
-                return $stmt->fetchAll(\PDO::FETCH_OBJ);
+                return $stmt->fetchAll(PDO::FETCH_OBJ);
             }
         }
 

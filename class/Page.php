@@ -1,5 +1,9 @@
 <?php
+
 namespace App;
+
+use PDO;
+
 class Page
 {
     private $slug;
@@ -13,8 +17,8 @@ class Page
 
     public function __construct($slug)
     {
-        if(is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+        if (is_null($this->dbh)) {
+            $this->dbh = DB::connect();
         }
 
         $this->setSlug($slug);
@@ -135,7 +139,7 @@ class Page
         } else {
             if ($count == 1) {
                 $this->exist = true;
-                $row = $stmt->fetch(\PDO::FETCH_OBJ);
+                $row = $stmt->fetch(PDO::FETCH_OBJ);
                 $this->feed($row);
                 return true;
             } else {

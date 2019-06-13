@@ -1,6 +1,9 @@
 <?php
 
 namespace App;
+
+use PDO;
+
 class Menu
 {
     private $dbh = null;
@@ -8,7 +11,7 @@ class Menu
     public function __construct()
     {
         if (is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+            $this->dbh = DB::connect();
         }
     }
 
@@ -67,7 +70,7 @@ class Menu
             return false;
         } else {
 
-            while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
+            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                 $data[] = $row;
             }
             if (isset($data)) {
@@ -98,7 +101,7 @@ class Menu
 
             if ($error[0] == '00000') {
 
-                while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     $data[] = $row;
                 }
 
@@ -123,7 +126,7 @@ class Menu
         if ($error[0] != '00000') {
             return false;
         } else {
-            return $stmt->fetch(\PDO::FETCH_OBJ);
+            return $stmt->fetch(PDO::FETCH_OBJ);
         }
     }
 
@@ -239,7 +242,7 @@ class Menu
             return false;
         } else {
             if ($count > 0) {
-                $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if ($row['min_role_id'] <= $user_session_role) {
                     return true;
                 }
@@ -259,7 +262,7 @@ class Menu
         if ($error[0] != '00000') {
             return false;
         } else {
-            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if ($row['order_menu'] >= $num) {
                     $num = $row['order_menu'] + 1;
                 }

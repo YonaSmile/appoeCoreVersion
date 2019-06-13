@@ -1,6 +1,9 @@
 <?php
 
 namespace App;
+
+use PDO;
+
 class DbView
 {
 
@@ -13,7 +16,7 @@ class DbView
     public function __construct($viewName = null, $dataColumns = null, $dataValues = null)
     {
         if (is_null($this->dbh)) {
-            $this->dbh = \App\DB::connect();
+            $this->dbh = DB::connect();
         }
 
         if (!is_null($viewName) && !is_null($dataColumns) && !is_null($dataValues)) {
@@ -116,7 +119,7 @@ class DbView
             return false;
         } else {
             if ($count == 1) {
-                return $stmt->fetch(\PDO::FETCH_OBJ);
+                return $stmt->fetch(PDO::FETCH_OBJ);
             } else {
                 return false;
             }
