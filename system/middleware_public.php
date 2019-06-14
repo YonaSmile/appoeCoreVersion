@@ -30,14 +30,28 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     //Get Page parameters
     if (!empty($_GET['slug'])) {
         $existPage = $Cms->showBySlug($_GET['slug'], LANG);
+
+        if (!$existPage) {
+
+            //Check for other languages
+            $testedLang = array(LANG);
+            foreach (getLangs() as $minLang => $largeLang) {
+                if (!in_array($minLang, $testedLang)) {
+                    $testedLang[] = $minLang;
+                    if ($Cms->showBySlug($_GET['slug'], $minLang)) {
+                        $existPage = true;
+                        break;
+                    }
+                }
+            }
+        }
     } else {
         $existPage = $Cms->showDefaultSlug(LANG);
     }
 
     //Check if Page exist and accessible
     if (!$existPage || $Cms->getStatut() != 1) {
-        header("HTTP/1.0 404 Not Found", true, 404);
-        echo (file_exists(ROOT_PATH . '404.php')) ? getFileContent(ROOT_PATH . '404.php') : getAsset('404', true);
+        header("location: " . WEB_DIR_URL, true, 301);
         exit();
     }
 

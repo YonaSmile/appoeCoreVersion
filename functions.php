@@ -3,6 +3,10 @@
 //Get PHPMAILER
 $phpMailerFolder = WEB_LIB_PATH . 'php/PHPMailer/';
 
+use App\AppLogging;
+use App\Category;
+use App\Media;
+use App\Plugin\Traduction\Traduction;
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once $phpMailerFolder . 'Exception.php';
@@ -454,7 +458,7 @@ function trad($text, $tradToOrigin = false, $lang = LANG)
 {
     if (class_exists('App\Plugin\Traduction\Traduction')) {
 
-        $Traduction = new \App\Plugin\Traduction\Traduction($lang);
+        $Traduction = new Traduction($lang);
         return !$tradToOrigin ? $Traduction->trans($text) : $Traduction->transToOrigin($text);
     }
     return $text;
@@ -799,7 +803,7 @@ function isValidDateTime($dateStr, $format = 'Y-m-d')
  */
 function displayTimeStamp($timestamp, $hour = true)
 {
-    $Date = new \DateTime($timestamp, new \DateTimeZone('Europe/Paris'));
+    $Date = new DateTime($timestamp, new DateTimeZone('Europe/Paris'));
 
     if ($hour) {
         return $Date->format('d/m/Y H:i');
@@ -825,7 +829,7 @@ function displayCompleteDate($date, $hour = false, $format = '%A %d %B %Y')
 
     if (isValidDateTime($date)) {
 
-        $Date = new \DateTime($date);
+        $Date = new DateTime($date);
         $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
 
         $strFtime = empty($format) ? ($hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y") : $format;
@@ -854,12 +858,12 @@ function displayDuree($duree)
  */
 function getHoursFromDate($date1, $date2 = '')
 {
-    $Date1 = new \DateTime($date1);
+    $Date1 = new DateTime($date1);
 
     if (empty($date2)) {
         return $Date1->format('H:i');
     } else {
-        $Date2 = new \DateTime($date2);
+        $Date2 = new DateTime($date2);
 
         return trans('De') . ' ' . $Date1->format('H:i') . ' ' . trans('à') . ' ' . $Date2->format('H:i');
     }
@@ -875,7 +879,7 @@ function displayFrDate($date)
 {
     if (isValidDateTime($date)) {
 
-        $Date = new \DateTime($date);
+        $Date = new DateTime($date);
 
         return $Date->format('d/m/Y');
     } else {
@@ -893,7 +897,7 @@ function displayDBDate($date)
 {
     if (isValidDateTime($date)) {
 
-        $Date = new \DateTime($date);
+        $Date = new DateTime($date);
 
         return $Date->format('Y-m-d');
     } else {
@@ -1057,12 +1061,12 @@ function appBackup($DB = true)
         }
 
         //delete old folders (-30 days)
-        $maxAutorizedFolderDate = new \DateTime('-30 days');
+        $maxAutorizedFolderDate = new DateTime('-30 days');
         $directories = scandir(WEB_BACKUP_PATH);
         foreach ($directories as $directory) {
             if ($directory != '.' and $directory != '..') {
                 if (is_dir(WEB_BACKUP_PATH . $directory)) {
-                    if ($maxAutorizedFolderDate > new \DateTime($directory)) {
+                    if ($maxAutorizedFolderDate > new DateTime($directory)) {
                         deleteAllFolderContent(WEB_BACKUP_PATH . $directory);
                     }
                 }
@@ -1078,7 +1082,7 @@ function appBackup($DB = true)
  */
 function appLog($text)
 {
-    $AppLog = new \App\AppLogging();
+    $AppLog = new AppLogging();
     $AppLog->write($text);
 }
 
@@ -1124,7 +1128,7 @@ function rcopy($src, $dest)
     }
 
     // Open the source directory to read in files
-    $i = new \DirectoryIterator($src);
+    $i = new DirectoryIterator($src);
     foreach ($i as $f) {
         if ($f->isFile()) {
             copy($f->getRealPath(), "$dest/" . $f->getFilename());
@@ -1251,7 +1255,7 @@ function rmove($src, $dest)
         rename(realpath($src), "$dest");
     } else {
         // Open the source directory to read in files
-        $i = new \DirectoryIterator($src);
+        $i = new DirectoryIterator($src);
         foreach ($i as $f) {
             if ($f->isFile()) {
                 if ($f->getFilename() != 'setup.php') {
@@ -1283,7 +1287,7 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
     $tempFolder = $path . 'unzip';
     $pluginsName = getPluginsName();
 
-    $zip = new \ZipArchive;
+    $zip = new ZipArchive;
     $res = $zip->open($src);
     if ($res === TRUE) {
         $zip->extractTo($tempFolder);
@@ -1330,7 +1334,7 @@ function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $de
  */
 function unzip($src, $path, $deleteZip = true)
 {
-    $zip = new \ZipArchive;
+    $zip = new ZipArchive;
     if (true === $zip->open($src)) {
         $zip->extractTo($path);
         $zip->close();
@@ -1848,7 +1852,7 @@ function getFileContent($path, $activeTraduction = true)
     ob_start();
 
     if ($activeTraduction && class_exists('App\Plugin\Traduction\Traduction')) {
-        $Traduction = new \App\Plugin\Traduction\Traduction(APP_LANG);
+        $Traduction = new Traduction(APP_LANG);
     }
 
     if (file_exists($path)) {
@@ -1901,7 +1905,7 @@ function getFieldsControls()
 function getMediaCategories()
 {
 
-    $Category = new \App\Category();
+    $Category = new Category();
     $Category->setType('MEDIA');
     $allCategories = $Category->showByType();
     return $allCategories ? extractFromObjToSimpleArr($allCategories, 'id', 'name') : false;
@@ -1916,8 +1920,8 @@ function getMediaCategories()
  */
 function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA')
 {
-    $Media = new \App\Media();
-    $Category = new \App\Category();
+    $Media = new Media();
+    $Category = new Category();
 
     $Category->setType($categoryType);
     $allCategories = $Category->showByType();
@@ -1952,10 +1956,10 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
  */
 function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
 {
-    $Media = new \App\Media();
+    $Media = new Media();
     $Media->setType($type);
 
-    $Category = new \App\Category();
+    $Category = new Category();
     $Category->setType($type);
     $allCategories = $Category->showByType();
 
@@ -3380,15 +3384,15 @@ function removeAccents($str, $charset = 'utf-8')
 function formatDateDiff($start, $end = null)
 {
     if (!($start instanceof DateTime)) {
-        $start = new \DateTime($start);
+        $start = new DateTime($start);
     }
 
     if ($end === null) {
-        $end = new \DateTime();
+        $end = new DateTime();
     }
 
     if (!($end instanceof DateTime)) {
-        $end = new \DateTime($start);
+        $end = new DateTime($start);
     }
 
     $interval = $start->diff($end);

@@ -79,6 +79,12 @@ class DB
      */
     public static function updateTable()
     {
+        /*
+         * Put name, description and slug in other language
+         * INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT idCms, "HEADER", "name", metaValue, "en", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "name" AND lang = "fr";
+         * INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT idCms, "HEADER", "description", metaValue, "en", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "description" AND lang = "fr";
+         * INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT idCms, "HEADER", "slug", metaValue, "en", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "slug" AND lang = "fr";
+         */
 
         //ADD UNIQUE `appoe_plugin_cms_content` : `type` with other
         $sql = 'ALTER TABLE `appoe_plugin_cms_content` ADD `type` VARCHAR(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "BODY" AFTER `idCms`;';
