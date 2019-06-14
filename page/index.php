@@ -1,4 +1,10 @@
-<?php require('header.php');
+<?php
+require('header.php');
+
+use App\Category;
+use App\Plugin\Cms\Cms;
+use App\Plugin\ItemGlue\Article;
+
 echo getTitle($Page->getName(), $Page->getSlug());
 echo implode('', includePersoPluginsDashboard());
 if (!isVisitor()): ?>
@@ -15,7 +21,7 @@ if (!isVisitor()): ?>
                     $lastPage = array();
                     if (class_exists('App\Plugin\Cms\Cms')) {
                         $lastPage = getLastFromDb('plugin_cms_content', 'idCms');
-                        $Cms = new \App\Plugin\Cms\Cms();
+                        $Cms = new Cms();
                         $Cms->setLang(APP_LANG);
                     }
                     if (!isArrayEmpty($lastPage)): ?>
@@ -31,13 +37,6 @@ if (!isVisitor()): ?>
                                            class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                 <span class="text-white"><i class="fas fa-cog"></i></span>
                                             </a>
-                                                <?php if (isTechnicien(getUserRoleId())): ?>
-                                                    <a href="<?= getPluginUrl('cms/page/update/', $Cms->getId()) ?>"
-                                                       class="btn btn-sm p-0 align-top"
-                                                       title="<?= trans('Modifier'); ?>">
-                                                <span class="text-white"><i class="fas fa-wrench"></i></span>
-                                            </a>
-                                                <?php endif; ?>
                                         </span>
                                     </div>
                                 <?php endif;
@@ -50,7 +49,7 @@ if (!isVisitor()): ?>
                     $lastArticle = array();
                     if (class_exists('App\Plugin\ItemGlue\Article')) {
                         $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle');
-                        $Article = new \App\Plugin\ItemGlue\Article();
+                        $Article = new Article();
                     }
                     if (!isArrayEmpty($lastArticle)): ?>
                         <strong><?= trans('Articles'); ?></strong>
@@ -126,7 +125,7 @@ endif;
 $dashboardDetails = includePluginsDashboard();
 
 if (isTechnicien(getUserRoleId())) {
-    $Category = new \App\Category();
+    $Category = new Category();
     $dashboardDetails[] = array(
         'name' => trans('Catégories'),
         'count' => $Category->showAll(true),

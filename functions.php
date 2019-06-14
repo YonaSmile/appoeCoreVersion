@@ -493,42 +493,41 @@ function slugify($text)
 
 /**
  * @param $dirname
- * @param bool $onlyFiles
- * @param bool $onlyExtension
- * @param bool $noExtensionDisplaying
+ * @param array $options
  * @return array
  */
-function getFilesFromDir($dirname, $onlyFiles = false, $onlyExtension = false, $noExtensionDisplaying = false)
+function getFilesFromDir($dirname, array $options = array())
 {
-    $GLOBALS['dirname'] = $dirname;
-    $GLOBALS['onlyExtension'] = $onlyExtension;
-    $GLOBALS['noExtensionDisplaying'] = $noExtensionDisplaying;
+    $defaultOptions = array(
+        'onlyFiles' => false,
+        'onlyExtension' => false,
+        'noExtensionDisplaying' => false
+    );
 
-    if ($onlyFiles) {
-        return array_filter(scandir($dirname), function (&$item) {
+    $options = array_merge($defaultOptions, $options);
+    $files = array();
 
-            if (!is_dir($GLOBALS['dirname'] . $item)) {
+    if ($options['onlyFiles']) {
 
-                if ($GLOBALS['onlyExtension']) {
-                    $extension = getFileExtension($GLOBALS['dirname'] . $item);
+        $iterator = new DirectoryIterator($dirname);
 
-                    if ($extension != $GLOBALS['onlyExtension']) {
-                        return false;
+        foreach ($iterator as $fileinfo) {
+
+            if ($fileinfo->isFile()) {
+
+                if (false !== $options['onlyExtension']) {
+                    if ($fileinfo->getExtension() == $options['onlyExtension']) {
+                        $files[] = $fileinfo->getBasename(false !== $options['noExtensionDisplaying'] ? '.' . $fileinfo->getExtension() : NULL);
                     }
+                } else {
+                    $files[] = $fileinfo->getBasename(false !== $options['noExtensionDisplaying'] ? '.' . $fileinfo->getExtension() : NULL);
                 }
-
-                if ($GLOBALS['noExtensionDisplaying']) {
-                    $extPos = strrpos($item, '.');
-                    $item = substr($item, 0, $extPos);
-                }
-
-                return true;
             }
-            return false;
-        });
+        }
+
+        return $files;
     }
     return array_diff(scandir($dirname), array('..', '.'));
-
 }
 
 /**

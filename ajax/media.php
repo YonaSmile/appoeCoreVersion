@@ -1,5 +1,9 @@
 <?php
 require_once('../main.php');
+
+use App\FileContent;
+use App\Media;
+
 if (checkAjaxRequest()) {
 
     if (getUserIdSession()) {
@@ -9,16 +13,16 @@ if (checkAjaxRequest()) {
         if (isset($_POST['updateDetailsImg']) && !empty($_POST['idImage'])
             && !empty($_POST['typeId']) && is_numeric($_POST['typeId'])) {
 
-            $Media = new \App\Media();
+            $Media = new Media();
             $Media->setId($_POST['idImage']);
             if ($Media->show()) {
 
-                $FileContent = new \App\FileContent();
+                $FileContent = new FileContent();
                 $FileContent->setFileId($Media->getId());
                 $FileContent->setLang(APP_LANG);
                 $FileContent->setUserId(getUserIdSession());
 
-                if($FileContent->showByFile()){
+                if ($FileContent->showByFile()) {
 
                     $FileContent->setTitle($_POST['title']);
                     $FileContent->setDescription($_POST['description']);
@@ -63,7 +67,7 @@ if (checkAjaxRequest()) {
 
         if (isset($_POST['deleteImage']) && !empty($_POST['idImage'])) {
 
-            $Media = new \App\Media();
+            $Media = new Media();
             $Media->setId($_POST['idImage']);
             if ($Media->show()) {
 
@@ -81,7 +85,7 @@ if (checkAjaxRequest()) {
         if (isset($_REQUEST['getAllMedia'])) {
 
             $html = '<div class="card-columns">';
-            $includeFiles = getFilesFromDir(FILE_DIR_PATH, true);
+            $includeFiles = getFilesFromDir(FILE_DIR_PATH, ['onlyFiles' => true]);
 
             foreach ($includeFiles as $key => $includeFile) {
 
