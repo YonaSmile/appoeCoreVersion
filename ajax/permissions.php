@@ -1,5 +1,8 @@
 <?php
 require_once('header.php');
+
+use App\Menu;
+
 if (checkAjaxRequest()) {
 
     if (getUserIdSession()) {
@@ -17,7 +20,7 @@ if (checkAjaxRequest()) {
             && isset($_POST['order_menu'])
             && isset($_POST['pluginName'])
         ) {
-            $Menu = new \App\Menu();
+            $Menu = new Menu();
             if ($Menu->updateMenu($_POST['id'],
                 $_POST['name'], $_POST['slug'], $_POST['min_role_id'], $_POST['statut'],
                 $_POST['parent_id'], $_POST['order_menu'], $_POST['pluginName'])
@@ -37,7 +40,7 @@ if (checkAjaxRequest()) {
             && isset($_POST['order_menu'])
             && isset($_POST['pluginName'])
         ) {
-            $Menu = new \App\Menu();
+            $Menu = new Menu();
             if ($Menu->insertMenu($_POST['id'], $_POST['slug'],
                 $_POST['name'], $_POST['min_role_id'],
                 $_POST['statut'], $_POST['parent_id'],

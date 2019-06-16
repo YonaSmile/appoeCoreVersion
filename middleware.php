@@ -10,7 +10,9 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
         if (!$USER->exist() || !$USER->getStatut()) {
 
             deconnecteUser();
-            header('location:' . WEB_DIR_URL);
+            if (!headers_sent()) {
+                header('location:' . WEB_DIR_URL, true, 404);
+            }
             exit();
         }
 
@@ -19,7 +21,9 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
         if ($key != $userConnexion['loginUserConnexion']) {
 
             deconnecteUser();
-            header('location:' . WEB_DIR_URL);
+            if (!headers_sent()) {
+                header('location:' . WEB_DIR_URL, true, 404);
+            }
             exit();
         }
 
@@ -28,19 +32,25 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
         if (!$Page->isExist() OR $Page->getMinRoleId() > $USER->getRole()) {
 
             deconnecteUser();
-            header('location:' . WEB_DIR_URL);
+            if (!headers_sent()) {
+                header('location:' . WEB_DIR_URL, true, 404);
+            }
             exit();
         }
     } else {
 
         deconnecteUser();
-        header('location:' . WEB_DIR_URL);
+        if (!headers_sent()) {
+            header('location:' . WEB_DIR_URL, true, 404);
+        }
         exit();
     }
 
 } else {
 
     deconnecteUser();
-    header('location:' . WEB_DIR_URL);
+    if (!headers_sent()) {
+        header('location:' . WEB_DIR_URL, true, 404);
+    }
     exit();
 }

@@ -1,12 +1,16 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
+
+use App\Category;
+use App\Media;
+
 if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])):
 
-    $Category = new \App\Category();
+    $Category = new Category();
     $Category->setType('MEDIA');
     $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
 
-    $Media = new \App\Media();
+    $Media = new Media();
     $Media->setId($_GET['fileId']);
     $Media->setLang(APP_LANG);
 

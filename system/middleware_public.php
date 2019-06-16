@@ -1,19 +1,21 @@
 <?php
+require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
+includePluginsFiles();
+require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/config.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
 
 use App\Plugin\Cms\Cms;
 use App\Plugin\Cms\CmsMenu;
 use App\Plugin\ItemGlue\Article;
 use App\Plugin\Shop\ProductContent;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
-includePluginsFiles();
-require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
-
 //Check maintenance mode
 if (checkMaintenance()) {
-    header('HTTP/1.1 503 Service Unavailable', true, 503);
-    header('Status: 503 Service Temporarily Unavailable');
-    header('Retry-After: 3600');
+    if (!headers_sent()) {
+        header('HTTP/1.1 503 Service Unavailable', true, 503);
+        header('Status: 503 Service Temporarily Unavailable');
+        header('Retry-After: 3600');
+    }
     echo file_exists(ROOT_PATH . 'maintenance.php') ? getFileContent(ROOT_PATH . 'maintenance.php') : getAsset('maintenance', true);
     exit();
 }
@@ -23,9 +25,8 @@ appBackup();
 
 if (class_exists('App\Plugin\Cms\Cms')) {
 
-    //Get needed Models
+    //Get Page
     $Cms = new Cms();
-    $CmsMenu = new CmsMenu();
 
     //Get Page parameters
     if (!empty($_GET['slug'])) {
@@ -132,5 +133,6 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     $_SESSION['currentPageDescription'] = $currentPageDescription;
 
     //Create menu
+    $CmsMenu = new CmsMenu();
     $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
 }

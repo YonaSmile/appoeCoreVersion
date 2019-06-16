@@ -39,7 +39,8 @@ class Menu
                     (16, "updatePermissions", "Permissions", 11, 0, 10, 16, NULL, "2018-01-05 11:28:14"),
                     (20, "allUsers", "Tous les utilisateurs", 1, 1, 12, 20, NULL, "2018-01-04 08:31:39"),
                     (21, "addUser", "Nouvel utilisateur", 2, 1, 12, 21, NULL, "2018-01-04 08:31:39"),
-                    (22, "updateUser", "Mise à jour de l\'utilisateur", 1, 0, 12, 22, NULL, "2018-01-04 08:31:39");';
+                    (22, "updateUser", "Mise à jour de l\'utilisateur", 1, 0, 12, 22, NULL, "2018-01-04 08:31:39"),
+                    (23, "preferences", "préférences", 3, 0, 10, 23, NULL, "2018-01-04 08:31:39");';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();

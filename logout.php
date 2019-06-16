@@ -7,4 +7,8 @@ deconnecteUser();
 session_unset();
 session_destroy();
 
-header('location:' . WEB_DIR . 'hibour');
+if (!headers_sent()) {
+    header('location:' . WEB_DIR . 'hibour');
+}
+
+exit();
