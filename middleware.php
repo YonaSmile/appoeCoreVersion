@@ -11,7 +11,7 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
 
             deconnecteUser();
             if (!headers_sent()) {
-                header('location:' . WEB_DIR_URL, true, 404);
+                header('location:' . WEB_DIR_URL);
             }
             exit();
         }
@@ -22,7 +22,7 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
 
             deconnecteUser();
             if (!headers_sent()) {
-                header('location:' . WEB_DIR_URL, true, 404);
+                header('location:' . WEB_DIR_URL);
             }
             exit();
         }
@@ -33,7 +33,7 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
 
             deconnecteUser();
             if (!headers_sent()) {
-                header('location:' . WEB_DIR_URL, true, 404);
+                header('location:' . WEB_DIR_URL);
             }
             exit();
         }
@@ -41,7 +41,7 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
 
         deconnecteUser();
         if (!headers_sent()) {
-            header('location:' . WEB_DIR_URL, true, 404);
+            header('location:' . WEB_DIR_URL);
         }
         exit();
     }
@@ -50,7 +50,7 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
 
     deconnecteUser();
     if (!headers_sent()) {
-        header('location:' . WEB_DIR_URL, true, 404);
+        header('location:' . WEB_DIR_URL);
     }
     exit();
 }
