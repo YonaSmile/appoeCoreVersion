@@ -3,6 +3,7 @@
 //Get PHPMAILER
 $phpMailerFolder = WEB_LIB_PATH . 'php/PHPMailer/';
 
+use App\AppConfig;
 use App\AppLogging;
 use App\Category;
 use App\Media;
@@ -214,6 +215,17 @@ function getAppoeCredit($color = "#ccc")
     $html = 'Propulsé par <a target="_blank" style="color:' . $color . '" href="http://aoe-communication.com/" title="APPOE">APPOE</a>';
 
     return $html;
+}
+
+/**
+ * @param $key
+ * @return bool
+ */
+function getConfig($key)
+{
+    $AppConfig = new AppConfig();
+    $Config = $AppConfig->get();
+    return (!isArrayEmpty($Config) && array_key_exists($key, $Config)) ? $Config[$key] : false;
 }
 
 /**

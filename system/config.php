@@ -1,25 +1,13 @@
 <?php
+if (getConfig('forceHTTPS') === 'true') {
 
-use App\AppConfig;
+    if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
 
-$AppConfig = new AppConfig();
-$Config = $AppConfig->get();
+        if (!headers_sent()) {
 
-if ($Config) {
-
-    $ConfigBack = $Config['back'];
-    $ConfigFront = $Config['front'];
-
-    if (array_key_exists('forceHTTPS', $ConfigFront) && true === $ConfigFront['forceHTTPS']) {
-
-        if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
-
-            if (!headers_sent()) {
-
-                header("Status: 301 Moved Permanently");
-                header(sprintf('Location: https://%s%s', $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']));
-                exit();
-            }
+            header("Status: 301 Moved Permanently");
+            header(sprintf('Location: https://%s%s', $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']));
+            exit();
         }
     }
 }

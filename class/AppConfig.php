@@ -23,9 +23,29 @@ class AppConfig
      */
     private $pathConfigFile = null;
 
-    /******************************** CONFIG DATA ********************************/
+    /**
+     * @var array
+     */
+    private $defaultConfig = array(
+        'forceHTTPS' => false,
+        'sharingWork' => false
+    );
 
-    public $forceHTTPS = false;
+    /**
+     * @var array
+     */
+    public $configExplanation = array(
+        'forceHTTPS' => 'Forcer le site en HTTPS',
+        'sharingWork' => 'Autoriser le partage du travail sur la même page'
+    );
+
+    /**
+     * @return array
+     */
+    public function getDefaultConfig()
+    {
+        return $this->defaultConfig;
+    }
 
     /**
      * AppLogging constructor.
@@ -51,8 +71,7 @@ class AppConfig
                 return false;
             }
 
-            $defaultData = array('back' => array(), 'front' => array());
-            return putJsonContent(WEB_SYSTEM_PATH . $this->configFile, $defaultData);
+            return putJsonContent(WEB_SYSTEM_PATH . $this->configFile, $this->defaultConfig);
         }
         return true;
     }
@@ -73,7 +92,7 @@ class AppConfig
     }
 
     /**
-     * @return bool
+     * @return array|bool
      */
     public function get()
     {
