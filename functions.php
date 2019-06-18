@@ -3586,13 +3586,21 @@ function sendMail(array $data, array $otherAddr = null)
     // Votre message
     $Mail->MsgHTML($data['message']);
 
+    $maxSize = 5 * 1024 * 1024;
+
     //Attach files from form
     if (!empty($data['files'])) {
         $files = $data['files'];
-        $fileCount = !empty($files['name'][0]) ? count($files['name']) : 0;
-        for ($i = 0; $i < $fileCount; $i++) {
-            if (!empty($files['name'][$i])) {
-                $Mail->AddAttachment($files['tmp_name'][$i], $files['name'][$i]);
+
+        if (is_array($files['name'])) {
+            for ($i = 0; $i < count($files['name']); $i++) {
+                if (!empty($files['name'][$i]) && $files['size'][$i] < $maxSize) {
+                    $Mail->AddAttachment($files['tmp_name'][$i], $files['name'][$i]);
+                }
+            }
+        } else {
+            if ($files['size'] < $maxSize) {
+                $Mail->AddAttachment($files['tmp_name'], $files['name']);
             }
         }
     }
@@ -3600,7 +3608,9 @@ function sendMail(array $data, array $otherAddr = null)
     //Attach files from url
     if (!empty($data['docs'])) {
         foreach ($data['docs'] as $doc) {
-            $Mail->AddAttachment($doc['src'], $doc['name']);
+            if (filesize($doc['src']) < $maxSize) {
+                $Mail->AddAttachment($doc['src'], $doc['name']);
+            }
         }
     }
 

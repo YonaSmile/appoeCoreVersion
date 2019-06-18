@@ -92,6 +92,7 @@ class DB
         $sql .= 'ALTER TABLE `appoe_plugin_cms_content` ADD `type` VARCHAR(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "BODY" AFTER `idCms`;';
         $sql .= 'ALTER TABLE `appoe_plugin_cms_content` CHANGE `metaKey` `metaKey` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;';
         $sql .= 'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "name", name, "fr", CURDATE() FROM `appoe_plugin_cms`;';
+        $sql .= 'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT `idCms`, "HEADER", "menuName", `metaValue`, "fr", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "name" AND type = "HEADER" AND lang = "fr";';
         $sql .= 'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "description", description, "fr", CURDATE() FROM `appoe_plugin_cms`;';
         $sql .= 'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "slug", slug, "fr", CURDATE() FROM `appoe_plugin_cms`;';
         $sql .= 'ALTER TABLE `appoe_plugin_cms` DROP `name`, DROP `description`, DROP `slug`, DROP `content`;';
