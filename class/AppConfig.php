@@ -101,4 +101,16 @@ class AppConfig
         }
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    public function restoreConfig()
+    {
+        if (file_exists(WEB_SYSTEM_PATH . $this->configFile)) {
+            return putJsonContent(WEB_SYSTEM_PATH . $this->configFile, $this->defaultConfig);
+        } else {
+            return $this->checkConfigFile();
+        }
+    }
 }

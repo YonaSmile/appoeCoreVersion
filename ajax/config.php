@@ -20,6 +20,16 @@ if (checkAjaxRequest()) {
                 exit();
             }
         }
+
+        if (!empty($_POST['restoreConfig']) && $_POST['restoreConfig'] == 'OK') {
+
+            $Config = new AppConfig();
+            if ($Config->restoreConfig()) {
+
+                echo json_encode(true);
+                exit();
+            }
+        }
     }
 }
 echo json_encode(false);
