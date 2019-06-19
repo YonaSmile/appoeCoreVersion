@@ -86,7 +86,7 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                                    data-file-id="<?= $file->id; ?>">
                                                     <?php if (true === $fileSize || $fileSize[1] > 150): ?>
                                                         <h2><?= $file->title; ?></h2>
-                                                        <p><?= $file->description; ?></p>
+                                                        <p><?= nl2br($file->description); ?></p>
                                                     <?php endif; ?>
                                                 </a>
                                             </div>
