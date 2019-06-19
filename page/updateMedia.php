@@ -71,16 +71,21 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                         data-library-parent-name="<?= $libraryParent[$id]['name']; ?>"><?= $name; ?></h5>
                                     <hr class="my-3 mx-5">
                                     <div class="card-columns">
-                                        <?php foreach ($allFiles as $file): ?>
-                                            <div class="card fileContent bg-none border-0"
+                                        <?php foreach ($allFiles as $file):
+                                            $fileSize = getimagesize(FILE_DIR_PATH . $file->name); ?>
+                                            <div class="card view border-0 bg-none"
                                                  data-file-id="<?= $file->id; ?>">
-                                                <a href="#" class="getMediaDetails"
+                                                <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
+                                                    <img src="<?= getThumb($file->name, 370); ?>"
+                                                         class="img-fluid">
+                                                <?php else: ?>
+                                                    <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>">
+                                                <?php endif; ?>
+                                                <a href="#" class="info getMediaDetails mask"
                                                    data-file-id="<?= $file->id; ?>">
-                                                    <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
-                                                        <img src="<?= getThumb($file->name, 370); ?>"
-                                                             class="img-fluid">
-                                                    <?php else: ?>
-                                                        <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>">
+                                                    <?php if ($fileSize[1] > 50): ?>
+                                                        <h2><?= $file->title; ?></h2>
+                                                        <p><?= $file->description; ?></p>
                                                     <?php endif; ?>
                                                 </a>
                                             </div>
