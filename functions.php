@@ -2492,6 +2492,36 @@ function includePluginsStyles()
 }
 
 /**
+ * @param array $headers
+ * @param array $data
+ * @param string $filename
+ * @param string $delimiter
+ * @return bool
+ */
+function exportCsv(array $headers, array $data, $filename = 'data', $delimiter = ',')
+{
+    if (!is_array($headers) || !is_array($data)) {
+        return false;
+    }
+
+    if (!headers_sent()) {
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=' . $filename . '.csv');
+    }
+
+    $output = fopen("php://output", "w");
+    fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
+    fputcsv($output, $headers, $delimiter);
+
+    foreach ($data as $item) {
+        fputcsv($output, $item, $delimiter);
+    }
+
+    fclose($output);
+    return true;
+}
+
+/**
  * @return bool
  */
 function valideToken()
