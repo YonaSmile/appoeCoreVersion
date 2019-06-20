@@ -1,7 +1,7 @@
 Options +FollowSymlinks
 RewriteEngine On
 RewriteBase /app/page/
-RewriteRule ^home$  index.php [L]
+RewriteRule ^home/$  index.php [L]
 RewriteRule ^user/([0-9]+)/$ updateUser.php?id=$1 [L]
 RewriteRule ^allUsers/$  allUsers.php [L]
 RewriteRule ^addUser/$ addUser.php [L]

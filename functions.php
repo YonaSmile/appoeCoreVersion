@@ -29,30 +29,40 @@ function pageSlug()
 
 /**
  * @param $url
+ * @return bool
+ */
+function isUrlRoot($url)
+{
+
+    if ($url == 'index' && (false !== strpos($_SERVER['REQUEST_URI'], 'home')
+            || basename($_SERVER["SCRIPT_FILENAME"]) == 'index.php')) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * @param $url
  * @param $classNameAdded
- * @param $scriptPage
  * @return string
  */
-function activePage($url, $classNameAdded = 'active', $scriptPage = false)
+function activePage($url, $classNameAdded = 'active')
 {
     if (!empty($url)) {
-        if (!$scriptPage) {
-            if ($url == 'home' && empty(basename($_SERVER['REQUEST_URI']))) {
-                return $classNameAdded;
-            }
 
-            if (false !== strpos(basename($_SERVER['REQUEST_URI']), $url)) {
-                return $classNameAdded;
-            }
-        } else {
-            if ($url == 'home' && empty(basename($_SERVER['SCRIPT_NAME']))) {
-                return $classNameAdded;
-            }
-
-            if (false !== strpos(basename($_SERVER['SCRIPT_NAME']), $url)) {
-                return $classNameAdded;
-            }
+        if (isUrlRoot($url)) {
+            return $classNameAdded;
         }
+
+        $urlParts = array_filter(explode('/', $_SERVER['REQUEST_URI']), function ($item) {
+            return !empty($item);
+        });
+
+        if ($url == end($urlParts)) {
+            return $classNameAdded;
+        }
+
     }
     return '';
 }
