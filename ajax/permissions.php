@@ -5,7 +5,7 @@ use App\Menu;
 
 if (checkAjaxRequest()) {
 
-    if (getUserIdSession()) {
+    if (false !== getUserIdSession()) {
 
         $_POST = cleanRequest($_POST);
 
@@ -24,6 +24,7 @@ if (checkAjaxRequest()) {
             $Menu->feed($_POST);
             if ($Menu->updateMenu()){
                 echo 'true';
+                exit();
             }
         }
 
@@ -42,6 +43,7 @@ if (checkAjaxRequest()) {
             $Menu->feed($_POST);
             if ($Menu->insertMenu()){
                 echo 'true';
+                exit();
             }
         }
     }
