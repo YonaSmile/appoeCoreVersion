@@ -88,16 +88,16 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                 <?= Form::text('Nom', 'name', 'text', !empty($_POST['name']) ? $_POST['name'] : '', true, 50); ?>
                             </div>
                             <div class="col-12 my-2">
-                                <?= Form::select('Rôle requis', 'min_role_id', getRoles(), '', true); ?>
+                                <?= Form::select('Rôle requis', 'minRoleId', getRoles(), '', true); ?>
                             </div>
                             <div class="col-12 my-2">
                                 <?= Form::select('Statut', 'statut', [0 => 'Caché', 1 => 'Affiché'], !empty($_POST['statut']) ? $_POST['statut'] : 1, true); ?>
                             </div>
                             <div class="col-12 my-2">
-                                <?= Form::select('Permission Parente', 'parent_id', extractFromObjToSimpleArr($allPermissions, 'id', 'name') + array(10 => 'Aucun Parent'), '', true); ?>
+                                <?= Form::select('Permission Parente', 'parentId', extractFromObjToSimpleArr($allPermissions, 'id', 'name') + array(10 => 'Aucun Parent'), '', true); ?>
                             </div>
                             <div class="col-12 my-2">
-                                <?= Form::text('Ordre', 'order_menu', 'number', !empty($_POST['order_menu']) ? $_POST['order_menu'] : '', false, 11); ?>
+                                <?= Form::text('Ordre', 'orderMenu', 'number', !empty($_POST['orderMenu']) ? $_POST['orderMenu'] : '', false, 11); ?>
                             </div>
                             <div class="col-12 my-2">
                                 <?= Form::text('Nom du plugin', 'pluginName', 'text', !empty($_POST['pluginName']) ? $_POST['pluginName'] : '', false, 200); ?>

@@ -14,17 +14,15 @@ if (checkAjaxRequest()) {
             && !empty($_POST['id'])
             && !empty($_POST['name'])
             && !empty($_POST['slug'])
-            && !empty($_POST['min_role_id'])
-            && !empty($_POST['parent_id'])
+            && !empty($_POST['minRoleId'])
+            && !empty($_POST['parentId'])
             && isset($_POST['statut'])
-            && isset($_POST['order_menu'])
+            && isset($_POST['orderMenu'])
             && isset($_POST['pluginName'])
         ) {
             $Menu = new Menu();
-            if ($Menu->updateMenu($_POST['id'],
-                $_POST['name'], $_POST['slug'], $_POST['min_role_id'], $_POST['statut'],
-                $_POST['parent_id'], $_POST['order_menu'], $_POST['pluginName'])
-            ) {
+            $Menu->feed($_POST);
+            if ($Menu->updateMenu()){
                 echo 'true';
             }
         }
@@ -34,20 +32,18 @@ if (checkAjaxRequest()) {
             && !empty($_POST['id'])
             && !empty($_POST['slug'])
             && !empty($_POST['name'])
-            && !empty($_POST['min_role_id'])
+            && !empty($_POST['minRoleId'])
             && isset($_POST['statut'])
             && !empty($_POST['parent_id'])
             && isset($_POST['order_menu'])
             && isset($_POST['pluginName'])
         ) {
             $Menu = new Menu();
-            if ($Menu->insertMenu($_POST['id'], $_POST['slug'],
-                $_POST['name'], $_POST['min_role_id'],
-                $_POST['statut'], $_POST['parent_id'],
-                $_POST['pluginName'], $_POST['order_menu'])
-            ) {
+            $Menu->feed($_POST);
+            if ($Menu->insertMenu()){
                 echo 'true';
             }
         }
     }
 }
+echo 'false';

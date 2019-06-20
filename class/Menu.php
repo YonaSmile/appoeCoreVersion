@@ -6,6 +6,15 @@ use PDO;
 
 class Menu
 {
+    private $id;
+    private $slug;
+    private $name;
+    private $minRoleId;
+    private $statut;
+    private $parentId;
+    private $orderMenu = null;
+    private $pluginName = null;
+
     private $dbh = null;
 
     public function __construct()
@@ -13,6 +22,134 @@ class Menu
         if (is_null($this->dbh)) {
             $this->dbh = DB::connect();
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMinRoleId()
+    {
+        return $this->minRoleId;
+    }
+
+    /**
+     * @param mixed $minRoleId
+     */
+    public function setMinRoleId($minRoleId)
+    {
+        $this->minRoleId = $minRoleId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
+     * @param mixed $statut
+     */
+    public function setStatut($statut)
+    {
+        $this->statut = $statut;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParentId()
+    {
+        return $this->parentId;
+    }
+
+    /**
+     * @param mixed $parentId
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrderMenu()
+    {
+        return $this->orderMenu;
+    }
+
+    /**
+     * @param mixed $orderMenu
+     */
+    public function setOrderMenu($orderMenu)
+    {
+        $this->orderMenu = $orderMenu;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPluginName()
+    {
+        return $this->pluginName;
+    }
+
+    /**
+     * @param mixed $pluginName
+     */
+    public function setPluginName($pluginName)
+    {
+        $this->pluginName = $pluginName;
     }
 
     public function createTable()
@@ -131,40 +268,40 @@ class Menu
         }
     }
 
-    public function insertMenu($id, $slug, $name, $minRole, $statut, $parent, $pluginName = NULL, $order_menu = '')
+    public function insertMenu()
     {
 
-        if (empty($order_menu)) {
-            $order_menu = null;
-        } elseif ($parent == 10) {
-            $order_menu = $this->ordonnerMenu();
+        if ($this->parentId == 10) {
+            $this->orderMenu = $this->ordonnerMenu();
         }
 
         $sql = 'INSERT INTO appoe_menu (id, slug, name, min_role_id, statut, parent_id, order_menu, pluginName) 
         VALUES (:id, :slug, :name, :min_role_id, :statut, :parent_id, :order_menu, :pluginName)';
 
         $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':slug', $slug);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':min_role_id', $minRole);
-        $stmt->bindParam(':statut', $statut);
-        $stmt->bindParam(':parent_id', $parent);
-        $stmt->bindParam(':order_menu', $order_menu);
-        $stmt->bindParam(':pluginName', $pluginName);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':slug', $this->slug);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':min_role_id', $this->minRoleId);
+        $stmt->bindParam(':statut', $this->statut);
+        $stmt->bindParam(':parent_id', $this->parentId);
+        $stmt->bindParam(':order_menu', $this->orderMenu);
+        $stmt->bindParam(':pluginName', $this->pluginName);
         $stmt->execute();
         $error = $stmt->errorInfo();
 
         if ($error[0] != '00000') {
             return false;
         } else {
-            appLog('Creating menu -> id: ' . $id . ' slug: ' . $slug . ' name: ' . $name . ' min role id: ' . $minRole . ' statut: ' . $statut . ' parent id: ' . $parent . ' order: ' . $order_menu . ' plugin: ' . $pluginName);
+            appLog('Creating menu -> id: ' . $this->id . ' slug: ' . $this->slug . ' name: ' . $this->name . ' 
+            min role id: ' . $this->minRoleId . ' statut: ' . $this->statut . ' parent id: ' . $this->parentId . ' 
+            order: ' . $this->orderMenu . ' plugin: ' . $this->pluginName);
             return true;
         }
 
     }
 
-    public function updateMenu($id, $name, $slug, $minRole, $statut, $parent, $order_menu = null, $pluginName = null)
+    public function updateMenu()
     {
 
         $sql = 'UPDATE appoe_menu 
@@ -172,21 +309,23 @@ class Menu
         WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':slug', $slug);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':min_role_id', $minRole);
-        $stmt->bindParam(':statut', $statut);
-        $stmt->bindParam(':parent_id', $parent);
-        $stmt->bindParam(':order_menu', $order_menu);
-        $stmt->bindParam(':pluginName', $pluginName);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':slug', $this->slug);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':min_role_id', $this->minRoleId);
+        $stmt->bindParam(':statut', $this->statut);
+        $stmt->bindParam(':parent_id', $this->parentId);
+        $stmt->bindParam(':order_menu', $this->orderMenu);
+        $stmt->bindParam(':pluginName', $this->pluginName);
         $stmt->execute();
         $error = $stmt->errorInfo();
 
         if ($error[0] != '00000') {
             return false;
         } else {
-            appLog('Updating menu -> id: ' . $id . ' slug: ' . $slug . ' name: ' . $name . ' min role id: ' . $minRole . ' statut: ' . $statut . ' parent id: ' . $parent . ' order: ' . $order_menu . ' plugin: ' . $pluginName);
+            appLog('Updating menu -> id: ' . $this->id . ' slug: ' . $this->slug . ' name: ' . $this->name . ' 
+            min role id: ' . $this->minRoleId . ' statut: ' . $this->statut . ' parent id: ' . $this->parentId . ' 
+            order: ' . $this->orderMenu . ' plugin: ' . $this->pluginName);
             return true;
         }
 
@@ -291,5 +430,22 @@ class Menu
         $filename = str_replace($special, $normal, $filename);
 
         return strtolower($filename);
+    }
+
+    /**
+     * Feed class attributs
+     * @param $data
+     */
+    public function feed($data)
+    {
+        if (isset($data)) {
+            foreach ($data as $attribut => $value) {
+                $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
+
+                if (is_callable(array($this, $method))) {
+                    $this->$method($value);
+                }
+            }
+        }
     }
 }
