@@ -1,5 +1,8 @@
-<?php require('header.php'); ?>
-<?= getTitle($Page->getName(), $Page->getSlug()); ?>
+<?php require('header.php');
+
+use App\Version;
+
+echo getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
         <a class="btn btn-info mb-4" href="<?= getUrl('updatePermissions/'); ?>">
             <?= trans('Les Permissions'); ?>
@@ -27,12 +30,12 @@
                                 </div>
                                 <div class="pt-2 px-2 pb-1 mb-1 bg-light returnContainer"></div>
                                 <?php if (!empty($plugin['versionPath'])):
-                                    \App\Version::setFile($plugin['versionPath']);
-                                    if (\App\Version::show()): ?>
+                                    Version::setFile($plugin['versionPath']);
+                                    if (Version::show()): ?>
                                         <div class="py-1 px-3 mb-2 bg-light">
                                             <small class="pluginVersion"
                                                    data-pluginname="<?= $plugin['name']; ?>">
-                                                <?= \App\Version::getVersion(); ?>
+                                                <?= Version::getVersion(); ?>
                                             </small>
                                             <small class="responseVersion float-right"></small>
                                         </div>
@@ -59,12 +62,12 @@
                             </button>
                         </div>
                         <?php
-                        \App\Version::setFile(WEB_APP_PATH . 'version.json');
-                        if (\App\Version::show()):
+                        Version::setFile(WEB_APP_PATH . 'version.json');
+                        if (Version::show()):
                             ?>
                             <div class="py-1 px-3 mb-2 bg-light">
-                                <small id="systemVersion" data-systemversion="<?= \App\Version::getVersion(); ?>">
-                                    <?= trans('Version'); ?> <?= \App\Version::getVersion(); ?>
+                                <small id="systemVersion" data-systemversion="<?= Version::getVersion(); ?>">
+                                    <?= trans('Version'); ?> <?= Version::getVersion(); ?>
                                 </small>
                                 <small class="responseVersion float-right"></small>
                             </div>
@@ -92,12 +95,12 @@
                             </button>
                         </div>
                         <?php
-                        \App\Version::setFile(WEB_LIB_PATH . 'version.json');
-                        if (\App\Version::show()):
+                        Version::setFile(WEB_LIB_PATH . 'version.json');
+                        if (Version::show()):
                             ?>
                             <div class="py-1 px-3 mb-2 bg-light">
-                                <small id="libVersion" data-libversion="<?= \App\Version::getVersion(); ?>">
-                                    <?= trans('Version'); ?> <?= \App\Version::getVersion(); ?>
+                                <small id="libVersion" data-libversion="<?= Version::getVersion(); ?>">
+                                    <?= trans('Version'); ?> <?= Version::getVersion(); ?>
                                 </small>
                                 <small class="responseVersion float-right"></small>
                             </div>
@@ -129,6 +132,36 @@
                         </div>
                         <div class="my-4"></div>
                     </div>
+                    <div class="col-12">
+                        <div class="p-3 bg-info text-white">
+                            <?= mb_strtoupper(trans('Gestion des informations')); ?>
+                        </div>
+                        <div class="p-2 mb-2 bg-light">
+                            <button type="button" data-toggle="modal" data-target="#infoManagerModal"
+                                    class="btn btn-outline-info btn-sm">
+                                <?= trans('Aide des pages'); ?>
+                            </button>
+                        </div>
+                        <div class="my-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="infoManagerModal" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action="" id="managePageInfo" method="post">
+                        <?php
+                        $files = getFilesFromDir(WEB_APP_PATH . 'page/', ['onlyFiles' => true, 'onlyExtension' => 'php', 'noExtensionDisplaying' => true]);
+                        ?>
+                        <?= \App\Form::select('Page', 'page', array_combine($files, $files), '', true); ?>
+                        <div id="textInfosZone" class="my-3"></div>
+                        <?= \App\Form::target('ADDPAGEINFO'); ?>
+                        <?= \App\Form::submit('Enregistrer', 'saveInfos'); ?>
+                    </form>
                 </div>
             </div>
         </div>

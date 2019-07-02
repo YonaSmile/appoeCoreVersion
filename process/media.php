@@ -1,5 +1,5 @@
 <?php
-if (checkPostAndTokenRequest()) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Clean data
     $_POST = cleanRequest($_POST);

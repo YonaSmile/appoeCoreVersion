@@ -554,6 +554,28 @@ function getPageHelp($urlPage)
 }
 
 /**
+ * @param $urlPage
+ * @param $text
+ * @return bool
+ */
+function setHelpPage($urlPage, $text)
+{
+
+    $helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
+
+    //get help file
+    $fileContent = getJsonContent($helpFile);
+
+    //check if file exist
+    if ($fileContent) {
+        $fileContent[$urlPage] = $text;
+
+        return putJsonContent($helpFile, $fileContent);
+    }
+    return false;
+}
+
+/**
  * @return bool
  */
 function isVisitor()

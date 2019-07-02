@@ -178,4 +178,19 @@ if (checkAjaxRequest()) {
         }
         exit();
     }
+
+    if (!empty($_POST['pageInfos']) && !empty($_POST['filename'])) {
+
+        $helpPage = getPageHelp($_POST['filename']);
+        echo \App\Form::textarea('Information', 'pageInfo', $helpPage, 5, true, '', 'ckeditor');
+    }
+
+    if (!empty($_POST['ADDPAGEINFO']) && !empty($_POST['page']) && !empty($_POST['pageInfo'])) {
+
+        if (setHelpPage($_POST['page'], $_POST['pageInfo'])) {
+            echo 'true';
+        } else {
+            trans('Une erreur s\'est produite lors de l\'enregistrement des informations');
+        }
+    }
 }
