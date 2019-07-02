@@ -6,7 +6,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
 
 use App\Plugin\Cms\Cms;
 use App\Plugin\Cms\CmsMenu;
-use App\Plugin\ItemGlue\Article;
 use App\Plugin\Shop\ProductContent;
 
 //Check maintenance mode
@@ -57,10 +56,10 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     }
 
     //Get default page informations
-    $currentPageID = $Cms->getId();
-    $currentPageSlug = $Cms->getSlug();
-    $currentPageName = shortenText(trad($Cms->getName()), 70);
-    $currentPageDescription = shortenText(trad($Cms->getDescription()), 170);
+    setPageId($Cms->getId());
+    setPageName($Cms->getName());
+    setPageDescription($Cms->getDescription());
+    setPageSlug($Cms->getSlug());
 
     //Check if is Page or plugin page
     if (!empty($_GET['type'])) {
@@ -75,17 +74,19 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                 //TYPE ITEMGLUE
                 if ($pluginType == 'ITEMGLUE') {
 
-                    //Get Article infos
-                    $ArticlePage = new Article();
-                    $ArticlePage->setSlug($pluginSlug);
+                    if (class_exists('App\Plugin\ItemGlue\Article')) {
 
+                        //Get Article infos
+                        $Article = getArticlesBySlug($_GET['id']);
 
-                    //Check if Article exist
-                    if ($ArticlePage->showBySlug()) {
+                        //Check if Article exist
+                        if ($Article) {
 
-                        $currentPageID = $ArticlePage->getId();
-                        $currentPageName = shortenText(trad($ArticlePage->getName()), 70);
-                        $currentPageDescription = shortenText(trad($ArticlePage->getDescription()), 170);
+                            setPageId($Article->getId());
+                            setPageName($Article->getName());
+                            setPageDescription($Article->getDescription());
+                            setPageImage(getFirstImage(getFileTemplatePosition($Article->medias, 1, true), '', false, true));
+                        }
                     }
 
                     //TYPE SHOP
@@ -100,9 +101,9 @@ if (class_exists('App\Plugin\Cms\Cms')) {
 
                         $ProductPageContent = new ProductContent($ProductPage->getId(), LANG);
 
-                        $currentPageID = $ProductPage->getId();
-                        $currentPageName = shortenText(trad($ProductPage->getName()), 70);
-                        $currentPageDescription = shortenText(trad($ProductPageContent->getResume()), 170);
+                        setPageId($ProductPage->getId());
+                        setPageName($ProductPage->getName());
+                        setPageDescription($ProductPageContent->getResume());
                     }
                 }
             }
@@ -111,26 +112,22 @@ if (class_exists('App\Plugin\Cms\Cms')) {
         //shortcut for articles
     } elseif (!empty($_GET['id'])) {
 
-        //Get Article infos
-        $ArticlePage = new Article();
-        $ArticlePage->setSlug($_GET['id']);
+        if (class_exists('App\Plugin\ItemGlue\Article')) {
 
+            //Get Article infos
+            $Article = getArticlesBySlug($_GET['id']);
 
-        //Check if Article exist
-        if ($ArticlePage->showBySlug()) {
+            //Check if Article exist
+            if ($Article) {
 
-            $currentPageID = $ArticlePage->getId();
-            $currentPageName = shortenText(trad($ArticlePage->getName()), 70);
-            $currentPageDescription = shortenText(trad($ArticlePage->getDescription()), 170);
+                setPageId($Article->getId());
+                setPageName($Article->getName());
+                setPageDescription($Article->getDescription());
+                setPageImage(getFirstImage(getFileTemplatePosition($Article->medias, 1, true), '', false, true));
+            }
         }
 
     }
-
-    //Set page infos
-    $_SESSION['currentPageID'] = $currentPageID;
-    $_SESSION['currentPageSlug'] = $currentPageSlug;
-    $_SESSION['currentPageName'] = $currentPageName;
-    $_SESSION['currentPageDescription'] = $currentPageDescription;
 
     //Create menu
     $CmsMenu = new CmsMenu();

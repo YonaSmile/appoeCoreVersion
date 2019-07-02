@@ -28,6 +28,102 @@ function pageSlug()
 }
 
 /**
+ * @param $id
+ */
+function setPageId($id)
+{
+    $_SESSION['currentPageID'] = $id;
+}
+
+/**
+ * @param $name
+ */
+function setPageName($name)
+{
+    $_SESSION['currentPageName'] = shortenText(trad($name), 70);
+}
+
+/**
+ * @param $description
+ */
+function setPageDescription($description)
+{
+    $_SESSION['currentPageDescription'] = shortenText(trad($description), 170);
+}
+
+/**
+ * @param $imageUrl
+ */
+function setPageImage($imageUrl)
+{
+    $_SESSION['currentPageImage'] = $imageUrl;
+}
+
+/**
+ * @param $slug
+ */
+function setPageSlug($slug)
+{
+    $_SESSION['currentPageSlug'] = $slug;
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageId()
+{
+    return !empty($_SESSION['currentPageID']) ? $_SESSION['currentPageID'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageName()
+{
+    return !empty($_SESSION['currentPageName']) ? $_SESSION['currentPageName'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageDescription()
+{
+    return !empty($_SESSION['currentPageDescription']) ? $_SESSION['currentPageDescription'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageImage()
+{
+    return !empty($_SESSION['currentPageImage']) ? $_SESSION['currentPageImage'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageSlug()
+{
+    return !empty($_SESSION['currentPageSlug']) ? $_SESSION['currentPageSlug'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getMetaData()
+{
+    $header = '<meta property="og:site_name" content="' . WEB_TITLE . '">';
+    $header .= '<meta property="og:type" content="article">';
+    $header .= '<meta property="article:publisher" content="' . WEB_DIR_URL . '">';
+    $header .= '<meta property="og:title" content="' . getPageName() . '">';
+    $header .= '<meta property="og:description" content="' . getPageDescription() . '">';
+    $header .= '<meta property="og:image" content="' . getPageImage() . '">';
+    $header .= '<meta property="og:url" content="' . WEB_DIR_URL . $_SERVER["REQUEST_URI"] . '">';
+
+    return $header;
+}
+
+/**
  * @param $url
  * @return bool
  */
@@ -1054,8 +1150,7 @@ function getSizeName($octets)
 /**
  * @param bool $DB
  * @return bool
- * @throws phpmailerException
- * @noinspection PhpUnhandledExceptionInspection
+ * @throws Exception
  */
 function appBackup($DB = true)
 {
