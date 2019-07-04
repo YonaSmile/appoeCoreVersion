@@ -1185,7 +1185,7 @@ function appBackup($DB = true)
     }
 
     //check existing backup folder for today or created it
-    if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d') . DIRECTORY_SEPARATOR)) {
+    if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d'))) {
         if (mkdir(WEB_BACKUP_PATH . date('Y-m-d'), 0705)) {
             if ($DB) {
 
@@ -2130,6 +2130,36 @@ function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
     }
 
     return $allMedia;
+}
+
+/**
+ * @param $allCategory
+ * @param $allLibrary
+ * @return array
+ */
+function groupLibraryByParents($allCategory, $allLibrary)
+{
+
+    $allLibraryByParent = extractFromObjToSimpleArr($allCategory, 'id', 'parentId');
+
+    $libraryParent = array();
+    foreach ($allLibraryByParent as $id => $parentId) {
+
+        if ($parentId == 10) {
+            $libraryParent[$id] = array('id' => $id, 'name' => $allLibrary[$id]);
+
+        } else {
+
+            if ($allLibraryByParent[$parentId] == 10) {
+                $libraryParent[$id] = array('id' => $allLibraryByParent[$id], 'name' => $allLibrary[$parentId]);
+
+            } else {
+                $libraryParent[$id] = array('id' => $allLibraryByParent[$parentId], 'name' => $allLibrary[$allLibraryByParent[$parentId]]);
+
+            }
+        }
+    }
+    return $libraryParent;
 }
 
 /**
