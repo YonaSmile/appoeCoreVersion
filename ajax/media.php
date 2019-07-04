@@ -10,6 +10,45 @@ if (checkAjaxRequest()) {
 
         $_POST = cleanRequest($_POST);
 
+        if (isset($_POST['ADDIMAGES']) && !empty($_POST['library']) && isset($_POST['textareaSelectedFile'])) {
+
+            $html = '';
+            $selectedFilesCount = 0;
+
+            $Media = new Media();
+            $Media->setTypeId($_POST['library']);
+            $Media->setUserId(getUserIdSession());
+
+            //Get uploaded files
+            if (!empty($_FILES)) {
+                $Media->setUploadFiles($_FILES['inputFile']);
+                $files = $Media->upload();
+                $html .= trans('Fichiers importés') . ' : <strong>' . $files['countUpload'] . '</strong>. ' . (!empty($files['errors']) ? '<br><span class="text-danger">' . $files['errors'] . '</span>' : '');
+            }
+
+            //Get selected files
+            if (!empty($_POST['textareaSelectedFile'])) {
+
+                $selectedFiles = $_POST['textareaSelectedFile'];
+
+                if (strpos($selectedFiles, '|||')) {
+                    $files = explode('|||', $selectedFiles);
+                } else {
+                    $files = array($selectedFiles);
+                }
+
+                foreach ($files as $key => $file) {
+                    $Media->setName($file);
+                    if ($Media->save()) $selectedFilesCount++;
+                }
+
+                $html .= trans('Fichiers sélectionnés enregistrés') . ' <strong>' . $selectedFilesCount . '</strong>.';
+            }
+
+            echo json_encode($html);
+            exit();
+        }
+
         if (isset($_POST['updateDetailsImg']) && !empty($_POST['idImage'])
             && !empty($_POST['typeId']) && is_numeric($_POST['typeId'])) {
 

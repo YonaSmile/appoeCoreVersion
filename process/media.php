@@ -1,4 +1,7 @@
 <?php
+
+use App\Media;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Clean data
@@ -9,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $html = '';
         $selectedFilesCount = 0;
 
-        $Media = new \App\Media();
+        $Media = new Media();
         $Media->setTypeId($_POST['library']);
         $Media->setUserId(getUserIdSession());
 
