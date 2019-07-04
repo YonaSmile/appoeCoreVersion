@@ -2662,8 +2662,10 @@ function exportCsv(array $headers, array $data, $filename = 'data', $delimiter =
     }
 
     if (!headers_sent()) {
+        header('Content-Encoding: UTF-8');
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=' . $filename . '.csv');
+        header('Cache-Control: max-age=0');
     }
 
     $output = fopen("php://output", "w");
