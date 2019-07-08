@@ -101,7 +101,7 @@ class DB
             'ALTER TABLE `appoe_plugin_cms_content` ADD UNIQUE (`idCms`, `type`, `metaKey`, `lang`)',
             'ALTER TABLE `appoe_plugin_cms` DROP `name`, DROP `description`, DROP `slug`, DROP `content`;',
             'ALTER TABLE `appoe_plugin_cms` ADD `filename` VARCHAR (255) NOT NULL AFTER `type`;',
-            'UPDATE `appoe_plugin_cms` SET `filename` = "index" WHERE `appoe_plugin_cms`.`id` = 11;',
+            'UPDATE `appoe_plugin_cms` SET `filename` = "index" WHERE `id` = 11;',
             'ALTER TABLE `appoe_plugin_cms` DROP INDEX type',
             'ALTER TABLE `appoe_plugin_cms` ADD UNIQUE(`type`, `filename`);',
             'UPDATE `appoe_plugin_cms` AS C SET C.filename = (SELECT CC.metaValue FROM appoe_plugin_cms_content AS CC WHERE CC.idCms = C.id AND CC.type = "HEADER" AND CC.metaKey = "slug") WHERE 1;',
