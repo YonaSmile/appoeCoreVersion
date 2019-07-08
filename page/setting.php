@@ -4,7 +4,7 @@ use App\Version;
 use App\Menu;
 
 $Menu = new Menu();
-$allPermissions = extractFromObjToSimpleArr($Menu->displayMenuAll(), 'slug', 'name');
+$allPermissions = extractFromObjToSimpleArr($Menu->displayMenuAll(), 'slug', 'name', 'pluginName', ' | ');
 
 echo getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
