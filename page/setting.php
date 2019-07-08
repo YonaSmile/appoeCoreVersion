@@ -1,7 +1,7 @@
 <?php require('header.php');
 
-use App\Version;
 use App\Menu;
+use App\Version;
 
 $Menu = new Menu();
 $allPermissions = extractFromObjToSimpleArr($Menu->displayMenuAll(), 'slug', 'name', 'pluginName', ' | ');
@@ -116,12 +116,26 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                             <?= mb_strtoupper(trans('Enregistrement')); ?>
                         </div>
                         <div class="p-2 mb-2 bg-light">
-                            <button type="button" id="cleanDataBase" class="btn btn-warning btn-sm operationBtn">
-                                <?= trans('Base de donnée'); ?>
-                            </button>
-                            <button type="button" id="saveFiles" class="btn btn-warning btn-sm operationBtn">
-                                <?= trans('Fichiers'); ?>
-                            </button>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" id="cleanDataBase"
+                                            class="btn btn-warning btn-sm operationBtn">
+                                        <?= trans('Base de donnée'); ?>
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <?php
+                                        $files = array('public', 'include');
+                                        echo \App\Form::select('Fichier', 'files', array_combine($files, $files), 'public', true, '', '', '', 'custom-select-sm', false); ?>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="saveFiles" style="cursor: pointer;">
+                                                <i class="fas fa-download"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="saveInfos" class="mt-3"></div>
                         </div>
                         <div class="my-4"></div>
                     </div>

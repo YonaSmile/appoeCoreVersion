@@ -172,9 +172,10 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['saveFile'])) {
 
-        $saveFiles = saveFiles();
+        $folder = !empty($_POST['folder']) ? $_POST['folder'] : 'public';
+        $saveFiles = saveFiles($folder);
         if (false !== $saveFiles) {
-            echo getSizeName($saveFiles['copySize']) . trans(' Fichiers enregistrés'), '. <a href="' . $saveFiles['downloadLink'] . '"> ' . trans('Télécharger les fichiers') . ' (' . getSizeName($saveFiles['zipSize']) . ')</a>';
+            echo $folder . ' / ' . getSizeName($saveFiles['copySize']) . trans(' Fichiers enregistrés'), '. <a href="' . $saveFiles['downloadLink'] . '"> ' . trans('Télécharger') . ' (' . getSizeName($saveFiles['zipSize']) . ')</a>';
         }
         exit();
     }

@@ -1293,7 +1293,6 @@ function saveFiles($folder = 'public')
 
     if (!is_dir($dest) && !is_file($dest)) {
         if (!mkdir($dest)) {
-            // If the destination directory could not be created stop processing
             return false;
         }
     }
