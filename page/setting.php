@@ -1,6 +1,10 @@
 <?php require('header.php');
 
 use App\Version;
+use App\Menu;
+
+$Menu = new Menu();
+$allPermissions = extractFromObjToSimpleArr($Menu->displayMenuAll(), 'slug', 'name');
 
 echo getTitle($Page->getName(), $Page->getSlug()); ?>
     <div class="container-fluid">
@@ -154,10 +158,7 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
             <div class="modal-content">
                 <div class="modal-body">
                     <form action="" id="managePageInfo" method="post">
-                        <?php
-                        $files = getFilesFromDir(WEB_APP_PATH . 'page/', ['onlyFiles' => true, 'onlyExtension' => 'php', 'noExtensionDisplaying' => true]);
-                        ?>
-                        <?= \App\Form::select('Page', 'page', array_combine($files, $files), '', true); ?>
+                        <?= \App\Form::select('Page', 'page', $allPermissions, '', true); ?>
                         <div id="textInfosZone" class="my-3"></div>
                         <?= \App\Form::target('ADDPAGEINFO'); ?>
                         <?= \App\Form::submit('Enregistrer', 'saveInfos'); ?>
