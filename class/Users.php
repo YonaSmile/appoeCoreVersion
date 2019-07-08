@@ -388,7 +388,7 @@ class Users
     public function updatePassword()
     {
         $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = 'UPDATE appoe_users SET password = :password WHERE login = :login';
+        $sql = 'UPDATE appoe_users SET password = :password WHERE BINARY login = :login';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':password', $hash_password);
         $stmt->bindParam(':login', $this->login);
