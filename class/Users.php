@@ -209,7 +209,7 @@ class Users
      */
     public function authUser()
     {
-        $sql = 'SELECT * FROM appoe_users WHERE login = :login AND statut = TRUE';
+        $sql = 'SELECT * FROM appoe_users WHERE BINARY login = :login AND statut = TRUE';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':login', $this->login);
         $stmt->execute();
@@ -356,7 +356,7 @@ class Users
      */
     public function exist($login = false)
     {
-        $sql = 'SELECT login FROM appoe_users WHERE login = :login';
+        $sql = 'SELECT login FROM appoe_users WHERE BINARY login = :login';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':login', $this->login);
         $stmt->execute();
