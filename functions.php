@@ -1184,16 +1184,18 @@ function appBackup($DB = true)
         }
     }
 
+    $backUpFolder = WEB_BACKUP_PATH . date('Y-m-d');
+
     //check existing backup folder for today or created it
-    if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d'))) {
-        if (mkdir(WEB_BACKUP_PATH . date('Y-m-d'), 0705)) {
+    if (!is_dir($backUpFolder)) {
+        if (mkdir($backUpFolder, 0705)) {
             if ($DB) {
 
                 //save db
                 \App\DB::backup(date('Y-m-d'));
 
                 //check if db was saved
-                if (!file_exists(WEB_BACKUP_PATH . date('Y-m-d') . DIRECTORY_SEPARATOR . 'db.sql.gz')) {
+                if (!file_exists($backUpFolder . DIRECTORY_SEPARATOR . 'db.sql.gz')) {
                     error_log(date('d/m/Y H:i') . ' : La sauvegarde de la base de données de ' . WEB_TITLE . ' n\'a pas été effectué.', 0);
                 }
             }
