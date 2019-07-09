@@ -112,13 +112,32 @@ function getPageSlug()
  */
 function getMetaData()
 {
-    $header = '<meta property="og:site_name" content="' . WEB_TITLE . '">';
-    $header .= '<meta property="og:type" content="article">';
-    $header .= '<meta property="article:publisher" content="' . WEB_DIR_URL . '">';
+    //Schema.org meta
+    $header = '<meta itemprop="name" content="' . getPageName() . '">';
+    $header .= '<meta itemprop="description" content="' . getPageDescription() . '">';
+    $header .= '<meta itemprop="image" content="' . getPageImage() . '">';
+    $header .= '<link rel="author" href="' . WEB_DIR_URL . '">';
+    $header .= '<meta rel="publisher" href="' . WEB_DIR_URL . '">';
+
+    // Open Graph meta
     $header .= '<meta property="og:title" content="' . getPageName() . '">';
-    $header .= '<meta property="og:description" content="' . getPageDescription() . '">';
-    $header .= '<meta property="og:image" content="' . getPageImage() . '">';
+    $header .= '<meta property="og:type" content="article">';
     $header .= '<meta property="og:url" content="' . WEB_DIR_URL . $_SERVER["REQUEST_URI"] . '">';
+    $header .= '<meta property="og:image" content="' . getPageImage() . '">';
+    $header .= '<meta property="og:description" content="' . getPageDescription() . '">';
+    $header .= '<meta property="og:site_name" content="' . WEB_TITLE . '">';
+    $header .= '<meta property="author" content="' . WEB_DIR_URL . '">';
+    $header .= '<meta property="article:publisher" content="' . WEB_DIR_URL . '">';
+
+    // Twitter Card meta
+    $header .= '<meta property="twitter:card" content="summary_large_image">';
+    $header .= '<meta property="twitter:site" content="@' . WEB_TITLE . '">';
+    $header .= '<meta property="twitter:title" content="' . getPageName() . '">';
+    $header .= '<meta property="twitter:description" content="' . getPageDescription() . '">';
+    $header .= '<meta property="twitter:creator" content="@' . (defined('TWITTER_USERNAME') ? TWITTER_USERNAME : WEB_TITLE) . '">';
+    $header .= '<meta property="twitter:url" content="' . getPageSlug() . '">';
+    $header .= '<meta property="twitter:domain" content="' . WEB_DIR_URL . '">';
+    $header .= '<meta property="twitter:image:src" content="' . getPageImage() . '">';
 
     return $header;
 }
@@ -2647,6 +2666,8 @@ function includePluginsStyles()
             }
         }
     }
+
+    echo '<link rel="stylesheet" href="' . WEB_TEMPLATE_URL . 'css/utils.css" type="text/css">';
 }
 
 /**
