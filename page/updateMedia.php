@@ -105,12 +105,12 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                     <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
                         <?= getTokenField(); ?>
                         <div class="col-12 col-lg-6 my-2">
-                            <?= \App\Form::file('Importer des médias', 'inputFile[]', false, 'multiple'); ?>
+                            <?= \App\Form::file('Importer depuis votre appareil', 'inputFile[]', false, 'multiple'); ?>
                         </div>
                         <div class="col-12 col-lg-3 my-2">
                                 <textarea name="textareaSelectedFile" id="textareaSelectedFile"
                                           class="d-none"></textarea>
-                            <?= \App\Form::text('Choisissez des médias', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-toggle="modal" data-target="#allMediasModal"'); ?>
+                            <?= \App\Form::text('Choisissez dans la bibliothèque', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-toggle="modal" data-target="#allMediasModal"'); ?>
                         </div>
                         <div class="col-12 col-lg-3 my-2">
                             <?= \App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
