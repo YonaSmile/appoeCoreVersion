@@ -35,8 +35,8 @@ if (checkAjaxRequest()) {
             && !empty($_POST['name'])
             && !empty($_POST['minRoleId'])
             && isset($_POST['statut'])
-            && !empty($_POST['parent_id'])
-            && isset($_POST['order_menu'])
+            && !empty($_POST['parentId'])
+            && isset($_POST['orderMenu'])
             && isset($_POST['pluginName'])
         ) {
             $Menu = new Menu();
