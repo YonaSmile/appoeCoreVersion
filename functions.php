@@ -926,7 +926,7 @@ function checkRecaptcha($secret, $token)
 
         $g_response = json_decode($recap_response);
 
-        if ($g_response->success === true) {
+        if (property_exists($g_response, 'success') && $g_response->success === true) {
             return true;
         }
     }
