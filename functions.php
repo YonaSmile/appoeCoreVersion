@@ -2053,7 +2053,7 @@ function getFieldsControls()
     $html .= '<script type="text/javascript">';
     $html .= 'window.setTimeout(function(){';
     $html .= 'document.getElementById("checkPass").value = "APPOE";';
-    $html .= '}, 1000)</script>';
+    $html .= '}, 300)</script>';
 
     return $html;
 }
