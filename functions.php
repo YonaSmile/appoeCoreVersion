@@ -2756,19 +2756,6 @@ function checkPostAndTokenRequest($updateUserStatus = true)
  */
 function checkAjaxRequest()
 {
-
-    $page_slug = pageSlug();
-    $excludeSlug = array(
-        'notifications',
-        'messagesMenu'
-    );
-
-    if (!in_array($page_slug, $excludeSlug)) {
-        if (function_exists('mehoubarim_connecteUser')) {
-            mehoubarim_connecteUser();
-        }
-    }
-
     if (
         !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
         && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
