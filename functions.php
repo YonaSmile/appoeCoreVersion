@@ -3337,7 +3337,7 @@ function getFileTemplatePosition($filesArray, $position, $forcedPosition = false
  * @param $onlyPath
  * @return bool|string
  */
-function getFirstImage($imageArray, $otherClass = '', $thumbSize = false, $onlyUrl = false, $onlyPath = false)
+function getFirstImage(array $imageArray, $otherClass = '', $thumbSize = false, $onlyUrl = false, $onlyPath = false)
 {
     if ($imageArray) {
         $firstImage = current($imageArray);
@@ -3357,6 +3357,33 @@ function getFirstImage($imageArray, $otherClass = '', $thumbSize = false, $onlyU
             }
         } else {
             return getFirstImage(array_slice($imageArray, 1), $otherClass, $thumbSize);
+        }
+    }
+    return false;
+}
+
+/**
+ * @param $videoArray
+ * @param $otherClass
+ * @param $otherAttr
+ * @param $onlyUrl
+ * @param $onlyPath
+ * @return bool|string
+ */
+function getFirstVideo(array $videoArray, $otherClass = '', $otherAttr = '', $onlyUrl = false, $onlyPath = false)
+{
+    if ($videoArray) {
+        $firstVideo = current($videoArray);
+        if (isVideo(FILE_DIR_PATH . $firstVideo->name)) {
+            if ($onlyUrl) {
+                return WEB_DIR_INCLUDE . $firstVideo->name;
+            } else if ($onlyPath) {
+                return FILE_DIR_PATH . $firstVideo->name;
+            } else {
+                return '<video src="' . WEB_DIR_INCLUDE . $firstVideo->name . '" class="' . $otherClass . '" ' . $otherAttr . '></video>';
+            }
+        } else {
+            return getFirstVideo(array_slice($videoArray, 1), $otherClass);
         }
     }
     return false;
