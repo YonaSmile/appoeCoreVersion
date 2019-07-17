@@ -129,8 +129,7 @@ function getMetaData()
     $header .= '<meta property="og:image:alt" content="' . getPageName() . '">';
     $header .= '<meta property="og:description" content="' . getPageDescription() . '">';
     $header .= '<meta property="og:site_name" content="' . WEB_TITLE . '">';
-    $header .= '<meta property="author" content="' . WEB_DIR_URL . '">';
-    $header .= '<meta property="article:publisher" content="' . WEB_DIR_URL . '">';
+    $header .= '<meta property="article:author" content="' . WEB_TITLE . '">';
 
     // Twitter Card meta
     $header .= '<meta property="twitter:card" content="summary_large_image">';
