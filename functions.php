@@ -126,6 +126,7 @@ function getMetaData()
     $header .= '<meta property="og:type" content="article">';
     $header .= '<meta property="og:url" content="' . WEB_DIR_URL . $_SERVER["REQUEST_URI"] . '">';
     $header .= '<meta property="og:image" content="' . getPageImage() . '">';
+    $header .= '<meta property="og:image:alt" content="' . getPageName() . '">';
     $header .= '<meta property="og:description" content="' . getPageDescription() . '">';
     $header .= '<meta property="og:site_name" content="' . WEB_TITLE . '">';
     $header .= '<meta property="author" content="' . WEB_DIR_URL . '">';
