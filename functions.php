@@ -112,8 +112,10 @@ function getPageSlug()
  */
 function getMetaData()
 {
+    $header = '<meta name="publisher" content="Art Of Event - Communication">';
+
     //Schema.org meta
-    $header = '<meta itemprop="name" content="' . getPageName() . '">';
+    $header .= '<meta itemprop="name" content="' . getPageName() . '">';
     $header .= '<meta itemprop="description" content="' . getPageDescription() . '">';
     $header .= '<meta itemprop="image" content="' . getPageImage() . '">';
     $header .= '<link rel="author" href="' . WEB_DIR_URL . '">';
