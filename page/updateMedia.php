@@ -37,11 +37,12 @@ foreach ($allLibraryParent as $id => $parentId) {
 echo getTitle($Page->getName(), $Page->getSlug()); ?>
     <div id="mediaContainer">
         <nav>
-            <!--<div class="float-right">
-                <button type="button" role="button" class="btn btn-sm listView">
+            <div class="float-right">
+                <input type="range" class="custom-range" style="width: 150px;" min="2" max="10" step="1" value="5" id="mediaGridPreferences">
+                <!--<button type="button" role="button" class="btn btn-sm listView">
                     <i class="fas fa-th-list"></i>
-                </button>
-            </div>-->
+                </button>-->
+            </div>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-allLibraries-tab" data-toggle="tab"
                    href="#nav-allLibraries"
@@ -70,7 +71,7 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                                         data-library-parent-id="<?= $libraryParent[$id]['id']; ?>"
                                         data-library-parent-name="<?= $libraryParent[$id]['name']; ?>"><?= $name; ?></h5>
                                     <hr class="my-3 mx-5">
-                                    <div class="card-columns">
+                                    <div class="card-columns" style="column-count: 5;">
                                         <?php foreach ($allFiles as $file): ?>
                                             <div class="card view border-0 bg-none"
                                                  data-file-id="<?= $file->id; ?>">
