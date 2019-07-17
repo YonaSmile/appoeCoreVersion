@@ -20,6 +20,14 @@ $USER->setStatut(0);
 define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
 
 /**
+ * @return string
+ */
+function pageSlug()
+{
+    return htmlentities(basename($_SERVER['REQUEST_URI']));
+}
+
+/**
  * @param $id
  */
 function setPageId($id)
