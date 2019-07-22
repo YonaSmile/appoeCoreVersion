@@ -428,8 +428,7 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 function isImage($mediaPath)
 {
     if (file_exists($mediaPath)) {
-        $mime = mime_content_type($mediaPath);
-        return (false !== strpos($mime, 'image/')) ? true : false;
+        return (exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG || exif_imagetype($mediaPath) == IMAGETYPE_GIF);
     }
     return false;
 }
