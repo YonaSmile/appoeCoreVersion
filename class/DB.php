@@ -81,6 +81,10 @@ class DB
     public static function updateTable()
     {
         /*
+         UPDATE appoe_plugin_cms_content
+         SET `metaValue` = REPLACE(`metaValue`, 'http://', 'https://')
+         WHERE `metaValue` LIKE '%http://%'
+
         INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`)
         SELECT idCms, "HEADER", "name", metaValue, "en", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "name" AND lang = "fr";
         INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`)
@@ -91,14 +95,36 @@ class DB
         SELECT `idCms`, "HEADER", "menuName", `metaValue`, "en", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "name" AND type = "HEADER" AND lang = "fr"
        */
 
+        $sqlAdded = array();
+        $testedLang = array(LANG);
+
+        foreach (getLangs() as $minLang => $largeLang) {
+            if (!in_array($minLang, $testedLang)) {
+                $testedLang[] = $minLang;
+                $sqlAdded[] = 'INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
+                SELECT idArticle, "NAME", name, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "NAME" AND lang = "fr";
+                INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
+                SELECT idArticle, "DESCRIPTION", description, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "DESCRIPTION" AND lang = "fr";
+                INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
+                SELECT idArticle, "SLUG", slug, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "SLUG" AND lang = "fr";';
+            }
+        }
+
         $sqlToUpdate = array(
+            'ALTER TABLE `appoe_plugin_itemGlue_articles_content` ADD `type` VARCHAR(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "BODY" AFTER `idArticle`;',
+            'ALTER TABLE `appoe_plugin_itemGlue_articles_content` DROP INDEX idArticle',
+            'ALTER TABLE `appoe_plugin_itemGlue_articles_content` ADD UNIQUE (`idArticle`, `type`, `lang`)',
+            'INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`) SELECT id, "NAME", name, "fr", CURDATE() FROM `appoe_plugin_itemGlue_articles`;
+            INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`) SELECT id, "DESCRIPTION", description, "fr", CURDATE() FROM `appoe_plugin_itemGlue_articles`;
+            INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`) SELECT id, "SLUG", slug, "fr", CURDATE() FROM `appoe_plugin_itemGlue_articles`;',
+            'ALTER TABLE `appoe_plugin_itemGlue_articles` DROP `name`, DROP `description`, DROP `slug`',
             'INSERT INTO `appoe_menu` (`id`, `slug`, `name`, `min_role_id`, `statut`, `parent_id`, `order_menu`, `pluginName`, `updated_at`) VALUES
                     (23, "preferences", "préférences", 3, 0, 10, 23, NULL, "2018-01-04 08:31:39")',
             'ALTER TABLE `appoe_plugin_cms_content` ADD `type` VARCHAR(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "BODY" AFTER `idCms`',
             'ALTER TABLE `appoe_plugin_cms_content` CHANGE `metaKey` `metaKey` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL',
             'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "name", name, "fr", CURDATE() FROM `appoe_plugin_cms`;',
-            'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT `idCms`, "HEADER", "menuName", `metaValue`, "fr", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "name" AND type = "HEADER" AND lang = "fr"',
-            'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "description", description, "fr", CURDATE() FROM `appoe_plugin_cms`',
+            'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT `idCms`, "HEADER", "menuName", `metaValue`, "fr", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "name" AND type = "HEADER" AND lang = "fr";',
+            'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "description", description, "fr", CURDATE() FROM `appoe_plugin_cms`;',
             'INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`) SELECT id, "HEADER", "slug", slug, "fr", CURDATE() FROM `appoe_plugin_cms`;',
             'ALTER TABLE `appoe_plugin_cms_content` DROP INDEX idCms',
             'ALTER TABLE `appoe_plugin_cms_content` ADD UNIQUE (`idCms`, `type`, `metaKey`, `lang`)',
@@ -127,6 +153,7 @@ class DB
             'ALTER TABLE `appoe_files` DROP `title`, DROP `description`;'
         );
 
+        $sqlToUpdate = array_merge($sqlToUpdate, $sqlAdded);
         $results = array();
         foreach ($sqlToUpdate as $sql) {
             $stmt = self::$dbh->prepare($sql);
