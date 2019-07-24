@@ -102,11 +102,11 @@ class DB
             if (!in_array($minLang, $testedLang)) {
                 $testedLang[] = $minLang;
                 $sqlAdded[] = 'INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
-                SELECT idArticle, "NAME", name, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "NAME" AND lang = "fr";
+                SELECT idArticle, "NAME", content, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "NAME" AND lang = "fr";
                 INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
-                SELECT idArticle, "DESCRIPTION", description, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "DESCRIPTION" AND lang = "fr";
+                SELECT idArticle, "DESCRIPTION", content, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "DESCRIPTION" AND lang = "fr";
                 INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
-                SELECT idArticle, "SLUG", slug, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "SLUG" AND lang = "fr";';
+                SELECT idArticle, "SLUG", content, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "SLUG" AND lang = "fr";';
             }
         }
 
