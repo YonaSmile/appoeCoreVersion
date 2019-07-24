@@ -95,7 +95,7 @@ class DB
         SELECT `idCms`, "HEADER", "menuName", `metaValue`, "en", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "name" AND type = "HEADER" AND lang = "fr"
        */
 
-        $sqlAdded = array();
+        $sqlAdded = array('DELETE FROM `appoe_menu` WHERE `id` = 603');
         $testedLang = array(LANG);
 
         foreach (getLangs() as $minLang => $largeLang) {
