@@ -60,17 +60,10 @@ if (!isVisitor()): ?>
                                     <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
                                         <span class="mr-2"><?= $Article->getName(); ?></span>
                                         <span class="visitsStatsBadge bgColorPrimary">
-                                                <a href="<?= getPluginUrl('itemGlue/page/articleContent/', $Article->getId()) ?>"
-                                                   class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
-                                                    <span class="text-white"><i class="fas fa-cog"></i></span>
-                                                </a>
-                                                    <?php if (isTechnicien(getUserRoleId())): ?>
-                                                        <a href="<?= getPluginUrl('itemGlue/page/update/', $Article->getId()) ?>"
-                                                           class="btn btn-sm p-0 align-top"
-                                                           title="<?= trans('Modifier'); ?>">
-                                                <span class="text-white"><i class="fas fa-wrench"></i></span>
+                                            <a href="<?= getPluginUrl('itemGlue/page/articleContent/', $Article->getId()) ?>"
+                                               class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
+                                                <span class="text-white"><i class="fas fa-cog"></i></span>
                                             </a>
-                                                    <?php endif; ?>
                                         </span>
                                     </div>
                                 <?php endif;
