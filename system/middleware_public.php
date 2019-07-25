@@ -58,6 +58,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     //Get default page informations
     setPageId($Cms->getId());
     setPageName($Cms->getName());
+    setPageMenuName($Cms->getMenuName());
     setPageDescription($Cms->getDescription());
     setPageSlug($Cms->getSlug());
 

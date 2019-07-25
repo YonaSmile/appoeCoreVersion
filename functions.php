@@ -40,7 +40,15 @@ function setPageId($id)
  */
 function setPageName($name)
 {
-    $_SESSION['currentPageName'] = shortenText(trad($name), 70);
+    $_SESSION['currentPageName'] = shortenText($name, 70);
+}
+
+/**
+ * @param $menuName
+ */
+function setPageMenuName($menuName)
+{
+    $_SESSION['currentPageMenuName'] = $menuName;
 }
 
 /**
@@ -48,7 +56,7 @@ function setPageName($name)
  */
 function setPageDescription($description)
 {
-    $_SESSION['currentPageDescription'] = shortenText(trad($description), 170);
+    $_SESSION['currentPageDescription'] = shortenText($description, 170);
 }
 
 /**
@@ -81,6 +89,14 @@ function getPageId()
 function getPageName()
 {
     return !empty($_SESSION['currentPageName']) ? $_SESSION['currentPageName'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageMenuName()
+{
+    return !empty($_SESSION['currentPageMenuName']) ? $_SESSION['currentPageMenuName'] : '';
 }
 
 /**

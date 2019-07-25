@@ -31,7 +31,7 @@ if (!isVisitor()): ?>
                                 $Cms->setId($idPage);
                                 if ($Cms->show()): ?>
                                     <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
-                                        <span class="mr-2"><?= $Cms->getName(); ?></span>
+                                        <span class="mr-2"><?= $Cms->getMenuName(); ?></span>
                                         <span class="visitsStatsBadge bgColorPrimary">
                                         <a href="<?= getPluginUrl('cms/page/pageContent/', $Cms->getId()) ?>"
                                            class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
