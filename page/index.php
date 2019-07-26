@@ -31,7 +31,9 @@ if (!isVisitor()): ?>
                                 $Cms->setId($idPage);
                                 if ($Cms->show()): ?>
                                     <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
-                                        <span class="mr-2"><?= $Cms->getMenuName(); ?></span>
+                                        <span class="w-100 d-block" style="padding-right: 100px;">
+                                            <?= $Cms->getMenuName(); ?>
+                                        </span>
                                         <span class="visitsStatsBadge bgColorPrimary">
                                         <a href="<?= getPluginUrl('cms/page/pageContent/', $Cms->getId()) ?>"
                                            class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
@@ -58,7 +60,9 @@ if (!isVisitor()): ?>
                                 $Article->setId($idArticle);
                                 if ($Article->show()): ?>
                                     <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
-                                        <span class="mr-2"><?= $Article->getName(); ?></span>
+                                        <span class="w-100 d-block" style="padding-right: 100px;">
+                                            <?= $Article->getName(); ?>
+                                        </span>
                                         <span class="visitsStatsBadge bgColorPrimary">
                                             <a href="<?= getPluginUrl('itemGlue/page/articleContent/', $Article->getId()) ?>"
                                                class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
@@ -83,7 +87,9 @@ if (!isVisitor()): ?>
                                 $Product->setId($idProduct);
                                 if ($Product->show()): ?>
                                     <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
-                                        <span class="mr-2"><?= $Product->getName(); ?></span>
+                                        <span class="w-100 d-block" style="padding-right: 100px;">
+                                            <?= $Product->getName(); ?>
+                                        </span>
                                         <span class="visitsStatsBadge bgColorPrimary">
                                                 <a href="<?= getPluginUrl('shop/page/updateProductData/', $Product->getId()) ?>"
                                                    class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
