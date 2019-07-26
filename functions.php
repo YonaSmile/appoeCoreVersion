@@ -662,7 +662,7 @@ function slugify($text)
     $text = preg_replace('~-+~', '-', $text);
 
     // lowercase
-    $text = strtolower($text);
+    $text = mb_strtolower($text);
 
     if (empty($text)) {
         return 'n-a';
