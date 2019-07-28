@@ -102,15 +102,22 @@ class DB
             if (!in_array($minLang, $testedLang)) {
                 $testedLang[] = $minLang;
                 $sqlAdded[] = 'INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
-                SELECT idArticle, "NAME", content, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "NAME" AND lang = "fr";
+                SELECT idArticle, "NAME", content, "' . $minLang . '", NOW() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "NAME" AND lang = "fr";
                 INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
-                SELECT idArticle, "DESCRIPTION", content, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "DESCRIPTION" AND lang = "fr";
+                SELECT idArticle, "DESCRIPTION", content, "' . $minLang . '", NOW() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "DESCRIPTION" AND lang = "fr";
                 INSERT INTO `appoe_plugin_itemGlue_articles_content` (`idArticle`, `type`, `content`, `lang`, `updated_at`)
-                SELECT idArticle, "SLUG", content, "' . $minLang . '", CURDATE() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "SLUG" AND lang = "fr";';
+                SELECT idArticle, "SLUG", content, "' . $minLang . '", NOW() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "SLUG" AND lang = "fr";';
+
+                $sqlAdded[] = 'INSERT INTO `appoe_plugin_itemGlue_articles_meta` (`idArticle`, `metaKey`, `metaValue`, `lang`, `updated_at`)
+                SELECT idArticle, metaKey, metaValue, "' . $minLang . '", NOW() 
+                FROM `appoe_plugin_itemGlue_articles_meta` WHERE lang = "fr";';
             }
         }
 
         $sqlToUpdate = array(
+            'ALTER TABLE `appoe_plugin_itemGlue_articles_meta` ADD `lang` VARCHAR(10) NOT NULL DEFAULT "fr" AFTER `metaValue`',
+            'ALTER TABLE `appoe_plugin_itemGlue_articles_meta` DROP INDEX idArticle',
+            'ALTER TABLE `appoe_plugin_itemGlue_articles_meta` ADD UNIQUE (`idArticle`, `metaKey`, `lang`)',
             'ALTER TABLE `appoe_plugin_itemGlue_articles_content` ADD `type` VARCHAR(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "BODY" AFTER `idArticle`;',
             'ALTER TABLE `appoe_plugin_itemGlue_articles_content` DROP INDEX idArticle',
             'ALTER TABLE `appoe_plugin_itemGlue_articles_content` ADD UNIQUE (`idArticle`, `type`, `lang`)',
