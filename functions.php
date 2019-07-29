@@ -377,18 +377,11 @@ function getConfig($key)
  */
 function isArrayEmpty($multiArray)
 {
-    if (is_array($multiArray) and !empty($multiArray)) {
-
-        $tmp = array_shift($multiArray);
-
-        if (!isArrayEmpty($multiArray) or !isArrayEmpty($tmp)) {
-            return false;
+    if (is_array($multiArray)) {
+        $multiArray = array_filter($multiArray);
+        if(empty($multiArray)){
+            return true;
         }
-        return true;
-    }
-
-    if (empty($multiArray)) {
-        return true;
     }
 
     return false;
@@ -444,7 +437,7 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 function isImage($mediaPath)
 {
     if (file_exists($mediaPath)) {
-        return (exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG || exif_imagetype($mediaPath) == IMAGETYPE_GIF);
+        return filesize($mediaPath) > 11 ? (exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG || exif_imagetype($mediaPath) == IMAGETYPE_GIF) : false;
     }
     return false;
 }
