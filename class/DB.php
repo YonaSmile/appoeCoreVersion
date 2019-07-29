@@ -93,7 +93,15 @@ class DB
         SELECT idCms, "HEADER", "slug", metaValue, "en", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "slug" AND lang = "fr";
         INSERT INTO `appoe_plugin_cms_content` (`idCms`, `type`, `metaKey`, `metaValue`, `lang`, `created_at`)
         SELECT `idCms`, "HEADER", "menuName", `metaValue`, "en", CURDATE() FROM `appoe_plugin_cms_content` WHERE metaKey = "name" AND type = "HEADER" AND lang = "fr"
-       */
+
+        DELETE n1 FROM appoe_plugin_itemGlue_articles_content n1,
+        appoe_plugin_itemGlue_articles_content n2
+        WHERE n1.id > n2.id
+        AND n1.idArticle = n2.idArticle
+        AND n1.type = n2.type
+        AND n1.lang = n2.lang
+        AND n2.id < 5000
+        */
 
         $sqlAdded = array('DELETE FROM `appoe_menu` WHERE `id` = 603');
         $testedLang = array(LANG);

@@ -54,7 +54,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                 <form method="post" id="mediaDetailsForm" class="my-2">
                     <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
                     <div class="mb-2">
-                        <?= \App\Form::text('Titre', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm'); ?>
+                        <?= \App\Form::text('Titre (texte alternatif)', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm'); ?>
                     </div>
                     <div class="mb-2">
                         <?= \App\Form::textarea('Description', 'description', $Media->getDescription(), 1, false, '', 'form-control-sm imageDescription upImgForm'); ?>
