@@ -54,6 +54,25 @@ class DB
     }
 
     /**
+     * @param $sql
+     * @param array $params
+     * @return bool
+     */
+    public static function exec($sql, array $params = array())
+    {
+        self::$dbh = self::connect();
+
+        $stmt = self::$dbh->prepare($sql);
+        $stmt->execute($params);
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            return $stmt;
+        }
+    }
+
+    /**
      * @param $tableName
      * @return bool
      */
