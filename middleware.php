@@ -1,5 +1,5 @@
 <?php
-if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
+if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected() && appoeMinRole()) {
 
     $userConnexion = getUserConnexion();
 

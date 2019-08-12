@@ -379,7 +379,7 @@ function isArrayEmpty($multiArray)
 {
     if (is_array($multiArray)) {
         $multiArray = array_filter($multiArray);
-        if(empty($multiArray)){
+        if (empty($multiArray)) {
             return true;
         }
     }
@@ -3147,6 +3147,18 @@ function bot_detected()
         |contaxe|libwww-perl|facebookexternalhit|mediapartners|baidu|bingbot|facebookexternalhit|googlebot|-google
         |ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/i', $_SERVER['HTTP_USER_AGENT'])
     );
+}
+
+/**
+ * @return bool
+ */
+function appoeMinRole()
+{
+
+    if (defined('APPOE_MIN_ROLE') && !empty(APPOE_MIN_ROLE)) {
+        return APPOE_MIN_ROLE >= getUserRoleId();
+    }
+    return true;
 }
 
 /**
