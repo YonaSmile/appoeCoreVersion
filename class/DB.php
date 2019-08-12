@@ -79,14 +79,10 @@ class DB
     public static function checkTable($tableName)
     {
         $sql = 'SHOW TABLES LIKE :tableName';
-        $stmt = self::$dbh->prepare($sql);
-        $stmt->execute(array(':tableName' => '%' . $tableName . '%'));
-        $error = $stmt->errorInfo();
-        $count = $stmt->rowCount();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            if ($count > 0) {
+        $return = self::exec($sql, array(':tableName' => '%' . $tableName . '%'));
+
+        if ($return) {
+            if ($return->rowCount() > 0) {
                 return true;
             }
         }
@@ -213,14 +209,12 @@ class DB
     public static function deleteTable($tableName)
     {
         $sql = 'DROP TABLE IF EXISTS ' . $tableName;
-        $stmt = self::$dbh->prepare($sql);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return $error;
-        } else {
+        $return = self::exec($sql, array());
+
+        if ($return) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -229,16 +223,10 @@ class DB
     public static function getTables()
     {
         $sql = 'SHOW TABLES';
-        $stmt = self::$dbh->prepare($sql);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        $count = $stmt->rowCount();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            if ($count > 0) {
-                return $stmt->fetchAll(PDO::FETCH_OBJ);
-            }
+        $return = self::exec($sql, array());
+
+        if ($return->rowCount() > 0) {
+            return $return->fetchAll(PDO::FETCH_OBJ);
         }
 
         return false;
