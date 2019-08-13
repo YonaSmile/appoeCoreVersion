@@ -77,7 +77,7 @@ class Template
             if (strpos($adminZone, '_')) {
 
                 //Get data
-                list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
+                $metaKey = strstr($adminZone, '_', true);
 
                 //Set data
                 $this->pageHtmlContent = str_replace($this->pageHtmlZones[0][$i], sprintf('%s', !empty($this->pageDbData[$metaKey]) ? $this->formatText($this->pageDbData[$metaKey]->metaValue) : ''), $this->pageHtmlContent);
@@ -104,7 +104,7 @@ class Template
         if (false !== strpos($zone, '_')) {
 
             //Get data
-            list($metaKey, $formType, $col, $group) = array_pad(explode('_', $zone), 4, '');
+            list($metaKey, $formType, $col) = array_pad(explode('_', $zone), 3, '');
 
             //Get input value
             $metaKeyDisplay = ucfirst(str_replace('-', ' ', $metaKey));
@@ -128,17 +128,17 @@ class Template
                     $formType = array_shift($options);
 
                     if ($formType == 'select') {
-                        $html .= \App\Form::select($metaKeyDisplay, $metaKey, array_combine($options, $options), $valueCmsContent, false, 'data-idcmscontent="' . $idCmsContent . '"');
+                        $html .= Form::select($metaKeyDisplay, $metaKey, array_combine($options, $options), $valueCmsContent, false, 'data-idcmscontent="' . $idCmsContent . '"');
                     }
                 } else {
                     if ($formType == 'textBig') {
-                        $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', '');
+                        $html .= Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', '');
                     } elseif ($formType == 'textarea') {
-                        $html .= \App\Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
+                        $html .= Form::textarea($metaKeyDisplay, $metaKey, $valueCmsContent, 8, false, 'data-idcmscontent="' . $idCmsContent . '"', 'ckeditor');
                     } elseif ($formType == 'urlFile') {
-                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '" rel="cms-img-popover"', '', 'urlFile');
+                        $html .= Form::text($metaKeyDisplay, $metaKey, 'url', $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '" rel="cms-img-popover"', '', 'urlFile');
                     } else {
-                        $html .= \App\Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
+                        $html .= Form::text($metaKeyDisplay, $metaKey, $formType, $valueCmsContent, false, 250, 'data-idcmscontent="' . $idCmsContent . '"', '', '');
                     }
                 }
 
@@ -172,7 +172,7 @@ class Template
             if (false !== strpos($adminZone, '_')) {
 
                 //Get data
-                list($metaKey, $formType, $col, $group) = array_pad(explode('_', $adminZone), 4, '');
+                list($metaKey, $formType, $col) = array_pad(explode('_', $adminZone), 3, '');
 
                 //Check form type with options
                 if (false !== strpos($formType, ':')) {
