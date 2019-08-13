@@ -3156,7 +3156,7 @@ function appoeMinRole()
 {
 
     if (defined('APPOE_MIN_ROLE') && !empty(APPOE_MIN_ROLE)) {
-        return APPOE_MIN_ROLE >= getUserRoleId();
+        return APPOE_MIN_ROLE <= getUserRoleId();
     }
     return true;
 }
