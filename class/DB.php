@@ -153,11 +153,11 @@ class DB
             SELECT id, title, description FROM appoe_files;',
             'UPDATE appoe_files_content SET lang = "fr", userId = "0", created_at = NOW();',
             'ALTER TABLE `appoe_files` DROP `title`, DROP `description`;'
+        'DELETE FROM `appoe_menu` WHERE `id` = 603;'
         );
          */
 
-        $sqlAdded = array('DELETE FROM `appoe_menu` WHERE `id` = 603');
-        $testedLang = array(LANG);
+        /*$testedLang = array(LANG);
 
         foreach (getLangs() as $minLang => $largeLang) {
             if (!in_array($minLang, $testedLang)) {
@@ -170,7 +170,7 @@ class DB
                 SELECT idArticle, "SLUG", content, "' . $minLang . '", NOW() FROM `appoe_plugin_itemGlue_articles_content` WHERE type = "SLUG" AND lang = "fr";';
 
                 $sqlAdded[] = 'INSERT INTO `appoe_plugin_itemGlue_articles_meta` (`idArticle`, `metaKey`, `metaValue`, `lang`, `updated_at`)
-                SELECT idArticle, metaKey, metaValue, "' . $minLang . '", NOW() 
+                SELECT idArticle, metaKey, metaValue, "' . $minLang . '", NOW()
                 FROM `appoe_plugin_itemGlue_articles_meta` WHERE lang = "fr";';
             }
         }
@@ -188,7 +188,13 @@ class DB
             'ALTER TABLE `appoe_plugin_itemGlue_articles` DROP `name`, DROP `description`, DROP `slug`',
         );
 
-        $sqlToUpdate = array_merge($sqlToUpdate, $sqlAdded);
+        $sqlToUpdate = array_merge($sqlToUpdate, $sqlAdded);*/
+
+        $sqlToUpdate = array(
+            'RENAME TABLE `appoe_files_content` TO `appoe_filesContent`',
+
+        );
+
         $results = array();
         foreach ($sqlToUpdate as $sql) {
             $stmt = self::$dbh->prepare($sql);

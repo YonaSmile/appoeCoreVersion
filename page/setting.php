@@ -117,13 +117,13 @@ echo getTitle($Page->getName(), $Page->getSlug()); ?>
                         </div>
                         <div class="p-2 mb-2 bg-light">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-12 col-md-9">
                                     <button type="button" id="cleanDataBase"
                                             class="btn btn-warning btn-sm operationBtn">
                                         <?= trans('Base de donnée'); ?>
                                     </button>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-md-3">
                                     <div class="input-group">
                                         <?php
                                         $files = array('public', 'include');

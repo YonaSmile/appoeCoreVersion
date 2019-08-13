@@ -153,20 +153,20 @@ if (checkAjaxRequest()) {
         $tables = \App\DB::initialize()->getTables();
         \App\DB::backup(date('Y-m-d'), 'db-' . date('H_i'));
         $Menu = new \App\Menu();
-        $optimizeTables = 0;
+        $optimizeTables = array();
         foreach ($tables as $table) {
             $tableName = array_values((array)$table);
-            if (!in_array($tableName[0], APP_TABLES)) {
+            if (!in_array($tableName[0], APP_TABLES) && false !== strpos($tableName[0], 'appoe')) {
                 list($pre, $plugin, $pluginName, $pluginExtension) = array_pad(explode('_', $tableName[0], 4), 4, null);
-                if (!is_null($pluginName) && !file_exists(WEB_PLUGIN_PATH . $pluginName . '/ini.php')) {
+                if (!is_null($pluginName) && !is_dir(WEB_PLUGIN_PATH . $pluginName)) {
                     if (\App\DB::deleteTable($tableName[0])) {
                         $Menu->deletePluginMenu($pluginName);
-                        $optimizeTables++;
+                        $optimizeTables[] = $tableName[0];
                     }
                 }
             }
         }
-        echo trans('Tables enregistrées') . '. Tables Optimisés: ' . $optimizeTables;
+        echo trans('Tables enregistrées') . '.' . (count($optimizeTables) > 0 ? '<br><strong>Tables supprimées:</strong> ' . implode(', ', $optimizeTables) : '');
         exit();
     }
 

@@ -124,7 +124,7 @@ class FileContent
      */
     public function createTable()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `appoe_files_content` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `appoe_filesContent` (
   					`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
   					`fileId` INT(11) UNSIGNED NOT NULL,
@@ -153,7 +153,7 @@ class FileContent
     public function show()
     {
 
-        $sql = 'SELECT * FROM appoe_files_content WHERE id = :id';
+        $sql = 'SELECT * FROM appoe_filesContent WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
@@ -175,7 +175,7 @@ class FileContent
      */
     public function showByFile()
     {
-        $sql = 'SELECT * FROM appoe_files_content WHERE fileId = :fileId AND lang = :lang';
+        $sql = 'SELECT * FROM appoe_filesContent WHERE fileId = :fileId AND lang = :lang';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':fileId', $this->fileId);
         $stmt->bindParam(':lang', $this->lang);
@@ -204,7 +204,7 @@ class FileContent
      */
     public function save()
     {
-        $sql = 'INSERT INTO appoe_files_content (fileId, title, description, lang, userId, created_at) 
+        $sql = 'INSERT INTO appoe_filesContent (fileId, title, description, lang, userId, created_at) 
         VALUES(:fileId, :title, :description, :lang, :userId, CURDATE())';
 
         $stmt = $this->dbh->prepare($sql);
@@ -232,7 +232,7 @@ class FileContent
      */
     public function update()
     {
-        $sql = 'UPDATE appoe_files_content 
+        $sql = 'UPDATE appoe_filesContent 
         SET fileId = :fileId, title = :title, description = :description, lang = :lang, userId = :userId 
         WHERE id = :id';
 
@@ -261,7 +261,7 @@ class FileContent
     public function delete()
     {
 
-        $sql = 'DELETE FROM appoe_files_content WHERE id = :id';
+        $sql = 'DELETE FROM appoe_filesContent WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
