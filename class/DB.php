@@ -192,7 +192,7 @@ class DB
 
         $sqlToUpdate = array(
             'RENAME TABLE `appoe_files_content` TO `appoe_filesContent`',
-
+            'ALTER TABLE `appoe_plugin_people` ADD `idUser` INT(11) NULL DEFAULT NULL AFTER `country`',
         );
 
         $results = array();

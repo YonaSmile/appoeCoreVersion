@@ -61,6 +61,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     setPageMenuName($Cms->getMenuName());
     setPageDescription($Cms->getDescription());
     setPageSlug($Cms->getSlug());
+    setPageFilename($Cms->getFilename());
 
     //Check if is Page or plugin page
     if (!empty($_GET['type'])) {

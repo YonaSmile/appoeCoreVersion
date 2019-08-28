@@ -76,6 +76,14 @@ function setPageSlug($slug)
 }
 
 /**
+ * @param $filename
+ */
+function setPageFilename($filename)
+{
+    $_SESSION['currentPageFilename'] = $filename;
+}
+
+/**
  * @return mixed|string
  */
 function getPageId()
@@ -121,6 +129,14 @@ function getPageImage()
 function getPageSlug()
 {
     return !empty($_SESSION['currentPageSlug']) ? $_SESSION['currentPageSlug'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageFilename()
+{
+    return !empty($_SESSION['currentPageFilename']) ? $_SESSION['currentPageFilename'] : '';
 }
 
 /**
@@ -2615,8 +2631,12 @@ function includePluginsJs($forApp = false)
             if (file_exists($filePath)) {
                 $phpFiles = getFilesFromDir($filePath);
                 foreach ($phpFiles as $file) {
+
+                    //File path
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
-                    echo '<script type="text/javascript" src="' . $src . '"></script>';
+
+                    //Show js file in html doc
+                    echo loadPluginOnlyForSpecificFilename($plugin['name']) ? '<script type="text/javascript" src="' . $src . '"></script>' : '';
 
                 }
             }
@@ -2667,17 +2687,38 @@ function includePluginsStyles()
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'css';
-            if (file_exists($filePath)) {
+            if (file_exists($filePath) && is_dir($filePath)) {
                 $phpFiles = getFilesFromDir($filePath);
                 foreach ($phpFiles as $file) {
+
+                    //File path
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
-                    echo '<link rel="stylesheet" href="' . $src . '" type="text/css">';
+
+                    //Show css file in html doc
+                    echo loadPluginOnlyForSpecificFilename($plugin['name']) ? '<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
                 }
             }
         }
     }
 
     echo '<link rel="stylesheet" href="' . WEB_TEMPLATE_URL . 'css/utils.css" type="text/css">';
+}
+
+/**
+ * @param $pluginName
+ * @return bool
+ */
+function loadPluginOnlyForSpecificFilename($pluginName)
+{
+    if (defined('LOAD_PLUGIN_ONLY_FOR_SPECIFIC_FILENAME') && is_array(LOAD_PLUGIN_ONLY_FOR_SPECIFIC_FILENAME)
+        && array_key_exists($pluginName, LOAD_PLUGIN_ONLY_FOR_SPECIFIC_FILENAME)) {
+
+        if (LOAD_PLUGIN_ONLY_FOR_SPECIFIC_FILENAME[$pluginName] != getPageFilename()) {
+            return false;
+        }
+        return true;
+    }
+    return true;
 }
 
 /**
