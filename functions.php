@@ -2636,7 +2636,7 @@ function includePluginsJs($forApp = false)
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
 
                     //Show js file in html doc
-                    echo loadPluginOnlyForSpecificFilename($plugin['name']) ? '<script type="text/javascript" src="' . $src . '"></script>' : '';
+                    echo loadPluginForFilename($plugin['name']) ? '<script type="text/javascript" src="' . $src . '"></script>' : '';
 
                 }
             }
@@ -2695,7 +2695,7 @@ function includePluginsStyles()
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
 
                     //Show css file in html doc
-                    echo loadPluginOnlyForSpecificFilename($plugin['name']) ? '<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
+                    echo loadPluginForFilename($plugin['name']) ? '<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
                 }
             }
         }
@@ -2708,12 +2708,12 @@ function includePluginsStyles()
  * @param $pluginName
  * @return bool
  */
-function loadPluginOnlyForSpecificFilename($pluginName)
+function loadPluginForFilename($pluginName)
 {
-    if (defined('LOAD_PLUGIN_ONLY_FOR_SPECIFIC_FILENAME') && is_array(LOAD_PLUGIN_ONLY_FOR_SPECIFIC_FILENAME)
-        && array_key_exists($pluginName, LOAD_PLUGIN_ONLY_FOR_SPECIFIC_FILENAME)) {
+    if (defined('PLUGIN_FOR_FILENAME') && is_array(PLUGIN_FOR_FILENAME)
+        && array_key_exists($pluginName, PLUGIN_FOR_FILENAME)) {
 
-        if (LOAD_PLUGIN_ONLY_FOR_SPECIFIC_FILENAME[$pluginName] != getPageFilename()) {
+        if (PLUGIN_FOR_FILENAME[$pluginName] != getPageFilename()) {
             return false;
         }
         return true;
