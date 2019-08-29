@@ -388,19 +388,24 @@ function getConfig($key)
 }
 
 /**
- * @param $multiArray
- * @return bool
+ * @param $array
+ * @return mixed
  */
-function isArrayEmpty($multiArray)
+function isArrayEmpty($array)
 {
-    if (is_array($multiArray)) {
-        $multiArray = array_filter($multiArray);
-        if (empty($multiArray)) {
-            return true;
-        }
+    $empty = true;
+
+    if ($array && is_array($array)) {
+        array_walk_recursive($array, function ($leaf) use (&$empty) {
+            if ($leaf === [] || $leaf === '') {
+                return;
+            }
+
+            $empty = false;
+        });
     }
 
-    return false;
+    return $empty;
 }
 
 /**
@@ -2355,18 +2360,18 @@ function extractFromObjToArrForList($allContentArr, $key)
 }
 
 /**
- * @param array $allContentArr
+ * @param $allContentArr
  * @param $key
  * @param string $value
  * @param string $value2
  * @param string $separator
  * @return array
  */
-function extractFromObjToSimpleArr(array $allContentArr, $key, $value = '', $value2 = '', $separator = ' ')
+function extractFromObjToSimpleArr($allContentArr, $key, $value = '', $value2 = '', $separator = ' ')
 {
     $allContent = array();
 
-    if ($allContentArr && !isArrayEmpty($allContentArr)) {
+    if (!isArrayEmpty($allContentArr)) {
 
         if (!empty($value)) {
 
