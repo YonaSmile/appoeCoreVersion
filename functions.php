@@ -2513,7 +2513,7 @@ function includePluginsFiles($forApp = false)
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'include';
-            if (file_exists($filePath)) {
+            if (file_exists($filePath) && loadPluginForFilename($plugin['name'])) {
                 $phpFiles = getFilesFromDir($filePath);
                 foreach ($phpFiles as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
@@ -2716,11 +2716,13 @@ function includePluginsStyles()
 function loadPluginForFilename($pluginName)
 {
     if (defined('PLUGIN_FOR_FILENAME') && is_array(PLUGIN_FOR_FILENAME)
-        && array_key_exists($pluginName, PLUGIN_FOR_FILENAME)) {
+        && array_key_exists($pluginName, PLUGIN_FOR_FILENAME)
+        && !isArrayEmpty(PLUGIN_FOR_FILENAME[$pluginName])) {
 
-        if (PLUGIN_FOR_FILENAME[$pluginName] != getPageFilename()) {
+        if (!in_array(getPageFilename(), PLUGIN_FOR_FILENAME[$pluginName])) {
             return false;
         }
+
         return true;
     }
     return true;
