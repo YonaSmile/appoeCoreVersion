@@ -34,7 +34,7 @@ foreach ($allLibraryParent as $id => $parentId) {
     }
 }
 
-echo getTitle($Page->getName(), $Page->getSlug()); ?>
+echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div id="mediaContainer">
         <nav>
             <div class="float-right">

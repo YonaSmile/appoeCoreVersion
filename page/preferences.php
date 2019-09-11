@@ -6,7 +6,7 @@ use App\AppConfig;
 $AppConfig = new AppConfig();
 $allConfig = array_merge($AppConfig->getDefaultConfig(), $AppConfig->get());
 
-echo getTitle($Page->getName(), $Page->getSlug()); ?>
+echo getTitle(getAppPageName(), getAppPageSlug()); ?>
 <button class="btn btn-sm btn-outline-info float-right" id="restoreConfig">Réinitialiser</button>
 <div class="container-fluid">
     <div class="row">

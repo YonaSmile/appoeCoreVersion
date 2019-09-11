@@ -1,5 +1,5 @@
 <?php require('header.php');
-echo getTitle($Page->getName(), $Page->getSlug()); ?>
+echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">

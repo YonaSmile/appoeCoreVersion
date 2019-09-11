@@ -5,7 +5,7 @@ use App\Category;
 use App\Plugin\Cms\Cms;
 use App\Plugin\ItemGlue\Article;
 
-echo getTitle($Page->getName(), $Page->getSlug());
+echo getTitle(getAppPageName(), getAppPageSlug());
 echo implode('', includePersoPluginsDashboard());
 if (!isVisitor()): ?>
     <div class="row mb-3">

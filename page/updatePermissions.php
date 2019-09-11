@@ -6,7 +6,7 @@ use App\Menu;
 
 $Menu = new Menu();
 $allPermissions = $Menu->displayMenuAll();
-echo getTitle($Page->getName(), $Page->getSlug()); ?>
+echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="row">
         <div class="col-12">
             <button id="addPermission" type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal"

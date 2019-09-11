@@ -176,6 +176,16 @@ function getMetaData()
     return $header;
 }
 
+function setAppPageDetails(\App\Page $Page)
+{
+    $_SESSION['currentAppPage'] = $Page;
+}
+
+function getAppPageDetails()
+{
+    return !empty($_SESSION['currentAppPage']) ? $_SESSION['currentAppPage'] : '';
+}
+
 /**
  * @param $url
  * @return bool
@@ -2715,15 +2725,28 @@ function includePluginsStyles()
  */
 function loadPluginForFilename($pluginName)
 {
-    if (defined('PLUGIN_FOR_FILENAME') && is_array(PLUGIN_FOR_FILENAME)
-        && array_key_exists($pluginName, PLUGIN_FOR_FILENAME)
-        && !isArrayEmpty(PLUGIN_FOR_FILENAME[$pluginName])) {
+    if (!isUserInApp()) {
+        if (defined('PLUGIN_FOR_PUBLIC_FILENAME') && is_array(PLUGIN_FOR_PUBLIC_FILENAME)
+            && array_key_exists($pluginName, PLUGIN_FOR_PUBLIC_FILENAME)
+            && !isArrayEmpty(PLUGIN_FOR_PUBLIC_FILENAME[$pluginName])) {
 
-        if (!in_array(getPageFilename(), PLUGIN_FOR_FILENAME[$pluginName])) {
-            return false;
+            if (!in_array(getPageFilename(), PLUGIN_FOR_PUBLIC_FILENAME[$pluginName])) {
+                return false;
+            }
+
+            return true;
         }
+    } else {
+        if (defined('PLUGIN_FOR_APP_FILENAME') && is_array(PLUGIN_FOR_APP_FILENAME)
+            && array_key_exists($pluginName, PLUGIN_FOR_APP_FILENAME)
+            && !isArrayEmpty(PLUGIN_FOR_APP_FILENAME[$pluginName])) {
 
-        return true;
+            if (!in_array(getPageFilename(), PLUGIN_FOR_APP_FILENAME[$pluginName])) {
+                return false;
+            }
+
+            return true;
+        }
     }
     return true;
 }

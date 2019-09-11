@@ -37,6 +37,10 @@ if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected() && appoeMin
             }
             exit();
         }
+
+        setAppPageName($Page->getName());
+        setAppPageSlug($Page->getSlug());
+
     } else {
 
         deconnecteUser();

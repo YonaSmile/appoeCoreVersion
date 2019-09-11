@@ -6,7 +6,7 @@ use App\Version;
 $Menu = new Menu();
 $allPermissions = extractFromObjToSimpleArr($Menu->displayMenuAll(), 'slug', 'name', 'pluginName', ' | ');
 
-echo getTitle($Page->getName(), $Page->getSlug()); ?>
+echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="container-fluid">
         <a class="btn btn-info mb-4" href="<?= getUrl('updatePermissions/'); ?>">
             <?= trans('Les Permissions'); ?>

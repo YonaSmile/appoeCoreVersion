@@ -3,9 +3,9 @@ if (!empty($_GET['id'])):
     require_once(WEB_PROCESS_PATH . 'users.php');
     $UpdateUser = new \App\Users();
     $UpdateUser->setId($_GET['id']);
-    if ($UpdateUser->show() && $UpdateUser->getRole() <= getUserRoleId()): ?>
-        <?= getTitle($Page->getName(), $Page->getSlug()); ?>
-        <?php if (isset($Response)): ?>
+    if ($UpdateUser->show() && $UpdateUser->getRole() <= getUserRoleId()):
+        echo getTitle(getAppPageName(), getAppPageSlug());
+        if (isset($Response)): ?>
             <div class="row">
                 <div class="col-12">
                     <div class="alert alert-<?= $Response->display()->status ?>" role="alert">

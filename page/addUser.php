@@ -1,6 +1,6 @@
 <?php require('header.php');
 require_once(WEB_PROCESS_PATH . 'users.php');
-echo getTitle($Page->getName(), $Page->getSlug());
+echo getTitle(getAppPageName(), getAppPageSlug());
 if (isset($Response)): ?>
     <div class="alert alert-<?= $Response->display()->status ?>" role="alert">
         <?= $Response->display()->error_msg; ?>
