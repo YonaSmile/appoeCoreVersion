@@ -2043,6 +2043,31 @@ function deleteThumb($filename, $desired_width)
 }
 
 /**
+ * @param $message
+ * @param string $status
+ */
+function setPostResponse($message, $status = 'danger')
+{
+    $_SESSION['messagePostResponse'] = $message;
+    $_SESSION['statusPostResponse'] = $status;
+}
+
+/**
+ * show alert and destroy response
+ */
+function showPostResponse()
+{
+    $html = '';
+    if (!empty($_SESSION['messagePostResponse']) && !empty($_SESSION['statusPostResponse'])) {
+        $html .= '<div class="row"><div class="col-12"><div class="alert alert-' . $_SESSION['statusPostResponse'] . '" role="alert">'
+            . $_SESSION['messagePostResponse'] . '</div></div></div>';
+
+    }
+    echo $html;
+    unset($_SESSION['messagePostResponse'], $_SESSION['statusPostResponse']);
+}
+
+/**
  * @param $url
  * @param array $params
  * @return mixed|string
