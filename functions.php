@@ -2784,7 +2784,8 @@ function loadPluginForFilename($pluginName)
             return true;
         }
     } else {
-        if (array_key_exists($pluginName, PLUGIN_FOR_APP_FILENAME)) {
+        if (defined('PLUGIN_FOR_APP_FILENAME') && is_array(PLUGIN_FOR_APP_FILENAME)
+            && array_key_exists($pluginName, PLUGIN_FOR_APP_FILENAME)) {
 
             if ((!isArrayEmpty(PLUGIN_FOR_APP_FILENAME[$pluginName]) && !in_array(getAppPageSlug(), PLUGIN_FOR_APP_FILENAME[$pluginName]))
                 || false === PLUGIN_FOR_APP_FILENAME[$pluginName]) {
