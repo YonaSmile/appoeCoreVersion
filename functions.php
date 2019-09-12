@@ -2784,11 +2784,17 @@ function loadPluginForFilename($pluginName)
             return true;
         }
     } else {
-        if (defined('PLUGIN_FOR_APP_FILENAME') && is_array(PLUGIN_FOR_APP_FILENAME)
-            && array_key_exists($pluginName, PLUGIN_FOR_APP_FILENAME)) {
 
-            if ((!isArrayEmpty(PLUGIN_FOR_APP_FILENAME[$pluginName]) && !in_array(getAppPageSlug(), PLUGIN_FOR_APP_FILENAME[$pluginName]))
-                || false === PLUGIN_FOR_APP_FILENAME[$pluginName]) {
+        $pluginForAppFilename = INI_LOAD_PLUGIN_FOR_APP_FILENAME;
+
+        if (defined('PLUGIN_FOR_APP_FILENAME') && is_array(PLUGIN_FOR_APP_FILENAME)) {
+            $pluginForAppFilename = array_merge($pluginForAppFilename, PLUGIN_FOR_APP_FILENAME);
+        }
+
+        if (array_key_exists($pluginName, $pluginForAppFilename)) {
+
+            if ((!isArrayEmpty($pluginForAppFilename[$pluginName]) && !in_array(getAppPageSlug(), $pluginForAppFilename[$pluginName]))
+                || false === $pluginForAppFilename[$pluginName]) {
                 return false;
             }
 

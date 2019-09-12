@@ -121,3 +121,9 @@ const PAGE_TYPES = array(
     'archives' => 'ITEMGLUE',
     'blog' => 'ITEMGLUE'
 );
+
+//Load plugin files only for a specific app filename : plugin name => [filename, filename, ] || false (without extension)
+const INI_LOAD_PLUGIN_FOR_APP_FILENAME = array(
+    'leaflet' => false,
+    'interactiveMap' => ['updateInterMapContent', 'updateInterMap']
+);
