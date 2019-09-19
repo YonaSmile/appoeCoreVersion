@@ -2325,11 +2325,11 @@ function flatten(array $array)
 }
 
 /**
- * @param array $data
+ * @param $data
  * @param string $keyName
  * @return array
  */
-function groupMultipleKeysObjectsArray(array $data, $keyName)
+function groupMultipleKeysObjectsArray($data, $keyName)
 {
     $tmp = array();
     foreach ($data as $key => $arg) {
@@ -2867,19 +2867,19 @@ function valideAjaxToken()
  */
 function checkPostAndTokenRequest($updateUserStatus = true)
 {
-    if (!empty($_POST['_token']) && !empty($_SESSION['_token']) && $_POST['_token'] == $_SESSION['_token']) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST"
+        && !empty($_POST['_token']) && !empty($_SESSION['_token'])
+        && $_POST['_token'] == $_SESSION['_token']) {
 
         unsetToken();
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if ($updateUserStatus) {
-                if (function_exists('mehoubarim_connecteUser')) {
-                    mehoubarim_connecteUser();
-                }
+        if ($updateUserStatus) {
+            if (function_exists('mehoubarim_connecteUser')) {
+                mehoubarim_connecteUser();
             }
-
-            return true;
         }
+
+        return true;
     }
 
     return false;
@@ -3150,14 +3150,30 @@ function isKing($roleId)
 }
 
 /**
+ * @param bool $destroyAllThenRedirect
  * Unset User Session & Cookie
  */
-function deconnecteUser()
+function disconnectUser($destroyAllThenRedirect = true)
 {
+    if (function_exists('mehoubarim_freeUser')) {
+        mehoubarim_freeUser(getUserIdSession());
+    }
+
     unset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
 
     setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', -3600, '/', '', false, true);
     unset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
+
+    if($destroyAllThenRedirect){
+
+        session_unset();
+        session_destroy();
+
+        if (!headers_sent()) {
+            header('location:' . WEB_DIR . 'hibour');
+        }
+        exit();
+    }
 }
 
 /**

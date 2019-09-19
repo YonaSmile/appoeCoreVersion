@@ -4,7 +4,7 @@ if (pageSlug() == 'hibour') {
         header('location:app/page/');
         exit();
     }
-    deconnecteUser();
+    disconnectUser(false);
 }
 
 if (isset($_POST['APPOECONNEXION'])) {
@@ -55,10 +55,10 @@ if (isset($_POST['APPOECONNEXION'])) {
                             header('location:' . $_POST['forwardPage']);
                             exit();
                         }
-                    } else {
-                        header('location:/app/page/');
-                        exit();
                     }
+
+                    header('location:/app/page/');
+                    exit();
                 }
             }
         }

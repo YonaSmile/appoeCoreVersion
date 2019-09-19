@@ -6,7 +6,9 @@ session_name('APPOE');
 session_start();
 
 //Change PHP version in header information
-header("x-powered-by: PHP/999");
+if (!headers_sent()) {
+    header("x-powered-by: PHP/999");
+}
 
 //Get ini.php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/ini.php');
