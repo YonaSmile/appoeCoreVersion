@@ -20,7 +20,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         <div class="col-12">
             <div class="table-responsive">
                 <table id="permissionTable"
-                       class="sortableTable table table-bordered">
+                       class="sortableTable table table-bordered fixed-header">
                     <thead>
                     <tr>
                         <th><?= trans('ID'); ?></th>
