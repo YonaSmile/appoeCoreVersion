@@ -2331,16 +2331,21 @@ function flatten(array $array)
  */
 function groupMultipleKeysObjectsArray($data, $keyName)
 {
-    $tmp = array();
-    foreach ($data as $key => $arg) {
-        $tmp[$arg->$keyName][$key] = $arg;
-    }
-
     $output = array();
-    foreach ($tmp as $type => $labels) {
-        $output[cleanData($type)] = $labels;
-    }
+    if (!isArrayEmpty($data)) {
 
+        $tmp = array();
+        foreach ($data as $key => $arg) {
+
+            if (isset($arg->$keyName)) {
+                $tmp[$arg->$keyName][$key] = $arg;
+            }
+        }
+
+        foreach ($tmp as $type => $labels) {
+            $output[cleanData($type)] = $labels;
+        }
+    }
     return $output;
 }
 
@@ -2351,16 +2356,21 @@ function groupMultipleKeysObjectsArray($data, $keyName)
  */
 function groupMultipleKeysArray(array $data, $keyName)
 {
-    $tmp = array();
-    foreach ($data as $key => $arg) {
-        $tmp[$arg[$keyName]][$key] = $arg;
-    }
-
     $output = array();
-    foreach ($tmp as $type => $labels) {
-        $output[cleanData($type)] = $labels;
-    }
+    if (!isArrayEmpty($data)) {
 
+        $tmp = array();
+        foreach ($data as $key => $arg) {
+
+            if (array_key_exists($keyName, $arg)) {
+                $tmp[$arg[$keyName]][$key] = $arg;
+            }
+        }
+
+        foreach ($tmp as $type => $labels) {
+            $output[cleanData($type)] = $labels;
+        }
+    }
     return $output;
 }
 
@@ -3150,10 +3160,10 @@ function isKing($roleId)
 }
 
 /**
- * @param bool $destroyAllThenRedirect
+ * @param bool $destroyAndRedirect
  * Unset User Session & Cookie
  */
-function disconnectUser($destroyAllThenRedirect = true)
+function disconnectUser($destroyAndRedirect = true)
 {
     if (function_exists('mehoubarim_freeUser')) {
         mehoubarim_freeUser(getUserIdSession());
@@ -3164,7 +3174,7 @@ function disconnectUser($destroyAllThenRedirect = true)
     setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', -3600, '/', '', false, true);
     unset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
 
-    if($destroyAllThenRedirect){
+    if ($destroyAndRedirect) {
 
         session_unset();
         session_destroy();
