@@ -2699,17 +2699,22 @@ function includePluginsJs($forApp = false)
     if (is_array($plugins) && !empty($plugins)) {
 
         foreach ($plugins as $plugin) {
-            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'js';
-            if (file_exists($filePath)) {
-                $phpFiles = getFilesFromDir($filePath);
-                foreach ($phpFiles as $file) {
 
-                    //File path
-                    $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
+            if (loadPluginForFilename($plugin['name'])) {
 
-                    //Show js file in html doc
-                    echo loadPluginForFilename($plugin['name']) ? '<script type="text/javascript" src="' . $src . '"></script>' : '';
+                $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'js';
+                if (file_exists($filePath)) {
 
+                    $phpFiles = getFilesFromDir($filePath);
+                    foreach ($phpFiles as $file) {
+
+                        //File path
+                        $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
+
+                        //Show js file in html doc
+                        echo '<script type="text/javascript" src="' . $src . '"></script>';
+
+                    }
                 }
             }
         }
@@ -2758,8 +2763,11 @@ function includePluginsStyles()
     if (is_array($plugins) && !empty($plugins)) {
 
         foreach ($plugins as $plugin) {
+
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'css';
+
             if (file_exists($filePath) && is_dir($filePath)) {
+
                 $phpFiles = getFilesFromDir($filePath);
                 foreach ($phpFiles as $file) {
 
@@ -2767,7 +2775,8 @@ function includePluginsStyles()
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
 
                     //Show css file in html doc
-                    echo loadPluginForFilename($plugin['name']) ? '<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
+                    echo loadPluginForFilename($plugin['name']) || substr($file, -8, 4) == 'base' ?
+                        '<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
                 }
             }
         }

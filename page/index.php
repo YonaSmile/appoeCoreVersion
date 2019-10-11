@@ -20,7 +20,7 @@ if (!isVisitor()): ?>
                     //Check for CMS
                     $lastPage = array();
                     if (class_exists('App\Plugin\Cms\Cms')) {
-                        $lastPage = getLastFromDb('plugin_cms_content', 'idCms');
+                        $lastPage = getLastFromDb('plugin_cms_content', 'idCms', 4);
                         $Cms = new Cms();
                         $Cms->setLang(APP_LANG);
                     }
@@ -50,7 +50,7 @@ if (!isVisitor()): ?>
                     //Check for ITEMGLUE
                     $lastArticle = array();
                     if (class_exists('App\Plugin\ItemGlue\Article')) {
-                        $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle');
+                        $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle', 4);
                         $Article = new Article();
                     }
                     if (!isArrayEmpty($lastArticle)): ?>
@@ -67,38 +67,6 @@ if (!isVisitor()): ?>
                                             <a href="<?= getPluginUrl('itemGlue/page/articleContent/', $Article->getId()) ?>"
                                                class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
                                                 <span class="text-white"><i class="fas fa-cog"></i></span>
-                                            </a>
-                                        </span>
-                                    </div>
-                                <?php endif;
-                            endforeach; ?>
-                        </div>
-                    <?php endif;
-                    //Check for SHOP
-                    $lastProducts = array();
-                    if (class_exists('App\Plugin\Shop\Product')) {
-                        $lastProducts = getLastFromDb('plugin_shop_products_content', 'product_id');
-                        $Product = new \App\Plugin\Shop\Product();
-                    }
-                    if (!isArrayEmpty($lastProducts)): ?>
-                        <strong><?= trans('Produits'); ?></strong>
-                        <div class="my-4">
-                            <?php foreach ($lastProducts as $id => $idProduct):
-                                $Product->setId($idProduct);
-                                if ($Product->show()): ?>
-                                    <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
-                                        <span class="w-100 d-block" style="padding-right: 100px;">
-                                            <?= $Product->getName(); ?>
-                                        </span>
-                                        <span class="visitsStatsBadge bgColorPrimary">
-                                                <a href="<?= getPluginUrl('shop/page/updateProductData/', $Product->getId()) ?>"
-                                                   class="btn btn-sm p-0 align-top" title="<?= trans('Consulter'); ?>">
-                                                    <span class="text-white"><i class="fas fa-cog"></i></span>
-                                                </a>
-                                                <a href="<?= getPluginUrl('shop/page/updateProductData/', $Product->getId()) ?>"
-                                                   class="btn btn-sm p-0 align-top"
-                                                   title="<?= trans('Modifier'); ?>">
-                                                <span class="text-white"><i class="fas fa-wrench"></i></span>
                                             </a>
                                         </span>
                                     </div>
