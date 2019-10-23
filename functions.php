@@ -1269,7 +1269,7 @@ function appBackup($DB = true)
     $backUpFolder = WEB_BACKUP_PATH . date('Y-m-d');
 
     //check existing backup folder for today or created it
-    if (!is_dir($backUpFolder)) {
+    if (!file_exists($backUpFolder)) {
         if (mkdir($backUpFolder, 0705)) {
             if ($DB) {
 
