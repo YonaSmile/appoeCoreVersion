@@ -2074,7 +2074,9 @@ function showPostResponse()
  */
 function getDataPostResponse()
 {
-    return !empty($_SESSION['dataPostResponse']) ? $_SESSION['dataPostResponse'] : '';
+    $dataPostResponse = !empty($_SESSION['dataPostResponse']) ? $_SESSION['dataPostResponse'] : '';
+    unset($_SESSION['dataPostResponse']);
+    return $dataPostResponse;
 }
 
 /**
