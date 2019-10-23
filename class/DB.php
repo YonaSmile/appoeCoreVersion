@@ -98,7 +98,9 @@ class DB
         $sqlToUpdate = array(
             'RENAME TABLE `appoe_files_content` TO `appoe_filesContent`',
             'ALTER TABLE `appoe_plugin_people` ADD `idUser` INT(11) NULL DEFAULT NULL AFTER `country`',
-            'ALTER TABLE `appoe_files` CHANGE `type` `type` VARCHAR(55) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL'
+            'ALTER TABLE `appoe_files` CHANGE `type` `type` VARCHAR(55) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL',
+            'ALTER TABLE `appoe_plugin_itemGlue_articles_content` DROP INDEX idArticle',
+            'ALTER TABLE `appoe_plugin_itemGlue_articles_content` ADD UNIQUE(`idArticle`, `type`, `lang`)'
         );
 
         $results = array();
