@@ -2056,17 +2056,18 @@ function setPostResponse($message, $status = 'danger', $data = null)
 
 /**
  * show alert and destroy response
+ * @param string $additionalText
  */
-function showPostResponse()
+function showPostResponse($additionalText = '')
 {
     $html = '';
     if (!empty($_SESSION['messagePostResponse']) && !empty($_SESSION['statusPostResponse'])) {
         $html .= '<div class="row"><div class="col-12"><div class="alert alert-' . $_SESSION['statusPostResponse'] . '" role="alert">'
-            . $_SESSION['messagePostResponse'] . '</div></div></div>';
+            . $_SESSION['messagePostResponse'] . ' ' . $additionalText . '</div></div></div>';
 
     }
-    echo $html;
     unset($_SESSION['messagePostResponse'], $_SESSION['statusPostResponse']);
+    echo $html;
 }
 
 /**
