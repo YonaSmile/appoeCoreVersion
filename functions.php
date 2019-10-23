@@ -2048,7 +2048,7 @@ function deleteThumb($filename, $desired_width)
  */
 function setPostResponse($message, $status = 'danger')
 {
-    $_SESSION['messagePostResponse'] = $message;
+    $_SESSION['messagePostResponse'] = trans($message);
     $_SESSION['statusPostResponse'] = $status;
 }
 
