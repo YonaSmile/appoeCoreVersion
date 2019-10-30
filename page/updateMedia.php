@@ -106,7 +106,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
                         <?= getTokenField(); ?>
                         <div class="col-12 col-lg-6 my-2">
-                            <?= \App\Form::file('Importer depuis votre appareil', 'inputFile[]', false, 'multiple'); ?>
+                            <?= \App\Form::file('Importer depuis votre appareil', 'inputFile[]', false, 'multiple', '', 'Choisissez...', false); ?>
                         </div>
                         <div class="col-12 col-lg-3 my-2">
                                 <textarea name="textareaSelectedFile" id="textareaSelectedFile"

@@ -190,15 +190,21 @@ class Form
      * @param string $otherAttr
      * @param string $otherClass
      * @param string $placeholder
+     * @param bool $noTitleWithPlaceholder
      * @return string
      */
-    public static function file($title, $name, $require = false, $otherAttr = '', $otherClass = '', $placeholder = 'Choisissez...')
+    public static function file($title, $name, $require = false, $otherAttr = '', $otherClass = '', $placeholder = 'Choisissez...', $noTitleWithPlaceholder = true)
     {
 
         $require = $require ? 'required="true"' : '';
 
-        $html = '';
-        $html .= '<div class="form-group"><label for="' . $name . '">' . $title . '</label><div class="custom-file">';
+        $html = '<div class="form-group">';
+
+        if (empty($placeholder) || !$noTitleWithPlaceholder) {
+            $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
+        }
+
+        $html .= '<div class="custom-file">';
         $html .= '<input type="file" id="' . $name . '" name="' . $name . '" class="custom-file-input ' . $otherClass . '" ' . $require . ' ' . $otherAttr . ' lang="' . APP_LANG . '">
         <label class="custom-file-label form-control" for="' . $name . '">' . trans($placeholder) . '</label>';
 

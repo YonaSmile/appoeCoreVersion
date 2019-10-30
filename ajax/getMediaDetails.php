@@ -42,11 +42,13 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                     </a>
                 <?php endif; ?>
                 <h5 class="my-2" id="mediaTitle"><?= $Media->getTitle(); ?></h5>
-                <small title="<?= trans('Copier le lien du média'); ?>">
-                <span class="copyLinkOnClick" data-src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>">
+                <small>
+                <span class="copyLinkOnClick" title="<?= trans('Copier le lien du média'); ?>"
+                      data-src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>">
                     <?= WEB_DIR_INCLUDE . $Media->getName(); ?>
                 </span>
-                    <a href="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>" target="_blank"
+                    <a title="<?= trans('Visualiser le fichier dans un nouvel onglet'); ?>"
+                       href="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>" target="_blank"
                        data-file-mime="<?= mime_content_type(FILE_DIR_PATH . $Media->getName()); ?>">
                         <i class="fas fa-external-link-alt mx-2"></i>
                     </a>
