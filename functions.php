@@ -2075,8 +2075,11 @@ function showPostResponse($additionalText = '')
  */
 function getDataPostResponse()
 {
-    $dataPostResponse = !empty($_SESSION['dataPostResponse']) ? $_SESSION['dataPostResponse'] : '';
-    unset($_SESSION['dataPostResponse']);
+    $dataPostResponse = '';
+    if (!empty($_SESSION['dataPostResponse'])) {
+        $dataPostResponse = $_SESSION['dataPostResponse'];
+        unset($_SESSION['dataPostResponse']);
+    }
     return $dataPostResponse;
 }
 
