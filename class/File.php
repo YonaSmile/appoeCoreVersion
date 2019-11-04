@@ -265,7 +265,7 @@ class File
   					`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
                 	`userId` INT(11) UNSIGNED NOT NULL,
-  					`type` VARCHAR(15) NOT NULL,
+  					`type` VARCHAR(55) NOT NULL,
   					`typeId` INT(11) UNSIGNED NOT NULL,
   					`name` VARCHAR(255) NOT NULL,
   					UNIQUE (`type`, `typeId`, `name`),
@@ -609,7 +609,7 @@ class File
      */
     public function countFile($all = false)
     {
-        $sql = (!$all) ? 'SELECT * FROM appoe_files WHERE name = :name' : 'SELECT * FROM appoe_files';
+        $sql = (!$all) ? 'SELECT * FROM appoe_files WHERE name = :name' : 'SELECT * FROM appoe_files WHERE type = "MEDIA"';
         $stmt = $this->dbh->prepare($sql);
 
         if (!$all) {
