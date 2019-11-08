@@ -2136,9 +2136,6 @@ function updateDB()
                     $error = getSqlError();
                     appLog($error[2]);
                 }
-
-                unset($sqlToUpdate[$num]);
-                putJsonContent($dbUpdateFile, $sqlToUpdate);
             }
 
             //Check if error in sql
