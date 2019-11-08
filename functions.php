@@ -2119,7 +2119,7 @@ function updateDB()
         if (is_array($sqlToUpdate)) {
 
             $updateError = false;
-            appLog('Updating db ...');
+            appLog('Updating db...');
 
             foreach ($sqlToUpdate as $num => $sql) {
 
@@ -2131,7 +2131,7 @@ function updateDB()
 
                     //Writing error in applog.log
                     $error = getSqlError();
-                    appLog($error[2]);
+                    appLog('Database error: ' . $error[2]);
 
                     //Declare an error
                     $updateError[] = $error[2];
