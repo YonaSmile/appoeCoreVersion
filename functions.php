@@ -2129,17 +2129,17 @@ function updateDB()
                 //If database return error
                 if (!$stmt) {
 
-                    //Declare an error
-                    $updateError = true;
-
                     //Writing error in applog.log
                     $error = getSqlError();
                     appLog($error[2]);
+
+                    //Declare an error
+                    $updateError[] = $error[2];
                 }
             }
 
             //Check if error in sql
-            if ($updateError) {
+            if (is_array($updateError)) {
 
                 //Send mail to admin
                 $data = array(
@@ -2148,7 +2148,7 @@ function updateDB()
                     'toName' => 'Admin',
                     'toEmail' => 'yona@aoe-communication.com',
                     'object' => 'Erreur de mise à jour de la base de données',
-                    'message' => 'Le site <strong>' . WEB_TITLE . '</strong> à rencontré un problème de mise à jour de la base de données.<br>Vérifiez le fichier applog.log'
+                    'message' => '<p>Le site <strong>' . WEB_TITLE . '</strong> à rencontré un problème de mise à jour de la base de données.</p><p>' . implode('<br>', $updateError) . '</p>'
                 );
                 sendMail($data);
 
@@ -2156,14 +2156,15 @@ function updateDB()
                 unlink($dbUpdateFile);
 
                 //Show error screen
-                echo getAsset('simpleView', true, ['title' => 'Erreur', 'content' => 'La mise à jour de la base de données a rencontré un problème.<br>L\'équipe AOE à été averti et donnera suite à ce problème.']);
-                exit();
+                return false;
             }
         }
 
         //Delete dbUpdate file
         unlink($dbUpdateFile);
     }
+
+    return true;
 }
 
 /**
@@ -3060,6 +3061,26 @@ function checkAndGetUserId($idUser = null)
 function getAllUsers()
 {
     return unserialize(ALLUSERS);
+}
+
+/**
+ * @return array|mixed
+ */
+function getAdaptedUsers()
+{
+
+    $allUsers = getAllUsers();
+    if (is_array($allUsers)) {
+
+        foreach ($allUsers as $idUser => $user) {
+
+            if (getUserRoleId() < getUserRoleId($idUser)) {
+                unset($allUsers[$idUser]);
+            }
+        }
+    }
+
+    return $allUsers;
 }
 
 /**

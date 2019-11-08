@@ -1,8 +1,6 @@
 <?php
 if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected() && appoeMinRole()) {
 
-    updateDB();
-
     $userConnexion = getUserConnexion();
 
     if ($userConnexion) {
