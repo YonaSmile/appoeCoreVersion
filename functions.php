@@ -1928,15 +1928,16 @@ function getSessionNotifications()
 /**
  * @param $assetName
  * @param bool $getStream
+ * @param null $params
  * @return bool|false|string
  */
-function getAsset($assetName, $getStream = false)
+function getAsset($assetName, $getStream = false, $params = null)
 {
     $fileDirname = 'assets/' . $assetName . '.php';
     $filePath = WEB_LIB_PATH . $fileDirname;
 
     if (file_exists($filePath)) {
-        return $getStream ? getFileContent($filePath) : include_once($filePath);
+        return $getStream ? getFileContent($filePath, $params) : include_once($filePath);
     }
 
     return false;
@@ -2084,6 +2085,91 @@ function getDataPostResponse()
 }
 
 /**
+ * @param $error
+ */
+function setSqlError($error)
+{
+    $_SESSION['sqlError'] = $error;
+}
+
+/**
+ * @return mixed
+ */
+function getSqlError()
+{
+    $error = $_SESSION['sqlError'];
+    unset($_SESSION['sqlError']);
+    return $error;
+}
+
+/**
+ * Update DataBase
+ * @throws phpmailerException
+ */
+function updateDB()
+{
+
+    $dbUpdateFile = WEB_SYSTEM_PATH . 'dbUpdate.json';
+
+    if (file_exists($dbUpdateFile)) {
+
+        //Get sql content
+        $sqlToUpdate = getJsonContent($dbUpdateFile);
+
+        if (is_array($sqlToUpdate)) {
+
+            $updateError = false;
+            appLog('Updating db ...');
+
+            foreach ($sqlToUpdate as $num => $sql) {
+
+                //Send sql request
+                $stmt = \App\DB::exec($sql);
+
+                //If database return error
+                if (!$stmt) {
+
+                    //Declare an error
+                    $updateError = true;
+
+                    //Writing error in applog.log
+                    $error = getSqlError();
+                    appLog($error[2]);
+                }
+
+                unset($sqlToUpdate[$num]);
+                putJsonContent($dbUpdateFile, $sqlToUpdate);
+            }
+
+            //Check if error in sql
+            if ($updateError) {
+
+                //Send mail to admin
+                $data = array(
+                    'fromEmail' => 'system@aoe-communication.com',
+                    'fromName' => 'AOE System',
+                    'toName' => 'Admin',
+                    'toEmail' => 'yona@aoe-communication.com',
+                    'object' => 'Erreur de mise à jour de la base de données',
+                    'message' => 'Le site <strong>' . WEB_TITLE . '</strong> à rencontré un problème de mise à jour de la base de données.<br>Vérifiez le fichier applog.log'
+                );
+                sendMail($data);
+
+                //Delete dbUpdate file
+                unlink($dbUpdateFile);
+
+                //Show error screen
+                echo getAsset('simpleView', true, ['title' => 'Erreur', 'content' => 'La mise à jour de la base de données a rencontré un problème.<br>L\'équipe AOE à été averti et donnera suite à ce problème.']);
+                exit();
+            }
+        }
+
+        //Delete dbUpdate file
+        unlink($dbUpdateFile);
+    }
+}
+
+/**
  * @param $url
  * @param array $params
  * @return mixed|string
@@ -2107,21 +2193,26 @@ function postHttpRequest($url, array $params)
 
 /**
  * @param $path
- * @param $activeTraduction
+ * @param null $params
  * @return string
  */
-function getFileContent($path, $activeTraduction = true)
+function getFileContent($path, $params = null)
 {
     ob_start();
-
-    if ($activeTraduction && class_exists('App\Plugin\Traduction\Traduction')) {
-        $Traduction = new Traduction(APP_LANG);
-    }
 
     if (file_exists($path)) {
         include $path;
     }
+
     $pageContent = ob_get_clean();
+
+    if (is_array($params) && preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
+
+        foreach ($match[1] as $i => $zone) {
+
+            $pageContent = str_replace($match[0][$i], sprintf('%s', !empty($params[$zone]) ? $params[$zone] : ''), $pageContent);
+        }
+    }
 
     return $pageContent;
 }

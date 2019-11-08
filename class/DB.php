@@ -38,7 +38,6 @@ class DB
                 }
             }
         }
-        //self::updateTable();
         return self::$dbh;
     }
 
@@ -66,6 +65,8 @@ class DB
         $stmt->execute($params);
         $error = $stmt->errorInfo();
         if ($error[0] != '00000') {
+
+            setSqlError($error);
             return false;
         } else {
             return $stmt;
@@ -88,41 +89,6 @@ class DB
         }
 
         return false;
-    }
-
-    /**
-     * @return array
-     */
-    public static function updateTable()
-    {
-        $sqlToUpdate = array(
-            'RENAME TABLE `appoe_files_content` TO `appoe_filesContent`',
-            'ALTER TABLE `appoe_plugin_people` ADD `idUser` INT(11) NULL DEFAULT NULL AFTER `country`',
-            'ALTER TABLE `appoe_files` CHANGE `type` `type` VARCHAR(55) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL',
-            'ALTER TABLE `appoe_plugin_itemGlue_articles_content` DROP INDEX idArticle',
-            'ALTER TABLE `appoe_plugin_itemGlue_articles_content` ADD UNIQUE(`idArticle`, `type`, `lang`)',
-            'CREATE TABLE IF NOT EXISTS `appoe_plugin_itemGlue_articles_relations` (
-  					`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                	PRIMARY KEY (`id`),
-                    `type` VARCHAR(250) NOT NULL,
-                    `typeId` INT(11) UNSIGNED NOT NULL,
-                    `articleId` INT(11) UNSIGNED NOT NULL,
-                    UNIQUE (`type`, `typeId`, `articleId`),
-                	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11;'
-        );
-
-        $results = array();
-        foreach ($sqlToUpdate as $sql) {
-            $stmt = self::$dbh->prepare($sql);
-            $stmt->execute();
-            $error = $stmt->errorInfo();
-            if ($error[0] != '00000') {
-                $results[] = false;
-            }
-        }
-
-        return $results;
     }
 
     /**
