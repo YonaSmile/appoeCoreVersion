@@ -3056,31 +3056,32 @@ function checkAndGetUserId($idUser = null)
 }
 
 /**
- * @return mixed
+ * @param bool $max : get the maximum user role IDs from the current user
+ * @param bool $min : get the minimum user role IDs from the current user
+ * @param null $roleIdReference : to compare with role IDs
+ * @return array|bool
  */
-function getAllUsers()
+function getAllUsers($max = false, $min = false, $roleIdReference = null)
 {
-    return unserialize(ALLUSERS);
-}
+    $allUsers = unserialize(ALLUSERS);
 
-/**
- * @return array|mixed
- */
-function getAdaptedUsers()
-{
-
-    $allUsers = getAllUsers();
     if (is_array($allUsers)) {
 
-        foreach ($allUsers as $idUser => $user) {
+        if ($max || $min) {
 
-            if (getUserRoleId() < getUserRoleId($idUser)) {
-                unset($allUsers[$idUser]);
+            $reference = is_numeric($roleIdReference) ? $roleIdReference : getUserRoleId();
+            foreach ($allUsers as $idUser => $user) {
+
+                if (($max && $reference < getUserRoleId($idUser)) || ($min && $reference > getUserRoleId($idUser))) {
+                    unset($allUsers[$idUser]);
+                }
             }
         }
+
+        return $allUsers;
     }
 
-    return $allUsers;
+    return false;
 }
 
 /**
