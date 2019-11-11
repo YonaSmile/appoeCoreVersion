@@ -3056,8 +3056,8 @@ function checkAndGetUserId($idUser = null)
 }
 
 /**
- * @param bool $max : get the maximum user role IDs from the current user
- * @param bool $min : get the minimum user role IDs from the current user
+ * @param bool $max : get the lower roles than the current user
+ * @param bool $min : get the superior roles than the current user
  * @param null $roleIdReference : to compare with role IDs
  * @return array|bool
  */
