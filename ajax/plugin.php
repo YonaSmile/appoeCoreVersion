@@ -159,7 +159,7 @@ if (checkAjaxRequest()) {
         }
 
         //Get Articles Slug
-        if (!empty(DEFAULT_ARTICLES_PAGE)) {
+        if (defined('DEFAULT_ARTICLES_PAGE') && !empty(DEFAULT_ARTICLES_PAGE)) {
 
             $Article = new Article();
             $articles = $Article->showAll();
