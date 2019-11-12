@@ -868,27 +868,23 @@ function checkRequest($request)
  */
 function generateSitemap($data)
 {
-    $sitemap = '<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-       http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
+    $sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
+    $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
     $sitemap .= '<url>';
     $sitemap .= '<loc>' . WEB_DIR_URL . '</loc>';
-    $sitemap .= '<changefreq>weekly</changefreq>';
     $sitemap .= '<priority>1.0</priority>';
     $sitemap .= '</url>';
 
-    foreach ($data as $key => $url) {
-        if (file_exists(WEB_PATH . $url->slug . '.php')) {
+    if(!isArrayEmpty($data)) {
+
+        foreach ($data as $location) {
             $sitemap .= '<url>';
-            $sitemap .= '<loc>' . WEB_DIR_URL . $url->slug . '/</loc>';
-            $sitemap .= '<changefreq>weekly</changefreq>';
-            $sitemap .= '<priority>' . ($url->slug == 'home' ? '1.0' : '0.8') . '</priority>';
+            $sitemap .= '<loc>' . $location['slug'] . '</loc>';
             $sitemap .= '</url>';
         }
     }
+
     $sitemap .= '</urlset>';
 
     if (false !== $file = fopen(ROOT_PATH . 'sitemap.xml', 'w+')) {

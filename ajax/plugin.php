@@ -1,6 +1,9 @@
 <?php
 require_once('header.php');
 
+use App\Plugin\Cms\Cms;
+use App\Plugin\ItemGlue\Article;
+
 if (checkAjaxRequest()) {
 
     if (!empty($_POST['checkUserSession'])) {
@@ -141,8 +144,32 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['updateSitemap'])) {
 
-        $CmsMenu = new \App\Plugin\Cms\CmsMenu();
-        $data = extractFromObjArr($CmsMenu->showAll(), 'slug');
+        $data = array();
+
+        //Get Pages Slug
+        $Cms = new Cms();
+        $pages = $Cms->showAllPages();
+
+        if ($pages) {
+            foreach ($pages as $page) {
+                if (file_exists(WEB_PATH . $page->filename . '.php')) {
+                    $data[] = array('slug' => webUrl($page->slug . '/'), 'name' => $page->name);
+                }
+            }
+        }
+
+        //Get Articles Slug
+        if (!empty(DEFAULT_ARTICLES_PAGE)) {
+
+            $Article = new Article();
+            $articles = $Article->showAll();
+
+            if ($articles) {
+                foreach ($articles as $article) {
+                    $data[] = array('slug' => webUrl(DEFAULT_ARTICLES_PAGE . '/' . $article->slug), 'name' => $article->name);
+                }
+            }
+        }
 
         if (generateSitemap($data)) {
             echo 'true';
