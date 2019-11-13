@@ -509,8 +509,12 @@ class File
                             if (!file_exists($this->filePath . $filename)) {
 
                                 if (move_uploaded_file($tmp_name, $this->filePath . $filename) === false) {
+
+                                    $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('n\'a pas pu être enregistré.') . '<br>';
                                     continue;
                                 }
+                            } else {
+                                $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('existe déjà, il a donc été partagé et non remplacé.') . '<br>';
                             }
 
                             appLog('Upload file -> name: ' . $filename);
