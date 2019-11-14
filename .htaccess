@@ -1,7 +1,10 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule (.*) /app/page/home
+RewriteRule (.*) /app/lib/assets/404.php
+
+ErrorDocument 403 /app/lib/assets/404.php
+ErrorDocument 404 /app/lib/assets/404.php
 
 <filesMatch "\.(html|htm|js|css|php|json)$">
   FileETag None

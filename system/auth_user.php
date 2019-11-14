@@ -52,6 +52,7 @@ if (isset($_POST['APPOECONNEXION'])) {
                     //Check for forwarding page
                     if (!empty($_GET['forwardPage'])) {
                         if (!headers_sent()) {
+                            $_GET['forwardPage'] = cleanData($_GET['forwardPage']);
                             header('location:' . $_GET['forwardPage']);
                         }
                         exit();
