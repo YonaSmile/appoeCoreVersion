@@ -30,7 +30,7 @@ if (isset($_POST['APPOECONNEXION'])) {
                 $User->setPassword($pass);
 
                 //if user not exist
-                if (!$User->authUser()) {
+                if (!$User->authUser() && appoeMinRole()) {
 
                     \App\Flash::setMsg(trans('Vous n\'êtes pas identifié') . ' !');
 
@@ -50,11 +50,11 @@ if (isset($_POST['APPOECONNEXION'])) {
                     }
 
                     //Check for forwarding page
-                    if (isset($_POST['forwardPage'])) {
-                        if (!empty($_POST['forwardPage'])) {
-                            header('location:' . $_POST['forwardPage']);
-                            exit();
+                    if (!empty($_GET['forwardPage'])) {
+                        if (!headers_sent()) {
+                            header('location:' . $_GET['forwardPage']);
                         }
+                        exit();
                     }
 
                     header('location:/app/page/');
