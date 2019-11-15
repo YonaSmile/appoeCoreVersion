@@ -24,7 +24,7 @@ define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
  */
 function pageSlug()
 {
-    return htmlentities(basename($_SERVER['REQUEST_URI']));
+    return str_replace('/', '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 }
 
 /**
@@ -876,7 +876,7 @@ function generateSitemap($data)
     $sitemap .= '<priority>1.0</priority>';
     $sitemap .= '</url>';
 
-    if(!isArrayEmpty($data)) {
+    if (!isArrayEmpty($data)) {
 
         foreach ($data as $location) {
             $sitemap .= '<url>';

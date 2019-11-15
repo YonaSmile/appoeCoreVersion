@@ -1,6 +1,15 @@
 <?php
 if (pageSlug() == 'hibour') {
     if ((isUserSessionExist() || isUserCookieExist()) && !bot_detected()) {
+
+        if (!empty($_GET['forwardPage'])) {
+            if (!headers_sent()) {
+                $_GET['forwardPage'] = cleanData($_GET['forwardPage']);
+                header('location:' . $_GET['forwardPage']);
+            }
+            exit();
+        }
+
         header('location:app/page/');
         exit();
     }
