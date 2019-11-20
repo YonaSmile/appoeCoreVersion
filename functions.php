@@ -1007,7 +1007,7 @@ function showDebugData()
  * @param string $format
  * @return bool
  */
-function isValidDateTime($dateStr, $format = 'Y-m-d')
+function isValidDateTime($dateStr, $format = 'Y-m-d H:i')
 {
     $date = DateTime::createFromFormat($format, $dateStr);
     return $date && ($date->format($format) === $dateStr);
@@ -1034,15 +1034,15 @@ function displayTimeStamp($timestamp, $hour = true)
 /**
  * @param $date
  * @param bool $hour
- * @param string $format
+ * @param bool|string $defaultFormat
  * @return bool|string
  * @throws Exception
  * @noinspection PhpUnhandledExceptionInspection
  */
-function displayCompleteDate($date, $hour = false, $format = '%A %d %B %Y')
+function displayCompleteDate($date, $hour = false, $defaultFormat = false)
 {
-    if (isValidDateTime($date, 'd/m/Y')) {
-        $date = DateTime::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+    if (isValidDateTime($date, 'd/m/Y H:i')) {
+        $date = DateTime::createFromFormat('d/m/Y H:i', $date)->format('Y-m-d H:i');
     }
 
     if (isValidDateTime($date)) {
@@ -1050,8 +1050,7 @@ function displayCompleteDate($date, $hour = false, $format = '%A %d %B %Y')
         $Date = new DateTime($date);
         $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
 
-        $strFtime = empty($format) ? ($hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y") : $format;
-
+        $strFtime = !$defaultFormat ? ($hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y") : $defaultFormat;
         return ucwords(strftime($strFtime, strtotime($time)));
     }
     return false;
