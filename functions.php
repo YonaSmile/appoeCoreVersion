@@ -3468,6 +3468,10 @@ function webUrl($file, $param = null)
 
     if (false !== strpos($file, '#') && substr($file, -1) == '/') {
         $file = substr($file, 0, -1);
+
+        if($file === '#'){
+            return $file;
+        }
     }
 
     if (substr($file, 0, 4) === "http") {
