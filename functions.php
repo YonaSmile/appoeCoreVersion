@@ -2302,10 +2302,11 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
 /**
  * @param int $id
  * @param bool $parentId
+ * @param bool $flatten
  * @param string $type
  * @return array
  */
-function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
+function getMediaByCategory($id, $parentId = false, $flatten = false, $type = 'MEDIA')
 {
     $Media = new Media();
     $Media->setType($type);
@@ -2331,9 +2332,11 @@ function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
             }
 
         } else {
+
             if ($category->id != $id) {
                 continue;
             }
+
             $categoryMedia = $Media->showFiles();
             if ($categoryMedia) {
                 $allMedia = array_merge($allMedia, $categoryMedia);
@@ -2341,7 +2344,7 @@ function getMediaByCategory($id, $parentId = false, $type = 'MEDIA')
         }
     }
 
-    return $allMedia;
+    return !$flatten ? $allMedia : array_flatten($allMedia);
 }
 
 /**
@@ -2414,7 +2417,7 @@ function transformMultipleArraysTo1(array $multipleArrays = null)
 }
 
 /**
- * Raise an children array, at the top level
+ * Raise an string children array, at the top level
  *
  * @param array| $array
  * @return array
@@ -2426,6 +2429,28 @@ function flatten(array $array)
         $return[] = $a;
     });
     return array_unique($return);
+}
+
+/**
+ * Raise an objects children array, at the top level
+ *
+ * @param array| $array
+ * @return array
+ */
+function array_flatten(array $array)
+{
+    $result = array();
+    foreach ($array as $key => $value) {
+
+        if (is_array($value)) {
+
+            $result = array_merge($result, array_flatten($value));
+
+        } else {
+            $result = array_merge($result, array($key => $value));
+        }
+    }
+    return $result;
 }
 
 /**
