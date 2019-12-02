@@ -299,7 +299,7 @@ function getSessionMenu($primaryIndex = 1, $parent = 10)
         }
 
         return $_SESSION['MENU'][$primaryIndex];
-    };
+    }
 
     return $sessionMenu;
 }
@@ -3473,7 +3473,7 @@ function webUrl($file, $param = null)
     if (false !== strpos($file, '#') && substr($file, -1) == '/') {
         $file = substr($file, 0, -1);
 
-        if($file === '#'){
+        if ($file === '#') {
             return $file;
         }
     }
@@ -3941,7 +3941,7 @@ function formatDateDiff($start, $end = null)
         $format[] = "%y " . $doPlural($interval->y, "année");
     }
     if ($interval->m !== 0) {
-        $format[] = "%m " . $doPlural($interval->m, "mois");;
+        $format[] = "%m " . $doPlural($interval->m, "mois");
     }
     if ($interval->d !== 0) {
         $format[] = "%d " . $doPlural($interval->d, "jour");
