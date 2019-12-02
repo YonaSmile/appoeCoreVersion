@@ -158,11 +158,11 @@ class Menu
   					`id` INT(11) NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
                 	`slug` VARCHAR(40) NOT NULL,
-                	UNIQUE KEY (`slug`),
   					`name` VARCHAR(50) NOT NULL,
   					`min_role_id` INT(11) NOT NULL,
   					`statut` INT(11) NOT NULL,
   					`parent_id` INT(11) NOT NULL,
+  					UNIQUE KEY (`slug`, parent_id),
   					`order_menu` INT(11) DEFAULT NULL,
   					`pluginName` VARCHAR(200) DEFAULT NULL,
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -291,7 +291,7 @@ class Menu
         $error = $stmt->errorInfo();
 
         if ($error[0] != '00000') {
-            return false;
+            showDebugData($error); //return false;
         } else {
             appLog('Creating menu -> id: ' . $this->id . ' slug: ' . $this->slug . ' name: ' . $this->name . ' 
             min role id: ' . $this->minRoleId . ' statut: ' . $this->statut . ' parent id: ' . $this->parentId . ' 
@@ -321,7 +321,7 @@ class Menu
         $error = $stmt->errorInfo();
 
         if ($error[0] != '00000') {
-            return false;
+            showDebugData($error); //return false;
         } else {
             appLog('Updating menu -> id: ' . $this->id . ' slug: ' . $this->slug . ' name: ' . $this->name . ' 
             min role id: ' . $this->minRoleId . ' statut: ' . $this->statut . ' parent id: ' . $this->parentId . ' 

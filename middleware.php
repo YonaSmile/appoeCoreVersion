@@ -1,9 +1,9 @@
 <?php
-if ((isUserSessionExist() || isUserCookieExist())) {
+if ((isUserSessionExist() || isUserCookieExist()) && appoeMinRole() && !bot_detected()) {
 
     $userConnexion = getUserConnexion();
 
-    if ($userConnexion && appoeMinRole() && !bot_detected()) {
+    if ($userConnexion ) {
 
         //Check if user exist & valide
         $USER = new \App\Users($userConnexion['idUserConnexion']);
@@ -54,7 +54,7 @@ if ((isUserSessionExist() || isUserCookieExist())) {
 
     disconnectUser(false);
     if (!headers_sent()) {
-        header('location:' . WEB_DIR_URL . 'hibour?forwardPage=' . $_SERVER['REQUEST_URI']);
+        header('location:' . WEB_DIR_URL);
     }
     exit();
 }
