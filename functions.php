@@ -1861,6 +1861,10 @@ function getIso($paysName)
  */
 function setToken()
 {
+    if (!headers_sent()) {
+        session_regenerate_id();
+    }
+
     $string = "";
     $chaine = "a0b1c2d3e4f5g6h7i8j9klmnpqrstuvwxy123456789";
     srand((double)microtime() * 1000000);
