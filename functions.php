@@ -1041,11 +1041,14 @@ function displayTimeStamp($timestamp, $hour = true)
  */
 function displayCompleteDate($date, $hour = false, $defaultFormat = false)
 {
-    if (isValidDateTime($date, 'd/m/Y H:i')) {
-        $date = DateTime::createFromFormat('d/m/Y H:i', $date)->format('Y-m-d H:i');
+    $dateFormat = 'Y-m-d'. ($hour ? ' H:i' : '');
+    $dateFormatFr = 'd/m/Y'. ($hour ? ' H:i' : '');
+
+    if (isValidDateTime($date, $dateFormatFr)) {
+        $date = DateTime::createFromFormat($dateFormatFr, $date)->format($dateFormat);
     }
 
-    if (isValidDateTime($date)) {
+    if (isValidDateTime($date, $dateFormat)) {
 
         $Date = new DateTime($date);
         $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
