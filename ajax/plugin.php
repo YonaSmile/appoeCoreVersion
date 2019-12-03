@@ -67,48 +67,31 @@ if (checkAjaxRequest()) {
         exit();
     }
 
+    //Github links
+    $gitHub = 'https://github.com/YonaSmile/';
+    $gitHubUserContent = 'https://raw.githubusercontent.com/YonaSmile/';
+
+    //Plugin version
     if (!empty($_POST['checkVersion'])) {
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://raw.githubusercontent.com/YonaSmile/appoePluginsVersions/master/' . $_POST['checkVersion'] . '/version.json');
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        echo $data;
+        echo getHttpRequest($gitHubUserContent . 'appoePluginsVersions/master/' . $_POST['checkVersion'] . '/version.json');
         exit();
     }
 
+    //Core version
     if (!empty($_POST['checkSystemVersion'])) {
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://raw.githubusercontent.com/YonaSmile/appoeCoreVersion/master/version.json');
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        echo $data;
+        echo getHttpRequest($gitHubUserContent . 'appoeCoreVersion/master/version.json');
         exit();
     }
 
+    //Lib version
     if (!empty($_POST['checkLibVersion'])) {
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://raw.githubusercontent.com/YonaSmile/appoeLibVersion/master/version.json');
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        echo $data;
+        echo getHttpRequest($gitHubUserContent . 'appoeLibVersion/master/version.json');
         exit();
     }
 
     if (!empty($_POST['downloadPlugins'])) {
 
-        if (downloadZip(ROOT_PATH . 'plugins.zip', 'https://github.com/YonaSmile/appoePluginsVersions/archive/master.zip')) {
+        if (downloadZip(ROOT_PATH . 'plugins.zip', $gitHub . 'appoePluginsVersions/archive/master.zip')) {
             if (unzipSkipFirstFolder(ROOT_PATH . 'plugins.zip', ROOT_PATH, 'appoePluginsVersions-master', WEB_PLUGIN_PATH)) {
                 echo 'true';
             }
@@ -118,7 +101,7 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['downloadLib'])) {
 
-        if (downloadZip(ROOT_PATH . 'appoeLib.zip', 'https://github.com/YonaSmile/appoeLibVersion/archive/master.zip')) {
+        if (downloadZip(ROOT_PATH . 'appoeLib.zip', $gitHub . 'appoeLibVersion/archive/master.zip')) {
             if (unzipSkipFirstFolder(ROOT_PATH . 'appoeLib.zip', ROOT_PATH, 'appoeLibVersion-master', WEB_LIB_PATH)) {
                 echo 'true';
             }
@@ -128,9 +111,9 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['downloadSystemCore'])) {
 
-        if (downloadZip(ROOT_PATH . 'appoeCore.zip', 'https://github.com/YonaSmile/appoeCoreVersion/archive/master.zip')) {
+        if (downloadZip(ROOT_PATH . 'appoeCore.zip', $gitHub . 'appoeCoreVersion/archive/master.zip')) {
             if (unzipSkipFirstFolder(ROOT_PATH . 'appoeCore.zip', ROOT_PATH, 'appoeCoreVersion-master', WEB_APP_PATH)) {
-                if (downloadZip(ROOT_PATH . 'rooter.zip', 'https://github.com/YonaSmile/appoeRooterVersion/archive/master.zip')) {
+                if (downloadZip(ROOT_PATH . 'rooter.zip', $gitHub . 'appoeRooterVersion/archive/master.zip')) {
                     if (unzipSkipFirstFolder(ROOT_PATH . 'rooter.zip', ROOT_PATH, 'appoeRooterVersion-master', ROOT_PATH)) {
 
                         updateDB();

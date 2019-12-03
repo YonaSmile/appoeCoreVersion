@@ -1041,8 +1041,8 @@ function displayTimeStamp($timestamp, $hour = true)
  */
 function displayCompleteDate($date, $hour = false, $defaultFormat = false)
 {
-    $dateFormat = 'Y-m-d'. ($hour ? ' H:i' : '');
-    $dateFormatFr = 'd/m/Y'. ($hour ? ' H:i' : '');
+    $dateFormat = 'Y-m-d' . ($hour ? ' H:i' : '');
+    $dateFormatFr = 'd/m/Y' . ($hour ? ' H:i' : '');
 
     if (isValidDateTime($date, $dateFormatFr)) {
         $date = DateTime::createFromFormat($dateFormatFr, $date)->format($dateFormat);
@@ -2182,6 +2182,25 @@ function postHttpRequest($url, array $params)
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
     curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, "TLSv1");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    $errorRequest = curl_error($ch);
+
+    curl_close($ch);
+
+    return !empty($response) ? $response : $errorRequest;
+}
+
+/**
+ * @param $url
+ * @return mixed|string
+ */
+function getHttpRequest($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
     $response = curl_exec($ch);
     $errorRequest = curl_error($ch);
