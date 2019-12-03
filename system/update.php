@@ -24,7 +24,7 @@ if (downloadZip(ROOT_PATH . 'appoeCore.zip', 'https://github.com/YonaSmile/appoe
                                 updateDB();
 
                                 //Delete Files
-                                deleteAllFolderContent(WEB_APP_PATH . 'middleware.php');
+                                //deleteAllFolderContent(WEB_APP_PATH . 'middleware.php');
                             }
                         }
                     }
