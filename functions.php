@@ -1868,7 +1868,8 @@ function getIso($paysName)
     }
 }
 
-function checkSession(){
+function checkSession()
+{
     if (!headers_sent() && session_status() === PHP_SESSION_NONE) {
         session_start();
     }

@@ -1,12 +1,1 @@
-{
-  "1": "RENAME TABLE appoe_files_content TO appoe_filesContent;",
-  "2": "ALTER TABLE appoe_plugin_people ADD idUser INT(11) NULL DEFAULT NULL AFTER country;",
-  "3": "ALTER TABLE appoe_files CHANGE type type VARCHAR(55) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;",
-  "4": "ALTER TABLE appoe_plugin_itemGlue_articles_content DROP INDEX idArticle;",
-  "5": "ALTER TABLE appoe_plugin_itemGlue_articles_content ADD UNIQUE(idArticle, type, lang);",
-  "6": "CREATE TABLE IF NOT EXISTS appoe_plugin_itemGlue_articles_relations (id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,PRIMARY KEY (id),type VARCHAR(250) NOT NULL,typeId INT(11) UNSIGNED NOT NULL,articleId INT(11) UNSIGNED NOT NULL,UNIQUE (type, typeId, articleId),updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11;",
-  "7": "ALTER TABLE appoe_plugin_cms DROP INDEX filename;",
-  "8": "ALTER TABLE appoe_plugin_cms ADD UNIQUE(type, filename);",
-  "9": "ALTER TABLE appoe_plugin_cms_menu DROP INDEX idCms;",
-  "10": "ALTER TABLE appoe_plugin_cms_menu ADD UNIQUE(`idCms`, `name`, `parentId`, `location`);"
-}
+{}
