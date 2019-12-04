@@ -32,6 +32,7 @@ function pageSlug()
  */
 function setPageId($id)
 {
+    checkSession();
     $_SESSION['currentPageID'] = $id;
 }
 
@@ -40,6 +41,7 @@ function setPageId($id)
  */
 function setPageName($name)
 {
+    checkSession();
     $_SESSION['currentPageName'] = shortenText($name, 70);
 }
 
@@ -48,6 +50,7 @@ function setPageName($name)
  */
 function setPageMenuName($menuName)
 {
+    checkSession();
     $_SESSION['currentPageMenuName'] = $menuName;
 }
 
@@ -56,6 +59,7 @@ function setPageMenuName($menuName)
  */
 function setPageDescription($description)
 {
+    checkSession();
     $_SESSION['currentPageDescription'] = shortenText($description, 170);
 }
 
@@ -64,6 +68,7 @@ function setPageDescription($description)
  */
 function setPageImage($imageUrl)
 {
+    checkSession();
     $_SESSION['currentPageImage'] = $imageUrl;
 }
 
@@ -72,6 +77,7 @@ function setPageImage($imageUrl)
  */
 function setPageSlug($slug)
 {
+    checkSession();
     $_SESSION['currentPageSlug'] = $slug;
 }
 
@@ -80,6 +86,7 @@ function setPageSlug($slug)
  */
 function setPageFilename($filename)
 {
+    checkSession();
     $_SESSION['currentPageFilename'] = $filename;
 }
 
@@ -181,6 +188,7 @@ function getMetaData()
  */
 function setAppPageName($pageName)
 {
+    checkSession();
     $_SESSION['currentAppPageName'] = $pageName;
 }
 
@@ -189,6 +197,7 @@ function setAppPageName($pageName)
  */
 function setAppPageSlug($pageSlug)
 {
+    checkSession();
     $_SESSION['currentAppPageSlug'] = $pageSlug;
 }
 
@@ -1859,14 +1868,18 @@ function getIso($paysName)
     }
 }
 
+function checkSession(){
+    if (!headers_sent() && session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+}
+
 /**
  * set new token
  */
 function setToken()
 {
-    if (!headers_sent()) {
-        session_regenerate_id();
-    }
+    checkSession();
 
     $string = "";
     $chaine = "a0b1c2d3e4f5g6h7i8j9klmnpqrstuvwxy123456789";
@@ -2052,6 +2065,8 @@ function deleteThumb($filename, $desired_width)
  */
 function setPostResponse($message, $status = 'danger', $data = null)
 {
+    checkSession();
+
     $_SESSION['messagePostResponse'] = trans($message);
     $_SESSION['statusPostResponse'] = $status;
     $_SESSION['dataPostResponse'] = $data;
@@ -2091,6 +2106,8 @@ function getDataPostResponse()
  */
 function setSqlError($error)
 {
+    checkSession();
+
     $_SESSION['sqlError'] = $error;
 }
 
@@ -3394,6 +3411,8 @@ function getUserCookie()
  */
 function setUserSession()
 {
+    checkSession();
+
     $_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])] = $_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])];
 }
 
