@@ -4,6 +4,8 @@ require($_SERVER['DOCUMENT_ROOT'] . '/app/Autoloader.php');
 \App\Autoloader::register();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/functions.php');
 
+use App\Version;
+
 //Github links
 $gitHub = 'https://github.com/YonaSmile/';
 $gitHubUserContent = 'https://raw.githubusercontent.com/YonaSmile/';
