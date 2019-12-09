@@ -58,6 +58,7 @@ if (!isVisitor()): ?>
                         <div class="my-4">
                             <?php foreach ($lastArticle as $id => $idArticle):
                                 $Article->setId($idArticle);
+                                $Article->setLang(APP_LANG);
                                 if ($Article->show()): ?>
                                     <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
                                         <span class="w-100 d-block" style="padding-right: 100px;">
