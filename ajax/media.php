@@ -76,7 +76,8 @@ if (checkAjaxRequest()) {
                 if (!empty($_POST['link'])) {
                     $Media->setLink($_POST['link']);
                 }
-                if (!empty($_POST['position'])) {
+
+                if (!empty($_POST['position']) && is_numeric($_POST['position'])) {
                     $Media->setPosition($_POST['position']);
                 }
 

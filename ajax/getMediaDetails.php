@@ -55,6 +55,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                 </small>
                 <form method="post" id="mediaDetailsForm" class="my-2">
                     <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
+                    <input type="hidden" name="imageType" value="<?= $Media->getType(); ?>">
                     <div class="mb-2">
                         <?= \App\Form::text('Titre (texte alternatif)', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm'); ?>
                     </div>
@@ -67,9 +68,16 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                     <div class="mb-2">
                         <?= \App\Form::text('Position', 'position', 'text', $Media->getPosition(), false, 5, '', '', 'form-control-sm imagePosition upImgForm'); ?>
                     </div>
-                    <div class="mb-2">
-                        <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), '', '', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
-                    </div>
+                    <?php if ($Media->getType() === 'MEDIA'): ?>
+                        <div class="mb-2">
+                            <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), '', '', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
+                        </div>
+                    <?php else: ?>
+                        <input type="hidden" name="typeId" class="imageTypeId" value="<?= $Media->getTypeId(); ?>">
+                        <div class="mb-2">
+                            <?= \App\Form::select('Zone du thème', 'templatePosition', FILE_TEMPLATE_POSITIONS, getSerializedOptions($Media->getOptions(), 'templatePosition'), '', '', '', '', 'custom-select-sm templatePosition upImgForm'); ?>
+                        </div>
+                    <?php endif; ?>
                 </form>
                 <small id="infosMedia" class="float-right text-success"></small>
                 <hr class="mx-5 my-3">
