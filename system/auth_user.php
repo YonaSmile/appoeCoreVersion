@@ -44,7 +44,7 @@ if (isset($_POST['APPOECONNEXION'])) {
                     \App\Flash::setMsg(trans('Vous n\'êtes pas identifié') . ' !');
 
                 } else {
-                    session_regenerate_id();
+
                     $sessionCrypted = \App\Shinoui::Crypter($User->getId() . '!a6fgcb!f152ddb3!' . sha1($User->getLogin() . $_SERVER['REMOTE_ADDR']));
                     $_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])] = $sessionCrypted;
                     setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), $sessionCrypted, time() + (12 * 3600), '/', '', false, true);
