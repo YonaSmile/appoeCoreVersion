@@ -1100,13 +1100,14 @@ function getHoursFromDate($date1, $date2 = '')
 
 /**
  * @param $date
+ * @param $format
  *
  * @return string
  * @throws Exception
  */
-function displayFrDate($date)
+function displayFrDate($date, $format = 'Y-m-d')
 {
-    if (isValidDateTime($date)) {
+    if (isValidDateTime($date, $format)) {
 
         $Date = new DateTime($date);
 
@@ -1118,13 +1119,14 @@ function displayFrDate($date)
 
 /**
  * @param $date
+ * @param $format
  *
  * @return string
  * @throws Exception
  */
-function displayDBDate($date)
+function displayDBDate($date, $format = 'd/m/Y')
 {
-    if (isValidDateTime($date)) {
+    if (isValidDateTime($date, $format)) {
 
         $Date = new DateTime($date);
 
@@ -1870,7 +1872,7 @@ function getIso($paysName)
 
 function checkSession()
 {
-    if (!headers_sent() && session_status() === PHP_SESSION_NONE) {
+    if (!headers_sent() && session_status() === PHP_SESSION_DISABLED) {
         session_start();
     }
 }
@@ -1908,7 +1910,10 @@ function getTokenField()
  */
 function getToken()
 {
-    return $_SESSION['_token'];
+    if(isset($_SESSION['_token'])) {
+        return $_SESSION['_token'];
+    }
+    return '';
 }
 
 /**
@@ -3368,12 +3373,18 @@ function disconnectUser($destroyAndRedirect = true)
         mehoubarim_freeUser(getUserIdSession());
     }
 
-    unset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
+    //Delete auth sessions
+    if(isset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])])) {
+        unset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
+    }
 
-    setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', -3600, '/', '', false, true);
-    unset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
+    //Delete auth cookie
+    if(isset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])])) {
+        setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', -3600, '/', '', false, true);
+        unset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
+    }
 
-    if ($destroyAndRedirect) {
+    if (true === $destroyAndRedirect) {
 
         session_unset();
         session_destroy();
@@ -3557,8 +3568,13 @@ function webUrl($file, $param = null)
  */
 function externalLink($link)
 {
-    if (substr($link, 0, 4) === "http") {
-        return ' target="_blank" ';
+    if (!empty($link) && substr($link, 0, 4) === "http") {
+
+        $linkData = parse_url($link);
+
+        if($_SERVER['SERVER_NAME'] != $linkData['host']) {
+            return ' target="_blank" ';
+        }
     }
     return '';
 }

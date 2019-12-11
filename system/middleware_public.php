@@ -6,6 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
 
 use App\Plugin\Cms\Cms;
 use App\Plugin\Cms\CmsMenu;
+use App\Plugin\Shop\Product;
 use App\Plugin\Shop\ProductContent;
 
 //Check maintenance mode
@@ -94,18 +95,21 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                     //TYPE SHOP
                 } elseif ($pluginType == 'SHOP') {
 
-                    //Get Product infos
-                    $ProductPage = new \App\Plugin\Shop\Product();
-                    $ProductPage->setSlug($pluginSlug);
+                    if (class_exists('App\Plugin\Shop\Product')) {
 
-                    //Check if Product exist
-                    if ($ProductPage->showBySlug()) {
+                        //Get Product infos
+                        $ProductPage = new Product();
+                        $ProductPage->setSlug($pluginSlug);
 
-                        $ProductPageContent = new ProductContent($ProductPage->getId(), LANG);
+                        //Check if Product exist
+                        if ($ProductPage->showBySlug()) {
 
-                        setPageId($ProductPage->getId());
-                        setPageName($ProductPage->getName());
-                        setPageDescription($ProductPageContent->getResume());
+                            $ProductPageContent = new ProductContent($ProductPage->getId(), LANG);
+
+                            setPageId($ProductPage->getId());
+                            setPageName($ProductPage->getName());
+                            setPageDescription($ProductPageContent->getResume());
+                        }
                     }
                 }
             }
