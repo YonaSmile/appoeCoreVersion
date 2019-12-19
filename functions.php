@@ -1279,7 +1279,7 @@ function appBackup($DB = true)
 
     //check existing backup folder for today or created it
     if (!file_exists($backUpFolder)) {
-        if (mkdir($backUpFolder, 0705)) {
+        if (@mkdir($backUpFolder, 0705)) {
             if ($DB) {
 
                 //save db
