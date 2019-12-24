@@ -52,7 +52,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     }
 
     //Check if Page exist and accessible
-    if (!$existPage || $Cms->getStatut() != 1 || $Cms->getType() !== 'PAGE') {
+    if (!$existPage || $Cms->getStatut() != 1) {
         if (!headers_sent()) {
             header('HTTP/1.1 404 Not Found', true, 404);
         }
