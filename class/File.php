@@ -17,6 +17,8 @@ class File
 
     protected $title;
     protected $description;
+    protected $categoryId;
+    protected $categoryName;
     protected $lang = LANG;
     protected $maxSize = 5621440;
     protected $filePath = FILE_DIR_PATH;
@@ -193,6 +195,38 @@ class File
     }
 
     /**
+     * @return mixed
+     */
+    public function getCategoryId()
+    {
+        return $this->categoryId;
+    }
+
+    /**
+     * @param mixed $categoryId
+     */
+    public function setCategoryId($categoryId)
+    {
+        $this->categoryId = $categoryId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoryName()
+    {
+        return $this->categoryName;
+    }
+
+    /**
+     * @param mixed $categoryName
+     */
+    public function setCategoryName($categoryName)
+    {
+        $this->categoryName = $categoryName;
+    }
+
+    /**
      * @return bool|mixed|string
      */
     public function getLang()
@@ -291,31 +325,26 @@ class File
     public function show()
     {
 
-        $sql = 'SELECT * FROM appoe_files WHERE id = :id';
+        $sql = 'SELECT DISTINCT F.*,
+        (SELECT cc1.title FROM appoe_filesContent AS cc1 WHERE cc1.fileId = F.id AND cc1.lang = :lang) AS title,
+        (SELECT cc2.description FROM appoe_filesContent AS cc2 WHERE cc2.fileId = F.id AND cc2.lang = :lang) AS description,
+        C.id AS categoryId, C.name AS categoryName
+        FROM appoe_files AS F 
+        INNER JOIN appoe_categories AS C
+        ON(C.id = F.typeId)
+        WHERE F.id = :id AND C.status > 0
+        GROUP BY F.id ORDER BY F.position ASC, F.updated_at DESC';
 
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':id', $this->id);
-        $stmt->execute();
+        $return = DB::exec($sql, [':id' => $this->id, ':lang' => $this->lang]);
 
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            $row = $stmt->fetch(PDO::FETCH_OBJ);
+        if ($return) {
+
+            $row = $return->fetch(PDO::FETCH_OBJ);
             $this->feed($row);
-
-            $FileContent = new FileContent();
-
-            $FileContent->setFileId($this->id);
-            $FileContent->setLang($this->lang);
-
-            if ($FileContent->showByFile()) {
-                $this->title = $FileContent->getTitle();
-                $this->description = $FileContent->getDescription();
-            }
 
             return true;
         }
+        return false;
     }
 
     /**
@@ -323,40 +352,22 @@ class File
      */
     public function showFiles()
     {
-        $sql = 'SELECT * FROM appoe_files AS F 
-        WHERE F.type = :type AND F.typeId = :typeId ORDER BY F.position ASC, F.updated_at DESC';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':type', $this->type);
-        $stmt->bindParam(':typeId', $this->typeId);
+        $sql = 'SELECT DISTINCT F.*,
+        (SELECT cc1.title FROM appoe_filesContent AS cc1 WHERE cc1.fileId = F.id AND cc1.lang = :lang) AS title,
+        (SELECT cc2.description FROM appoe_filesContent AS cc2 WHERE cc2.fileId = F.id AND cc2.lang = :lang) AS description,
+        C.id AS categoryId, C.name AS categoryName
+        FROM appoe_files AS F 
+        INNER JOIN appoe_categories AS C
+        ON(C.id = F.typeId)
+        WHERE F.type = :type AND F.typeId = :typeId AND C.status > 0
+        GROUP BY F.id ORDER BY F.position ASC, F.updated_at DESC';
 
-        $stmt->execute();
-        $error = $stmt->errorInfo();
+        $return = DB::exec($sql, [':type' => $this->type, ':typeId' => $this->typeId, ':lang' => $this->lang]);
 
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            $allFiles = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-            if ($allFiles) {
-
-                $FileContent = new FileContent();
-
-                foreach ($allFiles as &$file) {
-
-                    $file->title = null;
-                    $file->description = null;
-
-                    $FileContent->setFileId($file->id);
-                    $FileContent->setLang($this->lang);
-                    if ($FileContent->showByFile()) {
-                        $file->title = $FileContent->getTitle();
-                        $file->description = $FileContent->getDescription();
-                    }
-                }
-                return $allFiles;
-            }
-            return false;
+        if ($return) {
+            return $return->fetchAll(PDO::FETCH_OBJ);
         }
+        return false;
     }
 
     /**
@@ -394,33 +405,6 @@ class File
                 return $allFiles;
             }
             return false;
-        }
-    }
-
-    /**
-     *
-     * @return bool
-     */
-    public function save()
-    {
-        $sql = 'INSERT INTO appoe_files (userId, type, typeId, name, updated_at) 
-        VALUES(:userId, :type, :typeId, :name, NOW())';
-
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':userId', $this->userId);
-        $stmt->bindParam(':type', $this->type);
-        $stmt->bindParam(':typeId', $this->typeId);
-        $stmt->bindParam(':name', $this->name);
-        $stmt->execute();
-
-        $this->id = $this->dbh->lastInsertId();
-        $error = $stmt->errorInfo();
-
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            appLog('Creating file on db -> type: ' . $this->type . ' typeId:' . $this->typeId . ' name:' . $this->name);
-            return true;
         }
     }
 
@@ -540,23 +524,30 @@ class File
     }
 
     /**
-     * @return bool|mixed
+     *
+     * @return bool
      */
-    public function deleteFileByPath()
+    public function save()
     {
-        $path_file = $this->filePath . $this->name;
+        $sql = 'INSERT INTO appoe_files (userId, type, typeId, name, updated_at) 
+        VALUES(:userId, :type, :typeId, :name, NOW())';
 
-        if ($this->countFile() < 2) {
-            if (file_exists($path_file)) {
-                if (!unlink($path_file)) {
-                    return false;
-                }
-            }
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':userId', $this->userId);
+        $stmt->bindParam(':type', $this->type);
+        $stmt->bindParam(':typeId', $this->typeId);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->execute();
+
+        $this->id = $this->dbh->lastInsertId();
+        $error = $stmt->errorInfo();
+
+        if ($error[0] != '00000') {
+            return false;
         } else {
-            return trans('Ce fichier est rattaché à plusieurs données');
+            appLog('Creating file on db -> type: ' . $this->type . ' typeId:' . $this->typeId . ' name:' . $this->name);
+            return true;
         }
-        appLog('Delete file -> name: ' . $this->name);
-        return true;
     }
 
     /**
@@ -608,6 +599,26 @@ class File
     }
 
     /**
+     * @return bool|mixed
+     */
+    public function deleteFileByPath()
+    {
+        $path_file = $this->filePath . $this->name;
+
+        if ($this->countFile() < 2) {
+            if (file_exists($path_file)) {
+                if (!unlink($path_file)) {
+                    return false;
+                }
+            }
+        } else {
+            return trans('Ce fichier est rattaché à plusieurs données');
+        }
+        appLog('Delete file -> name: ' . $this->name);
+        return true;
+    }
+
+    /**
      * @param bool $all
      * @return bool
      */
@@ -628,6 +639,33 @@ class File
         } else {
             return $stmt->rowCount();
         }
+    }
+
+    /**
+     * @param $filename
+     *
+     * @return string
+     */
+    public function cleanText($filename)
+    {
+
+        $special = array(
+            ' ', '&', '\'', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ',
+            'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï',
+            'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý',
+            '#', '{', '}', '(', ')', '[', ']', '|', ';', ':', '`', '\\', '/', '^', '@', '°', '=', '+', '*', '?', '!', '§', '²', '%', 'µ', '$', '£', '¤', '¨'
+        );
+
+        $normal = array(
+            '-', '-', '-', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o',
+            'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I',
+            'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y',
+            '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
+        );
+
+        $filename = str_replace($special, $normal, $filename);
+
+        return 'appoe_' . strtoupper($filename);
     }
 
     /**
@@ -658,33 +696,6 @@ class File
         );
 
         return in_array($format, $authorizedFormat);
-    }
-
-    /**
-     * @param $filename
-     *
-     * @return string
-     */
-    public function cleanText($filename)
-    {
-
-        $special = array(
-            ' ', '&', '\'', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ',
-            'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï',
-            'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý',
-            '#', '{', '}', '(', ')', '[', ']', '|', ';', ':', '`', '\\', '/', '^', '@', '°', '=', '+', '*', '?', '!', '§', '²', '%', 'µ', '$', '£', '¤', '¨'
-        );
-
-        $normal = array(
-            '-', '-', '-', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o',
-            'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I',
-            'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y',
-            '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
-        );
-
-        $filename = str_replace($special, $normal, $filename);
-
-        return 'appoe_' . strtoupper($filename);
     }
 
     /**

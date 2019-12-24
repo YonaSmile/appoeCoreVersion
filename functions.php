@@ -1910,7 +1910,7 @@ function getTokenField()
  */
 function getToken()
 {
-    if(isset($_SESSION['_token'])) {
+    if (isset($_SESSION['_token'])) {
         return $_SESSION['_token'];
     }
     return '';
@@ -2122,9 +2122,14 @@ function setSqlError($error)
  */
 function getSqlError()
 {
-    $error = $_SESSION['sqlError'];
-    unset($_SESSION['sqlError']);
-    return $error;
+    if (isset($_SESSION['sqlError'])) {
+
+        $error = $_SESSION['sqlError'];
+        unset($_SESSION['sqlError']);
+
+        return $error;
+    }
+    return false;
 }
 
 /**
@@ -2296,14 +2301,15 @@ function getFieldsControls()
 }
 
 /**
+ * @param int $parentId
  * @return array|bool
  */
-function getMediaCategories()
+function getMediaCategories($parentId = null)
 {
 
     $Category = new Category();
     $Category->setType('MEDIA');
-    $allCategories = $Category->showByType();
+    $allCategories = $Category->showByType($parentId);
     return $allCategories ? extractFromObjToSimpleArr($allCategories, 'id', 'name') : false;
 }
 
@@ -3374,12 +3380,12 @@ function disconnectUser($destroyAndRedirect = true)
     }
 
     //Delete auth sessions
-    if(isset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])])) {
+    if (isset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])])) {
         unset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
     }
 
     //Delete auth cookie
-    if(isset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])])) {
+    if (isset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])])) {
         setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', -3600, '/', '', false, true);
         unset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
     }
@@ -3572,7 +3578,7 @@ function externalLink($link)
 
         $linkData = parse_url($link);
 
-        if($_SERVER['SERVER_NAME'] != $linkData['host']) {
+        if ($_SERVER['SERVER_NAME'] != $linkData['host']) {
             return ' target="_blank" ';
         }
     }
