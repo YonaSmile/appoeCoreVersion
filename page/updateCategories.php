@@ -31,64 +31,58 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         </button>
         <div class="my-4"></div>
         <?php if ($separetedCategories): ?>
-            <div class="row my-3">
+            <div class="row my-3 categoriesMenu">
                 <?php foreach ($separetedCategories as $key => $categoryType): ?>
                     <div class="col-12 col-lg-4">
                         <h2 class="subTitle"><?= $key; ?></h2>
                         <?php foreach ($categoryType[10] as $separetedCategory): ?>
-                            <div class="mb-2">
-                                <div class="fileContent">
-                                    <button type="button" class="deleteBtn deleteCategory"
-                                            data-idcategory="<?= $separetedCategory->id; ?>">
-                                        &times;
+                            <div data-idcategory="<?= $separetedCategory->id; ?>"
+                                 class="m-0 mt-3 py-0 px-3 jumbotron bg-warning text-white fileContent">
+                                <input type="tel" class="categoryInput positionMenuSpan"
+                                       data-column="position" value="<?= $separetedCategory->position; ?>">
+                                <input type="text" class="categoryInput"
+                                       data-column="name" value="<?= $separetedCategory->name; ?>">
+                                <small class="inputInfo"><?= $separetedCategory->id; ?></small>
+                                <?php if (empty($categoryType[$separetedCategory->id])): ?>
+                                    <button type="button" class="close deleteCategory">
+                                        <span class="fas fa-times"></span>
                                     </button>
-                                    <input type="text"
-                                           class="p-3 bg-primary text-white border-0 form-control libraryInput"
-                                           data-idcategory="<?= $separetedCategory->id; ?>"
-                                           value="<?= $separetedCategory->name; ?>">
-                                    <small class="inputInfo"><?= $separetedCategory->id; ?></small>
-                                </div>
-                                <?php if (!empty($categoryType[$separetedCategory->id])): ?>
-                                    <div class="row ml-2">
-                                        <?php foreach ($categoryType[$separetedCategory->id] as $separetedSubCategory): ?>
-                                            <div class="col-12">
-                                                <div class="fileContent">
-                                                    <button type="button" class="deleteBtn deleteCategory"
-                                                            data-idcategory="<?= $separetedSubCategory->id; ?>">
-                                                        &times;
-                                                    </button>
-                                                    <input type="text"
-                                                           class="p-3 bg-info text-white border-0 form-control libraryInput"
-                                                           data-idcategory="<?= $separetedSubCategory->id; ?>"
-                                                           value="<?= $separetedSubCategory->name; ?>">
-                                                    <small class="inputInfo"><?= $separetedSubCategory->id; ?></small>
-                                                </div>
-                                                <?php if (!empty($categoryType[$separetedSubCategory->id])): ?>
-                                                    <div class="row ml-2">
-                                                        <?php foreach ($categoryType[$separetedSubCategory->id] as $separetedSubSubCategory): ?>
-                                                            <div class="col-12">
-                                                                <div class="fileContent">
-                                                                    <button type="button"
-                                                                            class="deleteBtn deleteCategory"
-                                                                            data-idcategory="<?= $separetedSubSubCategory->id; ?>">
-                                                                        &times;
-                                                                    </button>
-                                                                    <input type="text"
-                                                                           class="p-3 bg-secondary text-white border-0 form-control libraryInput"
-                                                                           data-idcategory="<?= $separetedSubSubCategory->id; ?>"
-                                                                           value="<?= $separetedSubSubCategory->name; ?>">
-                                                                    <small class="inputInfo"><?= $separetedSubSubCategory->id; ?></small>
-                                                                </div>
-                                                            </div>
-                                                        <?php endforeach; ?>
-                                                    </div>
-                                                <?php endif; ?>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </div>
                                 <?php endif; ?>
                             </div>
-                        <?php endforeach; ?>
+                            <?php if (!empty($categoryType[$separetedCategory->id])):
+                                foreach ($categoryType[$separetedCategory->id] as $separetedSubCategory): ?>
+                                    <div class="px-3 py-0 m-0 ml-4 mt-1 jumbotron fileContent"
+                                         data-idcategory="<?= $separetedSubCategory->id; ?>">
+                                        <input type="tel" class="categoryInput positionMenuSpan"
+                                               data-column="position" value="<?= $separetedSubCategory->position; ?>">
+                                        <input type="text" class="categoryInput"
+                                               data-column="name" value="<?= $separetedSubCategory->name; ?>">
+                                        <small class="inputInfo"><?= $separetedSubCategory->id; ?></small>
+                                        <?php if (empty($categoryType[$separetedSubCategory->id])): ?>
+                                            <button type="button" class="close deleteCategory">
+                                                <span class="fas fa-times"></span>
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
+                                    <?php if (!empty($categoryType[$separetedSubCategory->id])):
+                                        foreach ($categoryType[$separetedSubCategory->id] as $separetedSubSubCategory): ?>
+                                            <div class="px-3 py-0 m-0 ml-5 mt-1 jumbotron fileContent"
+                                                 data-idcategory="<?= $separetedSubSubCategory->id; ?>">
+                                                <input type="tel" class="categoryInput positionMenuSpan"
+                                                       data-column="position"
+                                                       value="<?= $separetedSubSubCategory->position; ?>">
+                                                <input type="text" class="categoryInput" data-column="name"
+                                                       value="<?= $separetedSubSubCategory->name; ?>">
+                                                <small class="inputInfo"><?= $separetedSubSubCategory->id; ?></small>
+                                                <button type="button" class="close deleteCategory">
+                                                    <span class="fas fa-times"></span>
+                                                </button>
+                                            </div>
+                                        <?php endforeach;
+                                    endif;
+                                endforeach;
+                            endif;
+                        endforeach; ?>
                     </div>
                 <?php endforeach; ?>
             </div>

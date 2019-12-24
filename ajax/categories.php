@@ -6,10 +6,12 @@ if (checkAjaxRequest()) {
 
         $_POST = cleanRequest($_POST);
 
-        if (isset($_POST['updateCategoryName']) && !empty($_POST['idCategory']) && isset($_POST['newName'])) {
+        if (!empty($_POST['updateCategoryName']) && !empty($_POST['idCategory'])
+            && !empty($_POST['catName']) && !empty($_POST['catPos'])) {
 
             $Category = new \App\Category($_POST['idCategory']);
-            $Category->setName($_POST['newName']);
+            $Category->setName($_POST['catName']);
+            $Category->setPosition($_POST['catPos']);
 
             if ($Category->update()) {
                 echo 'true';
