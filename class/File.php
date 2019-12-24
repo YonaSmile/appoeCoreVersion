@@ -330,9 +330,9 @@ class File
         (SELECT cc2.description FROM appoe_filesContent AS cc2 WHERE cc2.fileId = F.id AND cc2.lang = :lang) AS description,
         C.id AS categoryId, C.name AS categoryName
         FROM appoe_files AS F 
-        INNER JOIN appoe_categories AS C
+        LEFT JOIN appoe_categories AS C
         ON(C.id = F.typeId)
-        WHERE F.id = :id AND C.status > 0
+        WHERE F.id = :id
         GROUP BY F.id ORDER BY F.position ASC, F.updated_at DESC';
 
         $return = DB::exec($sql, [':id' => $this->id, ':lang' => $this->lang]);
@@ -357,9 +357,9 @@ class File
         (SELECT cc2.description FROM appoe_filesContent AS cc2 WHERE cc2.fileId = F.id AND cc2.lang = :lang) AS description,
         C.id AS categoryId, C.name AS categoryName
         FROM appoe_files AS F 
-        INNER JOIN appoe_categories AS C
+        LEFT JOIN appoe_categories AS C
         ON(C.id = F.typeId)
-        WHERE F.type = :type AND F.typeId = :typeId AND C.status > 0
+        WHERE F.type = :type AND F.typeId = :typeId
         GROUP BY F.id ORDER BY F.position ASC, F.updated_at DESC';
 
         $return = DB::exec($sql, [':type' => $this->type, ':typeId' => $this->typeId, ':lang' => $this->lang]);
