@@ -10,6 +10,7 @@ class Category
     private $type;
     private $name;
     private $parentId;
+    private $position = 999;
     private $status = 1;
 
     private $dbh = null;
@@ -91,6 +92,22 @@ class Category
     }
 
     /**
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+
+    /**
      * @return mixed
      */
     public function getStatus()
@@ -116,6 +133,7 @@ class Category
                     `name` VARCHAR(250) NOT NULL,
                     `parentId` INT(11) UNSIGNED NOT NULL,
                     UNIQUE (`type`, `name`, `parentId`),
+                    `position` INT(11) NOT NULL DEFAULT "999",
                     `status` TINYINT(1) NOT NULL DEFAULT 1,
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11;';
@@ -159,7 +177,7 @@ class Category
     public function showByType()
     {
 
-        $sql = 'SELECT * FROM appoe_categories WHERE type = :type AND status = 1 ORDER BY id ASC, parentId ASC';
+        $sql = 'SELECT * FROM appoe_categories WHERE type = :type AND status = 1 ORDER BY position ASC, parentId ASC';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
 
@@ -201,18 +219,19 @@ class Category
      */
     public function save()
     {
-        $sql = 'INSERT INTO appoe_categories (type, name, parentId) VALUES(:type, :name, :parentId)';
+        $sql = 'INSERT INTO appoe_categories (type, name, parentId, position) VALUES(:type, :name, :parentId, :position)';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':parentId', $this->parentId);
+        $stmt->bindParam(':position', $this->position);
         $stmt->execute();
         $error = $stmt->errorInfo();
 
         if ($error[0] != '00000') {
             return false;
         } else {
-            appLog('Creating category -> type: ' . $this->type . ' name:' . $this->name . ' parentId:' . $this->parentId);
+            appLog('Creating category -> type: ' . $this->type . ' name:' . $this->name . ' parentId:' . $this->parentId.' position:'.$this->position);
             return true;
         }
     }
@@ -222,10 +241,11 @@ class Category
      */
     public function update()
     {
-        $sql = 'UPDATE appoe_categories SET name = :name, parentId = :parentId, status = :status WHERE id = :id';
+        $sql = 'UPDATE appoe_categories SET name = :name, parentId = :parentId, position = :position, status = :status WHERE id = :id';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':parentId', $this->parentId);
+        $stmt->bindParam(':position', $this->position);
         $stmt->bindParam(':status', $this->status);
         $stmt->bindParam(':id', $this->id);
         $stmt->execute();
@@ -234,7 +254,7 @@ class Category
         if ($error[0] != '00000') {
             return false;
         } else {
-            appLog('Updating category -> id:' . $this->id . ' name:' . $this->name . ' parentId:' . $this->parentId . ' status:' . $this->status);
+            appLog('Updating category -> id:' . $this->id . ' name:' . $this->name . ' parentId:' . $this->parentId . ' position: '.$this->position.' status:' . $this->status);
             return true;
         }
     }
