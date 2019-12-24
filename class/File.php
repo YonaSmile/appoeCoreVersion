@@ -12,7 +12,7 @@ class File
     protected $typeId;
     protected $name;
     protected $link = null;
-    protected $position = null;
+    protected $position = 999;
     protected $options = null;
 
     protected $title;
@@ -270,7 +270,7 @@ class File
   					`name` VARCHAR(255) NOT NULL,
   					UNIQUE (`type`, `typeId`, `name`),
   					`link` VARCHAR(255) NULL DEFAULT NULL,
-  					`position` INT(11) NULL DEFAULT NULL,
+  					`position` INT(11) NOT NULL DEFAULT "999",
   					`options` TEXT NULL DEFAULT NULL,
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11;';
