@@ -28,6 +28,46 @@ class Category
     }
 
     /**
+     * @return bool
+     */
+    public function show()
+    {
+
+        $sql = 'SELECT * FROM appoe_categories WHERE id = :id';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            $row = $stmt->fetch(PDO::FETCH_OBJ);
+            $this->feed($row);
+
+            return true;
+        }
+    }
+
+    /**
+     * Feed class attributs
+     * @param $data
+     */
+    public function feed($data)
+    {
+        if (isset($data)) {
+            foreach ($data as $attribut => $value) {
+                $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
+
+                if (is_callable(array($this, $method))) {
+                    $this->$method($value);
+                }
+            }
+        }
+    }
+
+    /**
      * @return null
      */
     public function getId()
@@ -123,7 +163,6 @@ class Category
         $this->status = $status;
     }
 
-
     public function createTable()
     {
         $sql = 'CREATE TABLE IF NOT EXISTS `appoe_categories` (
@@ -149,46 +188,27 @@ class Category
     }
 
     /**
-     * @return bool
-     */
-    public function show()
-    {
-
-        $sql = 'SELECT * FROM appoe_categories WHERE id = :id';
-
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':id', $this->id);
-        $stmt->execute();
-
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            $row = $stmt->fetch(PDO::FETCH_OBJ);
-            $this->feed($row);
-
-            return true;
-        }
-    }
-
-    /**
+     * @param $parentId
      * @return array|bool
      */
-    public function showByType()
+    public function showByType($parentId = null)
     {
 
-        $sql = 'SELECT * FROM appoe_categories WHERE type = :type AND status = 1 ORDER BY position ASC, parentId ASC';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':type', $this->type);
+        $params = array(':type' => $this->type);
+        $sqlAdd = '';
 
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        if (is_numeric($parentId)) {
+            $params['parentId'] = $parentId;
+            $sqlAdd .= ' parentId = :parentId AND ';
         }
+
+        $sql = 'SELECT * FROM appoe_categories WHERE ' . $sqlAdd . ' type = :type AND status = 1 ORDER BY position ASC, parentId ASC';
+        $return = DB::exec($sql, $params);
+
+        if ($return) {
+            return $return->fetchAll(PDO::FETCH_OBJ);
+        }
+        return false;
     }
 
     /**
@@ -231,30 +251,7 @@ class Category
         if ($error[0] != '00000') {
             return false;
         } else {
-            appLog('Creating category -> type: ' . $this->type . ' name:' . $this->name . ' parentId:' . $this->parentId.' position:'.$this->position);
-            return true;
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function update()
-    {
-        $sql = 'UPDATE appoe_categories SET name = :name, parentId = :parentId, position = :position, status = :status WHERE id = :id';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':parentId', $this->parentId);
-        $stmt->bindParam(':position', $this->position);
-        $stmt->bindParam(':status', $this->status);
-        $stmt->bindParam(':id', $this->id);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            appLog('Updating category -> id:' . $this->id . ' name:' . $this->name . ' parentId:' . $this->parentId . ' position: '.$this->position.' status:' . $this->status);
+            appLog('Creating category -> type: ' . $this->type . ' name:' . $this->name . ' parentId:' . $this->parentId . ' position:' . $this->position);
             return true;
         }
     }
@@ -309,19 +306,25 @@ class Category
     }
 
     /**
-     * Feed class attributs
-     * @param $data
+     * @return bool
      */
-    public function feed($data)
+    public function update()
     {
-        if (isset($data)) {
-            foreach ($data as $attribut => $value) {
-                $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
+        $sql = 'UPDATE appoe_categories SET name = :name, parentId = :parentId, position = :position, status = :status WHERE id = :id';
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':parentId', $this->parentId);
+        $stmt->bindParam(':position', $this->position);
+        $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
 
-                if (is_callable(array($this, $method))) {
-                    $this->$method($value);
-                }
-            }
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            appLog('Updating category -> id:' . $this->id . ' name:' . $this->name . ' parentId:' . $this->parentId . ' position: ' . $this->position . ' status:' . $this->status);
+            return true;
         }
     }
 }
