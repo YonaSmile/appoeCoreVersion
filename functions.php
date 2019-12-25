@@ -898,9 +898,19 @@ function generateSitemap($data)
 
     if (false !== $file = fopen(ROOT_PATH . 'sitemap.xml', 'w+')) {
         if (false !== fwrite($file, $sitemap)) {
+
+            //Robots file
+            $robotTxt = 'User-agent: *' . "\r\n";
+            $robotTxt .= 'Allow: /' . "\r\n";
+            $robotTxt .= 'Sitemap: ' . WEB_DIR_URL . 'sitemap.xml';
+
+            if (false !== $robotsFile = fopen(ROOT_PATH . 'robots.txt', 'w+')) {
+                fwrite($robotsFile, $robotTxt);
+            }
             return true;
         }
     }
+
 
     return false;
 }
