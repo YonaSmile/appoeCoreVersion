@@ -464,7 +464,7 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 
     if (count($array) > 0) {
         foreach ($array as $k => $v) {
-            if (is_array($v)) {
+            if (is_array($v) || is_object($v)) {
                 foreach ($v as $k2 => $v2) {
                     if ($k2 == $keyName) {
                         $sortable_array[$k] = $v2;
@@ -2364,10 +2364,11 @@ function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA
  * @param int $id
  * @param bool $parentId
  * @param bool $flatten
+ * @param int $arraySort
  * @param string $type
  * @return array
  */
-function getMediaByCategory($id, $parentId = false, $flatten = false, $type = 'MEDIA')
+function getMediaByCategory($id, $parentId = false, $flatten = false, $arraySort = SORT_ASC, $type = 'MEDIA')
 {
     $Media = new Media();
     $Media->setType($type);
@@ -2405,7 +2406,7 @@ function getMediaByCategory($id, $parentId = false, $flatten = false, $type = 'M
         }
     }
 
-    return !$flatten ? $allMedia : array_flatten($allMedia);
+    return !$flatten ? $allMedia : array_sort(array_flatten($allMedia), 'position', $arraySort);
 }
 
 /**
