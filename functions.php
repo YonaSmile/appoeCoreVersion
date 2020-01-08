@@ -4215,14 +4215,16 @@ function sendMail(array $data, array $otherAddr = null)
     if (!empty($data['files'])) {
         $files = $data['files'];
 
+        $File = new \App\File();
+
         if (is_array($files['name'])) {
             for ($i = 0; $i < count($files['name']); $i++) {
-                if (!empty($files['name'][$i]) && $files['size'][$i] < $maxSize) {
+                if (!empty($files['name'][$i]) && $files['size'][$i] < $maxSize && $File->authorizedMediaFormat($files['type'][$i])) {
                     $Mail->AddAttachment($files['tmp_name'][$i], $files['name'][$i]);
                 }
             }
         } else {
-            if ($files['size'] < $maxSize) {
+            if (!empty($files['name']) && $files['size'] < $maxSize && $File->authorizedMediaFormat($files['type'])) {
                 $Mail->AddAttachment($files['tmp_name'], $files['name']);
             }
         }
