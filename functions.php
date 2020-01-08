@@ -2893,8 +2893,11 @@ function includePluginsJs($forApp = false)
 
             if (loadPluginForFilename($plugin['name'])) {
 
-                $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'js';
-                if (file_exists($filePath)) {
+                $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
+                $filePath = $pluginPath . 'js';
+                $setupPath = $pluginPath . 'setup.php';
+
+                if (file_exists($filePath) && !file_exists($setupPath)) {
 
                     $phpFiles = getFilesFromDir($filePath);
                     foreach ($phpFiles as $file) {
