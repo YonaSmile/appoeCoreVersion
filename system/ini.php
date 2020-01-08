@@ -19,7 +19,6 @@ define('WEB_PUBLIC_PATH', ROOT_PATH . 'public/');
 define('WEB_PATH', WEB_PUBLIC_PATH . 'html/');
 define('WEB_LIB_PATH', WEB_APP_PATH . 'lib/');
 define('WEB_TEMPLATE_PATH', WEB_LIB_PATH . 'template/');
-define('APP_IMG_PATH', WEB_TEMPLATE_PATH . 'images/');
 define('WEB_AJAX_PATH', WEB_APP_PATH . 'ajax/');
 define('WEB_PLUGIN_PATH', WEB_APP_PATH . 'plugin/');
 define('WEB_PROCESS_PATH', WEB_APP_PATH . 'process/');
