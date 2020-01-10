@@ -348,6 +348,22 @@ class File
     }
 
     /**
+     * Feed class attributs
+     *
+     * @param $data
+     */
+    public function feed($data)
+    {
+        foreach ($data as $attribut => $value) {
+            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
+
+            if (is_callable(array($this, $method))) {
+                $this->$method($value);
+            }
+        }
+    }
+
+    /**
      * @return array|bool
      */
     public function showFiles()
@@ -457,7 +473,6 @@ class File
         }
     }
 
-
     /**
      *
      * @return array
@@ -521,6 +536,66 @@ class File
         }
         $returnArr['countUpload'] = $uploadFilesCounter . '/' . $fileCount;
         return $returnArr;
+    }
+
+    /**
+     * @param $filename
+     *
+     * @return string
+     */
+    public function cleanText($filename)
+    {
+
+        $special = array(
+            ' ', '&', '\'', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ',
+            'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï',
+            'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý',
+            '#', '{', '}', '(', ')', '[', ']', '|', ';', ':', '`', '\\', '/', '^', '@', '°', '=', '+', '*', '?', '!', '§', '²', '%', 'µ', '$', '£', '¤', '¨'
+        );
+
+        $normal = array(
+            '-', '-', '-', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o',
+            'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I',
+            'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y',
+            '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
+        );
+
+        $filename = str_replace($special, $normal, $filename);
+
+        return 'appoe_' . strtoupper($filename);
+    }
+
+    /**
+     * @param $format
+     * @return bool
+     */
+    public function authorizedMediaFormat($format)
+    {
+        if (is_string($format)) {
+
+            $authorizedFormat = array(
+                'image/jpeg', 'image/png', 'image/gif',
+                'image/jpg', 'image/svg+xml', 'image/tiff',
+                'application/pdf', 'application/vnd.ms-word',
+                'application/vnd.ms-powerpoint', 'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                'application/vnd.oasis.opendocument.presentation',
+                'application/vnd.oasis.opendocument.spreadsheet',
+                'application/vnd.oasis.opendocument.text',
+                'text/csv', 'application/msword', 'application/json',
+                'audio/aac', 'audio/x-mpegurl', 'audio/m4a',
+                'audio/x-midi', 'audio/x-ms-wma', 'audio/mpeg',
+                'audio/ogg', 'audio/wav', 'audio/x-wav',
+                'audio/webm', 'audio/3gpp',
+                'video/x-msvideo', 'video/mpeg', 'video/ogg',
+                'video/webm', 'video/3gpp', 'video/mp4'
+            );
+
+            return in_array($format, $authorizedFormat);
+        }
+        return false;
     }
 
     /**
@@ -638,79 +713,6 @@ class File
             return false;
         } else {
             return $stmt->rowCount();
-        }
-    }
-
-    /**
-     * @param $filename
-     *
-     * @return string
-     */
-    public function cleanText($filename)
-    {
-
-        $special = array(
-            ' ', '&', '\'', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ',
-            'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï',
-            'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý',
-            '#', '{', '}', '(', ')', '[', ']', '|', ';', ':', '`', '\\', '/', '^', '@', '°', '=', '+', '*', '?', '!', '§', '²', '%', 'µ', '$', '£', '¤', '¨'
-        );
-
-        $normal = array(
-            '-', '-', '-', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o',
-            'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I',
-            'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y',
-            '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
-        );
-
-        $filename = str_replace($special, $normal, $filename);
-
-        return 'appoe_' . strtoupper($filename);
-    }
-
-    /**
-     * @param $format
-     * @return bool
-     */
-    public function authorizedMediaFormat($format)
-    {
-
-        $authorizedFormat = array(
-            'image/jpeg', 'image/png', 'image/gif',
-            'image/jpg', 'image/svg+xml', 'image/tiff',
-            'application/pdf', 'application/vnd.ms-word',
-            'application/vnd.ms-powerpoint', 'application/vnd.ms-excel',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            'application/vnd.oasis.opendocument.presentation',
-            'application/vnd.oasis.opendocument.spreadsheet',
-            'application/vnd.oasis.opendocument.text',
-            'text/csv', 'application/msword', 'application/json',
-            'audio/aac', 'audio/x-mpegurl', 'audio/m4a',
-            'audio/x-midi', 'audio/x-ms-wma', 'audio/mpeg',
-            'audio/ogg', 'audio/wav', 'audio/x-wav',
-            'audio/webm', 'audio/3gpp',
-            'video/x-msvideo', 'video/mpeg', 'video/ogg',
-            'video/webm', 'video/3gpp', 'video/mp4'
-        );
-
-        return in_array($format, $authorizedFormat);
-    }
-
-    /**
-     * Feed class attributs
-     *
-     * @param $data
-     */
-    public function feed($data)
-    {
-        foreach ($data as $attribut => $value) {
-            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
-
-            if (is_callable(array($this, $method))) {
-                $this->$method($value);
-            }
         }
     }
 }
