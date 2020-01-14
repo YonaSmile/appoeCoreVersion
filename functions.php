@@ -37,6 +37,15 @@ function setPageId($id)
 }
 
 /**
+ * @param $type
+ */
+function setPageType($type)
+{
+    checkSession();
+    $_SESSION['currentPageType'] = $type;
+}
+
+/**
  * @param $name
  */
 function setPageName($name)
@@ -101,6 +110,14 @@ function getPageId()
 /**
  * @return mixed|string
  */
+function getPageType()
+{
+    return !empty($_SESSION['currentPageType']) ? $_SESSION['currentPageType'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
 function getPageName()
 {
     return !empty($_SESSION['currentPageName']) ? $_SESSION['currentPageName'] : '';
@@ -144,6 +161,19 @@ function getPageSlug()
 function getPageFilename()
 {
     return !empty($_SESSION['currentPageFilename']) ? $_SESSION['currentPageFilename'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageData()
+{
+    return array(
+        'id' => getPageId(),
+        'type' => getPageType(),
+        'name' => getPageName(),
+        'slug' => getPageSlug()
+    );
 }
 
 /**
@@ -2184,7 +2214,7 @@ function updateDB()
                 //Send mail to admin
                 $data = array(
                     'fromEmail' => 'system@aoe-communication.com',
-                    'fromName' => 'AOE System',
+                    'fromName' => 'APPOE System - ' . WEB_TITLE,
                     'toName' => 'Admin',
                     'toEmail' => 'yona@aoe-communication.com',
                     'object' => 'Erreur de mise à jour de la base de données',
