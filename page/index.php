@@ -20,7 +20,7 @@ if (!isVisitor()): ?>
                     //Check for CMS
                     $lastPage = array();
                     if (class_exists('App\Plugin\Cms\Cms')) {
-                        $lastPage = getLastFromDb('plugin_cms_content', 'idCms', 4);
+                        $lastPage = getLastFromDb('plugin_cms_content', 'idCms', 5);
                         $Cms = new Cms();
                         $Cms->setLang(APP_LANG);
                     }
@@ -50,7 +50,7 @@ if (!isVisitor()): ?>
                     //Check for ITEMGLUE
                     $lastArticle = array();
                     if (class_exists('App\Plugin\ItemGlue\Article')) {
-                        $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle', 4);
+                        $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle', 5);
                         $Article = new Article();
                     }
                     if (!isArrayEmpty($lastArticle)): ?>

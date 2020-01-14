@@ -62,6 +62,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
 
     //Get default page informations
     setPageId($Cms->getId());
+    setPageType('PAGE');
     setPageName($Cms->getName());
     setPageMenuName($Cms->getMenuName());
     setPageDescription($Cms->getDescription());
@@ -90,6 +91,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                         if ($Article) {
 
                             setPageId($Article->getId());
+                            setPageType('ARTICLE');
                             setPageName($Article->getName());
                             setPageDescription($Article->getDescription());
                             setPageImage(getFirstImage(getFileTemplatePosition($Article->medias, 1, true), '', false, true));
@@ -111,6 +113,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                             $ProductPageContent = new ProductContent($ProductPage->getId(), LANG);
 
                             setPageId($ProductPage->getId());
+                            setPageType('SHOP');
                             setPageName($ProductPage->getName());
                             setPageDescription($ProductPageContent->getResume());
                         }
@@ -131,6 +134,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
             if ($Article) {
 
                 setPageId($Article->getId());
+                setPageType('ARTICLE');
                 setPageName($Article->getName());
                 setPageDescription($Article->getDescription());
                 setPageImage(getFirstImage(getFileTemplatePosition($Article->medias, 1, true), '', false, true));
