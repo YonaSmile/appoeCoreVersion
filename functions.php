@@ -1938,6 +1938,7 @@ function setToken()
  */
 function getTokenField()
 {
+    checkSession();
     if (!isset($_SESSION['_token'])) {
         setToken();
     }
