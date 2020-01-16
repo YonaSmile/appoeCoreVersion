@@ -1910,6 +1910,9 @@ function getIso($paysName)
     }
 }
 
+/**
+ *
+ */
 function checkSession()
 {
     if (!headers_sent() && session_status() === PHP_SESSION_DISABLED) {
@@ -3582,6 +3585,59 @@ function appoeMinRole()
 function url_exists($url)
 {
     return (!$fp = curl_init($url)) ? false : true;
+}
+
+/**
+ * @param $tel
+ * @return bool
+ */
+function isTel($tel)
+{
+    $cleanTel = str_replace("-", "", filter_var($tel, FILTER_SANITIZE_NUMBER_INT));
+
+    return strlen($cleanTel) >= 10 && strlen($cleanTel) < 15;
+}
+
+/**
+ * @param $email
+ * @return bool
+ */
+function isEmail($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL) && checkdnsrr(array_pop(explode("@", $email)), "MX");
+}
+
+/**
+ * @param $url
+ * @return bool
+ */
+function isUrl($url)
+{
+    return filter_var($url, FILTER_VALIDATE_URL);
+}
+
+/**
+ * @return string
+ */
+function patternTel()
+{
+    return ' pattern="[0-9-+ ]+" ';
+}
+
+/**
+ * @return string
+ */
+function patternMail()
+{
+    return ' pattern="[^@\s]+@[^@\s]+\.[^@\s]+" ';
+}
+
+/**
+ * @return string
+ */
+function patternUrl()
+{
+    return ' pattern="https?://.+" ';
 }
 
 /**
