@@ -4427,6 +4427,7 @@ function getLogo($appoeLogo = false)
         $logo = $name . '.' . $extension;
         if (file_exists($pathFolder . $logo)) {
             $src = $urlFolder . $logo;
+            break;
         }
     }
 
