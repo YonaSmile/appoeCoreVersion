@@ -4413,8 +4413,9 @@ function fichierType($file)
  */
 function getLogo($appoeLogo = false)
 {
-    $src = APP_IMG_URL . 'appoe-logo-white.png';
-    if ($appoeLogo) return $src;
+    $src = APP_IMG_URL . 'appoe-logo-black-sm.png';
+    if (true === $appoeLogo) return $src;
+    if (is_string($appoeLogo)) return $appoeLogo;
 
     $urlFolder = WEB_DIR_IMG;
     $pathFolder = WEB_PUBLIC_PATH . 'images/';
