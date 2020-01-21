@@ -4245,17 +4245,28 @@ function getServerPerformanceColor($cpu)
 
 /**
  * @param array $data
- * @param array|null $otherAddr
+ * @param array $otherAddr
+ * @param array $options
  * @return bool
  * @throws Exception
  */
-function sendMail(array $data, array $otherAddr = null)
+function sendMail(array $data, array $otherAddr = array(), array $options = array())
 {
     $Mail = new PHPMailer();
 
     $Mail->CharSet = 'utf-8';
     $Mail->SMTPDebug = !empty($data['debug']) ? $data['debug'] : 0;
 
+    // Sending options
+    $defaultOptions = array(
+        'viewSenderSource' => true,
+        'maxFileSizeAllowed' => 5 * 1024 * 1024
+    );
+
+    // Synchronizing options
+    $options = array_merge($defaultOptions, $options);
+
+    // SMTP data
     if (empty($data['smtp'])) {
 
         $Mail->IsMail();
@@ -4277,26 +4288,31 @@ function sendMail(array $data, array $otherAddr = null)
         }
     }
 
-    // Expéditeur
+    // Sender
     $Mail->SetFrom($data['fromEmail'], $data['fromName']);
 
-    // Destinataire
+    // Recipient
     $Mail->ClearAddresses();
     $Mail->AddAddress($data['toEmail'], $data['toName']);
 
-    if (!is_null($otherAddr) && is_array($otherAddr)) {
+    // Adding Recipients
+    if (!isArrayEmpty($otherAddr)) {
         foreach ($otherAddr as $email => $name) {
             $Mail->AddAddress($email, $name);
         }
     }
 
-    // Objet
+    // Object
     $Mail->Subject = $data['object'];
 
-    // Votre message
-    $Mail->MsgHTML($data['message']);
+    // View sender's source
+    if ($options['viewSenderSource']) {
+        $sources = '<p>--<br><em>Date: ' . date('d/m/Y H:i:s') . ', IP: ' . getIP() . ', Source: ' . WEB_DIR_URL . '</em></p>';
+        $data['message'] .= $sources;
+    }
 
-    $maxSize = 5 * 1024 * 1024;
+    // Your message
+    $Mail->MsgHTML($data['message']);
 
     //Attach files from form
     if (!empty($data['files'])) {
@@ -4306,12 +4322,12 @@ function sendMail(array $data, array $otherAddr = null)
 
         if (is_array($files['name'])) {
             for ($i = 0; $i < count($files['name']); $i++) {
-                if (!empty($files['name'][$i]) && $files['size'][$i] < $maxSize && $File->authorizedMediaFormat($files['type'][$i])) {
+                if (!empty($files['name'][$i]) && $files['size'][$i] < $options['maxFileSizeAllowed'] && $File->authorizedMediaFormat($files['type'][$i])) {
                     $Mail->AddAttachment($files['tmp_name'][$i], $files['name'][$i]);
                 }
             }
         } else {
-            if (!empty($files['name']) && $files['size'] < $maxSize && $File->authorizedMediaFormat($files['type'])) {
+            if (!empty($files['name']) && $files['size'] < $options['maxFileSizeAllowed'] && $File->authorizedMediaFormat($files['type'])) {
                 $Mail->AddAttachment($files['tmp_name'], $files['name']);
             }
         }
@@ -4320,7 +4336,7 @@ function sendMail(array $data, array $otherAddr = null)
     //Attach files from url
     if (!empty($data['docs'])) {
         foreach ($data['docs'] as $doc) {
-            if (filesize($doc['src']) < $maxSize) {
+            if (filesize($doc['src']) < $options['maxFileSizeAllowed']) {
                 $Mail->AddAttachment($doc['src'], $doc['name']);
             }
         }
@@ -4333,6 +4349,7 @@ function sendMail(array $data, array $otherAddr = null)
         }
     }
 
+    //Sending mail
     if ($Mail->Send()) {
         return true;
     } else {
