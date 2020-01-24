@@ -22,6 +22,10 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                     <div class="mb-2">
                         <strong>Largeur:</strong> <?= $imgSize[0]; ?>px
                         <strong>|</strong> <strong>Hauteur:</strong> <?= $imgSize[1]; ?>px
+                        <a title="<?= trans('Renommer le fichier'); ?>" class="renameMediaFile float-right"
+                           style="cursor: pointer;">
+                            <i class="fas fa-wrench"></i>
+                        </a>
                     </div>
                     <img src="<?= getThumb($Media->getName(), 370); ?>"
                          alt="<?= $Media->getTitle(); ?>"
@@ -43,16 +47,26 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                 <?php endif; ?>
                 <h5 class="my-2" id="mediaTitle"><?= $Media->getTitle(); ?></h5>
                 <small>
-                <span class="copyLinkOnClick" title="<?= trans('Copier le lien du média'); ?>"
-                      data-src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>">
-                    <?= WEB_DIR_INCLUDE . $Media->getName(); ?>
-                </span>
+                    <span class="copyLinkOnClick" title="<?= trans('Copier le lien du média'); ?>"
+                          data-src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>">
+                        <?= $Media->getName(); ?>
+                    </span>
                     <a title="<?= trans('Visualiser le fichier dans un nouvel onglet'); ?>"
                        href="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>" target="_blank"
                        data-file-mime="<?= mime_content_type(FILE_DIR_PATH . $Media->getName()); ?>">
                         <i class="fas fa-external-link-alt mx-2"></i>
                     </a>
                 </small>
+                <form method="post" class="my-2" id="filenameInputForm" style="display:none;">
+                    <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
+                    <input type="hidden" name="oldName" value="<?= $Media->getName(); ?>">
+                    <div class="mb-2">
+                        <?= \App\Form::text('Nom du fichier', 'filename', 'text', $Media->getName(), true, 255, '', '', 'form-control-sm'); ?>
+                    </div>
+                    <div class="mb-2">
+                        <?= \App\Form::submit('Enregistrer', 'RENAMEFILENAME'); ?>
+                    </div>
+                </form>
                 <form method="post" id="mediaDetailsForm" class="my-2">
                     <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
                     <input type="hidden" name="imageType" value="<?= $Media->getType(); ?>">

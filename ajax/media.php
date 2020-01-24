@@ -122,6 +122,38 @@ if (checkAjaxRequest()) {
             exit();
         }
 
+        if (isset($_POST['renameMediaFile']) && !empty($_POST['idImage'])
+            && !empty($_POST['oldName']) && !empty($_POST['newName'])) {
+
+            $Media = new Media();
+            $Media->setId($_POST['idImage']);
+            if ($Media->show()) {
+
+                if (renameFile(FILE_DIR_PATH . $_POST['oldName'], FILE_DIR_PATH . $_POST['newName'])) {
+
+                    deleteThumb($Media->getName(), 370);
+
+                    $Media->setName($_POST['newName']);
+                    if ($Media->rename()) {
+
+                        if (class_exists('App\Plugin\Cms\Cms')) {
+
+                            $CmsContent = new \App\Plugin\Cms\CmsContent();
+                            if (!$CmsContent->renameFilename(WEB_DIR_INCLUDE . $_POST['oldName'], WEB_DIR_INCLUDE . $_POST['newName'])) {
+                                echo trans('Impossible de renommer les fichiers dans les pages');
+                                exit();
+                            }
+                        }
+                        echo 'true';
+                    }
+
+                } else {
+                    echo trans('Impossible de renommer le fichier');
+                }
+            }
+            exit();
+        }
+
         if (isset($_REQUEST['getAllMedia'])) {
 
             $html = '<div class="card-columns">';

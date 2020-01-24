@@ -560,9 +560,7 @@ class File
             '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
         );
 
-        $filename = str_replace($special, $normal, $filename);
-
-        return 'appoe_' . strtoupper($filename);
+        return str_replace($special, $normal, $filename);
     }
 
     /**
@@ -626,6 +624,67 @@ class File
     }
 
     /**
+     * Rename file
+     * @return bool
+     */
+    public function rename()
+    {
+
+        $sql = 'UPDATE appoe_files SET name = :name WHERE id = :id';
+
+        $stmt = DB::exec($sql, [':id' => $this->id, ':name' => $this->name]);
+
+        if ($stmt) {
+            appLog('Rename file on db -> id: ' . $this->id . ' name: ' . $this->name);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function deleteFileByPath()
+    {
+        $path_file = $this->filePath . $this->name;
+
+        if ($this->countFile() < 2) {
+            if (file_exists($path_file)) {
+                if (!unlink($path_file)) {
+                    return false;
+                }
+            }
+        } else {
+            return trans('Ce fichier est rattaché à plusieurs données');
+        }
+        appLog('Delete file -> name: ' . $this->name);
+        return true;
+    }
+
+    /**
+     * @param bool $all
+     * @return bool
+     */
+    public function countFile($all = false)
+    {
+        $sql = (!$all) ? 'SELECT * FROM appoe_files WHERE name = :name' : 'SELECT * FROM appoe_files WHERE type = "MEDIA"';
+        $stmt = $this->dbh->prepare($sql);
+
+        if (!$all) {
+            $stmt->bindParam(':name', $this->name);
+        }
+
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            return $stmt->rowCount();
+        }
+    }
+
+    /**
      * @return bool
      */
     public function deleteFileByName()
@@ -670,49 +729,6 @@ class File
         } else {
             appLog('Delete file on db -> id: ' . $this->id);
             return true;
-        }
-    }
-
-    /**
-     * @return bool|mixed
-     */
-    public function deleteFileByPath()
-    {
-        $path_file = $this->filePath . $this->name;
-
-        if ($this->countFile() < 2) {
-            if (file_exists($path_file)) {
-                if (!unlink($path_file)) {
-                    return false;
-                }
-            }
-        } else {
-            return trans('Ce fichier est rattaché à plusieurs données');
-        }
-        appLog('Delete file -> name: ' . $this->name);
-        return true;
-    }
-
-    /**
-     * @param bool $all
-     * @return bool
-     */
-    public function countFile($all = false)
-    {
-        $sql = (!$all) ? 'SELECT * FROM appoe_files WHERE name = :name' : 'SELECT * FROM appoe_files WHERE type = "MEDIA"';
-        $stmt = $this->dbh->prepare($sql);
-
-        if (!$all) {
-            $stmt->bindParam(':name', $this->name);
-        }
-
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            return $stmt->rowCount();
         }
     }
 }

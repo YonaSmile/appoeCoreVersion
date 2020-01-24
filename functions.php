@@ -1546,6 +1546,21 @@ function rmove($src, $dest)
 }
 
 /**
+ * @param $oldName
+ * @param $newName
+ * @return bool
+ */
+function renameFile($oldName, $newName)
+{
+
+    if (!file_exists($newName)) {
+        return rename($oldName, $newName);
+
+    }
+    return false;
+}
+
+/**
  * @param $src
  * @param $path
  * @param $firstFolderName
