@@ -4,7 +4,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         <div class="col-12">
             <div class="table-responsive">
                 <table id="clientTable"
-                       class="sortableTable table table-bordered">
+                       class="sortableTable table table-striped">
                     <thead>
                     <tr>
                         <th><?= trans('Login'); ?></th>
