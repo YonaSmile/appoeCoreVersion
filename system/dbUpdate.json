@@ -1,5 +1,1 @@
-{
-  "1": "ALTER TABLE `appoe_files` CHANGE `position` `position` INT(11) NOT NULL DEFAULT '999';",
-  "2": "ALTER TABLE `appoe_categories` ADD `position` INT(11) NOT NULL DEFAULT '999' AFTER `parentId`;",
-  "3": "UPDATE `appoe_menu` SET `slug` = 'archives' WHERE `appoe_menu`.`id` = 206;"
-}
+{}

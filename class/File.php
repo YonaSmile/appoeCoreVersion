@@ -625,17 +625,18 @@ class File
 
     /**
      * Rename file
+     * @param $oldName
      * @return bool
      */
-    public function rename()
+    public function rename($oldName)
     {
 
-        $sql = 'UPDATE appoe_files SET name = :name WHERE id = :id';
+        $sql = 'UPDATE appoe_files SET name = :name WHERE name = :oldName';
 
-        $stmt = DB::exec($sql, [':id' => $this->id, ':name' => $this->name]);
+        $stmt = DB::exec($sql, [':name' => $this->name, ':oldName' => $oldName]);
 
         if ($stmt) {
-            appLog('Rename file on db -> id: ' . $this->id . ' name: ' . $this->name);
+            appLog('Rename file on db -> oldName: ' . $oldName . ' newName: ' . $this->name);
             return true;
         }
         return false;

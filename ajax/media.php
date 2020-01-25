@@ -132,9 +132,10 @@ if (checkAjaxRequest()) {
                 if (renameFile(FILE_DIR_PATH . $_POST['oldName'], FILE_DIR_PATH . $_POST['newName'])) {
 
                     deleteThumb($Media->getName(), 370);
-
                     $Media->setName($_POST['newName']);
-                    if ($Media->rename()) {
+                    thumb($Media->getName(), 370);
+
+                    if ($Media->rename($_POST['oldName'])) {
 
                         if (class_exists('App\Plugin\Cms\Cms')) {
 
