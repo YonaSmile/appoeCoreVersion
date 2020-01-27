@@ -84,7 +84,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                     </div>
                     <?php if ($Media->getType() === 'MEDIA'): ?>
                         <div class="mb-2">
-                            <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), '', '', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
+                            <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), true, ' data-old-type="' . $Media->getTypeId() . '" ', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
                         </div>
                     <?php else: ?>
                         <input type="hidden" name="typeId" class="imageTypeId" value="<?= $Media->getTypeId(); ?>">

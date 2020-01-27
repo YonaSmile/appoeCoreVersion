@@ -38,7 +38,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div id="mediaContainer">
         <nav>
             <div class="float-right">
-                <input type="range" class="custom-range" style="width: 150px;" min="2" max="10" step="1" value="5" id="mediaGridPreferences">
+                <input type="range" class="custom-range" style="width: 150px;" min="2" max="10" step="1" value="5"
+                       id="mediaGridPreferences">
                 <!--<button type="button" role="button" class="btn btn-sm listView">
                     <i class="fas fa-th-list"></i>
                 </button>-->
@@ -63,16 +64,17 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                         </div>
                         <?php foreach ($allLibrary as $id => $name):
                             $Media->setTypeId($id);
-                            $allFiles = $Media->showFiles();
-                            if ($allFiles): ?>
-                                <div class="mediaContainer"
-                                     data-library-parent-id="<?= $libraryParent[$id]['id']; ?>">
-                                    <h5 class="libraryName p-3" id="media-<?= $id; ?>"
-                                        data-library-parent-id="<?= $libraryParent[$id]['id']; ?>"
-                                        data-library-parent-name="<?= $libraryParent[$id]['name']; ?>"><?= $name; ?></h5>
-                                    <hr class="my-3 mx-5">
-                                    <div class="card-columns" style="column-count: 5;">
-                                        <?php foreach ($allFiles as $file): ?>
+                            $allFiles = $Media->showFiles(); ?>
+                            <div class="mediaContainer"
+                                 data-library-parent-id="<?= $libraryParent[$id]['id']; ?>"
+                                 data-library-id="<?= $id; ?>">
+                                <h5 class="libraryName p-3" id="media-<?= $id; ?>"
+                                    data-library-parent-id="<?= $libraryParent[$id]['id']; ?>"
+                                    data-library-parent-name="<?= $libraryParent[$id]['name']; ?>"><?= $name; ?></h5>
+                                <hr class="my-3 mx-5">
+                                <div class="card-columns" style="column-count: 5;">
+                                    <?php if ($allFiles):
+                                        foreach ($allFiles as $file): ?>
                                             <div class="card view border-0 bg-none"
                                                  data-file-id="<?= $file->id; ?>">
                                                 <?php if (isImage(FILE_DIR_PATH . $file->name)):
@@ -92,12 +94,12 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                                     <?php endif; ?>
                                                 </a>
                                             </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <div class="my-3"></div>
+                                        <?php endforeach;
+                                    endif; ?>
                                 </div>
-                            <?php endif;
-                        endforeach; ?>
+                                <div class="my-3"></div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
             </div>
