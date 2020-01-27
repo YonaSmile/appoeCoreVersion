@@ -3619,7 +3619,11 @@ function isTel($tel)
  */
 function isEmail($email)
 {
-    return filter_var($email, FILTER_VALIDATE_EMAIL) && checkdnsrr(array_pop(explode("@", $email)), "MX");
+    if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $emailParts = explode("@", $email);
+        return checkdnsrr(array_pop($emailParts), "MX");
+    }
+    return false;
 }
 
 /**
