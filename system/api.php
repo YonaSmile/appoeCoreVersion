@@ -4,8 +4,9 @@ includePluginsFiles(true);
 
 //Clean data
 $_GET = cleanRequest($_GET);
+$Config = getConfig();
 
-if(!empty($_GET['token']) && $_GET['token'] == getConfig('data', 'apiToken')){
+if(!empty($_GET['token']) && $Config['options']['allowApi'] === 'true' && $_GET['token'] == $Config['data']['apiToken']){
 
 
     exit();
