@@ -448,14 +448,14 @@ function getAppoeCredit($color = "#ccc")
 }
 
 /**
- * @param $key
+ * @param bool $key
+ * @param bool $subKey
  * @return bool
  */
-function getConfig($key)
+function getConfig($key = false, $subKey = false)
 {
     $AppConfig = new AppConfig();
-    $Config = $AppConfig->get();
-    return (!isArrayEmpty($Config) && array_key_exists($key, $Config)) ? $Config[$key] : false;
+    return $AppConfig->get($key, $subKey);
 }
 
 /**
@@ -1937,18 +1937,26 @@ function checkSession()
 
 /**
  * set new token
+ * @param bool $forSession
+ * @return bool|string
  */
-function setToken()
+function setToken($forSession = true)
 {
-    checkSession();
 
-    $string = "";
-    $chaine = "a0b1c2d3e4f5g6h7i8j9klmnpqrstuvwxy123456789";
+    $token = "";
+    $str = "a0b1c2d3e4f5g6h7i8j9klmnpqrstuvwxy123456789";
     srand((double)microtime() * 1000000);
     for ($i = 0; $i < 70; $i++) {
-        $string .= $chaine[rand() % strlen($chaine)];
+        $token .= $str[rand() % strlen($str)];
     }
-    $_SESSION['_token'] = !bot_detected() ? $string : 'a1b2c3-d4e5f6';
+
+    if ($forSession) {
+        checkSession();
+        $_SESSION['_token'] = !bot_detected() ? $token : 'a1b2c3-d4e5f6';
+        return true;
+    }
+
+    return $token;
 }
 
 /**
@@ -3619,7 +3627,7 @@ function isTel($tel)
  */
 function isEmail($email)
 {
-    if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $emailParts = explode("@", $email);
         return checkdnsrr(array_pop($emailParts), "MX");
     }

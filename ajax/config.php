@@ -9,13 +9,12 @@ if (checkAjaxRequest()) {
 
         $_POST = cleanRequest($_POST);
 
-        if (!empty($_POST['configName']) && !empty($_POST['configValue'])) {
+        if (!empty($_POST['configName']) && !empty($_POST['configValue']) && !empty($_POST['configType'])) {
 
             $data = array($_POST['configName'] => $_POST['configValue']);
 
             $Config = new AppConfig();
-            if ($Config->write($data)) {
-
+            if ($Config->write($_POST['configType'], $data)) {
                 echo json_encode(true);
                 exit();
             }

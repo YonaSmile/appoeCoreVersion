@@ -3,15 +3,6 @@
 namespace App;
 class AppConfig
 {
-    /**
-     * @var false|string
-     */
-    private $date;
-
-    /**
-     * @var bool
-     */
-    private $user;
 
     /**
      * @var string
@@ -26,9 +17,25 @@ class AppConfig
     /**
      * @var array
      */
+    private $config = array();
+
+    /**
+     * @var array
+     */
     private $defaultConfig = array(
-        'forceHTTPS' => false,
-        'sharingWork' => false
+        'options' => array(
+            'forceHTTPS' => false,
+            'sharingWork' => false,
+            'allowApi' => false
+        ),
+        'data' => array(
+            'apiToken' => ''
+        ),
+        'user' => array(
+            'id' => '',
+            'name' => '',
+            'date' => ''
+        )
     );
 
     /**
@@ -36,27 +43,21 @@ class AppConfig
      */
     public $configExplanation = array(
         'forceHTTPS' => 'Forcer le site en HTTPS',
-        'sharingWork' => 'Autoriser le partage du travail sur la même page'
+        'sharingWork' => 'Autoriser le partage du travail sur la même page',
+        'allowApi' => 'Autoriser l\'API',
+        'apiToken' => 'Clé API'
     );
-
-    /**
-     * @return array
-     */
-    public function getDefaultConfig()
-    {
-        return $this->defaultConfig;
-    }
 
     /**
      * AppLogging constructor.
      */
     public function __construct()
     {
-        $this->date = date('Y-m-d H:i:s');
-        $this->user = getUserIdSession();
 
         if ($this->checkConfigFile()) {
+
             $this->pathConfigFile = WEB_SYSTEM_PATH . $this->configFile;
+            $this->config = array_merge($this->defaultConfig, getJsonContent($this->pathConfigFile));
         }
     }
 
@@ -77,29 +78,40 @@ class AppConfig
     }
 
     /**
+     * @param $key
      * @param array $data
      * @return bool
      */
-    public function write(array $data = array())
+    public function write($key, array $data = array())
     {
         if (!is_null($this->pathConfigFile)) {
 
-            $condifData = array_merge(getJsonContent($this->pathConfigFile), $data);
-
-            return putJsonContent($this->pathConfigFile, $condifData);
+            foreach ($data as $cmd => $value) {
+                $this->config[$key][$cmd] = $value;
+            }
+            $this->dataOperations($data);
+            appLog('Update APPOE preferences: ' . implode(', ', array_keys($data)));
+            return putJsonContent($this->pathConfigFile, $this->config);
         }
         return false;
     }
 
     /**
+     * @param bool $key
+     * @param bool $subKey
      * @return array|bool
      */
-    public function get()
+    public function get($key = false, $subKey = false)
     {
-        if (!is_null($this->pathConfigFile)) {
-            return getJsonContent($this->pathConfigFile);
+        if ($key && array_key_exists($key, $this->config)) {
+
+            if ($subKey && array_key_exists($subKey, $this->config[$key])) {
+                return $this->config[$key][$subKey];
+            }
+
+            return $this->config[$key];
         }
-        return false;
+        return $this->config;
     }
 
     /**
@@ -112,5 +124,27 @@ class AppConfig
         } else {
             return $this->checkConfigFile();
         }
+    }
+
+    /**
+     * @param $data
+     */
+    private function dataOperations($data)
+    {
+
+        if (array_key_exists('allowApi', $data)) {
+            if ($data['allowApi'] === 'true') {
+                $this->config['data']['apiToken'] = setToken(false);
+            } else {
+                $this->config['data']['apiToken'] = '';
+            }
+        }
+
+        //User data
+        $this->config['user'] = array(
+            'id' => getUserIdSession(),
+            'name' => getUserName() . ' ' . getUserFirstName(),
+            'date' => date('Y-m-d H:i:s')
+        );
     }
 }
