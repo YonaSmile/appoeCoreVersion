@@ -58,10 +58,4 @@ if (!isArrayEmpty($plugins)) {
     }
 }
 
-if(@unlink(WEB_TEMPLATE_PATH.'plugins/bootstrap/css/bootstrap.css.map')) {
-    if (@unlink(WEB_TEMPLATE_PATH . 'plugins/bootstrap/css/bootstrap.min.css.map')) {
-        if (@unlink(WEB_TEMPLATE_PATH . 'plugins/bootstrap/js/bootstrap.bundle.js.map')) {
-            @unlink(WEB_TEMPLATE_PATH . 'plugins/bootstrap/js/bootstrap.bundle.min.js.map');
-        }
-    }
-}
+@unlink(WEB_SYSTEM_PATH.'appConfig.json');
