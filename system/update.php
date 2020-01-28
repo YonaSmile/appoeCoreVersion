@@ -57,5 +57,3 @@ if (!isArrayEmpty($plugins)) {
         }
     }
 }
-
-@unlink(WEB_SYSTEM_PATH.'appConfig.json');
