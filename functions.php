@@ -422,6 +422,15 @@ function putJsonContent($filename, $content, $mode = 'w+')
 }
 
 /**
+ * @param $object
+ * @return string
+ */
+function jsonHtmlParse($object)
+{
+    return !empty($object) ? htmlspecialchars(json_encode($object, JSON_UNESCAPED_UNICODE)) : '';
+}
+
+/**
  * @param string $appendName
  * @param string $name
  * @param string $slug
