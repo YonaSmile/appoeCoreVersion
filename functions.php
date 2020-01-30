@@ -427,7 +427,7 @@ function putJsonContent($filename, $content, $mode = 'w+')
  */
 function jsonHtmlParse($object)
 {
-    return !empty($object) ? htmlspecialchars(json_encode($object, JSON_UNESCAPED_UNICODE)) : '';
+    return !empty($object) ? json_encode($object, JSON_UNESCAPED_UNICODE) : '';
 }
 
 /**
