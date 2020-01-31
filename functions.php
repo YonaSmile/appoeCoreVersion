@@ -100,6 +100,15 @@ function setPageFilename($filename)
 }
 
 /**
+ * @param \App\Plugin\ItemGlue\Article $Article
+ */
+function setArticle(\App\Plugin\ItemGlue\Article $Article)
+{
+    checkSession();
+    $_SESSION['currentArticle'] = base64_encode(serialize($Article));
+}
+
+/**
  * @return mixed|string
  */
 function getPageId()
@@ -161,6 +170,14 @@ function getPageSlug()
 function getPageFilename()
 {
     return !empty($_SESSION['currentPageFilename']) ? $_SESSION['currentPageFilename'] : '';
+}
+
+/**
+ * @return bool|mixed
+ */
+function getArticle()
+{
+    return !empty($_SESSION['currentArticle']) ? unserialize(base64_decode($_SESSION['currentArticle'])) : false;
 }
 
 /**

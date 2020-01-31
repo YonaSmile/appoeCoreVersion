@@ -3,29 +3,28 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 includePluginsFiles(true);
 
 //Clean data
-$_GET = cleanRequest($_GET);
+$_POST = cleanRequest($_POST);
 $Config = getConfig();
 
-if (!empty($_GET['token']) && $Config['options']['allowApi'] === 'true' && $_GET['token'] == $Config['data']['apiToken']) {
+if (!empty($_POST['token']) && $Config['options']['allowApi'] === 'true' && $_POST['token'] == $Config['data']['apiToken']) {
 
     header("Content-Type: application/json; charset=UTF-8");
 
-    $lang = !empty($_GET['lang']) && is_string($_GET['lang']) ? $_GET['lang'] : false;
+    $lang = !empty($_POST['lang']) && is_string($_POST['lang']) ? $_POST['lang'] : false;
+    $length = !empty($_POST['length']) && is_numeric($_POST['length']) ? $_POST['length'] : false;
 
     //Get recent articles
-    if (!empty($_GET['getArticles']) && $_GET['getArticles'] == 'all') {
+    if (!empty($_POST['getArticles']) && $_POST['getArticles'] == 'all') {
 
-        $length = !empty($_GET['length']) && is_numeric($_GET['length']) ? $_GET['length'] : false;
         echo jsonHtmlParse(getRecentArticles($length, $lang));
         exit();
     }
 
     //Get articles by category
-    if (!empty($_GET['getArticleByCategory']) && is_numeric($_GET['getArticleByCategory'])) {
+    if (!empty($_POST['getArticleByCategory']) && is_numeric($_POST['getArticleByCategory'])) {
 
-        $parent = !empty($_GET['parent']) && $_GET['parent'] == 'true' ? true : false;
-        $length = !empty($_GET['length']) && is_numeric($_GET['length']) ? $_GET['length'] : false;
-        echo jsonHtmlParse(getArticlesByCategory($_GET['getArticleByCategory'], $parent, $length, $lang));
+        $parent = !empty($_POST['parent']) && $_POST['parent'] == 'true' ? true : false;
+        echo jsonHtmlParse(getArticlesByCategory($_POST['getArticleByCategory'], $parent, $length, $lang));
         exit();
     }
 

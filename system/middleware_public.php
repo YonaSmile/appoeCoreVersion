@@ -95,6 +95,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                             setPageName($Article->getName());
                             setPageDescription($Article->getDescription());
                             setPageImage(getFirstImage(getFileTemplatePosition($Article->medias, 1, true), '', false, true));
+                            setArticle($Article);
                         }
                     }
 
@@ -138,6 +139,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                 setPageName($Article->getName());
                 setPageDescription($Article->getDescription());
                 setPageImage(getFirstImage(getFileTemplatePosition($Article->medias, 1, true), '', false, true));
+                setArticle($Article);
             }
         }
 
