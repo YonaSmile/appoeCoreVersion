@@ -22,7 +22,6 @@ if (checkMaintenance()) {
 
 //Backup database
 appBackup();
-
 if (class_exists('App\Plugin\Cms\Cms')) {
 
     //Get Page
@@ -33,16 +32,28 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     if (!empty($_GET['slug'])) {
 
         $existPage = $Cms->showBySlug($_GET['slug'], LANG);
+
         if (!$existPage) {
 
-            //Check for other languages
-            $testedLang = array(LANG);
-            foreach (getLangs() as $minLang => $largeLang) {
-                if (!in_array($minLang, $testedLang)) {
-                    $testedLang[] = $minLang;
-                    if ($Cms->showBySlug($_GET['slug'], $minLang)) {
-                        $existPage = true;
-                        break;
+            //Check for similar page slug
+            if(defined('SIMILAR_PAGES_SLUG') && !isArrayEmpty(SIMILAR_PAGES_SLUG)) {
+                if(array_key_exists($_GET['slug'], SIMILAR_PAGES_SLUG)) {
+                    $existPage = $Cms->showBySlug(SIMILAR_PAGES_SLUG[$_GET['slug']], LANG);
+                    $Cms->setSlug($_GET['slug']);
+                }
+            }
+
+            if (!$existPage) {
+
+                //Check for other languages
+                $testedLang = array(LANG);
+                foreach (getLangs() as $minLang => $largeLang) {
+                    if (!in_array($minLang, $testedLang)) {
+                        $testedLang[] = $minLang;
+                        if ($Cms->showBySlug($_GET['slug'], $minLang)) {
+                            $existPage = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -146,6 +157,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     }
 
     //Create menu
-    $CmsMenu = new CmsMenu();
-    $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
+    if(empty($_SESSION['MENU'])) {
+        $CmsMenu = new CmsMenu();
+        $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
+    }
 }

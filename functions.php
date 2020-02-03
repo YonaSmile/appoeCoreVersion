@@ -210,7 +210,7 @@ function getMetaData()
     // Open Graph meta
     $header .= '<meta property="og:title" content="' . getPageName() . '">';
     $header .= '<meta property="og:type" content="article">';
-    $header .= '<meta property="og:url" content="' . WEB_DIR_URL . $_SERVER["REQUEST_URI"] . '">';
+    $header .= '<meta property="og:url" content="' . WEB_DIR_URL . ltrim($_SERVER["REQUEST_URI"], '/') . '">';
     $header .= '<meta property="og:image" content="' . getPageImage() . '">';
     $header .= '<meta property="og:image:alt" content="' . getPageName() . '">';
     $header .= '<meta property="og:description" content="' . getPageDescription() . '">';
