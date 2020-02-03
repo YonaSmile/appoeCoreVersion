@@ -96,7 +96,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                     if (class_exists('App\Plugin\ItemGlue\Article')) {
 
                         //Get Article infos
-                        $Article = getArticlesBySlug($_GET['id']);
+                        $Article = getArticlesBySlug($pluginSlug);
 
                         //Check if Article exist
                         if ($Article) {
@@ -128,6 +128,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                             setPageId($ProductPage->getId());
                             setPageType('SHOP');
                             setPageName($ProductPage->getName());
+                            setPageSlug($ProductPage->getSlug());
                             setPageDescription($ProductPageContent->getResume());
                         }
                     }
@@ -162,5 +163,9 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     if(empty($_SESSION['MENU'])) {
         $CmsMenu = new CmsMenu();
         $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
+        unset($CmsMenu);
     }
+
+    //Delete vars
+    unset($Article, $ProductPage, $existPage, $testedLang, $pluginType, $pluginSlug);
 }
