@@ -4,49 +4,43 @@ if (checkPostAndTokenRequest()) {
     //Clean data
     $_POST = cleanRequest($_POST);
 
-    //Response class
-    $Response = new \App\Response();
+    if (isset($_POST['ADDUSER'])) {
 
-    if (isset($_POST['ADDUSER'])
-        && !empty($_POST['login'])
-        && !empty($_POST['password'])
-        && !empty($_POST['role'])
-        && !empty($_POST['nom'])
-        && !empty($_POST['prenom'])
-    ) {
+        if (!empty($_POST['login'])
+            && !empty($_POST['password'])
+            && !empty($_POST['password2'])
+            && !empty($_POST['role'])
+            && !empty($_POST['nom'])
+            && !empty($_POST['prenom'])
+        ) {
 
-        $UserUpdate = new \App\Users();
+            if ($_POST['password'] === $_POST['password2']) {
 
-        //Add User
-        $UserUpdate->feed($_POST);
+                $UserUpdate = new \App\Users();
 
-        if (!$UserUpdate->exist()) {
-            if ($UserUpdate->save()) {
+                //Add User
+                $UserUpdate->feed($_POST);
 
-                //Delete post data
-                unset($_POST);
+                if (!$UserUpdate->exist()) {
+                    if ($UserUpdate->save()) {
 
-                $Response->status = 'success';
-                $Response->error_code = 0;
-                $Response->error_msg = trans('L\'utilisateur a été enregistré');
+                        //Delete post data
+                        unset($_POST);
+                        setPostResponse(trans('Le nouvel utilisateur a été enregistré'), 'success');
+
+                    } else {
+                        setPostResponse(trans('Un problème est survenu lors de l\'enregistrement du nouvel utilisateur'));
+                    }
+                } else {
+                    setPostResponse(trans('Ce Login est déjà utilisé par un autre utilisateur'));
+                }
 
             } else {
-
-                $Response->status = 'danger';
-                $Response->error_code = 1;
-                $Response->error_msg = trans('Un problème est survenu lors de l\'enregistrement du nouvel utilisateur');
+                setPostResponse(trans('Le mot de passe n\'est pas confirmé correctement'));
             }
         } else {
-
-            $Response->status = 'warning';
-            $Response->error_code = 2;
-            $Response->error_msg = trans('Ce Login est déjà utilisé par un utilisateur');
+            setPostResponse(trans('Tous les champs sont obligatoires'));
         }
-    } else {
-
-        $Response->status = 'danger';
-        $Response->error_code = 1;
-        $Response->error_msg = trans('Tous les champs sont obligatoires');
     }
 
     if (isset($_POST['UPDATEUSER'])) {
@@ -67,27 +61,16 @@ if (checkPostAndTokenRequest()) {
                     //Delete post data
                     unset($_POST);
 
-                    $Response->status = 'success';
-                    $Response->error_code = 0;
-                    $Response->error_msg = trans('L\'utilisateur a été mis à jour');
+                    setPostResponse(trans('Les données de l\'utilisateur ont été mis à jour'), 'success');
 
                 } else {
-
-                    $Response->status = 'danger';
-                    $Response->error_code = 1;
-                    $Response->error_msg = trans('Un problème est survenu lors de la mise à jour de l\'utilisateur');
+                    setPostResponse(trans('Un problème est survenu lors de la mise à jour de l\'utilisateur'));
                 }
             } else {
-
-                $Response->status = 'warning';
-                $Response->error_code = 2;
-                $Response->error_msg = trans('Ce Login est déjà utilisé par un utilisateur');
+                setPostResponse(trans('Ce Login est déjà utilisé par un autre utilisateur'));
             }
         } else {
-
-            $Response->status = 'danger';
-            $Response->error_code = 1;
-            $Response->error_msg = trans('Tous les champs sont obligatoires');
+            setPostResponse(trans('Tous les champs sont obligatoires'));
         }
     }
 
@@ -110,33 +93,19 @@ if (checkPostAndTokenRequest()) {
 
                         //Delete post data
                         unset($_POST);
-
-                        $Response->status = 'success';
-                        $Response->error_code = 0;
-                        $Response->error_msg = trans('Le nouveau mot de passe a été enregistré');
+                        setPostResponse(trans('Le nouveau mot de passe a été enregistré'), 'success');
 
                     } else {
-
-                        $Response->status = 'danger';
-                        $Response->error_code = 1;
-                        $Response->error_msg = trans('Un problème est survenu lors de la mise à jour du nouveau mot de passe');
+                        setPostResponse(trans('Un problème est survenu lors de la mise à jour du nouveau mot de passe'));
                     }
                 } else {
-
-                    $Response->status = 'warning';
-                    $Response->error_code = 2;
-                    $Response->error_msg = trans('Cet utilisateur n\'est pas identifié');
+                    setPostResponse(trans('Cet utilisateur n\'est pas identifié'));
                 }
             } else {
-                $Response->status = 'danger';
-                $Response->error_code = 1;
-                $Response->error_msg = trans('Le mot de passe n\'est pas confirmé correctement');
+                setPostResponse(trans('Le mot de passe n\'est pas confirmé correctement'));
             }
         } else {
-
-            $Response->status = 'danger';
-            $Response->error_code = 1;
-            $Response->error_msg = trans('Tous les champs sont obligatoires');
+            setPostResponse(trans('Tous les champs sont obligatoires'));
         }
     }
 }

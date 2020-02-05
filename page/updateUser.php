@@ -5,15 +5,7 @@ if (!empty($_GET['id'])):
     $UpdateUser->setId($_GET['id']);
     if ($UpdateUser->show() && $UpdateUser->getRole() <= getUserRoleId()):
         echo getTitle(getAppPageName(), getAppPageSlug());
-        if (isset($Response)): ?>
-            <div class="row">
-                <div class="col-12">
-                    <div class="alert alert-<?= $Response->display()->status ?>" role="alert">
-                        <?= $Response->display()->error_msg; ?>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
+        showPostResponse(); ?>
         <div class="row">
             <div class="col-lg-12 col-xl-8 my-2">
                 <form action="" method="post" id="updateUserForm">
@@ -58,6 +50,10 @@ if (!empty($_GET['id'])):
                                 <div class="card-body row">
                                     <div class="col-12 my-2">
                                         <?= \App\Form::text('Nouveau Mot de passe', 'password', 'password', 'password', true, 150, 'autocomplete="off"'); ?>
+                                        <span id="seePswd"
+                                              style="position: absolute;bottom: 0;right: 16px;padding: 5px 10px;font-size: 18px;cursor: pointer;color: #000;">
+                                            <i class="far fa-eye"></i>
+                                        </span>
                                     </div>
                                     <div class="col-12 my-2">
                                         <?= \App\Form::text('Confirmation du Mot de passe', 'password2', 'password', '', true, 150, 'autocomplete="off"'); ?>
@@ -73,6 +69,22 @@ if (!empty($_GET['id'])):
                 </form>
             </div>
         </div>
+        <script type="text/javascript">
+            $(document.body).on('click', '#seePswd', function (e) {
+                e.preventDefault();
+
+                let $btn = $(this);
+                let $inputPass = $('input[name="password"]');
+
+                if($inputPass.attr('type') === 'password'){
+                    $inputPass.attr('type', 'text');
+                    $btn.html('<i class="far fa-eye-slash"></i>');
+                } else {
+                    $inputPass.attr('type', 'password');
+                    $btn.html('<i class="far fa-eye"></i>');
+                }
+            });
+        </script>
     <?php else:
         echo getContainerErrorMsg(trans('Cet utilisateur n\'existe pas'));
     endif;
