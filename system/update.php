@@ -57,5 +57,3 @@ if (!isArrayEmpty($plugins)) {
         }
     }
 }
-
-deleteAllFolderContent(WEB_PLUGIN_PATH.'itemGlue/js');
