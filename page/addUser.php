@@ -38,20 +38,5 @@ showPostResponse(); ?>
         </div>
     </div>
 </form>
-<script type="text/javascript">
-    $(document.body).on('click', '#seePswd', function (e) {
-        e.preventDefault();
-
-        let $btn = $(this);
-        let $inputPass = $('input[name="password"]');
-
-        if($inputPass.attr('type') === 'password'){
-            $inputPass.attr('type', 'text');
-            $btn.html('<i class="far fa-eye-slash"></i>');
-        } else {
-            $inputPass.attr('type', 'password');
-            $btn.html('<i class="far fa-eye"></i>');
-        }
-    });
-</script>
+<script type="text/javascript" src="/app/lib/template/js/user.js"></script>
 <?php require('footer.php'); ?>
