@@ -69,6 +69,7 @@ class DB
             setSqlError($error);
             return false;
         } else {
+            $stmt->lastInsertId = self::$dbh->lastInsertId();
             return $stmt;
         }
     }
