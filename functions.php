@@ -1,8 +1,5 @@
 <?php
 
-//Get PHPMAILER
-$phpMailerFolder = WEB_LIB_PATH . 'php/PHPMailer/';
-
 use App\AppConfig;
 use App\AppLogging;
 use App\Category;
@@ -10,9 +7,10 @@ use App\Media;
 use App\Plugin\Traduction\Traduction;
 use PHPMailer\PHPMailer\PHPMailer;
 
-require_once $phpMailerFolder . 'Exception.php';
-require_once $phpMailerFolder . 'PHPMailer.php';
-require_once $phpMailerFolder . 'SMTP.php';
+//Get PHPMAILER
+require_once WEB_PHPMAILER_PATH . 'Exception.php';
+require_once WEB_PHPMAILER_PATH . 'PHPMailer.php';
+require_once WEB_PHPMAILER_PATH . 'SMTP.php';
 
 //Get all users in a const
 $USER = new \App\Users();
@@ -2891,7 +2889,7 @@ function includePluginsFilesForAppInFooter()
     if (is_array($plugins) && !empty($plugins)) {
 
         foreach ($plugins as $plugin) {
-            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeFooter';
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeAppFooter';
             if (file_exists($filePath)) {
                 $phpFiles = getFilesFromDir($filePath);
 
