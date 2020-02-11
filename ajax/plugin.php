@@ -1,6 +1,9 @@
 <?php
 require_once('header.php');
 
+use App\DB;
+use App\Form;
+use App\Menu;
 use App\Plugin\Cms\Cms;
 use App\Plugin\ItemGlue\Article;
 
@@ -21,7 +24,7 @@ if (checkAjaxRequest()) {
         $pluginName = $_REQUEST['deletePluginName'];
 
         //Backup
-        \App\DB::backup(date('Y-m-d'), 'db-' . date('H_i_s'));
+        DB::backup(date('Y-m-d'), 'db-' . date('H_i_s'));
         saveFiles('app/plugin/' . $pluginName);
 
         //Delete tables
@@ -30,13 +33,13 @@ if (checkAjaxRequest()) {
 
             if (!empty(PLUGIN_TABLES)) {
                 foreach (PLUGIN_TABLES as $key => $table) {
-                    \App\DB::initialize()->deleteTable($table);
+                    DB::initialize()->deleteTable($table);
                 }
             }
         }
 
         //Delete Menu
-        $Menu = new \App\Menu();
+        $Menu = new Menu();
         $Menu->deletePluginMenu($pluginName);
 
         //Delete Directories & Files
@@ -56,7 +59,7 @@ if (checkAjaxRequest()) {
 
             if (!empty(PLUGIN_TABLES)) {
                 foreach (PLUGIN_TABLES as $key => $table) {
-                    if (\App\DB::initialize()->checkTable($table)) {
+                    if (DB::initialize()->checkTable($table)) {
                         $existTable++;
                     }
                 }
@@ -162,16 +165,16 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['optimizeDb'])) {
 
-        $tables = \App\DB::initialize()->getTables();
-        \App\DB::backup(date('Y-m-d'), 'db-' . date('H_i'));
-        $Menu = new \App\Menu();
+        $tables = DB::initialize()->getTables();
+        DB::backup(date('Y-m-d'), 'db-' . date('H_i'));
+        $Menu = new Menu();
         $optimizeTables = array();
         foreach ($tables as $table) {
             $tableName = array_values((array)$table);
             if (!in_array($tableName[0], APP_TABLES) && false !== strpos($tableName[0], 'appoe')) {
                 list($pre, $plugin, $pluginName, $pluginExtension) = array_pad(explode('_', $tableName[0], 4), 4, null);
                 if (!is_null($pluginName) && !is_dir(WEB_PLUGIN_PATH . $pluginName)) {
-                    if (\App\DB::deleteTable($tableName[0])) {
+                    if (DB::deleteTable($tableName[0])) {
                         $Menu->deletePluginMenu($pluginName);
                         $optimizeTables[] = $tableName[0];
                     }
@@ -192,10 +195,17 @@ if (checkAjaxRequest()) {
         exit();
     }
 
+    if (!empty($_POST['getDefinedConst'])) {
+
+        echo defined($_POST['getDefinedConst']) ? constant($_POST['getDefinedConst']) : '';
+        exit();
+    }
+
     if (!empty($_POST['pageInfos']) && !empty($_POST['filename'])) {
 
         $helpPage = getPageHelp($_POST['filename']);
-        echo \App\Form::textarea('Information', 'pageInfo', $helpPage, 5, true, '', 'ckeditor');
+        echo Form::textarea('Information', 'pageInfo', $helpPage, 5, true, '', 'ckeditor');
+        exit();
     }
 
     if (!empty($_POST['ADDPAGEINFO']) && !empty($_POST['page']) && !empty($_POST['pageInfo'])) {
@@ -205,5 +215,6 @@ if (checkAjaxRequest()) {
         } else {
             trans('Une erreur s\'est produite lors de l\'enregistrement des informations');
         }
+        exit();
     }
 }
