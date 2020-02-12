@@ -158,7 +158,7 @@ if (checkAjaxRequest()) {
         if (isset($_REQUEST['getAllMedia'])) {
 
             $html = '<div class="card-columns">';
-            $includeFiles = getFilesFromDir(FILE_DIR_PATH, ['onlyFiles' => true]);
+            $includeFiles = getFilesFromDir(FILE_DIR_PATH, ['onlyFiles' => true, 'allExtensionsExceptOne' => 'php']);
 
             foreach ($includeFiles as $key => $includeFile) {
 

@@ -778,6 +778,7 @@ function getFilesFromDir($dirname, array $options = array())
     $defaultOptions = array(
         'onlyFiles' => false,
         'onlyExtension' => false,
+        'allExtensionsExceptOne' => false,
         'noExtensionDisplaying' => false
     );
 
@@ -792,13 +793,15 @@ function getFilesFromDir($dirname, array $options = array())
 
             if ($fileinfo->isFile()) {
 
-                if (false !== $options['onlyExtension']) {
-                    if ($fileinfo->getExtension() == $options['onlyExtension']) {
-                        $files[] = $fileinfo->getBasename(false !== $options['noExtensionDisplaying'] ? '.' . $fileinfo->getExtension() : NULL);
-                    }
-                } else {
-                    $files[] = $fileinfo->getBasename(false !== $options['noExtensionDisplaying'] ? '.' . $fileinfo->getExtension() : NULL);
+                if (false !== $options['onlyExtension'] && $fileinfo->getExtension() != $options['onlyExtension']) {
+                    continue;
                 }
+
+                if (false !== $options['allExtensionsExceptOne'] && $fileinfo->getExtension() == $options['allExtensionsExceptOne']) {
+                    continue;
+                }
+
+                $files[] = $fileinfo->getBasename(false !== $options['noExtensionDisplaying'] ? '.' . $fileinfo->getExtension() : NULL);
             }
         }
 
