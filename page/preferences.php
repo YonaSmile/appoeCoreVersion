@@ -7,12 +7,12 @@ $AppConfig = new AppConfig();
 $allConfig = $AppConfig->get();
 
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
-<button class="btn btn-sm btn-outline-info float-right" id="restoreConfig">Réinitialiser</button>
+<button class="btn btn-sm btn-outline-info" id="restoreConfig">Réinitialiser</button>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-lg-3">
+        <div class="col-12 col-lg-3 my-5">
             <div class="row">
-                <div class="col-12 my-3"><h5>Options</h5></div>
+                <div class="col-12 mb-3"><h5>Options</h5></div>
                 <?php foreach ($allConfig['options'] as $name => $val): ?>
                     <div class="col-12 mb-2">
                     <span class="switchBtnContenair mr-2">
@@ -27,8 +27,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                 <?php endforeach; ?>
             </div>
         </div>
-        <div class="col-12 col-lg-6">
-            <div class="col-12 my-3"><h5>Données</h5></div>
+        <div class="col-12 col-lg-6 my-5">
+            <div class="col-12 mb-3"><h5>Données</h5></div>
             <?php foreach ($allConfig['data'] as $name => $val):
                 if (!empty($val)): ?>
                     <div class="col-12 mb-2">
@@ -38,8 +38,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                 <?php endif;
             endforeach; ?>
         </div>
-        <div class="col-12 col-lg-3">
-            <div class="col-12 my-3"><h5>Autorisations d'accès</h5></div>
+        <div class="col-12 col-lg-3 my-5">
+            <div class="col-12 mb-3"><h5>Autorisations d'accès</h5></div>
 
             <?php if (defined('IP_ALLOWED') && !isArrayEmpty(IP_ALLOWED)): foreach (IP_ALLOWED as $ip): ?>
                 <div class="col-12 mb-2"><?= $ip; ?></div>
