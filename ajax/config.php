@@ -20,6 +20,24 @@ if (checkAjaxRequest()) {
             }
         }
 
+        if (!empty($_POST['addAccessPermission']) && !empty($_POST['ipAddress']) && isIp($_POST['ipAddress'])) {
+
+            $Config = new AppConfig();
+            if ($Config->addPermissionAccess($_POST['ipAddress'])) {
+                echo json_encode(true);
+                exit();
+            }
+        }
+
+        if (!empty($_POST['deleteAccessPermission']) && !empty($_POST['ipAddress']) && isIp($_POST['ipAddress'])) {
+
+            $Config = new AppConfig();
+            if ($Config->deletePermissionAccess($_POST['ipAddress'])) {
+                echo json_encode(true);
+                exit();
+            }
+        }
+
         if (!empty($_POST['restoreConfig']) && $_POST['restoreConfig'] == 'OK') {
 
             $Config = new AppConfig();

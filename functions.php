@@ -1221,13 +1221,18 @@ function checkIfInArrayString($array, $searchingFor)
 function checkMaintenance()
 {
     if (true === MAINTENANCE) {
-        if (
-            (defined('IP_ALLOWED') && in_array(getIP(), IP_ALLOWED))
-            ||
-            (defined('IP_PARTS_ALLOWED') && checkIfInArrayString(IP_PARTS_ALLOWED, getIP()))
-        ) {
+
+        $ip = getIP();
+        $AppConfig = new AppConfig();
+
+        if (in_array($ip, $AppConfig->get('accessPermissions'))) {
             return false;
         }
+
+        if (defined('IP_ALLOWED') && in_array($ip, IP_ALLOWED)) {
+            return false;
+        }
+
         return true;
     }
     return false;
@@ -3656,6 +3661,17 @@ function isEmail($email)
 function isUrl($url)
 {
     return filter_var($url, FILTER_VALIDATE_URL);
+}
+
+/**
+ * @param $ip
+ * @return mixed
+ */
+function isIp($ip)
+{
+    return strlen($ip) <= 45 && (filter_var($ip, FILTER_VALIDATE_IP)
+            || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
+            || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6));
 }
 
 /**

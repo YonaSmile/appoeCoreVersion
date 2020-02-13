@@ -31,6 +31,7 @@ class AppConfig
         'data' => array(
             'apiToken' => ''
         ),
+        'accessPermissions' => array(),
         'user' => array(
             'id' => '',
             'name' => '',
@@ -43,7 +44,7 @@ class AppConfig
      */
     public $configExplanation = array(
         'forceHTTPS' => 'Forcer le site en HTTPS',
-        'sharingWork' => 'Autoriser le partage du travail sur la même page',
+        'sharingWork' => 'Autoriser le travail sur la même page',
         'allowApi' => 'Autoriser l\'API',
         'apiToken' => 'Clé API'
     );
@@ -58,6 +59,13 @@ class AppConfig
 
             $this->pathConfigFile = WEB_SYSTEM_PATH . $this->configFile;
             $this->config = array_merge($this->defaultConfig, getJsonContent($this->pathConfigFile));
+
+            //User data
+            $this->config['user'] = array(
+                'id' => getUserIdSession(),
+                'name' => getUserName() . ' ' . getUserFirstName(),
+                'date' => date('Y-m-d H:i:s')
+            );
         }
     }
 
@@ -92,6 +100,40 @@ class AppConfig
             $this->dataOperations($data);
             appLog('Update APPOE preferences: ' . implode(', ', array_keys($data)));
             return putJsonContent($this->pathConfigFile, $this->config);
+        }
+        return false;
+    }
+
+    /**
+     * @param $ip
+     * @return bool
+     */
+    public function addPermissionAccess($ip)
+    {
+        if (!is_null($this->pathConfigFile) && !in_array($ip, $this->config['accessPermissions'])) {
+
+            array_push($this->config['accessPermissions'], $ip);
+            appLog('Add APPOE access permission to: ' . $ip);
+            return putJsonContent($this->pathConfigFile, $this->config);
+
+        }
+        return false;
+    }
+
+    /**
+     * @param $ip
+     * @return bool
+     */
+    public function deletePermissionAccess($ip)
+    {
+        if (!is_null($this->pathConfigFile)) {
+
+            if (($key = array_search($ip, $this->config['accessPermissions'])) !== false) {
+                unset($this->config['accessPermissions'][$key]);
+
+                appLog('Remove APPOE access permission to: ' . $ip);
+                return putJsonContent($this->pathConfigFile, $this->config);
+            }
         }
         return false;
     }
@@ -139,12 +181,5 @@ class AppConfig
                 $this->config['data']['apiToken'] = '';
             }
         }
-
-        //User data
-        $this->config['user'] = array(
-            'id' => getUserIdSession(),
-            'name' => getUserName() . ' ' . getUserFirstName(),
-            'date' => date('Y-m-d H:i:s')
-        );
     }
 }
