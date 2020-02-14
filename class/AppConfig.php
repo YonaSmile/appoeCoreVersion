@@ -24,6 +24,7 @@ class AppConfig
      */
     private $defaultConfig = array(
         'options' => array(
+            'maintenance' => false,
             'forceHTTPS' => false,
             'sharingWork' => false,
             'allowApi' => false
@@ -43,6 +44,7 @@ class AppConfig
      * @var array
      */
     public $configExplanation = array(
+        'maintenance' => 'Mode maintenance',
         'forceHTTPS' => 'Forcer le site en HTTPS',
         'sharingWork' => 'Autoriser le travail sur la même page',
         'allowApi' => 'Autoriser l\'API',
@@ -58,7 +60,7 @@ class AppConfig
         if ($this->checkConfigFile()) {
 
             $this->pathConfigFile = WEB_SYSTEM_PATH . $this->configFile;
-            $this->config = array_merge($this->defaultConfig, getJsonContent($this->pathConfigFile));
+            $this->config = array_replace_recursive($this->defaultConfig, getJsonContent($this->pathConfigFile));
 
             //User data
             $this->config['user'] = array(

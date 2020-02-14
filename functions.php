@@ -1220,18 +1220,20 @@ function checkIfInArrayString($array, $searchingFor)
  */
 function checkMaintenance()
 {
-    if (true === MAINTENANCE) {
+    $AppConfig = new AppConfig();
+
+    if ('true' === $AppConfig->get('options', 'maintenance')) {
 
         $ip = getIP();
-        $AppConfig = new AppConfig();
+
+        if (defined('IP_ALLOWED') && in_array($ip, IP_ALLOWED)) {
+            return false;
+        }
 
         if (in_array($ip, $AppConfig->get('accessPermissions'))) {
             return false;
         }
 
-        if (defined('IP_ALLOWED') && in_array($ip, IP_ALLOWED)) {
-            return false;
-        }
 
         return true;
     }
