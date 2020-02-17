@@ -50,7 +50,7 @@ define('WEB_DIR_MAIL', WEB_DIR_URL . '/ressources/mail/');
  * Errors config
  */
 error_reporting(E_ALL);
-ini_set('display_errors', MAINTENANCE ? 1 : 0);
+ini_set('display_errors', defined('DEBUG') && DEBUG ? 1 : 0);
 ini_set('log_errors', 1);
 ini_set('error_log', ROOT_PATH . 'error.log');
 
