@@ -1685,22 +1685,13 @@ function deleteAllFolderContent($dirPath)
 function getAppTypes()
 {
     //get plugin types
-    $allTypes = array_map('strtoupper',
-        array_flip(
-            array_map('strtoupper',
-                extractFromObjToSimpleArr(
-                    json_decode(
-                        json_encode(
-                            getPlugins()), FALSE), 'name'))));
+    $allTypes = getPluginsName();
+    $allTypes = array_combine(array_map('strtoupper', $allTypes), array_map('strtoupper', $allTypes));
 
     //get app types
-    $basesCategory = array();
-    foreach (CATEGORY_TYPES as $key => $name) {
-        $name = strtoupper($name);
-        $basesCategory[$name] = $name;
-    }
+    $appTypes = array_combine(array_map('strtoupper', CATEGORY_TYPES), array_map('strtoupper', CATEGORY_TYPES));
 
-    return array_merge($allTypes, $basesCategory);
+    return array_merge($allTypes, $appTypes);
 }
 
 /**
