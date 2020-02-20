@@ -2325,6 +2325,10 @@ function getHttpRequest($url)
  */
 function getFileContent($path, $params = null)
 {
+    if (is_array($params)) {
+        extract($params, EXTR_SKIP);
+    }
+
     ob_start();
 
     if (file_exists($path)) {
@@ -2341,7 +2345,7 @@ function getFileContent($path, $params = null)
         }
     }
 
-    return $pageContent;
+    return trim($pageContent);
 }
 
 
