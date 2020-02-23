@@ -12,11 +12,6 @@ require_once WEB_PHPMAILER_PATH . 'Exception.php';
 require_once WEB_PHPMAILER_PATH . 'PHPMailer.php';
 require_once WEB_PHPMAILER_PATH . 'SMTP.php';
 
-//Get all users in a const
-$USER = new \App\Users();
-$USER->setStatut(0);
-define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
-
 /**
  * @return string
  */
@@ -3226,6 +3221,14 @@ function checkAndGetUserId($idUser = null)
  */
 function getAllUsers($max = false, $min = false, $roleIdReference = null)
 {
+    if (!defined('ALLUSERS')) {
+
+        //Get all users in a const
+        $USER = new \App\Users();
+        $USER->setStatut(0);
+        define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
+    }
+
     $allUsers = unserialize(ALLUSERS);
 
     if (is_array($allUsers)) {
@@ -4480,10 +4483,11 @@ function fichierType($file)
 
 /**
  * Get APPOE logo. if $appoelogo is true, return only appoe logo
- * @param $appoeLogo
+ * @param bool $appoeLogo
+ * @param bool $onlySrc
  * @return string
  */
-function getLogo($appoeLogo = false)
+function getLogo($appoeLogo = false, $onlySrc = false)
 {
     $src = APP_IMG_URL . 'appoe-logo-black-sm.png';
     if (true === $appoeLogo) return $src;
@@ -4503,7 +4507,16 @@ function getLogo($appoeLogo = false)
         }
     }
 
-    return '<img class="img-responsive logoNavbar" src="' . $src . '" alt="APPOE">';
+    return !$onlySrc ? '<img class="img-responsive logoNavbar" src="' . $src . '" alt="APPOE">' : $src;
+}
+
+/**
+ * @param $url
+ * @return string
+ */
+function getOnlyPath($url)
+{
+    return isUrl($url) ? $_SERVER['DOCUMENT_ROOT'] . parse_url($url, PHP_URL_PATH) : '';
 }
 
 /* --------------------------------------------------------------------------

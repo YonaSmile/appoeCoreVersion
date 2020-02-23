@@ -17,10 +17,13 @@ class Autoloader
             $classExplodesLwr = array_map('lcfirst', $classExplodes);
 
             $file = array_pop($classExplodesLwr);
-
             $class = implode('/', $classExplodesLwr);
-            $class .= DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR;
-            $class .= ucfirst($file) . '.php';
+
+            if (is_dir(ROOT_PATH.$class . DIRECTORY_SEPARATOR . 'class')) {
+                $class .= DIRECTORY_SEPARATOR . 'class';
+            }
+
+            $class .= DIRECTORY_SEPARATOR . ucfirst($file) . '.php';
         }
 
         if (file_exists(ROOT_PATH . $class)) {
