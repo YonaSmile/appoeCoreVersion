@@ -5,6 +5,7 @@ use App\AppLogging;
 use App\Category;
 use App\Media;
 use App\Plugin\Traduction\Traduction;
+use App\Version;
 use PHPMailer\PHPMailer\PHPMailer;
 
 //Get PHPMAILER
@@ -4517,6 +4518,20 @@ function getLogo($appoeLogo = false, $onlySrc = false)
 function getOnlyPath($url)
 {
     return isUrl($url) ? $_SERVER['DOCUMENT_ROOT'] . parse_url($url, PHP_URL_PATH) : '';
+}
+
+/**
+ * @return string
+ */
+function getAppoeVersion()
+{
+
+    Version::setFile(WEB_APP_PATH . 'version.json');
+    if (Version::show()):
+        return Version::getVersion();
+    endif;
+
+    return '';
 }
 
 /* --------------------------------------------------------------------------
