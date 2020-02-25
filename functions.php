@@ -2967,10 +2967,9 @@ function includePluginsJs($forApp = false)
                 $filePath = $pluginPath . 'js';
                 $setupPath = $pluginPath . 'setup.php';
 
-                if (file_exists($filePath) && !file_exists($setupPath)) {
+                if (is_dir($filePath) && !file_exists($setupPath)) {
 
-                    $phpFiles = getFilesFromDir($filePath);
-                    foreach ($phpFiles as $file) {
+                    foreach (getFilesFromDir($filePath) as $file) {
 
                         //File path
                         $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
@@ -3001,13 +3000,20 @@ function includePluginsJsForApp()
     if (is_array($plugins) && !empty($plugins)) {
 
         foreach ($plugins as $plugin) {
-            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'jsApp';
-            if (file_exists($filePath)) {
-                $phpFiles = getFilesFromDir($filePath);
-                foreach ($phpFiles as $file) {
-                    $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'jsApp' . DIRECTORY_SEPARATOR . $file;
-                    echo '<script type="text/javascript" src="' . $src . '"></script>';
 
+            $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
+            $filePath = $pluginPath . 'jsApp';
+            $setupPath = $pluginPath . 'setup.php';
+
+            if (is_dir($filePath) && !file_exists($setupPath)) {
+
+                foreach (getFilesFromDir($filePath) as $file) {
+
+                    //File path
+                    $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'jsApp' . DIRECTORY_SEPARATOR . $file;
+
+                    //Show js file in app doc
+                    echo '<script type="text/javascript" src="' . $src . '"></script>';
                 }
             }
         }
@@ -3028,12 +3034,13 @@ function includePluginsStyles()
 
         foreach ($plugins as $plugin) {
 
-            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'css';
+            $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
+            $filePath = $pluginPath . 'css';
+            $setupPath = $pluginPath . 'setup.php';
 
-            if (file_exists($filePath) && is_dir($filePath)) {
+            if (is_dir($filePath) && !file_exists($setupPath)) {
 
-                $phpFiles = getFilesFromDir($filePath);
-                foreach ($phpFiles as $file) {
+                foreach ( getFilesFromDir($filePath) as $file) {
 
                     //File path
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
