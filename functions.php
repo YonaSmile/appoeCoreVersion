@@ -430,16 +430,17 @@ function jsonHtmlParse($object)
 }
 
 /**
- * @param string $appendName
  * @param string $name
  * @param string $slug
+ * @param string $appendName
+ * @param string $appendHtml
  * @return string
  */
-function getTitle($name = '', $slug = '', $appendName = '')
+function getTitle($name = '', $slug = '', $appendName = '', $appendHtml = '')
 {
-    $html = '<div class="row"><div class="col-12">
+    $html = '<div class="row"><div class="col-12 position-relative">
             <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary mr-2"></span>' . trans($name) . $appendName . '</h1>
-            </div></div><hr class="mx-5 mt-3 mb-4">';
+            ' . $appendHtml . '</div></div><hr class="mx-5 mt-3 mb-4">';
 
     return $html;
 }
@@ -3040,7 +3041,7 @@ function includePluginsStyles()
 
             if (is_dir($filePath) && !file_exists($setupPath)) {
 
-                foreach ( getFilesFromDir($filePath) as $file) {
+                foreach (getFilesFromDir($filePath) as $file) {
 
                     //File path
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
