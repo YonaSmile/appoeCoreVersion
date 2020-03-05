@@ -36,8 +36,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
         if (!$existPage) {
 
             //Check for similar page slug
-            if(defined('SIMILAR_PAGES_SLUG') && !isArrayEmpty(SIMILAR_PAGES_SLUG)) {
-                if(array_key_exists($_GET['slug'], SIMILAR_PAGES_SLUG)) {
+            if (defined('SIMILAR_PAGES_SLUG') && !isArrayEmpty(SIMILAR_PAGES_SLUG)) {
+                if (array_key_exists($_GET['slug'], SIMILAR_PAGES_SLUG)) {
                     $existPage = $Cms->showBySlug(SIMILAR_PAGES_SLUG[$_GET['slug']], LANG);
                     $Cms->setSlug($_GET['slug']);
                 }
@@ -160,7 +160,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     }
 
     //Create menu
-    if(empty($_SESSION['MENU'])) {
+    if (empty($_SESSION['MENU']) || getSessionLang() !== LANG) {
+        setSessionLang();
         $CmsMenu = new CmsMenu();
         $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
         unset($CmsMenu);

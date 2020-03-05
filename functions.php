@@ -343,6 +343,22 @@ function getSessionMenu($primaryIndex = 1, $parent = 10)
 }
 
 /**
+ *
+ */
+function setSessionLang()
+{
+    $_SESSION['LANG'] = LANG;
+}
+
+/**
+ * @return bool|mixed
+ */
+function getSessionLang()
+{
+    return !empty($_SESSION['LANG']) ? $_SESSION['LANG'] : false;
+}
+
+/**
  * @param int $primaryIndex
  * @return bool
  */

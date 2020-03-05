@@ -8,7 +8,9 @@ $Config = getConfig();
 
 if (!empty($_POST['token']) && $Config['options']['allowApi'] === 'true' && $_POST['token'] == $Config['data']['apiToken']) {
 
-    header("Content-Type: application/json; charset=UTF-8");
+    if (!headers_sent()) {
+        header("Content-Type: application/json; charset=UTF-8");
+    }
 
     $lang = !empty($_POST['lang']) && is_string($_POST['lang']) ? $_POST['lang'] : false;
     $length = !empty($_POST['length']) && is_numeric($_POST['length']) ? $_POST['length'] : false;
