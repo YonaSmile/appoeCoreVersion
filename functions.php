@@ -981,42 +981,17 @@ function generateSitemap($data)
  *
  * @return array|string
  */
-function cleanRequest($data, array $exclude = null)
+function cleanRequest($data, array $exclude = array())
 {
-    // Check if data is array
     if (is_array($data)) {
 
-        //Check if there are values to exclude
-        if (is_array($exclude) && !is_null($exclude)) {
-            foreach ($data as $key => $value) {
+        foreach ($data as $key => $value) {
 
-                //check if data is not a multidimensionnel array
-                if (!is_array($value)) {
-                    if (!in_array($key, $exclude)) {
-                        $data[$key] = cleanData($data[$key]);
-                    }
-                } else {
-                    foreach ($value as $nkey => $nvalue) {
-                        if (!in_array($nkey, $exclude)) {
-                            $value[$nkey] = cleanData($value[$nkey]);
-                        }
-                    }
-                }
-            }
-        } else {
-            foreach ($data as $key => $value) {
-
-                //check if data is not a multidimensionnel array
-                if (!is_array($value)) {
-                    $data[$key] = cleanData($data[$key]);
-
-                } else {
-                    foreach ($value as $nkey => $nvalue) {
-                        $value[$nkey] = cleanData($value[$nkey]);
-                    }
-                }
+            if (!in_array($key, $exclude)) {
+                $data[$key] = cleanRequest($value, $exclude);
             }
         }
+
     } else {
         $data = cleanData($data);
     }
@@ -3767,6 +3742,53 @@ function externalLink($link)
         }
     }
     return '';
+}
+
+/**
+ * @param mixed $menu
+ * @param array $params
+ * @param string $class
+ * @return string
+ */
+function linkBuild($menu, $params = array(), $class = '')
+{
+    if (is_object($menu)) {
+
+        $slug = $menu->slug;
+        $title = 'title="' . $menu->name . '"';
+
+        //External link
+        if (substr($slug, 0, 4) === "http") {
+
+            $target = '';
+            $linkData = parse_url($slug);
+
+            if ($_SERVER['SERVER_NAME'] != $linkData['host'] || false !== strpos($slug, '.')) {
+                $target = 'target="_blank"';
+            }
+            return '<a href="' . $slug . '" class="' . $class . '" ' . $target . ' ' . $title . '>' . $menu->name . '</a>';
+        }
+
+        //Anchor
+        if ($slug === '#') {
+            return '<a href="#" class="' . $class . '" ' . $title . '>' . $menu->name . '</a>';
+        }
+
+        $slug .= '/';
+
+        //Parameters
+        if (!isArrayEmpty($params)) {
+            if (count($params) == 1) {
+                $slug .= $params[0] . '/';
+            } else {
+                $slug .= implode('/', $params) . '/';
+            }
+        }
+
+        return '<a href="' . WEB_DIR_URL . $slug . '" ' . $title . ' class="' . $class . ' ' . activePage($menu->slug) . '">' . $menu->name . '</a>';
+    }
+
+    return $menu;
 }
 
 /**
