@@ -1047,7 +1047,7 @@ function checkRecaptcha($secret, $token)
 /**
  * Show unlimited params in array
  */
-function showDebugData()
+function debug()
 {
     echo '<pre>';
     print_r(func_get_args());
@@ -3747,15 +3747,23 @@ function externalLink($link)
 /**
  * @param mixed $menu
  * @param array $params
- * @param string $class
  * @return string
  */
-function linkBuild($menu, $params = array(), $class = '')
+function linkBuild($menu, $params = [])
 {
     if (is_object($menu)) {
 
+        $defaultParams = [
+            'linkParams' => [],
+            'class' => '',
+            'activePage' => 'active',
+            'parent' => false
+        ];
+
         $slug = $menu->slug;
         $title = 'title="' . $menu->name . '"';
+
+        $params = array_merge($defaultParams, $params);
 
         //External link
         if (substr($slug, 0, 4) === "http") {
@@ -3763,29 +3771,30 @@ function linkBuild($menu, $params = array(), $class = '')
             $target = '';
             $linkData = parse_url($slug);
 
-            if ($_SERVER['SERVER_NAME'] != $linkData['host'] || false !== strpos($slug, '.')) {
+            if ($_SERVER['SERVER_NAME'] != $linkData['host'] || false !== strpos($linkData['path'], '.')) {
                 $target = 'target="_blank"';
             }
-            return '<a href="' . $slug . '" class="' . $class . '" ' . $target . ' ' . $title . '>' . $menu->name . '</a>';
+
+            return '<a href="' . $slug . '" class="' . $params['class'] . '" ' . $target . ' ' . $title . '>' . $menu->name . '</a>';
         }
 
         //Anchor
-        if ($slug === '#') {
-            return '<a href="#" class="' . $class . '" ' . $title . '>' . $menu->name . '</a>';
+        if ($slug === '#' || $params['parent'] == true) {
+            return '<a href="#" class="' . $params['class'] . '" ' . $title . '>' . $menu->name . '</a>';
         }
 
         $slug .= '/';
 
         //Parameters
-        if (!isArrayEmpty($params)) {
-            if (count($params) == 1) {
-                $slug .= $params[0] . '/';
+        if (!isArrayEmpty($params['linkParams'])) {
+            if (count($params['linkParams']) == 1) {
+                $slug .= $params['linkParams'][0] . '/';
             } else {
-                $slug .= implode('/', $params) . '/';
+                $slug .= implode('/', $params['linkParams']) . '/';
             }
         }
 
-        return '<a href="' . WEB_DIR_URL . $slug . '" ' . $title . ' class="' . $class . ' ' . activePage($menu->slug) . '">' . $menu->name . '</a>';
+        return '<a href="' . WEB_DIR_URL . $slug . '" ' . $title . ' class="' . $params['class'] . ' ' . activePage($menu->slug, $params['activePage']) . '">' . $menu->name . '</a>';
     }
 
     return $menu;
