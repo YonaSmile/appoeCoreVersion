@@ -42,7 +42,10 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
             <div class="col-12 mb-3"><h5>Autorisations d'accès</h5></div>
 
             <?php if (defined('IP_ALLOWED') && !isArrayEmpty(IP_ALLOWED)): foreach (IP_ALLOWED as $ip): ?>
-                <div class="col-12 mb-2 text-info"><?= $ip; ?></div>
+                <div class="col-12 mb-2 text-info">
+                    <small class="text-secondary">
+                        <em><?= (false !== strpos($ip, ':')) ? 'IPV6' : 'IPV4'; ?></em>
+                    </small> <?= $ip; ?></div>
             <?php endforeach; ?>
                 <hr class="mx-5">
             <?php endif; ?>

@@ -1212,16 +1212,25 @@ function checkMaintenance()
 
     if ('true' === $AppConfig->get('options', 'maintenance')) {
 
+        //Check IP permission
         $ip = getIP();
 
-        if (defined('IP_ALLOWED') && in_array($ip, IP_ALLOWED)) {
-            return false;
+        //Check Ip from ini.main
+        if (defined('IP_ALLOWED')) {
+
+            //IPV6
+            if(false !== strpos($ip, ':')) {
+                $ip = implode(':', explode(':', $ip, -4));
+            }
+
+            if(in_array($ip, IP_ALLOWED)){
+                return false;
+            }
         }
 
         if (in_array($ip, $AppConfig->get('accessPermissions'))) {
             return false;
         }
-
 
         return true;
     }
@@ -3787,11 +3796,14 @@ function linkBuild($menu, $params = [])
 
         //Parameters
         if (!isArrayEmpty($params['linkParams'])) {
+
             if (count($params['linkParams']) == 1) {
-                $slug .= $params['linkParams'][0] . '/';
+                $slug .= $params['linkParams'][0];
             } else {
-                $slug .= implode('/', $params['linkParams']) . '/';
+                $slug .= implode('/', $params['linkParams']);
             }
+
+            $slug .= '/';
         }
 
         return '<a href="' . WEB_DIR_URL . $slug . '" ' . $title . ' class="' . $params['class'] . ' ' . activePage($menu->slug, $params['activePage']) . '">' . $menu->name . '</a>';
