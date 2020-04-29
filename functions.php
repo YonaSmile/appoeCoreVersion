@@ -3656,7 +3656,7 @@ function isTel($tel)
  */
 function isEmail($email)
 {
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $emailParts = explode("@", $email);
         return checkdnsrr(array_pop($emailParts), "MX");
     }
@@ -3678,7 +3678,7 @@ function isUrl($url)
  */
 function isIp($ip)
 {
-    return strlen($ip) <= 45 && (filter_var($ip, FILTER_VALIDATE_IP)
+    return !empty($ip) && strlen($ip) <= 45 && (filter_var($ip, FILTER_VALIDATE_IP)
             || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
             || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6));
 }
@@ -4564,7 +4564,9 @@ function getLogo($appoeLogo = false, $onlySrc = false)
     $urlFolder = WEB_DIR_IMG;
     $pathFolder = WEB_PUBLIC_PATH . 'images/';
     $name = 'appoe-logo';
+
     $extensions = array('png', 'jpg', 'jpeg', 'gif', 'svg');
+	$extensions = array_merge($extensions, array_map('strtoupper', $extensions));
 
     foreach ($extensions as $extension) {
 

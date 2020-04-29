@@ -473,11 +473,13 @@ class File
         }
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function upload()
+	/**
+	 *
+	 * @param bool $saveToDb
+	 *
+	 * @return array
+	 */
+    public function upload($saveToDb = true)
     {
         $returnArr = array(
             'filename' => array(),
@@ -494,7 +496,7 @@ class File
             if (!empty($files['name'][$i])) {
 
                 $error = $files['error'][$i];
-                if ($error == UPLOAD_ERR_OK) {
+                if ($error == 0) {
 
                     $tmp_name = $files['tmp_name'][$i];
                     $filename = $this->cleanText($files['name'][$i]);
@@ -504,7 +506,6 @@ class File
 
                         if ($this->authorizedMediaFormat($type)) {
 
-                            $this->name = $filename;
                             if (!file_exists($this->filePath . $filename)) {
 
                                 if (move_uploaded_file($tmp_name, $this->filePath . $filename) === false) {
@@ -519,9 +520,14 @@ class File
                             appLog('Upload file -> name: ' . $filename);
                             array_push($returnArr['filename'], $filename);
 
-                            if (!$this->save()) {
-                                continue;
-                            }
+	                        if ( $saveToDb ) {
+
+		                        $this->name = $filename;
+
+		                        if ( ! $this->save() ) {
+			                        continue;
+		                        }
+	                        }
 
                             $uploadFilesCounter++;
 
@@ -537,6 +543,71 @@ class File
         $returnArr['countUpload'] = $uploadFilesCounter . '/' . $fileCount;
         return $returnArr;
     }
+
+	/**
+	 *
+	 * @param bool $saveToDb
+	 *
+	 * @return array
+	 */
+	public function uploadOneFile( $saveToDb = true ) {
+
+		$returnArr = array(
+			'filename' => '',
+			'errors'   => ''
+		);
+
+		$file = $this->uploadFiles;
+
+		if ( ! empty( $file['name'] ) ) {
+
+			if ( $file['error'] == 0 ) {
+
+				$tmp_name = $file['tmp_name'];
+				$filename = $this->cleanText( $file['name'] );
+				$type     = $file['type'];
+				$size     = $file['size'];
+
+				$returnArr['filename'] = $filename;
+
+				if ( $size <= $this->maxSize ) {
+
+					if ( $this->authorizedMediaFormat( $type ) ) {
+
+						if ( move_uploaded_file( $tmp_name, $this->filePath . $filename ) === false ) {
+
+							$returnArr['errors'] = trans( 'Impossible de charger le fichier.' );
+							return $returnArr;
+						}
+
+						appLog( 'Upload file -> name: ' . $filename );
+
+						if ( $saveToDb ) {
+
+							$this->name = $filename;
+
+							if ( ! $this->save() ) {
+								$returnArr['errors'] = trans( 'Impossible d\'enregistrer le fichier.' );
+
+								return $returnArr;
+							}
+						}
+
+
+					} else {
+						$returnArr['errors'] = trans( 'Le format du fichier n\'est pas reconnu.' );
+					}
+				} else {
+					$returnArr['errors'] = trans( 'Le fichier dépasse le poids autorisé.' );
+				}
+			} else {
+				$returnArr['errors'] = $file['error'];
+			}
+		}
+
+
+		return $returnArr;
+	}
 
     /**
      * @param $filename

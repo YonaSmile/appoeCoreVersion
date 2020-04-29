@@ -194,7 +194,7 @@ class Template
                 if (false !== strpos($adminZone, '#')) {
 
                     //Get data
-                    list($htmlTag, $text) = array_pad(explode('#', $adminZone), 2, '');
+                    list($htmlTag, $text, $zoneName) = array_pad(explode('#', $adminZone), 3, random_int(999, 9999));
 
                     //Get Container Classes
                     $extract = $this->extractClassFromHtmlTag($htmlTag);
@@ -204,7 +204,7 @@ class Template
                     //Check container authorised data
                     if ($this->isAuthorisedHtmlContainer($htmlTag)) {
 
-                        $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag templateZoneTitle ' . $class . ' ">' . ucfirst($text) . '</' . $htmlTag . '>';
+                        $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag templateZoneTitle ' . $class . ' " id="'.$zoneName.'">' . ucfirst($text) . '</' . $htmlTag . '>';
                     }
 
                 } else {

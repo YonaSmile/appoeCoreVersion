@@ -30,6 +30,7 @@ class AppConfig
             'allowApi' => false
         ),
         'data' => array(
+	        'defaultEmail' => '',
             'apiToken' => ''
         ),
         'accessPermissions' => array(),
@@ -48,7 +49,8 @@ class AppConfig
         'forceHTTPS' => 'Forcer le site en HTTPS',
         'sharingWork' => 'Autoriser le travail sur la même page',
         'allowApi' => 'Autoriser l\'API',
-        'apiToken' => 'Clé API'
+        'apiToken' => 'Clé API',
+	    'defaultEmail' => 'Adresse Email par défaut'
     );
 
     /**

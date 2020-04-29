@@ -221,7 +221,7 @@ class Form
      * @param string $otherClasses
      * @return string
      */
-    public static function checkbox($title, $name, array $data, $compare = '', $otherClasses = '')
+    public static function checkbox($title, $name, array $data, $compare = array(), $otherClasses = '')
     {
 
         $html = '';
@@ -230,7 +230,7 @@ class Form
 
         foreach ($data as $id => $value) {
             $checked = '';
-            if (!empty($compare) && is_array($compare)) {
+            if (!isArrayEmpty($compare)) {
                 if (array_key_exists($id, $compare)) {
                     $checked = 'checked="checked"';
                 }
