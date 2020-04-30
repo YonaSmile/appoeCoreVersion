@@ -177,7 +177,7 @@ class Users
 
     public function createTable()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `appoe_users` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `'.TABLEPREFIX.'appoe_users` (
   					`id` INT(11) NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
                 	`login` VARCHAR(70) NOT NULL,
@@ -209,7 +209,7 @@ class Users
      */
     public function authUser()
     {
-        $sql = 'SELECT * FROM appoe_users WHERE BINARY login = :login AND statut = TRUE';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_users WHERE BINARY login = :login AND statut = TRUE';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':login', $this->login);
         $stmt->execute();
@@ -243,7 +243,7 @@ class Users
      */
     public function show()
     {
-        $sql = 'SELECT * FROM appoe_users WHERE id = :id';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_users WHERE id = :id';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
         $stmt->execute();
@@ -272,7 +272,7 @@ class Users
     {
 
         $sqlStatus = $minStatus ? ' statut >= :statut ' : ' statut = :statut ';
-        $sql = 'SELECT * FROM appoe_users WHERE ' . $sqlStatus . ' ORDER BY statut DESC, created_at ASC';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_users WHERE ' . $sqlStatus . ' ORDER BY statut DESC, created_at ASC';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':statut', $this->statut);
@@ -298,7 +298,7 @@ class Users
     public function save()
     {
         $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO appoe_users (login, email, password, role,  nom, prenom, options, created_at) 
+        $sql = 'INSERT INTO '.TABLEPREFIX.'appoe_users (login, email, password, role,  nom, prenom, options, created_at) 
                     VALUES (:login, :email, :password, :role, :nom, :prenom, :options, CURDATE())';
 
         $stmt = $this->dbh->prepare($sql);
@@ -326,7 +326,7 @@ class Users
 
     public function update()
     {
-        $sql = 'UPDATE appoe_users 
+        $sql = 'UPDATE '.TABLEPREFIX.'appoe_users 
         SET login = :login, email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut 
         WHERE id = :id';
 
@@ -356,7 +356,7 @@ class Users
      */
     public function exist($login = false)
     {
-        $sql = 'SELECT login FROM appoe_users WHERE BINARY login = :login';
+        $sql = 'SELECT login FROM '.TABLEPREFIX.'appoe_users WHERE BINARY login = :login';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':login', $this->login);
         $stmt->execute();
@@ -388,7 +388,7 @@ class Users
     public function updatePassword()
     {
         $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = 'UPDATE appoe_users SET password = :password WHERE BINARY login = :login';
+        $sql = 'UPDATE '.TABLEPREFIX.'appoe_users SET password = :password WHERE BINARY login = :login';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':password', $hash_password);
         $stmt->bindParam(':login', $this->login);

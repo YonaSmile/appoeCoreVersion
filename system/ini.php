@@ -100,12 +100,12 @@ setlocale( LC_ALL, strtolower( LANG ) . '_' . strtoupper( LANG ) . '.UTF-8' );
 define( 'NUM_OF_ATTEMPTS', 30 );
 
 const APP_TABLES = array(
-	'appoe_users',
-	'appoe_menu',
-	'appoe_files',
-	'appoe_filesContent',
-	'appoe_categories',
-	'appoe_categoryRelations'
+	TABLEPREFIX.'appoe_users',
+	TABLEPREFIX.'appoe_menu',
+	TABLEPREFIX.'appoe_files',
+	TABLEPREFIX.'appoe_filesContent',
+	TABLEPREFIX.'appoe_categories',
+	TABLEPREFIX.'appoe_categoryRelations'
 );
 
 const CATEGORY_TYPES = array(

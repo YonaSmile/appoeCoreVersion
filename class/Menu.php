@@ -154,7 +154,7 @@ class Menu
 
     public function createTable()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `appoe_menu` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `'.TABLEPREFIX.'appoe_menu` (
   					`id` INT(11) NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
                 	`slug` VARCHAR(40) NOT NULL,
@@ -167,7 +167,7 @@ class Menu
   					`pluginName` VARCHAR(200) DEFAULT NULL,
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=30;
-				    INSERT INTO `appoe_menu` (`id`, `slug`, `name`, `min_role_id`, `statut`, `parent_id`, `order_menu`, `pluginName`, `updated_at`) VALUES
+				    INSERT INTO `'.TABLEPREFIX.'appoe_menu` (`id`, `slug`, `name`, `min_role_id`, `statut`, `parent_id`, `order_menu`, `pluginName`, `updated_at`) VALUES
                     (11, "index", "Tableau de bord", 1, 1, 10, 1, NULL, "2018-01-05 11:28:14"),
                     (12, "users", "Utilisateurs", 1, 1, 10, 19, NULL, "2018-01-04 08:31:39"),
                     (13, "setting", "Réglages", 11, 0, 10, 13, NULL, "2018-01-04 09:04:00"),
@@ -194,10 +194,10 @@ class Menu
     {
 
         if (empty($id)) {
-            $sql = 'SELECT * FROM appoe_menu ORDER BY order_menu ASC, parent_id ASC';
+            $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_menu ORDER BY order_menu ASC, parent_id ASC';
             $stmt = $this->dbh->prepare($sql);
         } else {
-            $sql = 'SELECT * FROM appoe_menu WHERE id = :id';
+            $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_menu WHERE id = :id';
             $stmt = $this->dbh->prepare($sql);
             $stmt->bindParam(':id', $id);
         }
@@ -225,12 +225,12 @@ class Menu
         if (is_numeric($role)) {
 
             if (!empty($id)) {
-                $sql = 'SELECT * FROM appoe_menu WHERE min_role_id <= :role AND statut = 1 AND parent_id = :id ORDER BY order_menu ASC';
+                $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_menu WHERE min_role_id <= :role AND statut = 1 AND parent_id = :id ORDER BY order_menu ASC';
                 $stmt = $this->dbh->prepare($sql);
                 $stmt->bindParam(':id', $id);
 
             } else {
-                $sql = 'SELECT * FROM appoe_menu WHERE min_role_id <= :role AND statut = 1 ORDER BY order_menu ASC';
+                $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_menu WHERE min_role_id <= :role AND statut = 1 ORDER BY order_menu ASC';
                 $stmt = $this->dbh->prepare($sql);
             }
             $stmt->bindParam(':role', $role);
@@ -255,7 +255,7 @@ class Menu
     public function displayMenuBySlug($slug)
     {
 
-        $sql = 'SELECT * FROM appoe_menu WHERE slug = :slug';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_menu WHERE slug = :slug';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':slug', $slug);
 
@@ -275,7 +275,7 @@ class Menu
             $this->orderMenu = $this->ordonnerMenu();
         }
 
-        $sql = 'INSERT INTO appoe_menu (id, slug, name, min_role_id, statut, parent_id, order_menu, pluginName) 
+        $sql = 'INSERT INTO '.TABLEPREFIX.'appoe_menu (id, slug, name, min_role_id, statut, parent_id, order_menu, pluginName) 
         VALUES (:id, :slug, :name, :min_role_id, :statut, :parent_id, :order_menu, :pluginName)';
 
         $stmt = $this->dbh->prepare($sql);
@@ -304,7 +304,7 @@ class Menu
     public function updateMenu()
     {
 
-        $sql = 'UPDATE appoe_menu 
+        $sql = 'UPDATE '.TABLEPREFIX.'appoe_menu 
         SET name = :name, slug = :slug, min_role_id = :min_role_id, statut = :statut, parent_id = :parent_id, order_menu = :order_menu, pluginName = :pluginName 
         WHERE id = :id';
 
@@ -334,7 +334,7 @@ class Menu
 
     public function deleteMenu($id)
     {
-        $sql = 'DELETE FROM appoe_menu WHERE id = :id';
+        $sql = 'DELETE FROM '.TABLEPREFIX.'appoe_menu WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $id);
@@ -352,7 +352,7 @@ class Menu
     public function deletePluginMenu($pluginName)
     {
 
-        $sql = 'DELETE FROM appoe_menu WHERE pluginName = :pluginName';
+        $sql = 'DELETE FROM '.TABLEPREFIX.'appoe_menu WHERE pluginName = :pluginName';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':pluginName', $pluginName);
@@ -371,7 +371,7 @@ class Menu
 
     public function checkUserPermission($user_session_role, $slug)
     {
-        $sql = 'SELECT slug, min_role_id FROM appoe_menu WHERE slug = :slug';
+        $sql = 'SELECT slug, min_role_id FROM '.TABLEPREFIX.'appoe_menu WHERE slug = :slug';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':slug', $slug);
         $stmt->execute();
@@ -394,7 +394,7 @@ class Menu
     public function ordonnerMenu()
     {
         $num = 3;
-        $sql = 'SELECT order_menu FROM appoe_menu WHERE parent_id = 10 ORDER BY order_menu ASC';
+        $sql = 'SELECT order_menu FROM '.TABLEPREFIX.'appoe_menu WHERE parent_id = 10 ORDER BY order_menu ASC';
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         $error = $stmt->errorInfo();

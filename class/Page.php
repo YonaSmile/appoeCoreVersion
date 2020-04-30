@@ -127,7 +127,7 @@ class Page
      */
     public function getPageInfo()
     {
-        $sql = 'SELECT * FROM appoe_menu WHERE slug = :slug';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_menu WHERE slug = :slug';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':slug', $this->slug);
         $stmt->execute();

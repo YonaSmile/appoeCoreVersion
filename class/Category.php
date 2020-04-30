@@ -33,7 +33,7 @@ class Category
     public function show()
     {
 
-        $sql = 'SELECT * FROM appoe_categories WHERE id = :id';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_categories WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
@@ -165,7 +165,7 @@ class Category
 
     public function createTable()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `appoe_categories` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `'.TABLEPREFIX.'appoe_categories` (
   					`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
                     `type` VARCHAR(150) NOT NULL,
@@ -202,7 +202,7 @@ class Category
             $sqlAdd .= ' parentId = :parentId AND ';
         }
 
-        $sql = 'SELECT * FROM appoe_categories WHERE ' . $sqlAdd . ' type = :type AND status = 1 ORDER BY position ASC, parentId ASC';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_categories WHERE ' . $sqlAdd . ' type = :type AND status = 1 ORDER BY position ASC, parentId ASC';
         $return = DB::exec($sql, $params);
 
         if ($return) {
@@ -218,7 +218,7 @@ class Category
     public function showAll($categoriesCount = false)
     {
 
-        $sql = 'SELECT * FROM appoe_categories WHERE status = 1 ORDER BY name ASC';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_categories WHERE status = 1 ORDER BY name ASC';
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
 
@@ -239,7 +239,7 @@ class Category
      */
     public function save()
     {
-        $sql = 'INSERT INTO appoe_categories (type, name, parentId, position) VALUES(:type, :name, :parentId, :position)';
+        $sql = 'INSERT INTO '.TABLEPREFIX.'appoe_categories (type, name, parentId, position) VALUES(:type, :name, :parentId, :position)';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':name', $this->name);
@@ -264,7 +264,7 @@ class Category
     public function notExist($forUpdate = false)
     {
 
-        $sql = 'SELECT * FROM appoe_categories WHERE name = :name AND type = :type AND parentId = :parentId';
+        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_categories WHERE name = :name AND type = :type AND parentId = :parentId';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':type', $this->type);
@@ -310,7 +310,7 @@ class Category
      */
     public function update()
     {
-        $sql = 'UPDATE appoe_categories SET name = :name, parentId = :parentId, position = :position, status = :status WHERE id = :id';
+        $sql = 'UPDATE '.TABLEPREFIX.'appoe_categories SET name = :name, parentId = :parentId, position = :position, status = :status WHERE id = :id';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':parentId', $this->parentId);

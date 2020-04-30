@@ -19,19 +19,19 @@ $allLibraryParent = extractFromObjToSimpleArr($allCategory, 'id', 'parentId');
 $libraryParent = array();
 foreach ($allLibraryParent as $id => $parentId) {
 
-	if ($parentId == 10) {
-		$libraryParent[$id] = array('id' => $id, 'name' => $allLibrary[$id]);
+    if ($parentId == 10) {
+        $libraryParent[$id] = array('id' => $id, 'name' => $allLibrary[$id]);
 
-	} else {
+    } else {
 
-		if ($allLibraryParent[$parentId] == 10) {
-			$libraryParent[$id] = array('id' => $allLibraryParent[$id], 'name' => $allLibrary[$parentId]);
+        if ($allLibraryParent[$parentId] == 10) {
+            $libraryParent[$id] = array('id' => $allLibraryParent[$id], 'name' => $allLibrary[$parentId]);
 
-		} else {
-			$libraryParent[$id] = array('id' => $allLibraryParent[$parentId], 'name' => $allLibrary[$allLibraryParent[$parentId]]);
+        } else {
+            $libraryParent[$id] = array('id' => $allLibraryParent[$parentId], 'name' => $allLibrary[$allLibraryParent[$parentId]]);
 
-		}
-	}
+        }
+    }
 }
 
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
@@ -56,15 +56,15 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         <div class="tab-content border border-top-0 bg-white py-3" id="nav-mediaTabContent">
             <div class="tab-pane fade show active" id="nav-allLibraries" role="tabpanel"
                  aria-labelledby="nav-home-tab">
-				<?php if ($allLibrary): ?>
+                <?php if ($allLibrary): ?>
                     <div class="container-fluid">
                         <div id="shortAccessBtns" class="mb-4 text-right">
                             <button type="button" class="btn btn-sm btn-secondary"
                                     data-library-parent-id="all"><?= trans('Tous'); ?></button>
                         </div>
-						<?php foreach ($allLibrary as $id => $name):
-							$Media->setTypeId($id);
-							$allFiles = $Media->showFiles(); ?>
+                        <?php foreach ($allLibrary as $id => $name):
+                            $Media->setTypeId($id);
+                            $allFiles = $Media->showFiles(); ?>
                             <div class="mediaContainer"
                                  data-library-parent-id="<?= $libraryParent[$id]['id']; ?>"
                                  data-library-id="<?= $id; ?>">
@@ -73,54 +73,54 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     data-library-parent-name="<?= $libraryParent[$id]['name']; ?>"><?= $name; ?></h5>
                                 <hr class="my-3 mx-5">
                                 <div class="card-columns" style="column-count: 5;">
-									<?php if ($allFiles):
-										foreach ($allFiles as $file): ?>
+                                    <?php if ($allFiles):
+                                        foreach ($allFiles as $file): ?>
                                             <div class="card view border-0 bg-none"
                                                  data-file-id="<?= $file->id; ?>">
-												<?php if (isImage(FILE_DIR_PATH . $file->name)):
-													$fileSize = getimagesize(FILE_DIR_PATH . $file->name); ?>
+                                                <?php if (isImage(FILE_DIR_PATH . $file->name)):
+                                                    $fileSize = getimagesize(FILE_DIR_PATH . $file->name); ?>
                                                     <img src="<?= getThumb($file->name, 370); ?>"
                                                          class="img-fluid">
-												<?php else:
-													$fileSize = true; ?>
+                                                <?php else:
+                                                    $fileSize = true; ?>
                                                     <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>"
                                                          class="img-fluid">
-												<?php endif; ?>
+                                                <?php endif; ?>
                                                 <a href="#" class="info getMediaDetails mask"
                                                    data-file-id="<?= $file->id; ?>">
-													<?php if ($fileSize || (is_array($fileSize) && $fileSize[1] > 150)): ?>
+                                                    <?php if ($fileSize || (is_array($fileSize) && $fileSize[1] > 150)): ?>
                                                         <h2><?= $file->title; ?></h2>
                                                         <p><?= nl2br($file->description); ?></p>
-													<?php endif; ?>
+                                                    <?php endif; ?>
                                                 </a>
                                             </div>
-										<?php endforeach;
-									endif; ?>
+                                        <?php endforeach;
+                                    endif; ?>
                                 </div>
                                 <div class="my-3"></div>
                             </div>
-						<?php endforeach; ?>
+                        <?php endforeach; ?>
                     </div>
-				<?php endif; ?>
+                <?php endif; ?>
             </div>
             <div class="tab-pane fade" id="nav-newFiles" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div class="container-fluid">
                     <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
-						<?= getTokenField(); ?>
+                        <?= getTokenField(); ?>
                         <div class="col-12 col-lg-6 my-2">
-							<?= \App\Form::file('Importer depuis votre appareil', 'inputFile[]', false, 'multiple', '', 'Choisissez...', false); ?>
+                            <?= \App\Form::file('Importer depuis votre appareil', 'inputFile[]', false, 'multiple', '', 'Choisissez...', false); ?>
                         </div>
                         <div class="col-12 col-lg-3 my-2">
                                 <textarea name="textareaSelectedFile" id="textareaSelectedFile"
                                           class="d-none"></textarea>
-							<?= \App\Form::text('Choisissez dans la bibliothèque', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-toggle="modal" data-target="#allMediasModal"'); ?>
+                            <?= \App\Form::text('Choisissez dans la bibliothèque', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-toggle="modal" data-target="#allMediasModal"'); ?>
                         </div>
                         <div class="col-12 col-lg-3 my-2">
-							<?= \App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
+                            <?= \App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
                         </div>
                         <div class="col-12">
-							<?= \App\Form::target('ADDIMAGES'); ?>
-							<?= \App\Form::submit('Enregistrer', 'addImageSubmit'); ?>
+                            <?= \App\Form::target('ADDIMAGES'); ?>
+                            <?= \App\Form::submit('Enregistrer', 'addImageSubmit'); ?>
                         </div>
                     </form>
                 </div>
@@ -141,7 +141,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <div class="modal-body" id="allMediaModalContainer"></div>
                     <div class="modal-footer">
                         <button type="button" id="closeAllMediaModalBtn" class="btn btn-secondary" data-dismiss="modal">
-							<?= trans('Fermer et annuler la sélection'); ?></button>
+                            <?= trans('Fermer et annuler la sélection'); ?></button>
                         <button type="button" id="saveMediaModalBtn" class="btn btn-info" data-dismiss="modal">
                             0 <?= trans('médias'); ?></button>
                     </div>
