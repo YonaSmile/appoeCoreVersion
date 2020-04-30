@@ -1220,7 +1220,10 @@ function checkMaintenance()
 
 			//IPV6
 			if(false !== strpos($ip, ':')) {
-				$ip = implode(':', explode(':', $ip, -4));
+				$ipv6 = implode(':', explode(':', $ip, -4));
+				if(in_array($ipv6, IP_ALLOWED)){
+					return false;
+				}
 			}
 
 			if(in_array($ip, IP_ALLOWED)){
