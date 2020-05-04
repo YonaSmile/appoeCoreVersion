@@ -74,3 +74,4 @@ echo getTitle( getAppPageName(), getAppPageSlug() ); ?>
     </div>
 </div>
 <script type="text/javascript" src="/app/lib/template/js/preferences.js"></script>
+<?php require( 'footer.php' ); ?>
