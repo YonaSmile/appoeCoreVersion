@@ -4,20 +4,19 @@ namespace App;
 
 class Cache {
 
-	public $dirname = CACHE_PATH;
+	public $dirname = CACHE_PATH . LANG . DIRECTORY_SEPARATOR;
 	public $filename;
 	public $file;
-	public $duration; // In minutes
+	public $duration = CACHE_DURATION; // In minutes
 
 	private $buffer = true;
 
-	public function __construct( $filename, $duration ) {
+	public function __construct( $filename ) {
 
 		$this->filename = $filename;
-		$this->duration = $duration;
 
 		if ( ! is_dir( $this->dirname ) ) {
-			mkdir( $this->dirname );
+			mkdir( $this->dirname, 0755, true );
 		}
 
 		$this->file = $this->dirname . $this->filename;
