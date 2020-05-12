@@ -4,10 +4,6 @@
  */
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ini.main.php' );
 
-if ( ! defined( 'TABLEPREFIX' ) ) {
-	define( 'TABLEPREFIX', '' );
-}
-
 /**
  * Charset
  */
@@ -99,13 +95,23 @@ setlocale( LC_ALL, strtolower( LANG ) . '_' . strtoupper( LANG ) . '.UTF-8' );
  */
 define( 'NUM_OF_ATTEMPTS', 30 );
 
+//Table prefix
+if ( ! defined( 'TABLEPREFIX' ) ) {
+	define( 'TABLEPREFIX', '' );
+}
+
+//Acces restriction to APPOE with a min role id
+if ( ! defined( 'APPOE_MIN_ROLE' ) ) {
+	define( 'APPOE_MIN_ROLE', 1 );
+}
+
 const APP_TABLES = array(
-	TABLEPREFIX.'appoe_users',
-	TABLEPREFIX.'appoe_menu',
-	TABLEPREFIX.'appoe_files',
-	TABLEPREFIX.'appoe_filesContent',
-	TABLEPREFIX.'appoe_categories',
-	TABLEPREFIX.'appoe_categoryRelations'
+	TABLEPREFIX . 'appoe_users',
+	TABLEPREFIX . 'appoe_menu',
+	TABLEPREFIX . 'appoe_files',
+	TABLEPREFIX . 'appoe_filesContent',
+	TABLEPREFIX . 'appoe_categories',
+	TABLEPREFIX . 'appoe_categoryRelations'
 );
 
 const CATEGORY_TYPES = array(
