@@ -9,17 +9,38 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/ini.main.php' );
  */
 ini_set( 'default_charset', 'UTF-8' );
 
+//Table prefix
+if ( ! defined( 'TABLEPREFIX' ) ) {
+	define( 'TABLEPREFIX', '' );
+}
+
+//Debug APPOE
+if ( ! defined( 'DEBUG' ) ) {
+	define( 'DEBUG', false );
+}
+
+//Default cache duration in minutes
+if ( ! defined( 'CACHE_DURATION' ) ) {
+	define( 'CACHE_DURATION', 60 * 24 );
+}
+
+//Acces restriction to APPOE with a min role id
+if ( ! defined( 'APPOE_MIN_ROLE' ) ) {
+	define( 'APPOE_MIN_ROLE', 1 );
+}
+
 /**
  * App paths
  */
 define( 'FILE_DIR_NAME', 'include/' );
 define( 'APP_ROOT', WEB_DIR . 'app/' );
+define( 'CACHE_PATH', ROOT_PATH . 'tmp/' );
 define( 'WEB_APP_PATH', ROOT_PATH . 'app/' );
 define( 'WEB_PUBLIC_PATH', ROOT_PATH . 'public/' );
 define( 'WEB_PATH', WEB_PUBLIC_PATH . 'html/' );
 define( 'WEB_LIB_PATH', WEB_APP_PATH . 'lib/' );
+define( 'WEB_PHPMAILER_PATH', WEB_LIB_PATH . 'php/PHPMailer/' );
 define( 'WEB_TEMPLATE_PATH', WEB_LIB_PATH . 'template/' );
-define( 'APP_IMG_PATH', WEB_TEMPLATE_PATH . 'images/' );
 define( 'WEB_AJAX_PATH', WEB_APP_PATH . 'ajax/' );
 define( 'WEB_PLUGIN_PATH', WEB_APP_PATH . 'plugin/' );
 define( 'WEB_PROCESS_PATH', WEB_APP_PATH . 'process/' );
@@ -50,7 +71,7 @@ define( 'WEB_DIR_MAIL', WEB_DIR_URL . '/ressources/mail/' );
  * Errors config
  */
 error_reporting( E_ALL );
-ini_set( 'display_errors', MAINTENANCE ? 1 : 0 );
+ini_set( 'display_errors', defined( 'DEBUG' ) && DEBUG ? 1 : 0 );
 ini_set( 'log_errors', 1 );
 ini_set( 'error_log', ROOT_PATH . 'error.log' );
 
@@ -96,13 +117,12 @@ setlocale( LC_ALL, strtolower( LANG ) . '_' . strtoupper( LANG ) . '.UTF-8' );
 define( 'NUM_OF_ATTEMPTS', 30 );
 
 const APP_TABLES = array(
-	'appoe_users',
-	'appoe_menu',
-	'appoe_files',
-	'appoe_filesContent',
-	'appoe_categories',
-	'appoe_categoryRelations',
-	'appoe_logging'
+	TABLEPREFIX . 'appoe_users',
+	TABLEPREFIX . 'appoe_menu',
+	TABLEPREFIX . 'appoe_files',
+	TABLEPREFIX . 'appoe_filesContent',
+	TABLEPREFIX . 'appoe_categories',
+	TABLEPREFIX . 'appoe_categoryRelations'
 );
 
 const CATEGORY_TYPES = array(
