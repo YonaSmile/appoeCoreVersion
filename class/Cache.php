@@ -9,7 +9,7 @@ class Cache {
 	public $file;
 	public $duration = CACHE_DURATION; // In minutes
 
-	private $buffer = true;
+	private $buffer = false;
 
 	public function __construct( $filename ) {
 
@@ -57,17 +57,15 @@ class Cache {
 
 		$AppConfig = new AppConfig();
 		if ( 'true' === $AppConfig->get( 'options', 'maintenance' ) ) {
-			$this->buffer = false;
-
 			return false;
 		}
 
 		if ( $content = $this->read() ) {
 			echo $content;
-			$this->buffer = false;
 
 			return true;
 		}
+		$this->buffer = true;
 		ob_start();
 
 		return false;

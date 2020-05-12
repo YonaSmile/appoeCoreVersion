@@ -284,6 +284,28 @@ function clearCache() {
 }
 
 /**
+ * delete cache file
+ *
+ * @param $lang
+ * @param $file
+ *
+ * @return bool
+ */
+function clearPageCache( $lang, $file ) {
+
+	if ( is_dir( CACHE_PATH . $lang ) ) {
+
+		if ( file_exists( CACHE_PATH . $lang . DIRECTORY_SEPARATOR . $file ) ) {
+			unlink( CACHE_PATH . $lang . DIRECTORY_SEPARATOR . $file );
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Show Maintenance Header
  *
  * @param String $text
