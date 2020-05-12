@@ -97,17 +97,4 @@ class Cache {
 			unlink( $this->file );
 		}
 	}
-
-	/**
-	 * delete all cache files
-	 */
-	public function clear() {
-
-		if ( is_dir( $this->dirname ) ) {
-			$files = glob( $this->dirname . '*' );
-			foreach ( $files as $file ) {
-				unlink( $file );
-			}
-		}
-	}
 }

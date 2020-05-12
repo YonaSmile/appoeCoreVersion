@@ -264,6 +264,26 @@ function activePage( $url, $classNameAdded = 'active' ) {
 }
 
 /**
+ * delete all cache in lang folders
+ */
+function clearCache() {
+
+	if ( is_dir( CACHE_PATH ) ) {
+		foreach ( getLangs() as $lang => $language ) {
+			if ( is_dir( CACHE_PATH . $lang ) ) {
+				foreach ( glob( CACHE_PATH . $lang . '/*' ) as $file ) {
+					unlink( $file );
+				}
+			}
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Show Maintenance Header
  *
  * @param String $text
