@@ -56,7 +56,7 @@ class Cache {
 	public function start() {
 
 		$AppConfig = new AppConfig();
-		if ( 'true' === $AppConfig->get( 'options', 'maintenance' ) ) {
+		if ( 'false' === $AppConfig->get( 'options', 'cacheProcess' ) || 'true' === $AppConfig->get( 'options', 'maintenance' ) ) {
 			return false;
 		}
 
