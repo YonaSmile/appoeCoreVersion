@@ -2044,6 +2044,29 @@ function getSessionNotifications() {
 }
 
 /**
+ * Include or Require file safely
+ *
+ * @param $filePath
+ * @param bool $requireMethod
+ *
+ * @return bool
+ */
+function inc( $filePath, $requireMethod = false ) {
+	if ( file_exists( $filePath ) ) {
+		if ( ! $requireMethod ) {
+			include( $filePath );
+
+			return true;
+		}
+		require_once( $filePath );
+
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * @param $assetName
  * @param bool $getStream
  * @param null $params
