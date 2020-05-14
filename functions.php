@@ -2044,21 +2044,24 @@ function getSessionNotifications() {
 }
 
 /**
- * Include or Require file safely
+ * Include or Require file, once or more and safely
  *
  * @param $filePath
  * @param bool $requireMethod
  *
+ * @param bool $once
+ *
  * @return bool
  */
-function inc( $filePath, $requireMethod = false ) {
+function inc( $filePath, $requireMethod = false, $once = false ) {
 	if ( file_exists( $filePath ) ) {
 		if ( ! $requireMethod ) {
-			include( $filePath );
+			! $once ? include( $filePath ) : include_once( $filePath );
 
 			return true;
 		}
-		require_once( $filePath );
+
+		! $once ? require( $filePath ) : require_once( $filePath );
 
 		return true;
 	}
