@@ -484,10 +484,8 @@ function getTitle( $name = '', $slug = '', $appendName = '', $appendHtml = '' ) 
  *
  * @return string
  */
-function getAppoeCredit( $color = "#ccc" ) {
-	$html = 'Propulsé par <a target="_blank" style="color:' . $color . '" href="http://aoe-communication.com/" title="APPOE">APPOE</a>';
-
-	return $html;
+function getAppoeCredit( $color = "" ) {
+	return 'Propulsé par <a target="_blank" ' . ( ! empty( $color ) ? 'style="color:' . $color . '"' : '' ) . ' href="http://aoe-communication.com/" title="APPOE">APPOE</a>';
 }
 
 /**
