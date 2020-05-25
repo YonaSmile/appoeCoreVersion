@@ -4115,15 +4115,17 @@ function getOnlyImages( $imageArray ) {
 
 /**
  * @param stdClass $media
- * @param $class
- * @param $attr
+ * @param string $class
+ * @param string $attr
+ * @param bool $thumbSize
  *
  * @return string
  */
-function showImage( stdClass $media, $class = '', $attr = '' ) {
+function showImage( stdClass $media, $class = '', $attr = '', $thumbSize = false ) {
 	if ( property_exists( $media, 'name' ) && property_exists( $media, 'title' ) ) {
-		return '<img src="' . WEB_DIR_INCLUDE . $media->name . '" 
-                alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
+		$src = ! $thumbSize ? WEB_DIR_INCLUDE . $media->name : getThumb( $media->name, $thumbSize );
+
+		return '<img src="' . $src . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
 	}
 
 	return '';
