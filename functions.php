@@ -4123,12 +4123,25 @@ function getOnlyImages( $imageArray ) {
  */
 function showImage( stdClass $media, $class = '', $attr = '', $thumbSize = false ) {
 	if ( property_exists( $media, 'name' ) && property_exists( $media, 'title' ) ) {
-		$src = ! $thumbSize ? WEB_DIR_INCLUDE . $media->name : getThumb( $media->name, $thumbSize );
 
-		return '<img src="' . $src . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
+		return '<img src="' . imgUrl( $media, $thumbSize ) . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
 	}
 
 	return '';
+}
+
+/**
+ * @param stdClass $media
+ * @param bool $thumbSize
+ *
+ * @return string|null
+ */
+function imgUrl( stdClass $media, $thumbSize = false ) {
+	if ( property_exists( $media, 'name' ) ) {
+		return ! $thumbSize ? WEB_DIR_INCLUDE . $media->name : getThumb( $media->name, $thumbSize );
+	}
+
+	return null;
 }
 
 /**
