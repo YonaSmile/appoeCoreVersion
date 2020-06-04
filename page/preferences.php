@@ -47,11 +47,11 @@ echo getTitle( getAppPageName(), getAppPageSlug() ); ?>
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-12">
+                        <strong class="text-secondary"><?= trans('Préconfiguré dans'); ?> ini.main</strong>
+                    </div>
                     <?php if ( defined( 'IP_ALLOWED' ) && ! isArrayEmpty( IP_ALLOWED ) ):
                         foreach ( IP_ALLOWED as $ip ): ?>
-                            <div class="col-12">
-                                <strong class="text-secondary"><?= trans('Préconfiguré dans'); ?> ini.main</strong>
-                            </div>
                             <div class="col-12 text-info">
                                 <small class="text-secondary">
                                     <em><?= ( false !== strpos( $ip, ':' ) ) ? 'IPV6' : 'IPV4'; ?></em>
