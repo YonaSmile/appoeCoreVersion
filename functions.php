@@ -1222,6 +1222,11 @@ function checkMaintenance() {
 		//Check IP permission
 		$ip = getIP();
 
+		//Check Ip from db
+        if ( in_array( $ip, $AppConfig->get( 'accessPermissions' ) ) ) {
+            return false;
+        }
+
 		//Check Ip from ini.main
 		if ( defined( 'IP_ALLOWED' ) ) {
 
@@ -1236,10 +1241,6 @@ function checkMaintenance() {
 			if ( in_array( $ip, IP_ALLOWED ) ) {
 				return false;
 			}
-		}
-
-		if ( in_array( $ip, $AppConfig->get( 'accessPermissions' ) ) ) {
-			return false;
 		}
 
 		return true;
