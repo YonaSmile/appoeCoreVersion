@@ -17,209 +17,234 @@ require_once WEB_PHPMAILER_PATH . 'SMTP.php';
 /**
  * @return string
  */
-function pageSlug() {
-	return str_replace( '/', '', parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) );
+function pageSlug()
+{
+    return str_replace('/', '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 }
 
 /**
  * @param $id
  */
-function setPageId( $id ) {
-	checkSession();
-	$_SESSION['currentPageID'] = $id;
+function setPageId($id)
+{
+    checkSession();
+    $_SESSION['currentPageID'] = $id;
 }
 
 /**
  * @param $type
  */
-function setPageType( $type ) {
-	checkSession();
-	$_SESSION['currentPageType'] = $type;
+function setPageType($type)
+{
+    checkSession();
+    $_SESSION['currentPageType'] = $type;
 }
 
 /**
  * @param $name
  */
-function setPageName( $name ) {
-	checkSession();
-	$_SESSION['currentPageName'] = shortenText( $name, 70 );
+function setPageName($name)
+{
+    checkSession();
+    $_SESSION['currentPageName'] = shortenText($name, 70);
 }
 
 /**
  * @param $menuName
  */
-function setPageMenuName( $menuName ) {
-	checkSession();
-	$_SESSION['currentPageMenuName'] = $menuName;
+function setPageMenuName($menuName)
+{
+    checkSession();
+    $_SESSION['currentPageMenuName'] = $menuName;
 }
 
 /**
  * @param $description
  */
-function setPageDescription( $description ) {
-	checkSession();
-	$_SESSION['currentPageDescription'] = shortenText( $description, 170 );
+function setPageDescription($description)
+{
+    checkSession();
+    $_SESSION['currentPageDescription'] = shortenText($description, 170);
 }
 
 /**
  * @param $imageUrl
  */
-function setPageImage( $imageUrl ) {
-	checkSession();
-	$_SESSION['currentPageImage'] = $imageUrl;
+function setPageImage($imageUrl)
+{
+    checkSession();
+    $_SESSION['currentPageImage'] = $imageUrl;
 }
 
 /**
  * @param $slug
  */
-function setPageSlug( $slug ) {
-	checkSession();
-	$_SESSION['currentPageSlug'] = $slug;
+function setPageSlug($slug)
+{
+    checkSession();
+    $_SESSION['currentPageSlug'] = $slug;
 }
 
 /**
  * @param $filename
  */
-function setPageFilename( $filename ) {
-	checkSession();
-	$_SESSION['currentPageFilename'] = $filename;
+function setPageFilename($filename)
+{
+    checkSession();
+    $_SESSION['currentPageFilename'] = $filename;
 }
 
 /**
  * @param \App\Plugin\ItemGlue\Article $Article
  */
-function setArticle( \App\Plugin\ItemGlue\Article $Article ) {
-	checkSession();
-	$_SESSION['currentArticle'] = base64_encode( serialize( $Article ) );
+function setArticle(\App\Plugin\ItemGlue\Article $Article)
+{
+    checkSession();
+    $_SESSION['currentArticle'] = base64_encode(serialize($Article));
 }
 
 /**
  * @return mixed|string
  */
-function getPageId() {
-	return ! empty( $_SESSION['currentPageID'] ) ? $_SESSION['currentPageID'] : '';
+function getPageId()
+{
+    return !empty($_SESSION['currentPageID']) ? $_SESSION['currentPageID'] : '';
 }
 
 /**
  * @return mixed|string
  */
-function getPageType() {
-	return ! empty( $_SESSION['currentPageType'] ) ? $_SESSION['currentPageType'] : '';
+function getPageType()
+{
+    return !empty($_SESSION['currentPageType']) ? $_SESSION['currentPageType'] : '';
 }
 
 /**
  * @return mixed|string
  */
-function getPageName() {
-	return ! empty( $_SESSION['currentPageName'] ) ? $_SESSION['currentPageName'] : '';
+function getPageName()
+{
+    return !empty($_SESSION['currentPageName']) ? $_SESSION['currentPageName'] : '';
 }
 
 /**
  * @return mixed|string
  */
-function getPageMenuName() {
-	return ! empty( $_SESSION['currentPageMenuName'] ) ? $_SESSION['currentPageMenuName'] : '';
+function getPageMenuName()
+{
+    return !empty($_SESSION['currentPageMenuName']) ? $_SESSION['currentPageMenuName'] : '';
 }
 
 /**
  * @return mixed|string
  */
-function getPageDescription() {
-	return ! empty( $_SESSION['currentPageDescription'] ) ? $_SESSION['currentPageDescription'] : '';
+function getPageDescription()
+{
+    return !empty($_SESSION['currentPageDescription']) ? $_SESSION['currentPageDescription'] : '';
 }
 
 /**
  * @return mixed|string
  */
-function getPageImage() {
-	return ! empty( $_SESSION['currentPageImage'] ) ? $_SESSION['currentPageImage'] : '';
+function getPageImage()
+{
+    return !empty($_SESSION['currentPageImage']) ? $_SESSION['currentPageImage'] : '';
 }
 
 /**
  * @return mixed|string
  */
-function getPageSlug() {
-	return ! empty( $_SESSION['currentPageSlug'] ) ? $_SESSION['currentPageSlug'] : '';
+function getPageSlug()
+{
+    return !empty($_SESSION['currentPageSlug']) ? $_SESSION['currentPageSlug'] : '';
 }
 
 /**
  * @return mixed|string
  */
-function getPageFilename() {
-	return ! empty( $_SESSION['currentPageFilename'] ) ? $_SESSION['currentPageFilename'] : '';
+function getPageFilename()
+{
+    return !empty($_SESSION['currentPageFilename']) ? $_SESSION['currentPageFilename'] : '';
 }
 
 /**
  * @return bool|mixed
  */
-function getArticle() {
-	return ! empty( $_SESSION['currentArticle'] ) ? unserialize( base64_decode( $_SESSION['currentArticle'] ) ) : false;
+function getArticle()
+{
+    return !empty($_SESSION['currentArticle']) ? unserialize(base64_decode($_SESSION['currentArticle'])) : false;
 }
 
 /**
  * @return mixed|string
  */
-function getPageData() {
-	return array(
-		'id'   => getPageId(),
-		'type' => getPageType(),
-		'name' => getPageName(),
-		'slug' => getPageSlug()
-	);
+function getPageData()
+{
+    return array(
+        'id' => getPageId(),
+        'type' => getPageType(),
+        'name' => getPageName(),
+        'slug' => getPageSlug()
+    );
 }
 
 /**
  * @return mixed|string
  */
-function getMetaData() {
-	$header = '<meta name="publisher" content="Art Of Event - Communication" />';
+function getMetaData()
+{
+    $header = '<meta name="publisher" content="Art Of Event - Communication" />';
 
-	//Schema.org meta
-	$header .= '<meta itemprop="name" content="' . getPageName() . '" />';
-	$header .= '<meta itemprop="description" content="' . getPageDescription() . '" />';
-	$header .= '<meta itemprop="image" content="' . getPageImage() . '" />';
-	$header .= '<link rel="author" href="' . WEB_DIR_URL . '" />';
-	$header .= '<link rel="publisher" href="' . WEB_DIR_URL . '" />';
+    //Schema.org meta
+    $header .= '<meta itemprop="name" content="' . getPageName() . '" />';
+    $header .= '<meta itemprop="description" content="' . getPageDescription() . '" />';
+    $header .= '<meta itemprop="image" content="' . getPageImage() . '" />';
+    $header .= '<link rel="author" href="' . WEB_DIR_URL . '" />';
+    $header .= '<link rel="publisher" href="' . WEB_DIR_URL . '" />';
 
-	// Open Graph meta
-	$header .= '<meta property="og:title" content="' . getPageName() . '" />';
-	$header .= '<meta property="og:type" content="' . ( getPageType() === 'PAGE' ? 'website' : 'article' ) . '" />';
-	$header .= '<meta property="og:url" content="' . WEB_DIR_URL . ltrim( $_SERVER["REQUEST_URI"], '/' ) . '" />';
-	$header .= '<meta property="og:image" content="' . getPageImage() . '" />';
-	$header .= '<meta property="og:description" content="' . getPageDescription() . '" />';
-	$header .= '<meta property="og:site_name" content="' . WEB_TITLE . '" />';
+    // Open Graph meta
+    $header .= '<meta property="og:title" content="' . getPageName() . '" />';
+    $header .= '<meta property="og:type" content="' . (getPageType() === 'PAGE' ? 'website' : 'article') . '" />';
+    $header .= '<meta property="og:url" content="' . WEB_DIR_URL . ltrim($_SERVER["REQUEST_URI"], '/') . '" />';
+    $header .= '<meta property="og:image" content="' . getPageImage() . '" />';
+    $header .= '<meta property="og:description" content="' . getPageDescription() . '" />';
+    $header .= '<meta property="og:site_name" content="' . WEB_TITLE . '" />';
 
-	return $header;
+    return $header;
 }
 
 /**
  * @param $pageName
  */
-function setAppPageName( $pageName ) {
-	checkSession();
-	$_SESSION['currentAppPageName'] = $pageName;
+function setAppPageName($pageName)
+{
+    checkSession();
+    $_SESSION['currentAppPageName'] = $pageName;
 }
 
 /**
  * @param $pageSlug
  */
-function setAppPageSlug( $pageSlug ) {
-	checkSession();
-	$_SESSION['currentAppPageSlug'] = $pageSlug;
+function setAppPageSlug($pageSlug)
+{
+    checkSession();
+    $_SESSION['currentAppPageSlug'] = $pageSlug;
 }
 
 /**
  * @return mixed|string
  */
-function getAppPageName() {
-	return ! empty( $_SESSION['currentAppPageName'] ) ? $_SESSION['currentAppPageName'] : '';
+function getAppPageName()
+{
+    return !empty($_SESSION['currentAppPageName']) ? $_SESSION['currentAppPageName'] : '';
 }
 
 /**
  * @return mixed|string
  */
-function getAppPageSlug() {
-	return ! empty( $_SESSION['currentAppPageSlug'] ) ? $_SESSION['currentAppPageSlug'] : '';
+function getAppPageSlug()
+{
+    return !empty($_SESSION['currentAppPageSlug']) ? $_SESSION['currentAppPageSlug'] : '';
 }
 
 /**
@@ -227,14 +252,15 @@ function getAppPageSlug() {
  *
  * @return bool
  */
-function isUrlRoot( $url ) {
+function isUrlRoot($url)
+{
 
-	if ( $url == 'index' && ( false !== strpos( $_SERVER['REQUEST_URI'], 'home' )
-	                          || basename( $_SERVER["SCRIPT_FILENAME"] ) == 'index.php' ) ) {
-		return true;
-	}
+    if ($url == 'index' && (false !== strpos($_SERVER['REQUEST_URI'], 'home')
+            || basename($_SERVER["SCRIPT_FILENAME"]) == 'index.php')) {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -243,44 +269,46 @@ function isUrlRoot( $url ) {
  *
  * @return string
  */
-function activePage( $url, $classNameAdded = 'active' ) {
-	if ( ! empty( $url ) ) {
+function activePage($url, $classNameAdded = 'active')
+{
+    if (!empty($url)) {
 
-		if ( isUrlRoot( $url ) ) {
-			return $classNameAdded;
-		}
+        if (isUrlRoot($url)) {
+            return $classNameAdded;
+        }
 
-		$urlParts = array_filter( explode( '/', $_SERVER['REQUEST_URI'] ), function ( $item ) {
-			return ! empty( $item );
-		} );
+        $urlParts = array_filter(explode('/', $_SERVER['REQUEST_URI']), function ($item) {
+            return !empty($item);
+        });
 
-		if ( $url == end( $urlParts ) ) {
-			return $classNameAdded;
-		}
+        if ($url == end($urlParts)) {
+            return $classNameAdded;
+        }
 
-	}
+    }
 
-	return '';
+    return '';
 }
 
 /**
  * delete all cache in lang folders
  */
-function clearCache() {
+function clearCache()
+{
 
-	if ( is_dir( CACHE_PATH ) ) {
-		foreach ( getLangs() as $lang => $language ) {
-			if ( is_dir( CACHE_PATH . $lang ) ) {
-				foreach ( glob( CACHE_PATH . $lang . '/*' ) as $file ) {
-					unlink( $file );
-				}
-			}
-		}
+    if (is_dir(CACHE_PATH)) {
+        foreach (getLangs() as $lang => $language) {
+            if (is_dir(CACHE_PATH . $lang)) {
+                foreach (glob(CACHE_PATH . $lang . '/*') as $file) {
+                    unlink($file);
+                }
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -291,18 +319,19 @@ function clearCache() {
  *
  * @return bool
  */
-function clearPageCache( $lang, $file ) {
+function clearPageCache($lang, $file)
+{
 
-	if ( is_dir( CACHE_PATH . $lang ) ) {
+    if (is_dir(CACHE_PATH . $lang)) {
 
-		if ( file_exists( CACHE_PATH . $lang . DIRECTORY_SEPARATOR . $file ) ) {
-			unlink( CACHE_PATH . $lang . DIRECTORY_SEPARATOR . $file );
-		}
+        if (file_exists(CACHE_PATH . $lang . DIRECTORY_SEPARATOR . $file)) {
+            unlink(CACHE_PATH . $lang . DIRECTORY_SEPARATOR . $file);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -310,8 +339,9 @@ function clearPageCache( $lang, $file ) {
  *
  * @param String $text
  */
-function showMaintenanceHeader( $text = 'Page en maintenance !' ) {
-	echo '<h1 class="bg-danger m-5 text-white">' . $text . '</h1>';
+function showMaintenanceHeader($text = 'Page en maintenance !')
+{
+    echo '<h1 class="bg-danger m-5 text-white">' . $text . '</h1>';
 }
 
 /**
@@ -322,23 +352,24 @@ function showMaintenanceHeader( $text = 'Page en maintenance !' ) {
  * @return array
  */
 
-function constructMenu( $allPages ) {
-	//Create menu
-	$menu = array();
-	if ( ! empty( $allPages ) ) {
-		foreach ( $allPages as $menuPage ) {
+function constructMenu($allPages)
+{
+    //Create menu
+    $menu = array();
+    if (!empty($allPages)) {
+        foreach ($allPages as $menuPage) {
 
-			//check if is Page or URL
-			if ( is_null( $menuPage->slug ) ) {
-				$menuPage->slug = $menuPage->idCms;
-			}
+            //check if is Page or URL
+            if (is_null($menuPage->slug)) {
+                $menuPage->slug = $menuPage->idCms;
+            }
 
-			//First level menu sorting by location and second level by parent Id.
-			$menu[ $menuPage->location ][ $menuPage->parentId ][] = $menuPage;
-		}
-	}
+            //First level menu sorting by location and second level by parent Id.
+            $menu[$menuPage->location][$menuPage->parentId][] = $menuPage;
+        }
+    }
 
-	return $menu;
+    return $menu;
 }
 
 /**
@@ -347,33 +378,36 @@ function constructMenu( $allPages ) {
  *
  * @return array
  */
-function getSessionMenu( $primaryIndex = 1, $parent = 10 ) {
+function getSessionMenu($primaryIndex = 1, $parent = 10)
+{
 
-	$sessionMenu = array();
-	if ( ! isArrayEmpty( $_SESSION['MENU'] ) && array_key_exists( $primaryIndex, $_SESSION['MENU'] ) ) {
+    $sessionMenu = array();
+    if (!isArrayEmpty($_SESSION['MENU']) && array_key_exists($primaryIndex, $_SESSION['MENU'])) {
 
-		if ( array_key_exists( $parent, $_SESSION['MENU'][ $primaryIndex ] ) ) {
-			return $_SESSION['MENU'][ $primaryIndex ][ $parent ];
-		}
+        if (array_key_exists($parent, $_SESSION['MENU'][$primaryIndex])) {
+            return $_SESSION['MENU'][$primaryIndex][$parent];
+        }
 
-		return $_SESSION['MENU'][ $primaryIndex ];
-	}
+        return $_SESSION['MENU'][$primaryIndex];
+    }
 
-	return $sessionMenu;
+    return $sessionMenu;
 }
 
 /**
  *
  */
-function setSessionLang() {
-	$_SESSION['LANG'] = LANG;
+function setSessionLang()
+{
+    $_SESSION['LANG'] = LANG;
 }
 
 /**
  * @return bool|mixed
  */
-function getSessionLang() {
-	return ! empty( $_SESSION['LANG'] ) ? $_SESSION['LANG'] : false;
+function getSessionLang()
+{
+    return !empty($_SESSION['LANG']) ? $_SESSION['LANG'] : false;
 }
 
 /**
@@ -381,8 +415,9 @@ function getSessionLang() {
  *
  * @return bool
  */
-function hasMenu( $primaryIndex = 1 ) {
-	return ! isArrayEmpty( $_SESSION['MENU'] ) && array_key_exists( $primaryIndex, $_SESSION['MENU'] );
+function hasMenu($primaryIndex = 1)
+{
+    return !isArrayEmpty($_SESSION['MENU']) && array_key_exists($primaryIndex, $_SESSION['MENU']);
 }
 
 /**
@@ -391,8 +426,9 @@ function hasMenu( $primaryIndex = 1 ) {
  *
  * @return bool
  */
-function hasSubMenu( $index, $menuPrimaryIndex = 1 ) {
-	return array_key_exists( $index, $_SESSION['MENU'][ $menuPrimaryIndex ] );
+function hasSubMenu($index, $menuPrimaryIndex = 1)
+{
+    return array_key_exists($index, $_SESSION['MENU'][$menuPrimaryIndex]);
 }
 
 /**
@@ -402,37 +438,38 @@ function hasSubMenu( $index, $menuPrimaryIndex = 1 ) {
  *
  * @return bool|array
  */
-function getJsonContent( $filename, $jsonKey = '', $jsonSecondKey = '' ) {
-	if ( file_exists( $filename ) ) {
+function getJsonContent($filename, $jsonKey = '', $jsonSecondKey = '')
+{
+    if (file_exists($filename)) {
 
-		$json        = file_get_contents( $filename );
-		$parsed_json = $json ? json_decode( $json, true ) : false;
+        $json = file_get_contents($filename);
+        $parsed_json = $json ? json_decode($json, true) : false;
 
-		if ( is_array( $parsed_json ) ) {
+        if (is_array($parsed_json)) {
 
-			if ( ! empty( $jsonKey ) ) {
+            if (!empty($jsonKey)) {
 
-				if ( array_key_exists( $jsonKey, $parsed_json ) ) {
+                if (array_key_exists($jsonKey, $parsed_json)) {
 
-					if ( ! empty( $jsonSecondKey && array_key_exists( $jsonSecondKey, $parsed_json[ $jsonKey ] ) ) ) {
+                    if (!empty($jsonSecondKey && array_key_exists($jsonSecondKey, $parsed_json[$jsonKey]))) {
 
-						return $parsed_json[ $jsonKey ][ $jsonSecondKey ];
-					}
+                        return $parsed_json[$jsonKey][$jsonSecondKey];
+                    }
 
-					return $parsed_json[ $jsonKey ];
+                    return $parsed_json[$jsonKey];
 
-				}
+                }
 
-				return false;
+                return false;
 
-			} else {
-				return $parsed_json;
-			}
-		}
+            } else {
+                return $parsed_json;
+            }
+        }
 
-	}
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -442,16 +479,17 @@ function getJsonContent( $filename, $jsonKey = '', $jsonSecondKey = '' ) {
  *
  * @return bool
  */
-function putJsonContent( $filename, $content, $mode = 'w+' ) {
+function putJsonContent($filename, $content, $mode = 'w+')
+{
 
-	$json_file = fopen( $filename, $mode );
-	if ( false !== $json_file ) {
-		fwrite( $json_file, json_encode( $content ) );
+    $json_file = fopen($filename, $mode);
+    if (false !== $json_file) {
+        fwrite($json_file, json_encode($content));
 
-		return fclose( $json_file );
-	}
+        return fclose($json_file);
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -459,8 +497,9 @@ function putJsonContent( $filename, $content, $mode = 'w+' ) {
  *
  * @return string
  */
-function jsonHtmlParse( $object ) {
-	return ! empty( $object ) ? json_encode( $object, JSON_UNESCAPED_UNICODE ) : '';
+function jsonHtmlParse($object)
+{
+    return !empty($object) ? json_encode($object, JSON_UNESCAPED_UNICODE) : '';
 }
 
 /**
@@ -471,12 +510,13 @@ function jsonHtmlParse( $object ) {
  *
  * @return string
  */
-function getTitle( $name = '', $slug = '', $appendName = '', $appendHtml = '' ) {
-	$html = '<div class="row"><div class="col-12 position-relative">
-            <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary mr-2"></span>' . trans( $name ) . $appendName . '</h1>
+function getTitle($name = '', $slug = '', $appendName = '', $appendHtml = '')
+{
+    $html = '<div class="row"><div class="col-12 position-relative">
+            <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary mr-2"></span>' . trans($name) . $appendName . '</h1>
             ' . $appendHtml . '</div></div><hr class="mx-5 mt-3 mb-4">';
 
-	return $html;
+    return $html;
 }
 
 /**
@@ -484,8 +524,9 @@ function getTitle( $name = '', $slug = '', $appendName = '', $appendHtml = '' ) 
  *
  * @return string
  */
-function getAppoeCredit( $color = "" ) {
-	return 'Propulsé par <a target="_blank" ' . ( ! empty( $color ) ? 'style="color:' . $color . '"' : '' ) . ' href="http://aoe-communication.com/" title="APPOE">APPOE</a>';
+function getAppoeCredit($color = "")
+{
+    return 'Propulsé par <a target="_blank" ' . (!empty($color) ? 'style="color:' . $color . '"' : '') . ' href="http://aoe-communication.com/" title="APPOE">APPOE</a>';
 }
 
 /**
@@ -494,10 +535,11 @@ function getAppoeCredit( $color = "" ) {
  *
  * @return bool
  */
-function getConfig( $key = false, $subKey = false ) {
-	$AppConfig = new AppConfig();
+function getConfig($key = false, $subKey = false)
+{
+    $AppConfig = new AppConfig();
 
-	return $AppConfig->get( $key, $subKey );
+    return $AppConfig->get($key, $subKey);
 }
 
 /**
@@ -505,20 +547,21 @@ function getConfig( $key = false, $subKey = false ) {
  *
  * @return mixed
  */
-function isArrayEmpty( $array ) {
-	$empty = true;
+function isArrayEmpty($array)
+{
+    $empty = true;
 
-	if ( $array && is_array( $array ) ) {
-		array_walk_recursive( $array, function ( $leaf ) use ( &$empty ) {
-			if ( $leaf === [] || $leaf === '' ) {
-				return;
-			}
+    if ($array && is_array($array)) {
+        array_walk_recursive($array, function ($leaf) use (&$empty) {
+            if ($leaf === [] || $leaf === '') {
+                return;
+            }
 
-			$empty = false;
-		} );
-	}
+            $empty = false;
+        });
+    }
 
-	return $empty;
+    return $empty;
 }
 
 /**
@@ -530,39 +573,40 @@ function isArrayEmpty( $array ) {
  *
  * @return array
  */
-function array_sort( $array, $keyName, $order = SORT_ASC ) {
+function array_sort($array, $keyName, $order = SORT_ASC)
+{
 
-	$new_array      = array();
-	$sortable_array = array();
+    $new_array = array();
+    $sortable_array = array();
 
-	if ( count( $array ) > 0 ) {
-		foreach ( $array as $k => $v ) {
-			if ( is_array( $v ) || is_object( $v ) ) {
-				foreach ( $v as $k2 => $v2 ) {
-					if ( $k2 == $keyName ) {
-						$sortable_array[ $k ] = $v2;
-					}
-				}
-			} else {
-				$sortable_array[ $k ] = $v;
-			}
-		}
+    if (count($array) > 0) {
+        foreach ($array as $k => $v) {
+            if (is_array($v) || is_object($v)) {
+                foreach ($v as $k2 => $v2) {
+                    if ($k2 == $keyName) {
+                        $sortable_array[$k] = $v2;
+                    }
+                }
+            } else {
+                $sortable_array[$k] = $v;
+            }
+        }
 
-		switch ( $order ) {
-			case SORT_ASC:
-				asort( $sortable_array );
-				break;
-			case SORT_DESC:
-				arsort( $sortable_array );
-				break;
-		}
+        switch ($order) {
+            case SORT_ASC:
+                asort($sortable_array);
+                break;
+            case SORT_DESC:
+                arsort($sortable_array);
+                break;
+        }
 
-		foreach ( $sortable_array as $k => $v ) {
-			$new_array[ $k ] = $array[ $k ];
-		}
-	}
+        foreach ($sortable_array as $k => $v) {
+            $new_array[$k] = $array[$k];
+        }
+    }
 
-	return $new_array;
+    return $new_array;
 }
 
 /**
@@ -570,12 +614,13 @@ function array_sort( $array, $keyName, $order = SORT_ASC ) {
  *
  * @return bool
  */
-function isImage( $mediaPath ) {
-	if ( file_exists( $mediaPath ) ) {
-		return filesize( $mediaPath ) > 11 ? ( exif_imagetype( $mediaPath ) == IMAGETYPE_JPEG || exif_imagetype( $mediaPath ) == IMAGETYPE_PNG || exif_imagetype( $mediaPath ) == IMAGETYPE_GIF ) : false;
-	}
+function isImage($mediaPath)
+{
+    if (file_exists($mediaPath)) {
+        return filesize($mediaPath) > 11 ? (exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG || exif_imagetype($mediaPath) == IMAGETYPE_GIF) : false;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -583,14 +628,15 @@ function isImage( $mediaPath ) {
  *
  * @return bool
  */
-function isAudio( $mediaPath ) {
-	if ( file_exists( $mediaPath ) ) {
-		$mime = mime_content_type( $mediaPath );
+function isAudio($mediaPath)
+{
+    if (file_exists($mediaPath)) {
+        $mime = mime_content_type($mediaPath);
 
-		return ( false !== strpos( $mime, 'audio/' ) ) ? true : false;
-	}
+        return (false !== strpos($mime, 'audio/')) ? true : false;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -598,18 +644,19 @@ function isAudio( $mediaPath ) {
  *
  * @return bool
  */
-function isVideo( $mediaPath ) {
-	if ( file_exists( $mediaPath ) ) {
-		$allowed = array(
-			'application/ogg'
-		);
+function isVideo($mediaPath)
+{
+    if (file_exists($mediaPath)) {
+        $allowed = array(
+            'application/ogg'
+        );
 
-		$mime = mime_content_type( $mediaPath );
+        $mime = mime_content_type($mediaPath);
 
-		return ( false !== strpos( $mime, 'video/' ) ) || in_array( $mime, $allowed ) ? true : false;
-	}
+        return (false !== strpos($mime, 'video/')) || in_array($mime, $allowed) ? true : false;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -618,12 +665,13 @@ function isVideo( $mediaPath ) {
  *
  * @return string
  */
-function shortenText( $text, $size ) {
-	return
-		mb_strimwidth(
-			strip_tags(
-				html_entity_decode(
-					htmlspecialchars_decode( $text ) ) ), 0, $size, '...', 'utf-8' );
+function shortenText($text, $size)
+{
+    return
+        mb_strimwidth(
+            strip_tags(
+                html_entity_decode(
+                    htmlspecialchars_decode($text))), 0, $size, '...', 'utf-8');
 }
 
 /**
@@ -635,17 +683,18 @@ function shortenText( $text, $size ) {
  *
  * @return array
  */
-function unsetSameKeyInArr( array $data, $compareKey, $returnSliceArray = false ) {
+function unsetSameKeyInArr(array $data, $compareKey, $returnSliceArray = false)
+{
 
-	if ( in_array( $compareKey, array_keys( $data ) ) ) {
-		unset( $data[ $compareKey ] );
-	}
+    if (in_array($compareKey, array_keys($data))) {
+        unset($data[$compareKey]);
+    }
 
-	if ( false !== $returnSliceArray && is_int( $returnSliceArray ) ) {
-		$data = array_slice( $data, 0, $returnSliceArray, true );
-	}
+    if (false !== $returnSliceArray && is_int($returnSliceArray)) {
+        $data = array_slice($data, 0, $returnSliceArray, true);
+    }
 
-	return $data;
+    return $data;
 }
 
 /**
@@ -653,8 +702,9 @@ function unsetSameKeyInArr( array $data, $compareKey, $returnSliceArray = false 
  *
  * @return string
  */
-function minimalizeText( $text ) {
-	return strtolower( noaccent( trim( $text ) ) );
+function minimalizeText($text)
+{
+    return strtolower(noaccent(trim($text)));
 }
 
 /**
@@ -662,8 +712,9 @@ function minimalizeText( $text ) {
  *
  * @return string
  */
-function htmlSpeCharDecode( $item ) {
-	return htmlspecialchars_decode( $item, ENT_QUOTES );
+function htmlSpeCharDecode($item)
+{
+    return htmlspecialchars_decode($item, ENT_QUOTES);
 }
 
 /**
@@ -671,8 +722,9 @@ function htmlSpeCharDecode( $item ) {
  *
  * @return string
  */
-function htmlEntityDecode( $item ) {
-	return html_entity_decode( $item, ENT_QUOTES );
+function htmlEntityDecode($item)
+{
+    return html_entity_decode($item, ENT_QUOTES);
 }
 
 /**
@@ -681,27 +733,28 @@ function htmlEntityDecode( $item ) {
  *
  * @return mixed
  */
-function trans( $key, $doc = 'general' ) {
-	$trans    = minimalizeText( $key );
-	$currLang = isUserInApp() ? INTERFACE_LANG : LANG;
-	if ( $currLang != 'fr' && file_exists( FILE_LANG_PATH . $currLang . DIRECTORY_SEPARATOR . $doc . '.json' ) ) {
+function trans($key, $doc = 'general')
+{
+    $trans = minimalizeText($key);
+    $currLang = isUserInApp() ? INTERFACE_LANG : LANG;
+    if ($currLang != 'fr' && file_exists(FILE_LANG_PATH . $currLang . DIRECTORY_SEPARATOR . $doc . '.json')) {
 
-		//get lang file
-		$json       = file_get_contents( FILE_LANG_PATH . $currLang . DIRECTORY_SEPARATOR . $doc . '.json' );
-		$parsedJson = json_decode( $json, true );
+        //get lang file
+        $json = file_get_contents(FILE_LANG_PATH . $currLang . DIRECTORY_SEPARATOR . $doc . '.json');
+        $parsedJson = json_decode($json, true);
 
-		//preparing to compare
-		$langArray = array_map( 'minimalizeText', array_keys( $parsedJson ) );
+        //preparing to compare
+        $langArray = array_map('minimalizeText', array_keys($parsedJson));
 
-		//comparing
-		$tradPos = ( false !== array_search( $trans, $langArray ) ) ? array_search( $trans, $langArray ) : null;
+        //comparing
+        $tradPos = (false !== array_search($trans, $langArray)) ? array_search($trans, $langArray) : null;
 
 
-		return ! is_null( $tradPos ) ? $parsedJson[ array_keys( $parsedJson )[ $tradPos ] ] : $key;
+        return !is_null($tradPos) ? $parsedJson[array_keys($parsedJson)[$tradPos]] : $key;
 
-	} else {
-		return $key;
-	}
+    } else {
+        return $key;
+    }
 }
 
 /**
@@ -709,14 +762,15 @@ function trans( $key, $doc = 'general' ) {
  *
  * @return mixed
  */
-function getPageHelp( $urlPage ) {
+function getPageHelp($urlPage)
+{
 
-	$helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
+    $helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
 
-	//get help file
-	$fileContent = getJsonContent( $helpFile, $urlPage );
+    //get help file
+    $fileContent = getJsonContent($helpFile, $urlPage);
 
-	return $fileContent ? $fileContent : false;
+    return $fileContent ? $fileContent : false;
 }
 
 /**
@@ -725,21 +779,22 @@ function getPageHelp( $urlPage ) {
  *
  * @return bool
  */
-function setHelpPage( $urlPage, $text ) {
+function setHelpPage($urlPage, $text)
+{
 
-	$helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
+    $helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
 
-	//get help file
-	$fileContent = getJsonContent( $helpFile );
+    //get help file
+    $fileContent = getJsonContent($helpFile);
 
-	//check if file exist
-	if ( $fileContent ) {
-		$fileContent[ $urlPage ] = $text;
+    //check if file exist
+    if ($fileContent) {
+        $fileContent[$urlPage] = $text;
 
-		return putJsonContent( $helpFile, $fileContent );
-	}
+        return putJsonContent($helpFile, $fileContent);
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -749,15 +804,16 @@ function setHelpPage( $urlPage, $text ) {
  *
  * @return mixed
  */
-function trad( $text, $tradToOrigin = false, $lang = LANG ) {
-	if ( class_exists( 'App\Plugin\Traduction\Traduction' ) ) {
+function trad($text, $tradToOrigin = false, $lang = LANG)
+{
+    if (class_exists('App\Plugin\Traduction\Traduction')) {
 
-		$Traduction = new Traduction( $lang );
+        $Traduction = new Traduction($lang);
 
-		return ! $tradToOrigin ? $Traduction->trans( $text ) : $Traduction->transToOrigin( $text );
-	}
+        return !$tradToOrigin ? $Traduction->trans($text) : $Traduction->transToOrigin($text);
+    }
 
-	return $text;
+    return $text;
 }
 
 /**
@@ -765,30 +821,31 @@ function trad( $text, $tradToOrigin = false, $lang = LANG ) {
  *
  * @return null|string|string[]
  */
-function slugify( $text ) {
-	// replace non letter or digits by -
-	$text = preg_replace( '~[^\pL\d]+~u', '-', $text );
+function slugify($text)
+{
+    // replace non letter or digits by -
+    $text = preg_replace('~[^\pL\d]+~u', '-', $text);
 
-	// transliterate
-	$text = iconv( 'utf-8', 'us-ascii//TRANSLIT', $text );
+    // transliterate
+    $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
 
-	// remove unwanted characters
-	$text = preg_replace( '~[^-\w]+~', '', $text );
+    // remove unwanted characters
+    $text = preg_replace('~[^-\w]+~', '', $text);
 
-	// trim
-	$text = trim( $text, '-' );
+    // trim
+    $text = trim($text, '-');
 
-	// remove duplicate -
-	$text = preg_replace( '~-+~', '-', $text );
+    // remove duplicate -
+    $text = preg_replace('~-+~', '-', $text);
 
-	// lowercase
-	$text = mb_strtolower( $text );
+    // lowercase
+    $text = mb_strtolower($text);
 
-	if ( empty( $text ) ) {
-		return 'n-a';
-	}
+    if (empty($text)) {
+        return 'n-a';
+    }
 
-	return $text;
+    return $text;
 }
 
 /**
@@ -797,55 +854,58 @@ function slugify( $text ) {
  *
  * @return array
  */
-function getFilesFromDir( $dirname, array $options = array() ) {
-	$defaultOptions = array(
-		'onlyFiles'              => false,
-		'onlyExtension'          => false,
-		'allExtensionsExceptOne' => false,
-		'noExtensionDisplaying'  => false
-	);
+function getFilesFromDir($dirname, array $options = array())
+{
+    $defaultOptions = array(
+        'onlyFiles' => false,
+        'onlyExtension' => false,
+        'allExtensionsExceptOne' => false,
+        'noExtensionDisplaying' => false
+    );
 
-	$options = array_merge( $defaultOptions, $options );
-	$files   = array();
+    $options = array_merge($defaultOptions, $options);
+    $files = array();
 
-	if ( $options['onlyFiles'] ) {
+    if ($options['onlyFiles']) {
 
-		$iterator = new DirectoryIterator( $dirname );
+        $iterator = new DirectoryIterator($dirname);
 
-		foreach ( $iterator as $fileinfo ) {
+        foreach ($iterator as $fileinfo) {
 
-			if ( $fileinfo->isFile() ) {
+            if ($fileinfo->isFile()) {
 
-				if ( false !== $options['onlyExtension'] && $fileinfo->getExtension() != $options['onlyExtension'] ) {
-					continue;
-				}
+                if (false !== $options['onlyExtension'] && $fileinfo->getExtension() != $options['onlyExtension']) {
+                    continue;
+                }
 
-				if ( false !== $options['allExtensionsExceptOne'] && $fileinfo->getExtension() == $options['allExtensionsExceptOne'] ) {
-					continue;
-				}
+                if (false !== $options['allExtensionsExceptOne'] && $fileinfo->getExtension() == $options['allExtensionsExceptOne']) {
+                    continue;
+                }
 
-				$files[] = $fileinfo->getBasename( false !== $options['noExtensionDisplaying'] ? '.' . $fileinfo->getExtension() : null );
-			}
-		}
+                $files[] = $fileinfo->getBasename(false !== $options['noExtensionDisplaying'] ? '.' . $fileinfo->getExtension() : null);
+            }
+        }
 
-		return $files;
-	}
+        return $files;
+    }
 
-	return array_diff( scandir( $dirname ), array( '..', '.' ) );
+    return array_diff(scandir($dirname), array('..', '.'));
 }
 
 /**
  * @return array
  */
-function getLangs() {
-	return LANGUAGES;
+function getLangs()
+{
+    return LANGUAGES;
 }
 
 /**
  * @return array
  */
-function getAppLangs() {
-	return getFilesFromDir( WEB_SYSTEM_PATH . 'lang/' );
+function getAppLangs()
+{
+    return getFilesFromDir(WEB_SYSTEM_PATH . 'lang/');
 }
 
 /**
@@ -853,8 +913,9 @@ function getAppLangs() {
  *
  * @return string
  */
-function getAppImg( $name ) {
-	return APP_IMG_URL . $name;
+function getAppImg($name)
+{
+    return APP_IMG_URL . $name;
 }
 
 /**
@@ -862,40 +923,42 @@ function getAppImg( $name ) {
  *
  * @return bool
  */
-function langExist( $lang ) {
+function langExist($lang)
+{
 
-	if ( array_key_exists( $lang, LANGUAGES ) ) {
-		return true;
-	}
+    if (array_key_exists($lang, LANGUAGES)) {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * @return bool
  */
-function getIP() {
-	foreach (
-		array(
-			'HTTP_CLIENT_IP',
-			'HTTP_X_FORWARDED_FOR',
-			'HTTP_X_FORWARDED',
-			'HTTP_X_CLUSTER_CLIENT_IP',
-			'HTTP_FORWARDED_FOR',
-			'HTTP_FORWARDED',
-			'REMOTE_ADDR'
-		) as $key
-	) {
-		if ( array_key_exists( $key, $_SERVER ) === true ) {
-			foreach ( explode( ',', $_SERVER[ $key ] ) as $ip ) {
-				if ( filter_var( $ip, FILTER_VALIDATE_IP ) !== false ) {
-					return $ip;
-				}
-			}
-		}
-	}
+function getIP()
+{
+    foreach (
+        array(
+            'HTTP_CLIENT_IP',
+            'HTTP_X_FORWARDED_FOR',
+            'HTTP_X_FORWARDED',
+            'HTTP_X_CLUSTER_CLIENT_IP',
+            'HTTP_FORWARDED_FOR',
+            'HTTP_FORWARDED',
+            'REMOTE_ADDR'
+        ) as $key
+    ) {
+        if (array_key_exists($key, $_SERVER) === true) {
+            foreach (explode(',', $_SERVER[$key]) as $ip) {
+                if (filter_var($ip, FILTER_VALIDATE_IP) !== false) {
+                    return $ip;
+                }
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -903,37 +966,38 @@ function getIP() {
  *
  * @return bool
  */
-function checkRequest( $request ) {
-	$unauthorized_characters = '"\'/\\#<>$*%!§;?([{)]}+=&²~|£µ';
-	$request_error           = 0;
+function checkRequest($request)
+{
+    $unauthorized_characters = '"\'/\\#<>$*%!§;?([{)]}+=&²~|£µ';
+    $request_error = 0;
 
-	if ( is_array( $request ) ) {
-		foreach ( $request as $key => $value ) {
+    if (is_array($request)) {
+        foreach ($request as $key => $value) {
 
-			$requestLenght = strlen( $value );
+            $requestLenght = strlen($value);
 
-			for ( $i = 0; $i < $requestLenght; $i ++ ) {
-				if ( strpos( $unauthorized_characters, strtolower( $value[ $i ] ) ) ) {
-					$request_error ++;
-				}
-			}
-		}
-	} else {
+            for ($i = 0; $i < $requestLenght; $i++) {
+                if (strpos($unauthorized_characters, strtolower($value[$i]))) {
+                    $request_error++;
+                }
+            }
+        }
+    } else {
 
-		$requestLenght = strlen( $request );
+        $requestLenght = strlen($request);
 
-		for ( $i = 0; $i < $requestLenght; $i ++ ) {
-			if ( strpos( $unauthorized_characters, strtolower( $request[ $i ] ) ) ) {
-				$request_error ++;
-			}
-		}
-	}
+        for ($i = 0; $i < $requestLenght; $i++) {
+            if (strpos($unauthorized_characters, strtolower($request[$i]))) {
+                $request_error++;
+            }
+        }
+    }
 
-	if ( $request_error > 0 ) {
-		return false;
-	} else {
-		return true;
-	}
+    if ($request_error > 0) {
+        return false;
+    } else {
+        return true;
+    }
 
 }
 
@@ -942,44 +1006,45 @@ function checkRequest( $request ) {
  *
  * @return bool
  */
-function generateSitemap( $data ) {
-	$sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
-	$sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+function generateSitemap($data)
+{
+    $sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
+    $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-	$sitemap .= '<url>';
-	$sitemap .= '<loc>' . WEB_DIR_URL . '</loc>';
-	$sitemap .= '<priority>1.0</priority>';
-	$sitemap .= '</url>';
+    $sitemap .= '<url>';
+    $sitemap .= '<loc>' . WEB_DIR_URL . '</loc>';
+    $sitemap .= '<priority>1.0</priority>';
+    $sitemap .= '</url>';
 
-	if ( ! isArrayEmpty( $data ) ) {
+    if (!isArrayEmpty($data)) {
 
-		foreach ( $data as $location ) {
-			$sitemap .= '<url>';
-			$sitemap .= '<loc>' . $location['slug'] . '</loc>';
-			$sitemap .= '</url>';
-		}
-	}
+        foreach ($data as $location) {
+            $sitemap .= '<url>';
+            $sitemap .= '<loc>' . $location['slug'] . '</loc>';
+            $sitemap .= '</url>';
+        }
+    }
 
-	$sitemap .= '</urlset>';
+    $sitemap .= '</urlset>';
 
-	if ( false !== $file = fopen( ROOT_PATH . 'sitemap.xml', 'w+' ) ) {
-		if ( false !== fwrite( $file, $sitemap ) ) {
+    if (false !== $file = fopen(ROOT_PATH . 'sitemap.xml', 'w+')) {
+        if (false !== fwrite($file, $sitemap)) {
 
-			//Robots file
-			$robotTxt = 'User-agent: *' . "\r\n";
-			$robotTxt .= 'Allow: /' . "\r\n";
-			$robotTxt .= 'Sitemap: ' . WEB_DIR_URL . 'sitemap.xml';
+            //Robots file
+            $robotTxt = 'User-agent: *' . "\r\n";
+            $robotTxt .= 'Allow: /' . "\r\n";
+            $robotTxt .= 'Sitemap: ' . WEB_DIR_URL . 'sitemap.xml';
 
-			if ( false !== $robotsFile = fopen( ROOT_PATH . 'robots.txt', 'w+' ) ) {
-				fwrite( $robotsFile, $robotTxt );
-			}
+            if (false !== $robotsFile = fopen(ROOT_PATH . 'robots.txt', 'w+')) {
+                fwrite($robotsFile, $robotTxt);
+            }
 
-			return true;
-		}
-	}
+            return true;
+        }
+    }
 
 
-	return false;
+    return false;
 }
 
 /**
@@ -990,21 +1055,22 @@ function generateSitemap( $data ) {
  *
  * @return array|string
  */
-function cleanRequest( $data, array $exclude = array() ) {
-	if ( is_array( $data ) ) {
+function cleanRequest($data, array $exclude = array())
+{
+    if (is_array($data)) {
 
-		foreach ( $data as $key => $value ) {
+        foreach ($data as $key => $value) {
 
-			if ( ! in_array( $key, $exclude ) ) {
-				$data[ $key ] = cleanRequest( $value, $exclude );
-			}
-		}
+            if (!in_array($key, $exclude)) {
+                $data[$key] = cleanRequest($value, $exclude);
+            }
+        }
 
-	} else {
-		$data = cleanData( $data );
-	}
+    } else {
+        $data = cleanData($data);
+    }
 
-	return $data;
+    return $data;
 }
 
 /**
@@ -1012,12 +1078,13 @@ function cleanRequest( $data, array $exclude = array() ) {
  *
  * @return string
  */
-function cleanData( $data ) {
-	$data = trim( $data );
-	$data = stripslashes( $data );
-	$data = htmlspecialchars( $data );
+function cleanData($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
 
-	return $data;
+    return $data;
 }
 
 /**
@@ -1026,40 +1093,42 @@ function cleanData( $data ) {
  *
  * @return bool
  */
-function checkRecaptcha( $secret, $token ) {
+function checkRecaptcha($secret, $token)
+{
 
-	if ( ! empty( $secret ) && ! empty( $token ) ) {
+    if (!empty($secret) && !empty($token)) {
 
-		$recaptcha_data = array(
-			'secret'   => $secret,
-			'response' => $token
-		);
+        $recaptcha_data = array(
+            'secret' => $secret,
+            'response' => $token
+        );
 
-		$recap_verify = curl_init();
-		curl_setopt( $recap_verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify" );
-		curl_setopt( $recap_verify, CURLOPT_POST, true );
-		curl_setopt( $recap_verify, CURLOPT_POSTFIELDS, http_build_query( $recaptcha_data ) );
-		curl_setopt( $recap_verify, CURLOPT_SSL_VERIFYPEER, false );
-		curl_setopt( $recap_verify, CURLOPT_RETURNTRANSFER, true );
-		$recap_response = curl_exec( $recap_verify );
+        $recap_verify = curl_init();
+        curl_setopt($recap_verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($recap_verify, CURLOPT_POST, true);
+        curl_setopt($recap_verify, CURLOPT_POSTFIELDS, http_build_query($recaptcha_data));
+        curl_setopt($recap_verify, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($recap_verify, CURLOPT_RETURNTRANSFER, true);
+        $recap_response = curl_exec($recap_verify);
 
-		$g_response = json_decode( $recap_response );
+        $g_response = json_decode($recap_response);
 
-		if ( property_exists( $g_response, 'success' ) && $g_response->success === true ) {
-			return true;
-		}
-	}
+        if (property_exists($g_response, 'success') && $g_response->success === true) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * Show unlimited params in array
  */
-function debug() {
-	echo '<pre>';
-	print_r( func_get_args() );
-	echo '</pre>';
+function debug()
+{
+    echo '<pre>';
+    print_r(func_get_args());
+    echo '</pre>';
 }
 
 /**
@@ -1068,10 +1137,11 @@ function debug() {
  *
  * @return bool
  */
-function isValidDateTime( $dateStr, $format = 'Y-m-d H:i' ) {
-	$date = DateTime::createFromFormat( $format, $dateStr );
+function isValidDateTime($dateStr, $format = 'Y-m-d H:i')
+{
+    $date = DateTime::createFromFormat($format, $dateStr);
 
-	return $date && ( $date->format( $format ) === $dateStr );
+    return $date && ($date->format($format) === $dateStr);
 }
 
 /**
@@ -1081,14 +1151,15 @@ function isValidDateTime( $dateStr, $format = 'Y-m-d H:i' ) {
  * @return string
  * @throws Exception
  */
-function displayTimeStamp( $timestamp, $hour = true ) {
-	$Date = new DateTime( $timestamp, new DateTimeZone( 'Europe/Paris' ) );
+function displayTimeStamp($timestamp, $hour = true)
+{
+    $Date = new DateTime($timestamp, new DateTimeZone('Europe/Paris'));
 
-	if ( $hour ) {
-		return $Date->format( 'd/m/Y H:i' );
-	}
+    if ($hour) {
+        return $Date->format('d/m/Y H:i');
+    }
 
-	return $Date->format( 'd/m/Y' );
+    return $Date->format('d/m/Y');
 }
 
 
@@ -1101,25 +1172,26 @@ function displayTimeStamp( $timestamp, $hour = true ) {
  * @throws Exception
  * @noinspection PhpUnhandledExceptionInspection
  */
-function displayCompleteDate( $date, $hour = false, $defaultFormat = false ) {
-	$dateFormat   = 'Y-m-d' . ( $hour ? ' H:i' : '' );
-	$dateFormatFr = 'd/m/Y' . ( $hour ? ' H:i' : '' );
+function displayCompleteDate($date, $hour = false, $defaultFormat = false)
+{
+    $dateFormat = 'Y-m-d' . ($hour ? ' H:i' : '');
+    $dateFormatFr = 'd/m/Y' . ($hour ? ' H:i' : '');
 
-	if ( isValidDateTime( $date, $dateFormatFr ) ) {
-		$date = DateTime::createFromFormat( $dateFormatFr, $date )->format( $dateFormat );
-	}
+    if (isValidDateTime($date, $dateFormatFr)) {
+        $date = DateTime::createFromFormat($dateFormatFr, $date)->format($dateFormat);
+    }
 
-	if ( isValidDateTime( $date, $dateFormat ) ) {
+    if (isValidDateTime($date, $dateFormat)) {
 
-		$Date = new DateTime( $date );
-		$time = $hour ? $Date->format( "Y-m-d H:i" ) : $Date->format( "Y-m-d" );
+        $Date = new DateTime($date);
+        $time = $hour ? $Date->format("Y-m-d H:i") : $Date->format("Y-m-d");
 
-		$strFtime = ! $defaultFormat ? ( $hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y" ) : $defaultFormat;
+        $strFtime = !$defaultFormat ? ($hour ? "%A %d %B %Y, %H:%M" : "%A %d %B %Y") : $defaultFormat;
 
-		return ucwords( strftime( $strFtime, strtotime( $time ) ) );
-	}
+        return ucwords(strftime($strFtime, strtotime($time)));
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -1127,8 +1199,9 @@ function displayCompleteDate( $date, $hour = false, $defaultFormat = false ) {
  *
  * @return string
  */
-function displayDuree( $duree ) {
-	return ( strlen( $duree ) == 2 ) ? $duree . ' min' : $duree;
+function displayDuree($duree)
+{
+    return (strlen($duree) == 2) ? $duree . ' min' : $duree;
 }
 
 /**
@@ -1138,16 +1211,17 @@ function displayDuree( $duree ) {
  * @return string
  * @throws Exception
  */
-function getHoursFromDate( $date1, $date2 = '' ) {
-	$Date1 = new DateTime( $date1 );
+function getHoursFromDate($date1, $date2 = '')
+{
+    $Date1 = new DateTime($date1);
 
-	if ( empty( $date2 ) ) {
-		return $Date1->format( 'H:i' );
-	} else {
-		$Date2 = new DateTime( $date2 );
+    if (empty($date2)) {
+        return $Date1->format('H:i');
+    } else {
+        $Date2 = new DateTime($date2);
 
-		return trans( 'De' ) . ' ' . $Date1->format( 'H:i' ) . ' ' . trans( 'à' ) . ' ' . $Date2->format( 'H:i' );
-	}
+        return trans('De') . ' ' . $Date1->format('H:i') . ' ' . trans('à') . ' ' . $Date2->format('H:i');
+    }
 }
 
 /**
@@ -1157,15 +1231,16 @@ function getHoursFromDate( $date1, $date2 = '' ) {
  * @return string
  * @throws Exception
  */
-function displayFrDate( $date, $format = 'Y-m-d' ) {
-	if ( isValidDateTime( $date, $format ) ) {
+function displayFrDate($date, $format = 'Y-m-d')
+{
+    if (isValidDateTime($date, $format)) {
 
-		$Date = new DateTime( $date );
+        $Date = new DateTime($date);
 
-		return $Date->format( 'd/m/Y' );
-	} else {
-		return '';
-	}
+        return $Date->format('d/m/Y');
+    } else {
+        return '';
+    }
 }
 
 /**
@@ -1175,15 +1250,16 @@ function displayFrDate( $date, $format = 'Y-m-d' ) {
  * @return string
  * @throws Exception
  */
-function displayDBDate( $date, $format = 'd/m/Y' ) {
-	if ( isValidDateTime( $date, $format ) ) {
+function displayDBDate($date, $format = 'd/m/Y')
+{
+    if (isValidDateTime($date, $format)) {
 
-		$Date = new DateTime( $date );
+        $Date = new DateTime($date);
 
-		return $Date->format( 'Y-m-d' );
-	} else {
-		return '';
-	}
+        return $Date->format('Y-m-d');
+    } else {
+        return '';
+    }
 }
 
 /**
@@ -1191,8 +1267,9 @@ function displayDBDate( $date, $format = 'd/m/Y' ) {
  *
  * @return array[]|false|string[]
  */
-function splitAtUpperCase( $s ) {
-	return preg_split( '/(?=[A-Z])/', $s, - 1, PREG_SPLIT_NO_EMPTY );
+function splitAtUpperCase($s)
+{
+    return preg_split('/(?=[A-Z])/', $s, -1, PREG_SPLIT_NO_EMPTY);
 }
 
 /**
@@ -1201,94 +1278,98 @@ function splitAtUpperCase( $s ) {
  *
  * @return bool
  */
-function checkIfInArrayString( $array, $searchingFor ) {
-	foreach ( $array as $element ) {
-		if ( strpos( $searchingFor, $element ) !== false ) {
-			return true;
-		}
-	}
+function checkIfInArrayString($array, $searchingFor)
+{
+    foreach ($array as $element) {
+        if (strpos($searchingFor, $element) !== false) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * @return bool
  */
-function checkMaintenance() {
-	$AppConfig = new AppConfig();
+function checkMaintenance()
+{
+    $AppConfig = new AppConfig();
 
-	if ( 'true' === $AppConfig->get( 'options', 'maintenance' ) ) {
+    if ('true' === $AppConfig->get('options', 'maintenance')) {
 
-		//Check IP permission
-		$ip = getIP();
+        //Check IP permission
+        $ip = getIP();
 
-		//Check Ip from db
-        if ( in_array( $ip, $AppConfig->get( 'accessPermissions' ) ) ) {
+        //Check Ip from db
+        if (in_array($ip, $AppConfig->get('accessPermissions'))) {
             return false;
         }
 
-		//Check Ip from ini.main
-		if ( defined( 'IP_ALLOWED' ) ) {
+        //Check Ip from ini.main
+        if (defined('IP_ALLOWED')) {
 
-			//IPV6
-			if ( false !== strpos( $ip, ':' ) ) {
-				$ipv6 = implode( ':', explode( ':', $ip, - 4 ) );
-				if ( in_array( $ipv6, IP_ALLOWED ) ) {
-					return false;
-				}
-			}
+            //IPV6
+            if (false !== strpos($ip, ':')) {
+                $ipv6 = implode(':', explode(':', $ip, -4));
+                if (in_array($ipv6, IP_ALLOWED)) {
+                    return false;
+                }
+            }
 
-			if ( in_array( $ip, IP_ALLOWED ) ) {
-				return false;
-			}
-		}
+            if (in_array($ip, IP_ALLOWED)) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * @return array
  */
-function getPlugins() {
+function getPlugins()
+{
 
-	$plugins = array();
+    $plugins = array();
 
-	if ( $pluginsDir = opendir( WEB_PLUGIN_PATH ) ) {
-		while ( false !== ( $dossier = readdir( $pluginsDir ) ) ) {
+    if ($pluginsDir = opendir(WEB_PLUGIN_PATH)) {
+        while (false !== ($dossier = readdir($pluginsDir))) {
 
-			$setupPath = '';
-			$version   = '';
-			if ( $dossier != '.' && $dossier != '..' && $dossier != 'index.php' ) {
+            $setupPath = '';
+            $version = '';
+            if ($dossier != '.' && $dossier != '..' && $dossier != 'index.php') {
 
-				if ( file_exists( WEB_PLUGIN_PATH . $dossier . '/setup.php' ) ) {
-					$setupPath = WEB_PLUGIN_URL . $dossier . '/setup.php';
-				}
+                if (file_exists(WEB_PLUGIN_PATH . $dossier . '/setup.php')) {
+                    $setupPath = WEB_PLUGIN_URL . $dossier . '/setup.php';
+                }
 
-				if ( file_exists( WEB_PLUGIN_PATH . $dossier . '/version.json' ) ) {
-					$version = WEB_PLUGIN_PATH . $dossier . '/version.json';
-				}
+                if (file_exists(WEB_PLUGIN_PATH . $dossier . '/version.json')) {
+                    $version = WEB_PLUGIN_PATH . $dossier . '/version.json';
+                }
 
-				array_push( $plugins, array(
-					'name'        => $dossier,
-					'pluginPath'  => WEB_PLUGIN_PATH . $dossier . '/',
-					'setupPath'   => $setupPath,
-					'versionPath' => $version
-				) );
-			}
-		}
-	}
+                array_push($plugins, array(
+                    'name' => $dossier,
+                    'pluginPath' => WEB_PLUGIN_PATH . $dossier . '/',
+                    'setupPath' => $setupPath,
+                    'versionPath' => $version
+                ));
+            }
+        }
+    }
 
-	return $plugins;
+    return $plugins;
 }
 
 /**
  * @return array
  */
-function getPluginsName() {
-	return array_keys( groupMultipleKeysArray( getPlugins(), 'name' ) );
+function getPluginsName()
+{
+    return array_keys(groupMultipleKeysArray(getPlugins(), 'name'));
 }
 
 /**
@@ -1296,8 +1377,9 @@ function getPluginsName() {
  *
  * @return bool|string
  */
-function activePlugin( $setupPath ) {
-	return file_get_contents( $setupPath );
+function activePlugin($setupPath)
+{
+    return file_get_contents($setupPath);
 }
 
 /**
@@ -1305,10 +1387,11 @@ function activePlugin( $setupPath ) {
  *
  * @return bool
  */
-function pluginExist( $pluginName ) {
-	$dir = WEB_PLUGIN_PATH . $pluginName;
+function pluginExist($pluginName)
+{
+    $dir = WEB_PLUGIN_PATH . $pluginName;
 
-	return file_exists( $dir ) && is_dir( $dir );
+    return file_exists($dir) && is_dir($dir);
 }
 
 /**
@@ -1316,17 +1399,18 @@ function pluginExist( $pluginName ) {
  *
  * @return string
  */
-function getSizeName( $octets ) {
-	$resultat = $octets;
-	for ( $i = 0; $i < 8 && $resultat >= 1024; $i ++ ) {
-		$resultat = $resultat / 1024;
-	}
-	if ( $i > 0 ) {
-		return preg_replace( '/,00$/', '', number_format( $resultat, 2, ',', '' ) )
-		       . ' ' . substr( 'KMGTPEZY', $i - 1, 1 ) . 'o';
-	} else {
-		return $resultat . ' o';
-	}
+function getSizeName($octets)
+{
+    $resultat = $octets;
+    for ($i = 0; $i < 8 && $resultat >= 1024; $i++) {
+        $resultat = $resultat / 1024;
+    }
+    if ($i > 0) {
+        return preg_replace('/,00$/', '', number_format($resultat, 2, ',', ''))
+            . ' ' . substr('KMGTPEZY', $i - 1, 1) . 'o';
+    } else {
+        return $resultat . ' o';
+    }
 }
 
 
@@ -1336,55 +1420,57 @@ function getSizeName( $octets ) {
  * @return bool
  * @throws Exception
  */
-function appBackup( $DB = true ) {
+function appBackup($DB = true)
+{
 
-	//check existing main backup folder or created it
-	if ( ! file_exists( WEB_APP_PATH . 'backup/' ) ) {
-		if ( mkdir( WEB_APP_PATH . 'backup', 0705 ) ) {
-			return appBackup();
-		}
-	}
+    //check existing main backup folder or created it
+    if (!file_exists(WEB_APP_PATH . 'backup/')) {
+        if (mkdir(WEB_APP_PATH . 'backup', 0705)) {
+            return appBackup();
+        }
+    }
 
-	$backUpFolder = WEB_BACKUP_PATH . date( 'Y-m-d' );
+    $backUpFolder = WEB_BACKUP_PATH . date('Y-m-d');
 
-	//check existing backup folder for today or created it
-	if ( ! file_exists( $backUpFolder ) ) {
-		if ( @mkdir( $backUpFolder, 0705 ) ) {
-			if ( $DB ) {
+    //check existing backup folder for today or created it
+    if (!file_exists($backUpFolder)) {
+        if (@mkdir($backUpFolder, 0705)) {
+            if ($DB) {
 
-				//save db
-				\App\DB::backup( date( 'Y-m-d' ) );
+                //save db
+                \App\DB::backup(date('Y-m-d'));
 
-				//check if db was saved
-				if ( ! file_exists( $backUpFolder . DIRECTORY_SEPARATOR . 'db.sql.gz' ) ) {
-					error_log( date( 'd/m/Y H:i' ) . ' : La sauvegarde de la base de données de ' . WEB_TITLE . ' n\'a pas été effectué.', 0 );
-				}
-			}
-		}
+                //check if db was saved
+                if (!file_exists($backUpFolder . DIRECTORY_SEPARATOR . 'db.sql.gz')) {
+                    error_log(date('d/m/Y H:i') . ' : La sauvegarde de la base de données de ' . WEB_TITLE . ' n\'a pas été effectué.', 0);
+                }
+            }
+        }
 
-		//delete old folders (-30 days)
-		$maxAutorizedFolderDate = new DateTime( '-30 days' );
-		$directories            = scandir( WEB_BACKUP_PATH );
-		foreach ( $directories as $directory ) {
-			if ( $directory != '.' and $directory != '..' ) {
-				if ( is_dir( WEB_BACKUP_PATH . $directory ) ) {
-					if ( $maxAutorizedFolderDate > new DateTime( $directory ) ) {
-						deleteAllFolderContent( WEB_BACKUP_PATH . $directory );
-					}
-				}
-			}
-		}
-	}
+        //delete old folders (-30 days)
+        $maxAutorizedFolderDate = new DateTime('-30 days');
+        $directories = scandir(WEB_BACKUP_PATH);
+        foreach ($directories as $directory) {
+            if ($directory != '.' and $directory != '..') {
+                if (is_dir(WEB_BACKUP_PATH . $directory)) {
+                    if ($maxAutorizedFolderDate > new DateTime($directory)) {
+                        deleteAllFolderContent(WEB_BACKUP_PATH . $directory);
+                    }
+                }
+            }
+        }
+    }
 
-	return true;
+    return true;
 }
 
 /**
  * @param $text
  */
-function appLog( $text ) {
-	$AppLog = new AppLogging();
-	$AppLog->write( $text );
+function appLog($text)
+{
+    $AppLog = new AppLogging();
+    $AppLog->write($text);
 }
 
 /**
@@ -1393,17 +1479,18 @@ function appLog( $text ) {
  *
  * @return bool
  */
-function downloadZip( $path, $url ) {
-	$fh = fopen( $path, 'w' );
-	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	curl_setopt( $ch, CURLOPT_FILE, $fh );
-	curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true ); // this will follow redirects
-	curl_exec( $ch );
-	curl_close( $ch );
-	fclose( $fh );
+function downloadZip($path, $url)
+{
+    $fh = fopen($path, 'w');
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_FILE, $fh);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // this will follow redirects
+    curl_exec($ch);
+    curl_close($ch);
+    fclose($fh);
 
-	return true;
+    return true;
 }
 
 
@@ -1415,32 +1502,33 @@ function downloadZip( $path, $url ) {
  *
  * @return bool
  */
-function rcopy( $src, $dest ) {
+function rcopy($src, $dest)
+{
 
-	// If source is not a directory stop processing
-	if ( ! is_dir( $src ) ) {
-		return false;
-	}
+    // If source is not a directory stop processing
+    if (!is_dir($src)) {
+        return false;
+    }
 
-	// If the destination directory does not exist create it
-	if ( ! is_dir( $dest ) ) {
-		if ( ! mkdir( $dest ) ) {
-			// If the destination directory could not be created stop processing
-			return false;
-		}
-	}
+    // If the destination directory does not exist create it
+    if (!is_dir($dest)) {
+        if (!mkdir($dest)) {
+            // If the destination directory could not be created stop processing
+            return false;
+        }
+    }
 
-	// Open the source directory to read in files
-	$i = new DirectoryIterator( $src );
-	foreach ( $i as $f ) {
-		if ( $f->isFile() ) {
-			copy( $f->getRealPath(), "$dest/" . $f->getFilename() );
-		} else if ( ! $f->isDot() && $f->isDir() ) {
-			rcopy( $f->getRealPath(), "$dest/$f" );
-		}
-	}
+    // Open the source directory to read in files
+    $i = new DirectoryIterator($src);
+    foreach ($i as $f) {
+        if ($f->isFile()) {
+            copy($f->getRealPath(), "$dest/" . $f->getFilename());
+        } else if (!$f->isDot() && $f->isDir()) {
+            rcopy($f->getRealPath(), "$dest/$f");
+        }
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -1448,62 +1536,63 @@ function rcopy( $src, $dest ) {
  *
  * @return array|bool
  */
-function saveFiles( $folder = 'public' ) {
+function saveFiles($folder = 'public')
+{
 
-	// Get real path for our folder
-	$rootPath = realpath( getenv( 'DOCUMENT_ROOT' ) . DIRECTORY_SEPARATOR . $folder );
+    // Get real path for our folder
+    $rootPath = realpath(getenv('DOCUMENT_ROOT') . DIRECTORY_SEPARATOR . $folder);
 
-	$dest = ROOT_PATH . 'app/backup/' . date( 'Y-m-d' );
+    $dest = ROOT_PATH . 'app/backup/' . date('Y-m-d');
 
-	if ( ! is_dir( $dest ) && ! is_file( $dest ) ) {
-		if ( ! mkdir( $dest ) ) {
-			return false;
-		}
-	}
+    if (!is_dir($dest) && !is_file($dest)) {
+        if (!mkdir($dest)) {
+            return false;
+        }
+    }
 
-	$filename         = slugify( $folder ) . '-' . date( 'H_i_s' ) . '-files.zip';
-	$saveFileName     = $dest . DIRECTORY_SEPARATOR . $filename;
-	$downloadFileName = WEB_DIR_URL . 'app/backup/' . date( 'Y-m-d' ) . DIRECTORY_SEPARATOR . $filename;
+    $filename = slugify($folder) . '-' . date('H_i_s') . '-files.zip';
+    $saveFileName = $dest . DIRECTORY_SEPARATOR . $filename;
+    $downloadFileName = WEB_DIR_URL . 'app/backup/' . date('Y-m-d') . DIRECTORY_SEPARATOR . $filename;
 
-	// Initialize archive object
-	$zip = new ZipArchive();
-	if ( $zip->open( $saveFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE ) ) {
+    // Initialize archive object
+    $zip = new ZipArchive();
+    if ($zip->open($saveFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
 
-		// Create recursive directory iterator
-		$files = new RecursiveIteratorIterator(
-			new RecursiveDirectoryIterator( $rootPath ),
-			RecursiveIteratorIterator::LEAVES_ONLY
-		);
+        // Create recursive directory iterator
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($rootPath),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
 
-		$filesSize = 0;
+        $filesSize = 0;
 
-		foreach ( $files as $name => $file ) {
+        foreach ($files as $name => $file) {
 
-			// Skip directories (they would be added automatically)
-			if ( ! $file->isDir() ) {
+            // Skip directories (they would be added automatically)
+            if (!$file->isDir()) {
 
-				// Get real and relative path for current file
-				$filePath     = $file->getRealPath();
-				$relativePath = substr( $filePath, strlen( $rootPath ) + 1 );
+                // Get real and relative path for current file
+                $filePath = $file->getRealPath();
+                $relativePath = substr($filePath, strlen($rootPath) + 1);
 
-				// Add current file to archive
-				$zip->addFile( $filePath, $relativePath );
+                // Add current file to archive
+                $zip->addFile($filePath, $relativePath);
 
-				$filesSize += $file->getSize();
-			}
-		}
+                $filesSize += $file->getSize();
+            }
+        }
 
-		// Zip archive will be created only after closing object
-		if ( $zip->close() ) {
-			return array(
-				'copySize'     => $filesSize,
-				'zipSize'      => filesize( $saveFileName ),
-				'downloadLink' => $downloadFileName
-			);
-		}
-	}
+        // Zip archive will be created only after closing object
+        if ($zip->close()) {
+            return array(
+                'copySize' => $filesSize,
+                'zipSize' => filesize($saveFileName),
+                'downloadLink' => $downloadFileName
+            );
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -1514,14 +1603,15 @@ function saveFiles( $folder = 'public' ) {
  *
  * @return bool
  */
-function createFolder( $structure, $chmod = 0755 ) {
-	if ( ! is_dir( $structure ) ) {
-		if ( ! mkdir( $structure, $chmod ) ) {
-			return false;
-		}
-	}
+function createFolder($structure, $chmod = 0755)
+{
+    if (!is_dir($structure)) {
+        if (!mkdir($structure, $chmod)) {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -1531,14 +1621,15 @@ function createFolder( $structure, $chmod = 0755 ) {
  *
  * @return bool
  */
-function createFile( $structure ) {
-	if ( ! is_file( $structure ) ) {
-		if ( ! fopen( $structure, 'w' ) ) {
-			return false;
-		}
-	}
+function createFile($structure)
+{
+    if (!is_file($structure)) {
+        if (!fopen($structure, 'w')) {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -1549,43 +1640,44 @@ function createFile( $structure ) {
  *
  * @return bool
  */
-function rmove( $src, $dest ) {
+function rmove($src, $dest)
+{
 
-	// If source is not a directory stop processing
-	if ( ! is_dir( $src ) && ! is_file( $dest ) ) {
-		return false;
-	}
+    // If source is not a directory stop processing
+    if (!is_dir($src) && !is_file($dest)) {
+        return false;
+    }
 
-	// If the destination directory does not exist create it
-	if ( ! is_dir( $dest ) && ! is_file( $dest ) ) {
-		if ( ! mkdir( $dest ) ) {
-			// If the destination directory could not be created stop processing
-			return false;
-		}
-	}
+    // If the destination directory does not exist create it
+    if (!is_dir($dest) && !is_file($dest)) {
+        if (!mkdir($dest)) {
+            // If the destination directory could not be created stop processing
+            return false;
+        }
+    }
 
-	if ( is_file( $dest ) ) {
-		rename( realpath( $src ), "$dest" );
-	} else {
-		// Open the source directory to read in files
-		$i = new DirectoryIterator( $src );
-		foreach ( $i as $f ) {
-			if ( $f->isFile() ) {
-				if ( $f->getFilename() != 'setup.php' ) {
-					rename( $f->getRealPath(), "$dest/" . $f->getFilename() );
-				}
-			} else if ( ! $f->isDot() && $f->isDir() ) {
-				rmove( $f->getRealPath(), "$dest/$f" );
-				if ( $f->getRealPath() && ! is_dir( $f->getRealPath() ) ) {
-					unlink( $f->getRealPath() );
-				}
-			}
-		}
-	}
+    if (is_file($dest)) {
+        rename(realpath($src), "$dest");
+    } else {
+        // Open the source directory to read in files
+        $i = new DirectoryIterator($src);
+        foreach ($i as $f) {
+            if ($f->isFile()) {
+                if ($f->getFilename() != 'setup.php') {
+                    rename($f->getRealPath(), "$dest/" . $f->getFilename());
+                }
+            } else if (!$f->isDot() && $f->isDir()) {
+                rmove($f->getRealPath(), "$dest/$f");
+                if ($f->getRealPath() && !is_dir($f->getRealPath())) {
+                    unlink($f->getRealPath());
+                }
+            }
+        }
+    }
 
-	deleteAllFolderContent( $src );
+    deleteAllFolderContent($src);
 
-	return true;
+    return true;
 }
 
 /**
@@ -1594,14 +1686,15 @@ function rmove( $src, $dest ) {
  *
  * @return bool
  */
-function renameFile( $oldName, $newName ) {
+function renameFile($oldName, $newName)
+{
 
-	if ( ! file_exists( $newName ) ) {
-		return rename( $oldName, $newName );
+    if (!file_exists($newName)) {
+        return rename($oldName, $newName);
 
-	}
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -1613,47 +1706,48 @@ function renameFile( $oldName, $newName ) {
  *
  * @return bool
  */
-function unzipSkipFirstFolder( $src, $path, $firstFolderName, $replaceInPath, $deleteZip = true ) {
-	$tempFolder  = $path . 'unzip';
-	$pluginsName = getPluginsName();
+function unzipSkipFirstFolder($src, $path, $firstFolderName, $replaceInPath, $deleteZip = true)
+{
+    $tempFolder = $path . 'unzip';
+    $pluginsName = getPluginsName();
 
-	$zip = new ZipArchive;
-	$res = $zip->open( $src );
-	if ( $res === true ) {
-		$zip->extractTo( $tempFolder );
-		$directories = scandir( $tempFolder . '/' . $firstFolderName );
-		foreach ( $directories as $directory ) {
-			if ( $directory != '.' and $directory != '..' ) {
+    $zip = new ZipArchive;
+    $res = $zip->open($src);
+    if ($res === true) {
+        $zip->extractTo($tempFolder);
+        $directories = scandir($tempFolder . '/' . $firstFolderName);
+        foreach ($directories as $directory) {
+            if ($directory != '.' and $directory != '..') {
 
-				if ( is_dir( $tempFolder . '/' . $firstFolderName . '/' . $directory ) ) {
+                if (is_dir($tempFolder . '/' . $firstFolderName . '/' . $directory)) {
 
-					if ( ! is_dir( $replaceInPath . $directory ) && in_array( $directory, $pluginsName ) ) {
-						createFolder( $replaceInPath . $directory );
-					}
+                    if (!is_dir($replaceInPath . $directory) && in_array($directory, $pluginsName)) {
+                        createFolder($replaceInPath . $directory);
+                    }
 
-					if ( is_dir( $replaceInPath . $directory ) ) {
-						rmove( $tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory );
-					}
+                    if (is_dir($replaceInPath . $directory)) {
+                        rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
+                    }
 
-				} elseif ( is_file( $tempFolder . '/' . $firstFolderName . '/' . $directory ) ) {
+                } elseif (is_file($tempFolder . '/' . $firstFolderName . '/' . $directory)) {
 
-					if ( ! is_file( $replaceInPath . $directory ) ) {
-						createFile( $replaceInPath . $directory );
-					}
+                    if (!is_file($replaceInPath . $directory)) {
+                        createFile($replaceInPath . $directory);
+                    }
 
-					rmove( $tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory );
-				}
-			}
-		}
+                    rmove($tempFolder . '/' . $firstFolderName . '/' . $directory, $replaceInPath . $directory);
+                }
+            }
+        }
 
-		$zip->close();
-	}
-	deleteAllFolderContent( $tempFolder );
-	if ( $deleteZip ) {
-		unlink( $src );
-	}
+        $zip->close();
+    }
+    deleteAllFolderContent($tempFolder);
+    if ($deleteZip) {
+        unlink($src);
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -1663,18 +1757,19 @@ function unzipSkipFirstFolder( $src, $path, $firstFolderName, $replaceInPath, $d
  *
  * @return bool
  */
-function unzip( $src, $path, $deleteZip = true ) {
-	$zip = new ZipArchive;
-	if ( true === $zip->open( $src ) ) {
-		$zip->extractTo( $path );
-		$zip->close();
-	}
+function unzip($src, $path, $deleteZip = true)
+{
+    $zip = new ZipArchive;
+    if (true === $zip->open($src)) {
+        $zip->extractTo($path);
+        $zip->close();
+    }
 
-	if ( $deleteZip ) {
-		unlink( $src );
-	}
+    if ($deleteZip) {
+        unlink($src);
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -1682,250 +1777,253 @@ function unzip( $src, $path, $deleteZip = true ) {
  *
  * @param $dirPath
  */
-function deleteAllFolderContent( $dirPath ) {
-	if ( is_dir( $dirPath ) ) {
-		$objects = scandir( $dirPath );
-		foreach ( $objects as $object ) {
-			if ( $object != "." && $object != ".." ) {
-				if ( filetype( $dirPath . "/" . $object ) == "dir" ) {
-					deleteAllFolderContent( $dirPath . "/" . $object );
-				} else {
-					unlink( $dirPath . "/" . $object );
-				}
-			}
-		}
-		reset( $objects );
-		rmdir( $dirPath );
-	} elseif ( is_file( $dirPath ) ) {
-		unlink( $dirPath );
-	}
+function deleteAllFolderContent($dirPath)
+{
+    if (is_dir($dirPath)) {
+        $objects = scandir($dirPath);
+        foreach ($objects as $object) {
+            if ($object != "." && $object != "..") {
+                if (filetype($dirPath . "/" . $object) == "dir") {
+                    deleteAllFolderContent($dirPath . "/" . $object);
+                } else {
+                    unlink($dirPath . "/" . $object);
+                }
+            }
+        }
+        reset($objects);
+        rmdir($dirPath);
+    } elseif (is_file($dirPath)) {
+        unlink($dirPath);
+    }
 }
 
 /**
  * @return array
  */
-function getAppTypes() {
-	//get plugin types
-	$allTypes = getPluginsName();
-	$allTypes = array_combine( array_map( 'strtoupper', $allTypes ), array_map( 'strtoupper', $allTypes ) );
+function getAppTypes()
+{
+    //get plugin types
+    $allTypes = getPluginsName();
+    $allTypes = array_combine(array_map('strtoupper', $allTypes), array_map('strtoupper', $allTypes));
 
-	//get app types
-	$appTypes = array_combine( array_map( 'strtoupper', CATEGORY_TYPES ), array_map( 'strtoupper', CATEGORY_TYPES ) );
+    //get app types
+    $appTypes = array_combine(array_map('strtoupper', CATEGORY_TYPES), array_map('strtoupper', CATEGORY_TYPES));
 
-	return array_merge( $allTypes, $appTypes );
+    return array_merge($allTypes, $appTypes);
 }
 
 /**
  * @return array
  */
-function listPays() {
-	return array
-	(
-		"ZA" => "Afrique du Sud",
-		"AL" => "Albanie",
-		"DZ" => "Algérie",
-		"DE" => "Allemagne",
-		"AD" => "Andorre",
-		"AO" => "Angola",
-		"AI" => "Anguilla",
-		"AG" => "Antigua-et-Barbuda",
-		"AN" => "Antilles néerlandaises",
-		"SA" => "Arabie saoudite",
-		"AR" => "Argentine",
-		"AM" => "Arménie",
-		"AW" => "Aruba",
-		"AU" => "Australie",
-		"AT" => "Autriche",
-		"AZ" => "Azerbaïdjan",
-		"BS" => "Bahamas",
-		"BH" => "Bahreïn",
-		"BB" => "Barbade",
-		"BE" => "Belgique",
-		"BZ" => "Belize",
-		"BJ" => "Bénin",
-		"BM" => "Bermudes",
-		"BT" => "Bhoutan",
-		"BY" => "Biélorussie",
-		"BO" => "Bolivie",
-		"BA" => "Bosnie-Herzégovine",
-		"BW" => "Botswana",
-		"BR" => "Brésil",
-		"BN" => "Brunéi Darussalam",
-		"BG" => "Bulgarie",
-		"BF" => "Burkina Faso",
-		"BI" => "Burundi",
-		"KH" => "Cambodge",
-		"CM" => "Cameroun",
-		"CA" => "Canada",
-		"CV" => "Cap-Vert",
-		"CL" => "Chili",
-		"C2" => "Chine",
-		"CY" => "Chypre",
-		"CO" => "Colombie",
-		"KM" => "Comores",
-		"CG" => "Congo-Brazzaville",
-		"CD" => "Congo-Kinshasa",
-		"KR" => "Corée du Sud",
-		"CR" => "Costa Rica",
-		"CI" => "Côte d’Ivoire",
-		"HR" => "Croatie",
-		"DK" => "Danemark",
-		"DJ" => "Djibouti",
-		"DM" => "Dominique",
-		"EG" => "Égypte",
-		"SV" => "El Salvador",
-		"AE" => "Émirats arabes unis",
-		"EC" => "Équateur",
-		"ER" => "Érythrée",
-		"ES" => "Espagne",
-		"EE" => "Estonie",
-		"VA" => "État de la Cité du Vatican",
-		"FM" => "États fédérés de Micronésie",
-		"US" => "États-Unis",
-		"ET" => "Éthiopie",
-		"FJ" => "Fidji",
-		"FI" => "Finlande",
-		"FR" => "France",
-		"GA" => "Gabon",
-		"GM" => "Gambie",
-		"GE" => "Géorgie",
-		"GI" => "Gibraltar",
-		"GR" => "Grèce",
-		"GD" => "Grenade",
-		"GL" => "Groenland",
-		"GP" => "Guadeloupe",
-		"GT" => "Guatemala",
-		"GN" => "Guinée",
-		"GW" => "Guinée-Bissau",
-		"GY" => "Guyana",
-		"GF" => "Guyane française",
-		"HN" => "Honduras",
-		"HU" => "Hongrie",
-		"NF" => "Île Norfolk",
-		"KY" => "Îles Caïmans",
-		"CK" => "Îles Cook",
-		"FO" => "Îles Féroé",
-		"FK" => "Îles Malouines",
-		"MH" => "Îles Marshall",
-		"PN" => "Îles Pitcairn",
-		"SB" => "Îles Salomon",
-		"TC" => "Îles Turques-et-Caïques",
-		"VG" => "Îles Vierges britanniques",
-		"IN" => "Inde",
-		"ID" => "Indonésie",
-		"IE" => "Irlande",
-		"IS" => "Islande",
-		"IL" => "Israël",
-		"IT" => "Italie",
-		"JM" => "Jamaïque",
-		"JP" => "Japon",
-		"JO" => "Jordanie",
-		"KZ" => "Kazakhstan",
-		"KE" => "Kenya",
-		"KG" => "Kirghizistan",
-		"KI" => "Kiribati",
-		"KW" => "Koweït",
-		"RE" => "La Réunion",
-		"LA" => "Laos",
-		"LS" => "Lesotho",
-		"LV" => "Lettonie",
-		"LI" => "Liechtenstein",
-		"LT" => "Lituanie",
-		"LU" => "Luxembourg",
-		"LY" => "Libye",
-		"MK" => "Macédoine",
-		"MG" => "Madagascar",
-		"MY" => "Malaisie",
-		"MW" => "Malawi",
-		"MV" => "Maldives",
-		"ML" => "Mali",
-		"MT" => "Malte",
-		"MA" => "Maroc",
-		"MQ" => "Martinique",
-		"MU" => "Maurice",
-		"MR" => "Mauritanie",
-		"YT" => "Mayotte",
-		"MX" => "Mexique",
-		"MD" => "Moldavie",
-		"MC" => "Monaco",
-		"MN" => "Mongolie",
-		"ME" => "Monténégro",
-		"MS" => "Montserrat",
-		"MZ" => "Mozambique",
-		"NA" => "Namibie",
-		"NR" => "Nauru",
-		"NP" => "Népal",
-		"NI" => "Nicaragua",
-		"NE" => "Niger",
-		"NG" => "Nigéria",
-		"NU" => "Niue",
-		"NO" => "Norvège",
-		"NC" => "Nouvelle-Calédonie",
-		"NZ" => "Nouvelle-Zélande",
-		"OM" => "Oman",
-		"UG" => "Ouganda",
-		"PW" => "Palaos",
-		"PA" => "Panama",
-		"PG" => "Papouasie-Nouvelle-Guinée",
-		"PY" => "Paraguay",
-		"NL" => "Pays-Bas",
-		"PE" => "Pérou",
-		"PH" => "Philippines",
-		"PL" => "Pologne",
-		"PF" => "Polynésie française",
-		"PT" => "Portugal",
-		"QA" => "Qatar",
-		"HK" => "R.A.S. chinoise de Hong Kong",
-		"DO" => "République dominicaine",
-		"CZ" => "République tchèque",
-		"RO" => "Roumanie",
-		"GB" => "Royaume-Uni",
-		"RU" => "Russie",
-		"RW" => "Rwanda",
-		"KN" => "Saint-Christophe-et-Niévès",
-		"SM" => "Saint-Marin",
-		"PM" => "Saint-Pierre-et-Miquelon",
-		"VC" => "Saint-Vincent-et-les-Grenadines",
-		"SH" => "Sainte-Hélène",
-		"LC" => "Sainte-Lucie",
-		"WS" => "Samoa",
-		"ST" => "Sao Tomé-et-Principe",
-		"SN" => "Sénégal",
-		"RS" => "Serbie",
-		"SC" => "Seychelles",
-		"SL" => "Sierra Leone",
-		"SG" => "Singapour",
-		"SK" => "Slovaquie",
-		"SI" => "Slovénie",
-		"SO" => "Somalie",
-		"LK" => "Sri Lanka",
-		"SE" => "Suède",
-		"CH" => "Suisse",
-		"SR" => "Suriname",
-		"SJ" => "Svalbard et Jan Mayen",
-		"SZ" => "Swaziland",
-		"TJ" => "Tadjikistan",
-		"TW" => "Taïwan",
-		"TZ" => "Tanzanie",
-		"TD" => "Tchad",
-		"TH" => "Thaïlande",
-		"TG" => "Togo",
-		"TO" => "Tonga",
-		"TT" => "Trinité-et-Tobago",
-		"TN" => "Tunisie",
-		"TM" => "Turkménistan",
-		"TR" => "Turquie",
-		"TV" => "Tuvalu",
-		"UA" => "Ukraine",
-		"UY" => "Uruguay",
-		"VU" => "Vanuatu",
-		"VE" => "Venezuela",
-		"VN" => "Vietnam",
-		"WF" => "Wallis-et-Futuna",
-		"YE" => "Yémen",
-		"ZM" => "Zambie",
-		"ZW" => "Zimbabwe"
-	);
+function listPays()
+{
+    return array
+    (
+        "ZA" => "Afrique du Sud",
+        "AL" => "Albanie",
+        "DZ" => "Algérie",
+        "DE" => "Allemagne",
+        "AD" => "Andorre",
+        "AO" => "Angola",
+        "AI" => "Anguilla",
+        "AG" => "Antigua-et-Barbuda",
+        "AN" => "Antilles néerlandaises",
+        "SA" => "Arabie saoudite",
+        "AR" => "Argentine",
+        "AM" => "Arménie",
+        "AW" => "Aruba",
+        "AU" => "Australie",
+        "AT" => "Autriche",
+        "AZ" => "Azerbaïdjan",
+        "BS" => "Bahamas",
+        "BH" => "Bahreïn",
+        "BB" => "Barbade",
+        "BE" => "Belgique",
+        "BZ" => "Belize",
+        "BJ" => "Bénin",
+        "BM" => "Bermudes",
+        "BT" => "Bhoutan",
+        "BY" => "Biélorussie",
+        "BO" => "Bolivie",
+        "BA" => "Bosnie-Herzégovine",
+        "BW" => "Botswana",
+        "BR" => "Brésil",
+        "BN" => "Brunéi Darussalam",
+        "BG" => "Bulgarie",
+        "BF" => "Burkina Faso",
+        "BI" => "Burundi",
+        "KH" => "Cambodge",
+        "CM" => "Cameroun",
+        "CA" => "Canada",
+        "CV" => "Cap-Vert",
+        "CL" => "Chili",
+        "C2" => "Chine",
+        "CY" => "Chypre",
+        "CO" => "Colombie",
+        "KM" => "Comores",
+        "CG" => "Congo-Brazzaville",
+        "CD" => "Congo-Kinshasa",
+        "KR" => "Corée du Sud",
+        "CR" => "Costa Rica",
+        "CI" => "Côte d’Ivoire",
+        "HR" => "Croatie",
+        "DK" => "Danemark",
+        "DJ" => "Djibouti",
+        "DM" => "Dominique",
+        "EG" => "Égypte",
+        "SV" => "El Salvador",
+        "AE" => "Émirats arabes unis",
+        "EC" => "Équateur",
+        "ER" => "Érythrée",
+        "ES" => "Espagne",
+        "EE" => "Estonie",
+        "VA" => "État de la Cité du Vatican",
+        "FM" => "États fédérés de Micronésie",
+        "US" => "États-Unis",
+        "ET" => "Éthiopie",
+        "FJ" => "Fidji",
+        "FI" => "Finlande",
+        "FR" => "France",
+        "GA" => "Gabon",
+        "GM" => "Gambie",
+        "GE" => "Géorgie",
+        "GI" => "Gibraltar",
+        "GR" => "Grèce",
+        "GD" => "Grenade",
+        "GL" => "Groenland",
+        "GP" => "Guadeloupe",
+        "GT" => "Guatemala",
+        "GN" => "Guinée",
+        "GW" => "Guinée-Bissau",
+        "GY" => "Guyana",
+        "GF" => "Guyane française",
+        "HN" => "Honduras",
+        "HU" => "Hongrie",
+        "NF" => "Île Norfolk",
+        "KY" => "Îles Caïmans",
+        "CK" => "Îles Cook",
+        "FO" => "Îles Féroé",
+        "FK" => "Îles Malouines",
+        "MH" => "Îles Marshall",
+        "PN" => "Îles Pitcairn",
+        "SB" => "Îles Salomon",
+        "TC" => "Îles Turques-et-Caïques",
+        "VG" => "Îles Vierges britanniques",
+        "IN" => "Inde",
+        "ID" => "Indonésie",
+        "IE" => "Irlande",
+        "IS" => "Islande",
+        "IL" => "Israël",
+        "IT" => "Italie",
+        "JM" => "Jamaïque",
+        "JP" => "Japon",
+        "JO" => "Jordanie",
+        "KZ" => "Kazakhstan",
+        "KE" => "Kenya",
+        "KG" => "Kirghizistan",
+        "KI" => "Kiribati",
+        "KW" => "Koweït",
+        "RE" => "La Réunion",
+        "LA" => "Laos",
+        "LS" => "Lesotho",
+        "LV" => "Lettonie",
+        "LI" => "Liechtenstein",
+        "LT" => "Lituanie",
+        "LU" => "Luxembourg",
+        "LY" => "Libye",
+        "MK" => "Macédoine",
+        "MG" => "Madagascar",
+        "MY" => "Malaisie",
+        "MW" => "Malawi",
+        "MV" => "Maldives",
+        "ML" => "Mali",
+        "MT" => "Malte",
+        "MA" => "Maroc",
+        "MQ" => "Martinique",
+        "MU" => "Maurice",
+        "MR" => "Mauritanie",
+        "YT" => "Mayotte",
+        "MX" => "Mexique",
+        "MD" => "Moldavie",
+        "MC" => "Monaco",
+        "MN" => "Mongolie",
+        "ME" => "Monténégro",
+        "MS" => "Montserrat",
+        "MZ" => "Mozambique",
+        "NA" => "Namibie",
+        "NR" => "Nauru",
+        "NP" => "Népal",
+        "NI" => "Nicaragua",
+        "NE" => "Niger",
+        "NG" => "Nigéria",
+        "NU" => "Niue",
+        "NO" => "Norvège",
+        "NC" => "Nouvelle-Calédonie",
+        "NZ" => "Nouvelle-Zélande",
+        "OM" => "Oman",
+        "UG" => "Ouganda",
+        "PW" => "Palaos",
+        "PA" => "Panama",
+        "PG" => "Papouasie-Nouvelle-Guinée",
+        "PY" => "Paraguay",
+        "NL" => "Pays-Bas",
+        "PE" => "Pérou",
+        "PH" => "Philippines",
+        "PL" => "Pologne",
+        "PF" => "Polynésie française",
+        "PT" => "Portugal",
+        "QA" => "Qatar",
+        "HK" => "R.A.S. chinoise de Hong Kong",
+        "DO" => "République dominicaine",
+        "CZ" => "République tchèque",
+        "RO" => "Roumanie",
+        "GB" => "Royaume-Uni",
+        "RU" => "Russie",
+        "RW" => "Rwanda",
+        "KN" => "Saint-Christophe-et-Niévès",
+        "SM" => "Saint-Marin",
+        "PM" => "Saint-Pierre-et-Miquelon",
+        "VC" => "Saint-Vincent-et-les-Grenadines",
+        "SH" => "Sainte-Hélène",
+        "LC" => "Sainte-Lucie",
+        "WS" => "Samoa",
+        "ST" => "Sao Tomé-et-Principe",
+        "SN" => "Sénégal",
+        "RS" => "Serbie",
+        "SC" => "Seychelles",
+        "SL" => "Sierra Leone",
+        "SG" => "Singapour",
+        "SK" => "Slovaquie",
+        "SI" => "Slovénie",
+        "SO" => "Somalie",
+        "LK" => "Sri Lanka",
+        "SE" => "Suède",
+        "CH" => "Suisse",
+        "SR" => "Suriname",
+        "SJ" => "Svalbard et Jan Mayen",
+        "SZ" => "Swaziland",
+        "TJ" => "Tadjikistan",
+        "TW" => "Taïwan",
+        "TZ" => "Tanzanie",
+        "TD" => "Tchad",
+        "TH" => "Thaïlande",
+        "TG" => "Togo",
+        "TO" => "Tonga",
+        "TT" => "Trinité-et-Tobago",
+        "TN" => "Tunisie",
+        "TM" => "Turkménistan",
+        "TR" => "Turquie",
+        "TV" => "Tuvalu",
+        "UA" => "Ukraine",
+        "UY" => "Uruguay",
+        "VU" => "Vanuatu",
+        "VE" => "Venezuela",
+        "VN" => "Vietnam",
+        "WF" => "Wallis-et-Futuna",
+        "YE" => "Yémen",
+        "ZM" => "Zambie",
+        "ZW" => "Zimbabwe"
+    );
 }
 
 /**
@@ -1933,13 +2031,14 @@ function listPays() {
  *
  * @return mixed|string
  */
-function getPaysName( $iso ) {
-	$countries = listPays();
-	if ( array_key_exists( $iso, $countries ) ) {
-		return $countries[ $iso ];
-	} else {
-		return 'Pays inconnu';
-	}
+function getPaysName($iso)
+{
+    $countries = listPays();
+    if (array_key_exists($iso, $countries)) {
+        return $countries[$iso];
+    } else {
+        return 'Pays inconnu';
+    }
 }
 
 /**
@@ -1947,22 +2046,24 @@ function getPaysName( $iso ) {
  *
  * @return mixed|string
  */
-function getIso( $paysName ) {
-	$countries = listPays();
-	if ( in_array( $paysName, $countries ) ) {
-		return array_search( $paysName, $countries );
-	} else {
-		return 'Pays inconnu';
-	}
+function getIso($paysName)
+{
+    $countries = listPays();
+    if (in_array($paysName, $countries)) {
+        return array_search($paysName, $countries);
+    } else {
+        return 'Pays inconnu';
+    }
 }
 
 /**
  *
  */
-function checkSession() {
-	if ( ! headers_sent() && session_status() === PHP_SESSION_DISABLED ) {
-		session_start();
-	}
+function checkSession()
+{
+    if (!headers_sent() && session_status() === PHP_SESSION_DISABLED) {
+        session_start();
+    }
 }
 
 /**
@@ -1972,74 +2073,79 @@ function checkSession() {
  *
  * @return bool|string
  */
-function setToken( $forSession = true ) {
+function setToken($forSession = true)
+{
 
-	$token = "";
-	$str   = "a0b1c2d3e4f5g6h7i8j9klmnpqrstuvwxy123456789";
-	srand( (double) microtime() * 1000000 );
-	for ( $i = 0; $i < 70; $i ++ ) {
-		$token .= $str[ rand() % strlen( $str ) ];
-	}
+    $token = "";
+    $str = "a0b1c2d3e4f5g6h7i8j9klmnpqrstuvwxy123456789";
+    srand((double)microtime() * 1000000);
+    for ($i = 0; $i < 70; $i++) {
+        $token .= $str[rand() % strlen($str)];
+    }
 
-	if ( $forSession ) {
-		checkSession();
-		$_SESSION['_token'] = ! bot_detected() ? $token : 'a1b2c3-d4e5f6';
+    if ($forSession) {
+        checkSession();
+        $_SESSION['_token'] = !bot_detected() ? $token : 'a1b2c3-d4e5f6';
 
-		return true;
-	}
+        return true;
+    }
 
-	return $token;
+    return $token;
 }
 
 /**
  * @return string
  */
-function getTokenField() {
-	checkSession();
-	if ( ! isset( $_SESSION['_token'] ) ) {
-		setToken();
-	}
+function getTokenField()
+{
+    checkSession();
+    if (!isset($_SESSION['_token'])) {
+        setToken();
+    }
 
-	return '<input type="hidden" name="_token" value="' . getToken() . '">';
+    return '<input type="hidden" name="_token" value="' . getToken() . '">';
 }
 
 /**
  * @return mixed
  */
-function getToken() {
-	if ( isset( $_SESSION['_token'] ) ) {
-		return $_SESSION['_token'];
-	}
+function getToken()
+{
+    if (isset($_SESSION['_token'])) {
+        return $_SESSION['_token'];
+    }
 
-	return '';
+    return '';
 }
 
 /**
  * remove token session
  */
-function unsetToken() {
-	if ( isset( $_SESSION['_token'] ) ) {
-		unset( $_SESSION['_token'] );
-	}
+function unsetToken()
+{
+    if (isset($_SESSION['_token'])) {
+        unset($_SESSION['_token']);
+    }
 }
 
 /**
  * display notifications & alerts
  */
-function getSessionNotifications() {
-	$sessionsNotifs = array(
-		'notifications',
-		'alert'
-	);
-	foreach ( $sessionsNotifs as $sessionNotif ) {
-		if ( ! empty( $_SESSION[ $sessionNotif ] ) ) {
-			foreach ( $_SESSION[ $sessionNotif ] as $notif ) {
-				if ( ! empty( $notif['alert'] ) ) {
-					echo $notif['alert'];
-				}
-			}
-		}
-	}
+function getSessionNotifications()
+{
+    $sessionsNotifs = array(
+        'notifications',
+        'alert'
+    );
+    foreach ($sessionsNotifs as $sessionNotif) {
+        if (!empty($_SESSION[$sessionNotif])) {
+            foreach ($_SESSION[$sessionNotif] as $notif) {
+                if (!empty($notif['alert'])) {
+                    echo $notif['alert'];
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -2052,20 +2158,21 @@ function getSessionNotifications() {
  *
  * @return bool
  */
-function inc( $filePath, $requireMethod = false, $once = false ) {
-	if ( file_exists( $filePath ) ) {
-		if ( ! $requireMethod ) {
-			! $once ? include( $filePath ) : include_once( $filePath );
+function inc($filePath, $requireMethod = false, $once = false)
+{
+    if (file_exists($filePath)) {
+        if (!$requireMethod) {
+            !$once ? include($filePath) : include_once($filePath);
 
-			return true;
-		}
+            return true;
+        }
 
-		! $once ? require( $filePath ) : require_once( $filePath );
+        !$once ? require($filePath) : require_once($filePath);
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -2075,15 +2182,16 @@ function inc( $filePath, $requireMethod = false, $once = false ) {
  *
  * @return bool|false|string
  */
-function getAsset( $assetName, $getStream = false, $params = null ) {
-	$fileDirname = 'assets/' . $assetName . '.php';
-	$filePath    = WEB_LIB_PATH . $fileDirname;
+function getAsset($assetName, $getStream = false, $params = null)
+{
+    $fileDirname = 'assets/' . $assetName . '.php';
+    $filePath = WEB_LIB_PATH . $fileDirname;
 
-	if ( file_exists( $filePath ) ) {
-		return $getStream ? getFileContent( $filePath, $params ) : include_once( $filePath );
-	}
+    if (file_exists($filePath)) {
+        return $getStream ? getFileContent($filePath, $params) : include_once($filePath);
+    }
 
-	return false;
+    return false;
 }
 
 
@@ -2094,62 +2202,63 @@ function getAsset( $assetName, $getStream = false, $params = null ) {
  *
  * @return bool|int
  */
-function thumb( $filename, $desired_width = 100, $quality = 80 ) {
-	$src  = FILE_DIR_PATH . $filename;
-	$dest = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
+function thumb($filename, $desired_width = 100, $quality = 80)
+{
+    $src = FILE_DIR_PATH . $filename;
+    $dest = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
 
 
-	if ( ! file_exists( FILE_DIR_PATH . 'thumb/' ) ) {
-		mkdir( FILE_DIR_PATH . 'thumb', 0705 );
-	}
+    if (!file_exists(FILE_DIR_PATH . 'thumb/')) {
+        mkdir(FILE_DIR_PATH . 'thumb', 0705);
+    }
 
-	if ( is_file( $src ) && ! is_file( $dest ) && isImage( $src ) ) {
+    if (is_file($src) && !is_file($dest) && isImage($src)) {
 
-		list( $src_width, $src_height, $src_type, $src_attr ) = getimagesize( $src );
+        list($src_width, $src_height, $src_type, $src_attr) = getimagesize($src);
 
-		//check if thumb can be realized
-		if ( $desired_width < $src_width ) {
+        //check if thumb can be realized
+        if ($desired_width < $src_width) {
 
-			// Find format
-			$ext          = strtoupper( pathinfo( $src, PATHINFO_EXTENSION ) );
-			$source_image = '';
+            // Find format
+            $ext = strtoupper(pathinfo($src, PATHINFO_EXTENSION));
+            $source_image = '';
 
-			/* read the source image */
-			if ( $ext == "JPG" or $ext == "JPEG" ) {
-				$source_image = imagecreatefromjpeg( $src );
-			} elseif ( $ext == "PNG" ) {
-				$source_image = ImageCreateFromPNG( $src );
-			} elseif ( $ext == "GIF" ) {
-				$source_image = ImageCreateFromGIF( $src );
-			}
+            /* read the source image */
+            if ($ext == "JPG" or $ext == "JPEG") {
+                $source_image = imagecreatefromjpeg($src);
+            } elseif ($ext == "PNG") {
+                $source_image = ImageCreateFromPNG($src);
+            } elseif ($ext == "GIF") {
+                $source_image = ImageCreateFromGIF($src);
+            }
 
-			$width  = imagesx( $source_image );
-			$height = imagesy( $source_image );
+            $width = imagesx($source_image);
+            $height = imagesy($source_image);
 
 
-			/* find the "desired height" of this thumbnail, relative to the desired width  */
-			$desired_height = floor( $height * ( $desired_width / $width ) );
+            /* find the "desired height" of this thumbnail, relative to the desired width  */
+            $desired_height = floor($height * ($desired_width / $width));
 
-			/* create a new, "virtual" image */
-			$virtual_image = imagecreatetruecolor( $desired_width, $desired_height );
+            /* create a new, "virtual" image */
+            $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
 
-			/* copy source image at a resized size */
-			imagecopyresampled( $virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height );
+            /* copy source image at a resized size */
+            imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
 
-			/* create the physical thumbnail image to its destination */
-			if ( $ext == "JPG" or $ext == "JPEG" ) {
-				imagejpeg( $virtual_image, $dest, $quality );
-			} elseif ( $ext == "PNG" ) {
-				imagePNG( $virtual_image, $dest );
-			} elseif ( $ext == "GIF" ) {
-				imageGIF( $virtual_image, $dest );
-			}
+            /* create the physical thumbnail image to its destination */
+            if ($ext == "JPG" or $ext == "JPEG") {
+                imagejpeg($virtual_image, $dest, $quality);
+            } elseif ($ext == "PNG") {
+                imagePNG($virtual_image, $dest);
+            } elseif ($ext == "GIF") {
+                imageGIF($virtual_image, $dest);
+            }
 
-			return true;
-		}
-	}
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -2159,17 +2268,18 @@ function thumb( $filename, $desired_width = 100, $quality = 80 ) {
  *
  * @return string
  */
-function getThumb( $filename, $desired_width, $quality = 100 ) {
-	//Check if file exist
-	if ( is_file( FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename ) ) {
-		return WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
-	} else {
+function getThumb($filename, $desired_width, $quality = 100)
+{
+    //Check if file exist
+    if (is_file(FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename)) {
+        return WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
+    } else {
 
-		//Create thumb
-		$thumb = thumb( $filename, $desired_width, $quality );
+        //Create thumb
+        $thumb = thumb($filename, $desired_width, $quality);
 
-		return $thumb ? getThumb( $filename, $desired_width ) : WEB_DIR_INCLUDE . $filename;
-	}
+        return $thumb ? getThumb($filename, $desired_width) : WEB_DIR_INCLUDE . $filename;
+    }
 }
 
 /**
@@ -2178,15 +2288,16 @@ function getThumb( $filename, $desired_width, $quality = 100 ) {
  *
  * @return bool
  */
-function deleteThumb( $filename, $desired_width ) {
-	$thumbPath = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
-	if ( file_exists( $thumbPath ) ) {
-		if ( unlink( $thumbPath ) ) {
-			return true;
-		}
-	}
+function deleteThumb($filename, $desired_width)
+{
+    $thumbPath = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
+    if (file_exists($thumbPath)) {
+        if (unlink($thumbPath)) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -2194,12 +2305,13 @@ function deleteThumb( $filename, $desired_width ) {
  * @param string $status
  * @param mixed $data
  */
-function setPostResponse( $message, $status = 'danger', $data = null ) {
-	checkSession();
+function setPostResponse($message, $status = 'danger', $data = null)
+{
+    checkSession();
 
-	$_SESSION['messagePostResponse'] = trans( $message );
-	$_SESSION['statusPostResponse']  = $status;
-	$_SESSION['dataPostResponse']    = $data;
+    $_SESSION['messagePostResponse'] = trans($message);
+    $_SESSION['statusPostResponse'] = $status;
+    $_SESSION['dataPostResponse'] = $data;
 }
 
 /**
@@ -2207,116 +2319,121 @@ function setPostResponse( $message, $status = 'danger', $data = null ) {
  *
  * @param string $additionalText
  */
-function showPostResponse( $additionalText = '' ) {
-	$html = '';
-	if ( ! empty( $_SESSION['messagePostResponse'] ) && ! empty( $_SESSION['statusPostResponse'] ) ) {
-		$html .= '<div class="row"><div class="col-12"><div class="alert alert-' . $_SESSION['statusPostResponse'] . '" role="alert">'
-		         . $_SESSION['messagePostResponse'] . ' ' . $additionalText . '</div></div></div>';
+function showPostResponse($additionalText = '')
+{
+    $html = '';
+    if (!empty($_SESSION['messagePostResponse']) && !empty($_SESSION['statusPostResponse'])) {
+        $html .= '<div class="row"><div class="col-12"><div class="alert alert-' . $_SESSION['statusPostResponse'] . '" role="alert">'
+            . $_SESSION['messagePostResponse'] . ' ' . $additionalText . '</div></div></div>';
 
-	}
-	unset( $_SESSION['messagePostResponse'], $_SESSION['statusPostResponse'] );
-	echo $html;
+    }
+    unset($_SESSION['messagePostResponse'], $_SESSION['statusPostResponse']);
+    echo $html;
 }
 
 /**
  * @return mixed|string
  */
-function getDataPostResponse() {
-	$dataPostResponse = '';
-	if ( ! empty( $_SESSION['dataPostResponse'] ) ) {
-		$dataPostResponse = $_SESSION['dataPostResponse'];
-		unset( $_SESSION['dataPostResponse'] );
-	}
+function getDataPostResponse()
+{
+    $dataPostResponse = '';
+    if (!empty($_SESSION['dataPostResponse'])) {
+        $dataPostResponse = $_SESSION['dataPostResponse'];
+        unset($_SESSION['dataPostResponse']);
+    }
 
-	return $dataPostResponse;
+    return $dataPostResponse;
 }
 
 /**
  * @param $error
  */
-function setSqlError( $error ) {
-	checkSession();
+function setSqlError($error)
+{
+    checkSession();
 
-	$_SESSION['sqlError'] = $error;
+    $_SESSION['sqlError'] = $error;
 }
 
 /**
  * @return mixed
  */
-function getSqlError() {
-	if ( isset( $_SESSION['sqlError'] ) ) {
+function getSqlError()
+{
+    if (isset($_SESSION['sqlError'])) {
 
-		$error = $_SESSION['sqlError'];
-		unset( $_SESSION['sqlError'] );
+        $error = $_SESSION['sqlError'];
+        unset($_SESSION['sqlError']);
 
-		return $error;
-	}
+        return $error;
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * Update DataBase
  * @throws phpmailerException
  */
-function updateDB() {
+function updateDB()
+{
 
-	$dbUpdateFile = WEB_SYSTEM_PATH . 'dbUpdate.json';
+    $dbUpdateFile = WEB_SYSTEM_PATH . 'dbUpdate.json';
 
-	if ( file_exists( $dbUpdateFile ) ) {
+    if (file_exists($dbUpdateFile)) {
 
-		//Get sql content
-		$sqlToUpdate = getJsonContent( $dbUpdateFile );
+        //Get sql content
+        $sqlToUpdate = getJsonContent($dbUpdateFile);
 
-		if ( is_array( $sqlToUpdate ) ) {
+        if (is_array($sqlToUpdate)) {
 
-			$updateError = false;
-			appLog( 'Updating db...' );
+            $updateError = false;
+            appLog('Updating db...');
 
-			foreach ( $sqlToUpdate as $num => $sql ) {
+            foreach ($sqlToUpdate as $num => $sql) {
 
-				//Send sql request
-				$stmt = \App\DB::exec( $sql );
+                //Send sql request
+                $stmt = \App\DB::exec($sql);
 
-				//If database return error
-				if ( ! $stmt ) {
+                //If database return error
+                if (!$stmt) {
 
-					//Writing error in applog.log
-					$error = getSqlError();
-					appLog( 'Database error: ' . $error[2] );
+                    //Writing error in applog.log
+                    $error = getSqlError();
+                    appLog('Database error: ' . $error[2]);
 
-					//Declare an error
-					$updateError[] = $error[2];
-				}
-			}
+                    //Declare an error
+                    $updateError[] = $error[2];
+                }
+            }
 
-			//Check if error in sql
-			if ( is_array( $updateError ) ) {
+            //Check if error in sql
+            if (is_array($updateError)) {
 
-				//Send mail to admin
-				$data = array(
-					'fromEmail' => 'system@aoe-communication.com',
-					'fromName'  => 'APPOE System - ' . WEB_TITLE,
-					'toName'    => 'Admin',
-					'toEmail'   => 'yona@aoe-communication.com',
-					'object'    => 'Erreur de mise à jour de la base de données',
-					'message'   => '<p>Le site <strong>' . WEB_TITLE . '</strong> à rencontré un problème de mise à jour de la base de données.</p><p>' . implode( '<br>', $updateError ) . '</p>'
-				);
-				sendMail( $data );
+                //Send mail to admin
+                $data = array(
+                    'fromEmail' => 'system@aoe-communication.com',
+                    'fromName' => 'APPOE System - ' . WEB_TITLE,
+                    'toName' => 'Admin',
+                    'toEmail' => 'yona@aoe-communication.com',
+                    'object' => 'Erreur de mise à jour de la base de données',
+                    'message' => '<p>Le site <strong>' . WEB_TITLE . '</strong> à rencontré un problème de mise à jour de la base de données.</p><p>' . implode('<br>', $updateError) . '</p>'
+                );
+                sendMail($data);
 
-				//Delete dbUpdate file
-				unlink( $dbUpdateFile );
+                //Delete dbUpdate file
+                unlink($dbUpdateFile);
 
-				//Show error screen
-				return false;
-			}
-		}
+                //Show error screen
+                return false;
+            }
+        }
 
-		//Delete dbUpdate file
-		unlink( $dbUpdateFile );
-	}
+        //Delete dbUpdate file
+        unlink($dbUpdateFile);
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -2325,20 +2442,21 @@ function updateDB() {
  *
  * @return mixed|string
  */
-function postHttpRequest( $url, array $params ) {
-	$ch = curl_init( $url );
-	curl_setopt( $ch, CURLOPT_POST, 1 );
-	curl_setopt( $ch, CURLOPT_SSLVERSION, 6 );
-	curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $params ) );
-	curl_setopt( $ch, CURLOPT_SSL_CIPHER_LIST, "TLSv1" );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+function postHttpRequest($url, array $params)
+{
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSLVERSION, 6);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+    curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, "TLSv1");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-	$response     = curl_exec( $ch );
-	$errorRequest = curl_error( $ch );
+    $response = curl_exec($ch);
+    $errorRequest = curl_error($ch);
 
-	curl_close( $ch );
+    curl_close($ch);
 
-	return ! empty( $response ) ? $response : $errorRequest;
+    return !empty($response) ? $response : $errorRequest;
 }
 
 /**
@@ -2346,18 +2464,19 @@ function postHttpRequest( $url, array $params ) {
  *
  * @return mixed|string
  */
-function getHttpRequest( $url ) {
-	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+function getHttpRequest($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-	$response     = curl_exec( $ch );
-	$errorRequest = curl_error( $ch );
+    $response = curl_exec($ch);
+    $errorRequest = curl_error($ch);
 
-	curl_close( $ch );
+    curl_close($ch);
 
-	return ! empty( $response ) ? $response : $errorRequest;
+    return !empty($response) ? $response : $errorRequest;
 }
 
 /**
@@ -2366,28 +2485,29 @@ function getHttpRequest( $url ) {
  *
  * @return string
  */
-function getFileContent( $path, $params = null ) {
-	if ( is_array( $params ) ) {
-		extract( $params, EXTR_SKIP );
-	}
+function getFileContent($path, $params = null)
+{
+    if (is_array($params)) {
+        extract($params, EXTR_SKIP);
+    }
 
-	ob_start();
+    ob_start();
 
-	if ( file_exists( $path ) ) {
-		include $path;
-	}
+    if (file_exists($path)) {
+        include $path;
+    }
 
-	$pageContent = ob_get_clean();
+    $pageContent = ob_get_clean();
 
-	if ( is_array( $params ) && preg_match_all( "/{{(.*?)}}/", $pageContent, $match ) ) {
+    if (is_array($params) && preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
 
-		foreach ( $match[1] as $i => $zone ) {
+        foreach ($match[1] as $i => $zone) {
 
-			$pageContent = str_replace( $match[0][ $i ], sprintf( '%s', ! empty( $params[ $zone ] ) ? $params[ $zone ] : '' ), $pageContent );
-		}
-	}
+            $pageContent = str_replace($match[0][$i], sprintf('%s', !empty($params[$zone]) ? $params[$zone] : ''), $pageContent);
+        }
+    }
 
-	return trim( $pageContent );
+    return trim($pageContent);
 }
 
 
@@ -2397,12 +2517,13 @@ function getFileContent( $path, $params = null ) {
  *
  * @return bool|string
  */
-function getXmlAttribute( $object, $attribute ) {
-	if ( isset( $object[ $attribute ] ) ) {
-		return (string) $object[ $attribute ];
-	}
+function getXmlAttribute($object, $attribute)
+{
+    if (isset($object[$attribute])) {
+        return (string)$object[$attribute];
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -2410,19 +2531,20 @@ function getXmlAttribute( $object, $attribute ) {
  *
  * @return string
  */
-function getFieldsControls() {
-	$html = '';
+function getFieldsControls()
+{
+    $html = '';
 
-	$html .= getTokenField();
-	$html .= '<noscript><input type="hidden" name="secure-connection" value="..."></noscript>';
-	$html .= '<input type="hidden" name="identifiant" value="">';
-	$html .= '<input type="hidden" id="checkPass" name="checkPass" value="">';
-	$html .= '<script type="text/javascript">';
-	$html .= 'window.setTimeout(function(){';
-	$html .= 'document.getElementById("checkPass").value = "APPOE";';
-	$html .= '}, 300)</script>';
+    $html .= getTokenField();
+    $html .= '<noscript><input type="hidden" name="secure-connection" value="..."></noscript>';
+    $html .= '<input type="hidden" name="identifiant" value="">';
+    $html .= '<input type="hidden" id="checkPass" name="checkPass" value="">';
+    $html .= '<script type="text/javascript">';
+    $html .= 'window.setTimeout(function(){';
+    $html .= 'document.getElementById("checkPass").value = "APPOE";';
+    $html .= '}, 300)</script>';
 
-	return $html;
+    return $html;
 }
 
 /**
@@ -2430,13 +2552,14 @@ function getFieldsControls() {
  *
  * @return array|bool
  */
-function getMediaCategories( $parentId = null ) {
+function getMediaCategories($parentId = null)
+{
 
-	$Category = new Category();
-	$Category->setType( 'MEDIA' );
-	$allCategories = $Category->showByType( $parentId );
+    $Category = new Category();
+    $Category->setType('MEDIA');
+    $allCategories = $Category->showByType($parentId);
 
-	return $allCategories ? extractFromObjToSimpleArr( $allCategories, 'id', 'name' ) : false;
+    return $allCategories ? extractFromObjToSimpleArr($allCategories, 'id', 'name') : false;
 }
 
 /**
@@ -2448,33 +2571,34 @@ function getMediaCategories( $parentId = null ) {
  *
  * @return array
  */
-function getSpecificMediaCategory( $id, $parentId = false, $categoryType = 'MEDIA' ) {
-	$Media    = new Media();
-	$Category = new Category();
+function getSpecificMediaCategory($id, $parentId = false, $categoryType = 'MEDIA')
+{
+    $Media = new Media();
+    $Category = new Category();
 
-	$Category->setType( $categoryType );
-	$allCategories = $Category->showByType();
+    $Category->setType($categoryType);
+    $allCategories = $Category->showByType();
 
-	$allMedia = array();
-	foreach ( $allCategories as $category ) {
+    $allMedia = array();
+    foreach ($allCategories as $category) {
 
-		if ( false !== $parentId ) {
+        if (false !== $parentId) {
 
-			if ( $category->parentId != $id && $category->id != $id ) {
-				continue;
-			}
+            if ($category->parentId != $id && $category->id != $id) {
+                continue;
+            }
 
-		} else {
-			if ( $category->id != $id ) {
-				continue;
-			}
-		}
+        } else {
+            if ($category->id != $id) {
+                continue;
+            }
+        }
 
-		$Media->setTypeId( $category->id );
-		$allMedia[ $category->id ] = $Media->showFiles();
-	}
+        $Media->setTypeId($category->id);
+        $allMedia[$category->id] = $Media->showFiles();
+    }
 
-	return $allMedia;
+    return $allMedia;
 }
 
 /**
@@ -2486,44 +2610,45 @@ function getSpecificMediaCategory( $id, $parentId = false, $categoryType = 'MEDI
  *
  * @return array
  */
-function getMediaByCategory( $id, $parentId = false, $flatten = false, $arraySort = SORT_ASC, $type = 'MEDIA' ) {
-	$Media = new Media();
-	$Media->setType( $type );
+function getMediaByCategory($id, $parentId = false, $flatten = false, $arraySort = SORT_ASC, $type = 'MEDIA')
+{
+    $Media = new Media();
+    $Media->setType($type);
 
-	$Category = new Category();
-	$Category->setType( $type );
-	$allCategories = $Category->showByType();
+    $Category = new Category();
+    $Category->setType($type);
+    $allCategories = $Category->showByType();
 
-	$allMedia = array();
-	foreach ( $allCategories as $category ) {
+    $allMedia = array();
+    foreach ($allCategories as $category) {
 
-		$Media->setTypeId( $category->id );
+        $Media->setTypeId($category->id);
 
-		if ( false !== $parentId ) {
+        if (false !== $parentId) {
 
-			if ( $category->parentId != $id && $category->id != $id ) {
-				continue;
-			}
+            if ($category->parentId != $id && $category->id != $id) {
+                continue;
+            }
 
-			$categoryMedia = $Media->showFiles();
-			if ( $categoryMedia ) {
-				$allMedia[ $category->id ] = $categoryMedia;
-			}
+            $categoryMedia = $Media->showFiles();
+            if ($categoryMedia) {
+                $allMedia[$category->id] = $categoryMedia;
+            }
 
-		} else {
+        } else {
 
-			if ( $category->id != $id ) {
-				continue;
-			}
+            if ($category->id != $id) {
+                continue;
+            }
 
-			$categoryMedia = $Media->showFiles();
-			if ( $categoryMedia ) {
-				$allMedia = array_merge( $allMedia, $categoryMedia );
-			}
-		}
-	}
+            $categoryMedia = $Media->showFiles();
+            if ($categoryMedia) {
+                $allMedia = array_merge($allMedia, $categoryMedia);
+            }
+        }
+    }
 
-	return ! $flatten ? $allMedia : array_sort( array_flatten( $allMedia ), 'position', $arraySort );
+    return !$flatten ? $allMedia : array_sort(array_flatten($allMedia), 'position', $arraySort);
 }
 
 /**
@@ -2532,32 +2657,33 @@ function getMediaByCategory( $id, $parentId = false, $flatten = false, $arraySor
  *
  * @return array
  */
-function groupLibraryByParents( $allCategory, $allLibrary ) {
+function groupLibraryByParents($allCategory, $allLibrary)
+{
 
-	$allLibraryByParent = extractFromObjToSimpleArr( $allCategory, 'id', 'parentId' );
+    $allLibraryByParent = extractFromObjToSimpleArr($allCategory, 'id', 'parentId');
 
-	$libraryParent = array();
-	foreach ( $allLibraryByParent as $id => $parentId ) {
+    $libraryParent = array();
+    foreach ($allLibraryByParent as $id => $parentId) {
 
-		if ( $parentId == 10 ) {
-			$libraryParent[ $id ] = array( 'id' => $id, 'name' => $allLibrary[ $id ] );
+        if ($parentId == 10) {
+            $libraryParent[$id] = array('id' => $id, 'name' => $allLibrary[$id]);
 
-		} else {
+        } else {
 
-			if ( $allLibraryByParent[ $parentId ] == 10 ) {
-				$libraryParent[ $id ] = array( 'id' => $allLibraryByParent[ $id ], 'name' => $allLibrary[ $parentId ] );
+            if ($allLibraryByParent[$parentId] == 10) {
+                $libraryParent[$id] = array('id' => $allLibraryByParent[$id], 'name' => $allLibrary[$parentId]);
 
-			} else {
-				$libraryParent[ $id ] = array(
-					'id'   => $allLibraryByParent[ $parentId ],
-					'name' => $allLibrary[ $allLibraryByParent[ $parentId ] ]
-				);
+            } else {
+                $libraryParent[$id] = array(
+                    'id' => $allLibraryByParent[$parentId],
+                    'name' => $allLibrary[$allLibraryByParent[$parentId]]
+                );
 
-			}
-		}
-	}
+            }
+        }
+    }
 
-	return $libraryParent;
+    return $libraryParent;
 }
 
 /**
@@ -2568,8 +2694,9 @@ function groupLibraryByParents( $allCategory, $allLibrary ) {
  *
  * @return string
  */
-function financial( $amount, $forDB = false, $decimals = 2, $dec_point = '.' ) {
-	return is_numeric( $amount ) ? number_format( $amount, $decimals, $dec_point, ( ! $forDB ? ' ' : '' ) ) : $amount;
+function financial($amount, $forDB = false, $decimals = 2, $dec_point = '.')
+{
+    return is_numeric($amount) ? number_format($amount, $decimals, $dec_point, (!$forDB ? ' ' : '')) : $amount;
 }
 
 /**
@@ -2579,25 +2706,26 @@ function financial( $amount, $forDB = false, $decimals = 2, $dec_point = '.' ) {
  *
  * @return array
  */
-function transformMultipleArraysTo1( array $multipleArrays = null ) {
-	foreach ( $multipleArrays as $ckey => $child ) {
-		foreach ( $child as $gckey => $grandchild ) {
-			if ( is_array( $grandchild ) ) {
-				$multipleArrays[] = $grandchild;
-				array_splice( $multipleArrays[ $ckey ], $gckey );
-			}
-		}
-	}
-	$length = count( $multipleArrays );
-	for ( $i = 0; $i < $length; $i ++ ) {
-		if ( ! empty( $multipleArrays[ $i ][0] ) && is_array( $multipleArrays[ $i ][0] ) ) {
-			array_splice( $multipleArrays, $i, 1 );
-			$i      = - 1;
-			$length = count( $multipleArrays );
-		}
-	}
+function transformMultipleArraysTo1(array $multipleArrays = null)
+{
+    foreach ($multipleArrays as $ckey => $child) {
+        foreach ($child as $gckey => $grandchild) {
+            if (is_array($grandchild)) {
+                $multipleArrays[] = $grandchild;
+                array_splice($multipleArrays[$ckey], $gckey);
+            }
+        }
+    }
+    $length = count($multipleArrays);
+    for ($i = 0; $i < $length; $i++) {
+        if (!empty($multipleArrays[$i][0]) && is_array($multipleArrays[$i][0])) {
+            array_splice($multipleArrays, $i, 1);
+            $i = -1;
+            $length = count($multipleArrays);
+        }
+    }
 
-	return $multipleArrays;
+    return $multipleArrays;
 }
 
 /**
@@ -2607,13 +2735,14 @@ function transformMultipleArraysTo1( array $multipleArrays = null ) {
  *
  * @return array
  */
-function flatten( array $array ) {
-	$return = array();
-	array_walk_recursive( $array, function ( $a ) use ( &$return ) {
-		$return[] = $a;
-	} );
+function flatten(array $array)
+{
+    $return = array();
+    array_walk_recursive($array, function ($a) use (&$return) {
+        $return[] = $a;
+    });
 
-	return array_unique( $return );
+    return array_unique($return);
 }
 
 /**
@@ -2623,20 +2752,21 @@ function flatten( array $array ) {
  *
  * @return array
  */
-function array_flatten( array $array ) {
-	$result = array();
-	foreach ( $array as $key => $value ) {
+function array_flatten(array $array)
+{
+    $result = array();
+    foreach ($array as $key => $value) {
 
-		if ( is_array( $value ) ) {
+        if (is_array($value)) {
 
-			$result = array_merge( $result, array_flatten( $value ) );
+            $result = array_merge($result, array_flatten($value));
 
-		} else {
-			$result = array_merge( $result, array( $key => $value ) );
-		}
-	}
+        } else {
+            $result = array_merge($result, array($key => $value));
+        }
+    }
 
-	return $result;
+    return $result;
 }
 
 /**
@@ -2645,24 +2775,25 @@ function array_flatten( array $array ) {
  *
  * @return array
  */
-function groupMultipleKeysObjectsArray( $data, $keyName ) {
-	$output = array();
-	if ( ! isArrayEmpty( $data ) ) {
+function groupMultipleKeysObjectsArray($data, $keyName)
+{
+    $output = array();
+    if (!isArrayEmpty($data)) {
 
-		$tmp = array();
-		foreach ( $data as $key => $arg ) {
+        $tmp = array();
+        foreach ($data as $key => $arg) {
 
-			if ( isset( $arg->$keyName ) ) {
-				$tmp[ $arg->$keyName ][ $key ] = $arg;
-			}
-		}
+            if (isset($arg->$keyName)) {
+                $tmp[$arg->$keyName][$key] = $arg;
+            }
+        }
 
-		foreach ( $tmp as $type => $labels ) {
-			$output[ cleanData( $type ) ] = $labels;
-		}
-	}
+        foreach ($tmp as $type => $labels) {
+            $output[cleanData($type)] = $labels;
+        }
+    }
 
-	return $output;
+    return $output;
 }
 
 /**
@@ -2671,24 +2802,25 @@ function groupMultipleKeysObjectsArray( $data, $keyName ) {
  *
  * @return array
  */
-function groupMultipleKeysArray( array $data, $keyName ) {
-	$output = array();
-	if ( ! isArrayEmpty( $data ) ) {
+function groupMultipleKeysArray(array $data, $keyName)
+{
+    $output = array();
+    if (!isArrayEmpty($data)) {
 
-		$tmp = array();
-		foreach ( $data as $key => $arg ) {
+        $tmp = array();
+        foreach ($data as $key => $arg) {
 
-			if ( array_key_exists( $keyName, $arg ) ) {
-				$tmp[ $arg[ $keyName ] ][ $key ] = $arg;
-			}
-		}
+            if (array_key_exists($keyName, $arg)) {
+                $tmp[$arg[$keyName]][$key] = $arg;
+            }
+        }
 
-		foreach ( $tmp as $type => $labels ) {
-			$output[ cleanData( $type ) ] = $labels;
-		}
-	}
+        foreach ($tmp as $type => $labels) {
+            $output[cleanData($type)] = $labels;
+        }
+    }
 
-	return $output;
+    return $output;
 }
 
 /**
@@ -2697,15 +2829,16 @@ function groupMultipleKeysArray( array $data, $keyName ) {
  *
  * @return array
  */
-function extractFromObjArr( $allContentArr, $key ) {
-	$allContent = array();
-	if ( ! empty( $allContentArr ) ) {
-		foreach ( $allContentArr as $contentArr ) {
-			$allContent[ $contentArr->$key ] = $contentArr;
-		}
-	}
+function extractFromObjArr($allContentArr, $key)
+{
+    $allContent = array();
+    if (!empty($allContentArr)) {
+        foreach ($allContentArr as $contentArr) {
+            $allContent[$contentArr->$key] = $contentArr;
+        }
+    }
 
-	return $allContent;
+    return $allContent;
 }
 
 /**
@@ -2714,34 +2847,35 @@ function extractFromObjArr( $allContentArr, $key ) {
  *
  * @return array
  */
-function extractFromObjToArrForList( $allContentArr, $key ) {
-	//extract object to array with key = id
-	$newArray = extractFromObjArr( $allContentArr, $key );
+function extractFromObjToArrForList($allContentArr, $key)
+{
+    //extract object to array with key = id
+    $newArray = extractFromObjArr($allContentArr, $key);
 
-	//build tree id [parent id]
-	$newArray = buildTree( $newArray, 10 );
+    //build tree id [parent id]
+    $newArray = buildTree($newArray, 10);
 
-	//order the list
-	$ordonnedList = array();
+    //order the list
+    $ordonnedList = array();
 
-	foreach ( $newArray as $category ) {
-		$ordonnedList[ $category->id ] = $category->name;
+    foreach ($newArray as $category) {
+        $ordonnedList[$category->id] = $category->name;
 
-		if ( ! empty( $category->children ) ) {
-			foreach ( $category->children as $children ) {
-				$ordonnedList[ $children->id ] = '- ' . $children->name;
+        if (!empty($category->children)) {
+            foreach ($category->children as $children) {
+                $ordonnedList[$children->id] = '- ' . $children->name;
 
-				if ( ! empty( $children->children ) ) {
+                if (!empty($children->children)) {
 
-					foreach ( $children->children as $subChildren ) {
-						$ordonnedList[ $subChildren->id ] = '-- ' . $subChildren->name;
-					}
-				}
-			}
-		}
-	}
+                    foreach ($children->children as $subChildren) {
+                        $ordonnedList[$subChildren->id] = '-- ' . $subChildren->name;
+                    }
+                }
+            }
+        }
+    }
 
-	return $ordonnedList;
+    return $ordonnedList;
 }
 
 /**
@@ -2753,31 +2887,32 @@ function extractFromObjToArrForList( $allContentArr, $key ) {
  *
  * @return array
  */
-function extractFromObjToSimpleArr( $allContentArr, $key, $value = '', $value2 = '', $separator = ' ' ) {
-	$allContent = array();
+function extractFromObjToSimpleArr($allContentArr, $key, $value = '', $value2 = '', $separator = ' ')
+{
+    $allContent = array();
 
-	if ( ! isArrayEmpty( $allContentArr ) ) {
+    if (!isArrayEmpty($allContentArr)) {
 
-		if ( ! empty( $value ) ) {
+        if (!empty($value)) {
 
-			foreach ( $allContentArr as $contentArr ) {
+            foreach ($allContentArr as $contentArr) {
 
-				if ( ! empty( $value2 ) ) {
-					$allContent[ $contentArr->$key ] = $contentArr->$value . $separator . $contentArr->$value2;
-				} else {
-					$allContent[ $contentArr->$key ] = $contentArr->$value;
-				}
-			}
+                if (!empty($value2)) {
+                    $allContent[$contentArr->$key] = $contentArr->$value . $separator . $contentArr->$value2;
+                } else {
+                    $allContent[$contentArr->$key] = $contentArr->$value;
+                }
+            }
 
-		} else {
+        } else {
 
-			foreach ( $allContentArr as $contentArr ) {
-				$allContent[ $contentArr->$key ] = $contentArr->$key;
-			}
-		}
-	}
+            foreach ($allContentArr as $contentArr) {
+                $allContent[$contentArr->$key] = $contentArr->$key;
+            }
+        }
+    }
 
-	return $allContent;
+    return $allContent;
 }
 
 /**
@@ -2786,23 +2921,24 @@ function extractFromObjToSimpleArr( $allContentArr, $key, $value = '', $value2 =
  *
  * @return array
  */
-function buildTree( array $elements, $parentId = 0 ) {
+function buildTree(array $elements, $parentId = 0)
+{
 
-	$branch = array();
+    $branch = array();
 
-	foreach ( $elements as $element ) {
-		if ( $element->parentId == $parentId ) {
-			$children = buildTree( $elements, $element->id );
+    foreach ($elements as $element) {
+        if ($element->parentId == $parentId) {
+            $children = buildTree($elements, $element->id);
 
-			if ( $children ) {
-				$element->children = $children;
-			}
+            if ($children) {
+                $element->children = $children;
+            }
 
-			$branch[] = $element;
-		}
-	}
+            $branch[] = $element;
+        }
+    }
 
-	return $branch;
+    return $branch;
 }
 
 /**
@@ -2814,293 +2950,304 @@ function buildTree( array $elements, $parentId = 0 ) {
  *
  * @return array|bool
  */
-function getLastFromDb( $dbname, $groupBy = '', $limit = 2, $column = 'updated_at', $order = 'DESC' ) {
+function getLastFromDb($dbname, $groupBy = '', $limit = 2, $column = 'updated_at', $order = 'DESC')
+{
 
-	$dbh = \App\DB::connect();
+    $dbh = \App\DB::connect();
 
-	$sql  = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_' . $dbname . ' ORDER BY ' . $column . ' ' . $order;
-	$stmt = $dbh->prepare( $sql );
-	$stmt->execute();
-	$error = $stmt->errorInfo();
+    $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_' . $dbname . ' ORDER BY ' . $column . ' ' . $order;
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    $error = $stmt->errorInfo();
 
-	if ( $error[0] != '00000' ) {
-		return false;
-	}
+    if ($error[0] != '00000') {
+        return false;
+    }
 
-	return
-		empty( $groupBy )
-			? $stmt->fetchAll( PDO::FETCH_OBJ )
-			: array_slice( array_unique( extractFromObjToSimpleArr( $stmt->fetchAll( PDO::FETCH_OBJ ), $groupBy ) ), 0, $limit );
+    return
+        empty($groupBy)
+            ? $stmt->fetchAll(PDO::FETCH_OBJ)
+            : array_slice(array_unique(extractFromObjToSimpleArr($stmt->fetchAll(PDO::FETCH_OBJ), $groupBy)), 0, $limit);
 }
 
 /**
  *
  */
-function includePluginsDashboard() {
-	$dashboardDetails = array();
-	$plugins          = getPlugins();
+function includePluginsDashboard()
+{
+    $dashboardDetails = array();
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
+        foreach ($plugins as $plugin) {
 
-			$filePath = $plugin['pluginPath'] . 'dashboard.php';
-			if ( file_exists( $filePath ) ) {
+            $filePath = $plugin['pluginPath'] . 'dashboard.php';
+            if (file_exists($filePath)) {
 
-				$dashboard = getFileContent( $filePath );
-				if ( $dashboard ) {
-					$dashboardDetails[] = json_decode( $dashboard, true );
-				}
-			}
+                $dashboard = getFileContent($filePath);
+                if ($dashboard) {
+                    $dashboardDetails[] = json_decode($dashboard, true);
+                }
+            }
 
-		}
-	}
+        }
+    }
 
-	return $dashboardDetails;
+    return $dashboardDetails;
 }
 
 /**
  *
  */
-function includePersoPluginsDashboard() {
-	$dashboardDetails = array();
-	$plugins          = getPlugins();
+function includePersoPluginsDashboard()
+{
+    $dashboardDetails = array();
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
+        foreach ($plugins as $plugin) {
 
-			$filePath = $plugin['pluginPath'] . 'perso_dashboard.php';
-			if ( file_exists( $filePath ) ) {
+            $filePath = $plugin['pluginPath'] . 'perso_dashboard.php';
+            if (file_exists($filePath)) {
 
-				$dashboard = getFileContent( $filePath );
-				if ( ! empty( $dashboard ) ) {
-					$dashboardDetails[] = $dashboard;
-				}
-			}
+                $dashboard = getFileContent($filePath);
+                if (!empty($dashboard)) {
+                    $dashboardDetails[] = $dashboard;
+                }
+            }
 
-		}
-	}
+        }
+    }
 
-	return $dashboardDetails;
+    return $dashboardDetails;
 }
 
 /**
  * @param $forApp
  */
-function includePluginsFiles( $forApp = false ) {
-	$plugins = getPlugins();
+function includePluginsFiles($forApp = false)
+{
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
-			$filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'include';
-			if ( file_exists( $filePath ) && loadPluginForFilename( $plugin['name'] ) ) {
-				$phpFiles = getFilesFromDir( $filePath );
-				foreach ( $phpFiles as $file ) {
-					$src = $filePath . DIRECTORY_SEPARATOR . $file;
-					include_once( $src );
-				}
-			}
-		}
-	}
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'include';
+            if (file_exists($filePath) && loadPluginForFilename($plugin['name'])) {
+                $phpFiles = getFilesFromDir($filePath);
+                foreach ($phpFiles as $file) {
+                    $src = $filePath . DIRECTORY_SEPARATOR . $file;
+                    include_once($src);
+                }
+            }
+        }
+    }
 
-	if ( $forApp ) {
-		includePluginsFilesForApp();
-	}
+    if ($forApp) {
+        includePluginsFilesForApp();
+    }
 }
 
 
 /**
  *
  */
-function includePluginsFilesForApp() {
-	$plugins = getPlugins();
+function includePluginsFilesForApp()
+{
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
-			$filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeApp';
-			if ( file_exists( $filePath ) ) {
-				$phpFiles = getFilesFromDir( $filePath );
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeApp';
+            if (file_exists($filePath)) {
+                $phpFiles = getFilesFromDir($filePath);
 
-				foreach ( $phpFiles as $file ) {
-					$src = $filePath . DIRECTORY_SEPARATOR . $file;
-					include_once( $src );
-				}
-			}
-		}
-	}
+                foreach ($phpFiles as $file) {
+                    $src = $filePath . DIRECTORY_SEPARATOR . $file;
+                    include_once($src);
+                }
+            }
+        }
+    }
 }
 
 /**
  *
  */
-function includePluginsFilesForAppInFooter() {
-	$plugins = getPlugins();
+function includePluginsFilesForAppInFooter()
+{
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
-			$filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeAppFooter';
-			if ( file_exists( $filePath ) ) {
-				$phpFiles = getFilesFromDir( $filePath );
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeAppFooter';
+            if (file_exists($filePath)) {
+                $phpFiles = getFilesFromDir($filePath);
 
-				foreach ( $phpFiles as $file ) {
-					$src = $filePath . DIRECTORY_SEPARATOR . $file;
-					include_once( $src );
-				}
-			}
-		}
-	}
-}
-
-
-/**
- *
- */
-function includePluginsPrimaryMenu() {
-	$plugins = getPlugins();
-
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
-
-		foreach ( $plugins as $plugin ) {
-			$filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'menu';
-			if ( file_exists( $filePath ) ) {
-				$phpFiles = getFilesFromDir( $filePath );
-				foreach ( $phpFiles as $file ) {
-					$src = $filePath . DIRECTORY_SEPARATOR . $file;
-					include_once( $src );
-				}
-			}
-		}
-	}
+                foreach ($phpFiles as $file) {
+                    $src = $filePath . DIRECTORY_SEPARATOR . $file;
+                    include_once($src);
+                }
+            }
+        }
+    }
 }
 
 
 /**
  *
  */
-function includePluginsSecondaryMenu() {
-	$plugins = getPlugins();
+function includePluginsPrimaryMenu()
+{
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
-			$filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'littleMenu';
-			if ( file_exists( $filePath ) ) {
-				$phpFiles = getFilesFromDir( $filePath );
-				foreach ( $phpFiles as $file ) {
-					$src = $filePath . DIRECTORY_SEPARATOR . $file;
-					include_once( $src );
-				}
-			}
-		}
-	}
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'menu';
+            if (file_exists($filePath)) {
+                $phpFiles = getFilesFromDir($filePath);
+                foreach ($phpFiles as $file) {
+                    $src = $filePath . DIRECTORY_SEPARATOR . $file;
+                    include_once($src);
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ *
+ */
+function includePluginsSecondaryMenu()
+{
+    $plugins = getPlugins();
+
+    if (is_array($plugins) && !empty($plugins)) {
+
+        foreach ($plugins as $plugin) {
+            $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'littleMenu';
+            if (file_exists($filePath)) {
+                $phpFiles = getFilesFromDir($filePath);
+                foreach ($phpFiles as $file) {
+                    $src = $filePath . DIRECTORY_SEPARATOR . $file;
+                    include_once($src);
+                }
+            }
+        }
+    }
 }
 
 
 /**
  * @param $forApp
  */
-function includePluginsJs( $forApp = false ) {
-	$plugins = getPlugins();
+function includePluginsJs($forApp = false)
+{
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
+        foreach ($plugins as $plugin) {
 
-			if ( loadPluginForFilename( $plugin['name'] ) ) {
+            if (loadPluginForFilename($plugin['name'])) {
 
-				$pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
-				$filePath   = $pluginPath . 'js';
-				$setupPath  = $pluginPath . 'setup.php';
+                $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
+                $filePath = $pluginPath . 'js';
+                $setupPath = $pluginPath . 'setup.php';
 
-				if ( is_dir( $filePath ) && ! file_exists( $setupPath ) ) {
+                if (is_dir($filePath) && !file_exists($setupPath)) {
 
-					foreach ( getFilesFromDir( $filePath ) as $file ) {
+                    foreach (getFilesFromDir($filePath) as $file) {
 
-						//File path
-						$src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
+                        //File path
+                        $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
 
-						//Show js file in html doc
-						echo '<script type="text/javascript" src="' . $src . '"></script>';
+                        //Show js file in html doc
+                        echo '<script type="text/javascript" src="' . $src . '"></script>';
 
-					}
-				}
-			}
-		}
-	}
+                    }
+                }
+            }
+        }
+    }
 
-	echo '<script type="text/javascript" src="' . WEB_LIB_URL . 'js/functions.js"></script>';
+    echo '<script type="text/javascript" src="' . WEB_LIB_URL . 'js/functions.js"></script>';
 
-	if ( $forApp ) {
-		includePluginsJsForApp();
-	}
+    if ($forApp) {
+        includePluginsJsForApp();
+    }
 }
 
 /**
  *
  */
-function includePluginsJsForApp() {
-	$plugins = getPlugins();
+function includePluginsJsForApp()
+{
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
+        foreach ($plugins as $plugin) {
 
-			$pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
-			$filePath   = $pluginPath . 'jsApp';
-			$setupPath  = $pluginPath . 'setup.php';
+            $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
+            $filePath = $pluginPath . 'jsApp';
+            $setupPath = $pluginPath . 'setup.php';
 
-			if ( is_dir( $filePath ) && ! file_exists( $setupPath ) ) {
+            if (is_dir($filePath) && !file_exists($setupPath)) {
 
-				foreach ( getFilesFromDir( $filePath ) as $file ) {
+                foreach (getFilesFromDir($filePath) as $file) {
 
-					//File path
-					$src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'jsApp' . DIRECTORY_SEPARATOR . $file;
+                    //File path
+                    $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'jsApp' . DIRECTORY_SEPARATOR . $file;
 
-					//Show js file in app doc
-					echo '<script type="text/javascript" src="' . $src . '"></script>';
-				}
-			}
-		}
-	}
+                    //Show js file in app doc
+                    echo '<script type="text/javascript" src="' . $src . '"></script>';
+                }
+            }
+        }
+    }
 
-	echo '<script type="text/javascript" src="' . WEB_TEMPLATE_URL . 'js/all.js"></script>';
+    echo '<script type="text/javascript" src="' . WEB_TEMPLATE_URL . 'js/all.js"></script>';
 }
 
 
 /**
  *
  */
-function includePluginsStyles() {
-	$plugins = getPlugins();
+function includePluginsStyles()
+{
+    $plugins = getPlugins();
 
-	if ( is_array( $plugins ) && ! empty( $plugins ) ) {
+    if (is_array($plugins) && !empty($plugins)) {
 
-		foreach ( $plugins as $plugin ) {
+        foreach ($plugins as $plugin) {
 
-			$pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
-			$filePath   = $pluginPath . 'css';
-			$setupPath  = $pluginPath . 'setup.php';
+            $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
+            $filePath = $pluginPath . 'css';
+            $setupPath = $pluginPath . 'setup.php';
 
-			if ( is_dir( $filePath ) && ! file_exists( $setupPath ) ) {
+            if (is_dir($filePath) && !file_exists($setupPath)) {
 
-				foreach ( getFilesFromDir( $filePath ) as $file ) {
+                foreach (getFilesFromDir($filePath) as $file) {
 
-					//File path
-					$src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
+                    //File path
+                    $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
 
-					//Show css file in html doc
-					echo loadPluginForFilename( $plugin['name'] ) || substr( $file, - 8, 4 ) == 'base' ?
-						'<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
-				}
-			}
-		}
-	}
+                    //Show css file in html doc
+                    echo loadPluginForFilename($plugin['name']) || substr($file, -8, 4) == 'base' ?
+                        '<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
+                }
+            }
+        }
+    }
 
-	echo '<link rel="stylesheet" href="' . WEB_TEMPLATE_URL . 'css/utils.css" type="text/css">';
+    echo '<link rel="stylesheet" href="' . WEB_TEMPLATE_URL . 'css/utils.css" type="text/css">';
 }
 
 /**
@@ -3108,38 +3255,39 @@ function includePluginsStyles() {
  *
  * @return bool
  */
-function loadPluginForFilename( $pluginName ) {
-	if ( ! isUserInApp() ) {
-		if ( defined( 'PLUGIN_FOR_PUBLIC_FILENAME' ) && is_array( PLUGIN_FOR_PUBLIC_FILENAME )
-		     && array_key_exists( $pluginName, PLUGIN_FOR_PUBLIC_FILENAME ) ) {
+function loadPluginForFilename($pluginName)
+{
+    if (!isUserInApp()) {
+        if (defined('PLUGIN_FOR_PUBLIC_FILENAME') && is_array(PLUGIN_FOR_PUBLIC_FILENAME)
+            && array_key_exists($pluginName, PLUGIN_FOR_PUBLIC_FILENAME)) {
 
-			if ( ( ! isArrayEmpty( PLUGIN_FOR_PUBLIC_FILENAME[ $pluginName ] ) && ! in_array( getPageFilename(), PLUGIN_FOR_PUBLIC_FILENAME[ $pluginName ] ) )
-			     || false === PLUGIN_FOR_PUBLIC_FILENAME[ $pluginName ] ) {
-				return false;
-			}
+            if ((!isArrayEmpty(PLUGIN_FOR_PUBLIC_FILENAME[$pluginName]) && !in_array(getPageFilename(), PLUGIN_FOR_PUBLIC_FILENAME[$pluginName]))
+                || false === PLUGIN_FOR_PUBLIC_FILENAME[$pluginName]) {
+                return false;
+            }
 
-			return true;
-		}
-	} else {
+            return true;
+        }
+    } else {
 
-		$pluginForAppFilename = INI_LOAD_PLUGIN_FOR_APP_FILENAME;
+        $pluginForAppFilename = INI_LOAD_PLUGIN_FOR_APP_FILENAME;
 
-		if ( defined( 'PLUGIN_FOR_APP_FILENAME' ) && is_array( PLUGIN_FOR_APP_FILENAME ) ) {
-			$pluginForAppFilename = array_merge( $pluginForAppFilename, PLUGIN_FOR_APP_FILENAME );
-		}
+        if (defined('PLUGIN_FOR_APP_FILENAME') && is_array(PLUGIN_FOR_APP_FILENAME)) {
+            $pluginForAppFilename = array_merge($pluginForAppFilename, PLUGIN_FOR_APP_FILENAME);
+        }
 
-		if ( array_key_exists( $pluginName, $pluginForAppFilename ) ) {
+        if (array_key_exists($pluginName, $pluginForAppFilename)) {
 
-			if ( ( ! isArrayEmpty( $pluginForAppFilename[ $pluginName ] ) && ! in_array( getAppPageSlug(), $pluginForAppFilename[ $pluginName ] ) )
-			     || false === $pluginForAppFilename[ $pluginName ] ) {
-				return false;
-			}
+            if ((!isArrayEmpty($pluginForAppFilename[$pluginName]) && !in_array(getAppPageSlug(), $pluginForAppFilename[$pluginName]))
+                || false === $pluginForAppFilename[$pluginName]) {
+                return false;
+            }
 
-			return true;
-		}
-	}
+            return true;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -3150,55 +3298,58 @@ function loadPluginForFilename( $pluginName ) {
  *
  * @return bool
  */
-function exportCsv( array $headers, array $data, $filename = 'data', $delimiter = ',' ) {
-	if ( ! is_array( $headers ) || ! is_array( $data ) ) {
-		return false;
-	}
+function exportCsv(array $headers, array $data, $filename = 'data', $delimiter = ',')
+{
+    if (!is_array($headers) || !is_array($data)) {
+        return false;
+    }
 
-	if ( ! headers_sent() ) {
-		header( 'Content-Encoding: UTF-8' );
-		header( 'Content-Type: text/csv; charset=utf-8' );
-		header( 'Content-Disposition: attachment; filename=' . $filename . '.csv' );
-		header( 'Cache-Control: max-age=0' );
-	}
+    if (!headers_sent()) {
+        header('Content-Encoding: UTF-8');
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=' . $filename . '.csv');
+        header('Cache-Control: max-age=0');
+    }
 
-	$output = fopen( "php://output", "w" );
-	fprintf( $output, chr( 0xEF ) . chr( 0xBB ) . chr( 0xBF ) );
-	fputcsv( $output, $headers, $delimiter );
+    $output = fopen("php://output", "w");
+    fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
+    fputcsv($output, $headers, $delimiter);
 
-	foreach ( $data as $item ) {
-		fputcsv( $output, $item, $delimiter );
-	}
+    foreach ($data as $item) {
+        fputcsv($output, $item, $delimiter);
+    }
 
-	fclose( $output );
+    fclose($output);
 
-	return true;
+    return true;
 }
 
 /**
  * @return bool
  */
-function valideToken() {
-	if ( ! empty( $_REQUEST['_token'] ) && ! empty( $_SESSION['_token'] ) && $_REQUEST['_token'] == $_SESSION['_token'] ) {
+function valideToken()
+{
+    if (!empty($_REQUEST['_token']) && !empty($_SESSION['_token']) && $_REQUEST['_token'] == $_SESSION['_token']) {
 
-		unsetToken();
+        unsetToken();
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * @return bool
  */
-function valideAjaxToken() {
-	if ( ! empty( $_REQUEST['_token'] ) && ! empty( $_SESSION['_token'] ) && $_REQUEST['_token'] == $_SESSION['_token'] ) {
+function valideAjaxToken()
+{
+    if (!empty($_REQUEST['_token']) && !empty($_SESSION['_token']) && $_REQUEST['_token'] == $_SESSION['_token']) {
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -3206,37 +3357,39 @@ function valideAjaxToken() {
  *
  * @return bool
  */
-function checkPostAndTokenRequest( $updateUserStatus = true ) {
-	if ( $_SERVER["REQUEST_METHOD"] == "POST"
-	     && ! empty( $_POST['_token'] ) && ! empty( $_SESSION['_token'] )
-	     && $_POST['_token'] == $_SESSION['_token'] ) {
+function checkPostAndTokenRequest($updateUserStatus = true)
+{
+    if ($_SERVER["REQUEST_METHOD"] == "POST"
+        && !empty($_POST['_token']) && !empty($_SESSION['_token'])
+        && $_POST['_token'] == $_SESSION['_token']) {
 
-		unsetToken();
+        unsetToken();
 
-		if ( $updateUserStatus ) {
-			if ( function_exists( 'mehoubarim_connecteUser' ) ) {
-				mehoubarim_connecteUser();
-			}
-		}
+        if ($updateUserStatus) {
+            if (function_exists('mehoubarim_connecteUser')) {
+                mehoubarim_connecteUser();
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * @return bool
  */
-function checkAjaxRequest() {
-	if (
-		! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
-		&& strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest'
-	) {
-		return true;
-	}
+function checkAjaxRequest()
+{
+    if (
+        !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+        && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
+    ) {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -3244,10 +3397,11 @@ function checkAjaxRequest() {
  *
  * @return bool
  */
-function getUserIdSession() {
-	$userConnexion = getUserConnexion();
+function getUserIdSession()
+{
+    $userConnexion = getUserConnexion();
 
-	return $userConnexion ? $userConnexion['idUserConnexion'] : false;
+    return $userConnexion ? $userConnexion['idUserConnexion'] : false;
 }
 
 /**
@@ -3255,11 +3409,12 @@ function getUserIdSession() {
  *
  * @return bool
  */
-function isUserAuthorized( $slug ) {
+function isUserAuthorized($slug)
+{
 
-	$Menu = new \App\Menu();
+    $Menu = new \App\Menu();
 
-	return $Menu->checkUserPermission( getUserRoleId(), $slug );
+    return $Menu->checkUserPermission(getUserRoleId(), $slug);
 }
 
 /**
@@ -3267,8 +3422,9 @@ function isUserAuthorized( $slug ) {
  *
  * @return bool|string
  */
-function checkAndGetUserId( $idUser = null ) {
-	return $idUser ? $idUser : getUserIdSession();
+function checkAndGetUserId($idUser = null)
+{
+    return $idUser ? $idUser : getUserIdSession();
 }
 
 /**
@@ -3278,35 +3434,36 @@ function checkAndGetUserId( $idUser = null ) {
  *
  * @return array|bool
  */
-function getAllUsers( $max = false, $min = false, $roleIdReference = null ) {
+function getAllUsers($max = false, $min = false, $roleIdReference = null)
+{
 
-	if ( ! defined( 'ALLUSERS' ) ) {
+    if (!defined('ALLUSERS')) {
 
-		//Get all users in a const
-		$USER = new Users();
-		$USER->setStatut( 0 );
-		define( 'ALLUSERS', serialize( extractFromObjArr( $USER->showAll(), 'id' ) ) );
-	}
+        //Get all users in a const
+        $USER = new Users();
+        $USER->setStatut(0);
+        define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
+    }
 
-	$allUsers = unserialize( ALLUSERS );
+    $allUsers = unserialize(ALLUSERS);
 
-	if ( is_array( $allUsers ) ) {
+    if (is_array($allUsers)) {
 
-		if ( $max || $min ) {
+        if ($max || $min) {
 
-			$reference = is_numeric( $roleIdReference ) ? $roleIdReference : getUserRoleId();
-			foreach ( $allUsers as $idUser => $user ) {
+            $reference = is_numeric($roleIdReference) ? $roleIdReference : getUserRoleId();
+            foreach ($allUsers as $idUser => $user) {
 
-				if ( ( $max && $reference < getUserRoleId( $idUser ) ) || ( $min && $reference > getUserRoleId( $idUser ) ) ) {
-					unset( $allUsers[ $idUser ] );
-				}
-			}
-		}
+                if (($max && $reference < getUserRoleId($idUser)) || ($min && $reference > getUserRoleId($idUser))) {
+                    unset($allUsers[$idUser]);
+                }
+            }
+        }
 
-		return $allUsers;
-	}
+        return $allUsers;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -3314,15 +3471,16 @@ function getAllUsers( $max = false, $min = false, $roleIdReference = null ) {
  *
  * @return bool
  */
-function isUserExist( $idUser ) {
+function isUserExist($idUser)
+{
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	if ( is_array( $ALLUSERS ) && is_numeric( $idUser ) ) {
-		return array_key_exists( $idUser, $ALLUSERS );
-	}
+    if (is_array($ALLUSERS) && is_numeric($idUser)) {
+        return array_key_exists($idUser, $ALLUSERS);
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -3330,12 +3488,13 @@ function isUserExist( $idUser ) {
  *
  * @return string|array
  */
-function getUserData( $idUser = null ) {
-	$idUser = checkAndGetUserId( $idUser );
+function getUserData($idUser = null)
+{
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? $ALLUSERS[ $idUser ] : '';
+    return isUserExist($idUser) ? $ALLUSERS[$idUser] : '';
 }
 
 /**
@@ -3343,12 +3502,13 @@ function getUserData( $idUser = null ) {
  *
  * @return string
  */
-function getUserName( $idUser = null ) {
-	$idUser = checkAndGetUserId( $idUser );
+function getUserName($idUser = null)
+{
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? $ALLUSERS[ $idUser ]->nom : '';
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->nom : '';
 }
 
 /**
@@ -3356,12 +3516,13 @@ function getUserName( $idUser = null ) {
  *
  * @return string
  */
-function getUserFirstName( $idUser = null ) {
-	$idUser = checkAndGetUserId( $idUser );
+function getUserFirstName($idUser = null)
+{
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? $ALLUSERS[ $idUser ]->prenom : '';
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->prenom : '';
 }
 
 /**
@@ -3370,12 +3531,13 @@ function getUserFirstName( $idUser = null ) {
  *
  * @return string
  */
-function getUserEntitled( $idUser = null, $separator = ' ' ) {
-	$idUser = checkAndGetUserId( $idUser );
+function getUserEntitled($idUser = null, $separator = ' ')
+{
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? $ALLUSERS[ $idUser ]->nom . $separator . $ALLUSERS[ $idUser ]->prenom : '';
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->nom . $separator . $ALLUSERS[$idUser]->prenom : '';
 }
 
 /**
@@ -3383,12 +3545,13 @@ function getUserEntitled( $idUser = null, $separator = ' ' ) {
  *
  * @return array|string
  */
-function getUserLogin( $idUser = null ) {
-	$idUser = checkAndGetUserId( $idUser );
+function getUserLogin($idUser = null)
+{
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? $ALLUSERS[ $idUser ]->login : '';
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->login : '';
 }
 
 /**
@@ -3396,12 +3559,13 @@ function getUserLogin( $idUser = null ) {
  *
  * @return array|string
  */
-function getUserEmail( $idUser = null ) {
-	$idUser = checkAndGetUserId( $idUser );
+function getUserEmail($idUser = null)
+{
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? $ALLUSERS[ $idUser ]->email : '';
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->email : '';
 }
 
 /**
@@ -3409,12 +3573,13 @@ function getUserEmail( $idUser = null ) {
  *
  * @return array|bool
  */
-function getUserStatus( $idUser = null ) {
-	$idUser = checkAndGetUserId( $idUser );
+function getUserStatus($idUser = null)
+{
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? $ALLUSERS[ $idUser ]->statut : false;
+    return isUserExist($idUser) ? $ALLUSERS[$idUser]->statut : false;
 }
 
 /**
@@ -3422,13 +3587,14 @@ function getUserStatus( $idUser = null ) {
  *
  * @return string
  */
-function getUserRoleId( $idUser = null ) {
+function getUserRoleId($idUser = null)
+{
 
-	$idUser = checkAndGetUserId( $idUser );
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? getRoleId( $ALLUSERS[ $idUser ]->role ) : false;
+    return isUserExist($idUser) ? getRoleId($ALLUSERS[$idUser]->role) : false;
 }
 
 /**
@@ -3436,36 +3602,39 @@ function getUserRoleId( $idUser = null ) {
  *
  * @return mixed
  */
-function getUserRoleName( $idUser = null ) {
+function getUserRoleName($idUser = null)
+{
 
-	$idUser = checkAndGetUserId( $idUser );
+    $idUser = checkAndGetUserId($idUser);
 
-	$ALLUSERS = getAllUsers();
+    $ALLUSERS = getAllUsers();
 
-	return isUserExist( $idUser ) ? getRoleName( $ALLUSERS[ $idUser ]->role ) : '';
+    return isUserExist($idUser) ? getRoleName($ALLUSERS[$idUser]->role) : '';
 }
 
 /**
  * @return array
  */
-function getAdminRoles() {
-	return array( 11 => 'Technicien', 12 => 'King' );
+function getAdminRoles()
+{
+    return array(11 => 'Technicien', 12 => 'King');
 }
 
 /**
  * @return array
  */
-function getRoles() {
-	$usersRoles = getAdminRoles();
-	if ( defined( 'ROLES' ) ) {
+function getRoles()
+{
+    $usersRoles = getAdminRoles();
+    if (defined('ROLES')) {
 
-		$usersRoles = $usersRoles + ROLES;
-		ksort( $usersRoles );
+        $usersRoles = $usersRoles + ROLES;
+        ksort($usersRoles);
 
-		return $usersRoles;
-	}
+        return $usersRoles;
+    }
 
-	return $usersRoles;
+    return $usersRoles;
 }
 
 /**
@@ -3473,14 +3642,15 @@ function getRoles() {
  *
  * @return mixed
  */
-function getRoleName( $roleId ) {
-	if ( defined( 'ROLES' ) ) {
-		$roleId = getRoleId( $roleId );
+function getRoleName($roleId)
+{
+    if (defined('ROLES')) {
+        $roleId = getRoleId($roleId);
 
-		return getRoles()[ $roleId ];
-	}
+        return getRoles()[$roleId];
+    }
 
-	return $roleId;
+    return $roleId;
 }
 
 /**
@@ -3488,16 +3658,18 @@ function getRoleName( $roleId ) {
  *
  * @return string
  */
-function getRoleId( $cryptedRole ) {
-	return strlen( $cryptedRole ) < 3 ? $cryptedRole : \App\Shinoui::Decrypter( $cryptedRole );
+function getRoleId($cryptedRole)
+{
+    return strlen($cryptedRole) < 3 ? $cryptedRole : \App\Shinoui::Decrypter($cryptedRole);
 }
 
 
 /**
  * @return false|int|string
  */
-function getTechnicienRoleId() {
-	return array_search( 'Technicien', getRoles() );
+function getTechnicienRoleId()
+{
+    return array_search('Technicien', getRoles());
 }
 
 /**
@@ -3505,14 +3677,15 @@ function getTechnicienRoleId() {
  *
  * @return bool
  */
-function isTechnicien( $roleId ) {
+function isTechnicien($roleId)
+{
 
-	$userRole = getRoleId( $roleId );
-	if ( $userRole >= 11 ) {
-		return true;
-	}
+    $userRole = getRoleId($roleId);
+    if ($userRole >= 11) {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -3520,127 +3693,136 @@ function isTechnicien( $roleId ) {
  *
  * @return bool
  */
-function isKing( $roleId ) {
+function isKing($roleId)
+{
 
-	$userRole = getRoleId( $roleId );
-	if ( $userRole == 12 ) {
-		return true;
-	}
+    $userRole = getRoleId($roleId);
+    if ($userRole == 12) {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * @param bool $destroyAndRedirect
  * Unset User Session & Cookie
  */
-function disconnectUser( $destroyAndRedirect = true ) {
-	if ( function_exists( 'mehoubarim_freeUser' ) ) {
-		mehoubarim_freeUser( getUserIdSession() );
-	}
+function disconnectUser($destroyAndRedirect = true)
+{
+    if (function_exists('mehoubarim_freeUser')) {
+        mehoubarim_freeUser(getUserIdSession());
+    }
 
-	//Delete auth sessions
-	if ( isset( $_SESSION[ 'auth' . slugify( $_SERVER['HTTP_HOST'] ) ] ) ) {
-		unset( $_SESSION[ 'auth' . slugify( $_SERVER['HTTP_HOST'] ) ] );
-	}
+    //Delete auth sessions
+    if (isset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])])) {
+        unset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
+    }
 
-	//Delete auth cookie
-	if ( isset( $_COOKIE[ 'hibour' . slugify( $_SERVER['HTTP_HOST'] ) ] ) ) {
-		setcookie( 'hibour' . slugify( $_SERVER['HTTP_HOST'] ), '', - 3600, '/', '', false, true );
-		unset( $_COOKIE[ 'hibour' . slugify( $_SERVER['HTTP_HOST'] ) ] );
-	}
+    //Delete auth cookie
+    if (isset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])])) {
+        setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', -3600, '/', '', false, true);
+        unset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
+    }
 
-	if ( true === $destroyAndRedirect ) {
+    if (true === $destroyAndRedirect) {
 
-		session_unset();
-		session_destroy();
+        session_unset();
+        session_destroy();
 
-		if ( ! headers_sent() ) {
-			header( 'location:' . WEB_DIR . 'hibour' );
-		}
-		exit();
-	}
+        if (!headers_sent()) {
+            header('location:' . WEB_DIR . 'hibour');
+        }
+        exit();
+    }
 }
 
 /**
  * @return bool|string
  */
-function getUserSession() {
-	if ( ! empty( $_SESSION[ 'auth' . slugify( $_SERVER['HTTP_HOST'] ) ] ) ) {
-		return \App\Shinoui::Decrypter( $_SESSION[ 'auth' . slugify( $_SERVER['HTTP_HOST'] ) ] );
-	}
+function getUserSession()
+{
+    if (!empty($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])])) {
+        return \App\Shinoui::Decrypter($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * @return bool|string
  */
-function getUserCookie() {
-	if ( ! empty( $_COOKIE[ 'hibour' . slugify( $_SERVER['HTTP_HOST'] ) ] ) ) {
-		return \App\Shinoui::Decrypter( $_COOKIE[ 'hibour' . slugify( $_SERVER['HTTP_HOST'] ) ] );
-	}
+function getUserCookie()
+{
+    if (!empty($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])])) {
+        return \App\Shinoui::Decrypter($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * Set user Session
  */
-function setUserSession() {
-	checkSession();
+function setUserSession()
+{
+    checkSession();
 
-	$_SESSION[ 'auth' . slugify( $_SERVER['HTTP_HOST'] ) ] = $_COOKIE[ 'hibour' . slugify( $_SERVER['HTTP_HOST'] ) ];
+    $_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])] = $_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])];
 }
 
 /**
  * @return bool
  */
-function isUserSessionExist() {
-	return isset( $_SESSION[ 'auth' . slugify( $_SERVER['HTTP_HOST'] ) ] );
+function isUserSessionExist()
+{
+    return isset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])]);
 }
 
 /**
  * @return bool
  */
-function isUserCookieExist() {
-	return isset( $_COOKIE[ 'hibour' . slugify( $_SERVER['HTTP_HOST'] ) ] );
+function isUserCookieExist()
+{
+    return isset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
 }
 
 /**
  * @return array|bool
  */
-function getUserConnexion() {
+function getUserConnexion()
+{
 
-	$checkStr = '!a6fgcb!f152ddb3!';
-	$pos      = false;
+    $checkStr = '!a6fgcb!f152ddb3!';
+    $pos = false;
 
-	if ( isUserSessionExist() ) {
+    if (isUserSessionExist()) {
 
-		$pos = strpos( getUserSession(), $checkStr );
-		list( $idUserConnexion, $loginUserConnexion ) = explode( $checkStr, getUserSession() );
+        $pos = strpos(getUserSession(), $checkStr);
+        list($idUserConnexion, $loginUserConnexion) = explode($checkStr, getUserSession());
 
-	} elseif ( isUserCookieExist() ) {
+    } elseif (isUserCookieExist()) {
 
-		$pos = strpos( getUserCookie(), $checkStr );
-		setUserSession();
-		list( $idUserConnexion, $loginUserConnexion ) = explode( $checkStr, getUserSession() );
-	}
+        $pos = strpos(getUserCookie(), $checkStr);
+        setUserSession();
+        list($idUserConnexion, $loginUserConnexion) = explode($checkStr, getUserSession());
+    }
 
-	return $pos !== false ? array(
-		'idUserConnexion'    => $idUserConnexion,
-		'loginUserConnexion' => $loginUserConnexion
-	) : false;
+    return $pos !== false ? array(
+        'idUserConnexion' => $idUserConnexion,
+        'loginUserConnexion' => $loginUserConnexion
+    ) : false;
 }
 
 /**
  * Check if user is in App directory
  * @return bool
  */
-function isUserInApp() {
-	$url_parts = explode( '/', $_SERVER['PHP_SELF'] );
+function isUserInApp()
+{
+    $url_parts = explode('/', $_SERVER['PHP_SELF']);
 
-	return in_array( 'app', $url_parts );
+    return in_array('app', $url_parts);
 }
 
 /**
@@ -3651,27 +3833,29 @@ function isUserInApp() {
  *
  * @return array|bool|mixed
  */
-function getPathFiles( $chemin, $ext = array() ) {
-	if ( ! empty( $chemin ) && is_array( $ext ) ) {
-		$files = glob( $chemin . '*.{' . implode( ',', $ext ) . '}', GLOB_BRACE );
+function getPathFiles($chemin, $ext = array())
+{
+    if (!empty($chemin) && is_array($ext)) {
+        $files = glob($chemin . '*.{' . implode(',', $ext) . '}', GLOB_BRACE);
 
-		return array_map( 'realpath', $files );
-	} else {
-		return false;
-	}
+        return array_map('realpath', $files);
+    } else {
+        return false;
+    }
 }
 
 /**
  * Try to detect bots and subdomain
  * @return bool
  */
-function bot_detected() {
-	return (
-		( isset( $_GET['access_method'] ) ) || ( isset( $_SERVER['HTTP_USER_AGENT'] )
-		                                         && preg_match( '/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo
+function bot_detected()
+{
+    return (
+        (isset($_GET['access_method'])) || (isset($_SERVER['HTTP_USER_AGENT'])
+            && preg_match('/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo
         |contaxe|libwww-perl|facebookexternalhit|mediapartners|baidu|bingbot|facebookexternalhit|googlebot|-google
-        |ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/i', $_SERVER['HTTP_USER_AGENT'] ) )
-	);
+        |ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/i', $_SERVER['HTTP_USER_AGENT']))
+    );
 }
 
 /**
@@ -3679,8 +3863,9 @@ function bot_detected() {
  *
  * @return bool
  */
-function appoeMinRole( $userRole = null ) {
-	return APPOE_MIN_ROLE <= ( is_null( $userRole ) ? getUserRoleId() : $userRole );
+function appoeMinRole($userRole = null)
+{
+    return APPOE_MIN_ROLE <= (is_null($userRole) ? getUserRoleId() : $userRole);
 }
 
 /**
@@ -3688,8 +3873,9 @@ function appoeMinRole( $userRole = null ) {
  *
  * @return bool
  */
-function url_exists( $url ) {
-	return ( ! $fp = curl_init( $url ) ) ? false : true;
+function url_exists($url)
+{
+    return (!$fp = curl_init($url)) ? false : true;
 }
 
 /**
@@ -3697,10 +3883,11 @@ function url_exists( $url ) {
  *
  * @return bool
  */
-function isTel( $tel ) {
-	$cleanTel = str_replace( "-", "", filter_var( $tel, FILTER_SANITIZE_NUMBER_INT ) );
+function isTel($tel)
+{
+    $cleanTel = str_replace("-", "", filter_var($tel, FILTER_SANITIZE_NUMBER_INT));
 
-	return strlen( $cleanTel ) >= 10 && strlen( $cleanTel ) < 15;
+    return strlen($cleanTel) >= 10 && strlen($cleanTel) < 15;
 }
 
 /**
@@ -3708,14 +3895,15 @@ function isTel( $tel ) {
  *
  * @return bool
  */
-function isEmail( $email ) {
-	if ( ! empty( $email ) && filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
-		$emailParts = explode( "@", $email );
+function isEmail($email)
+{
+    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailParts = explode("@", $email);
 
-		return checkdnsrr( array_pop( $emailParts ), "MX" );
-	}
+        return checkdnsrr(array_pop($emailParts), "MX");
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -3723,8 +3911,9 @@ function isEmail( $email ) {
  *
  * @return bool
  */
-function isUrl( $url ) {
-	return filter_var( $url, FILTER_VALIDATE_URL );
+function isUrl($url)
+{
+    return filter_var($url, FILTER_VALIDATE_URL);
 }
 
 /**
@@ -3732,31 +3921,35 @@ function isUrl( $url ) {
  *
  * @return mixed
  */
-function isIp( $ip ) {
-	return ! empty( $ip ) && strlen( $ip ) <= 45 && ( filter_var( $ip, FILTER_VALIDATE_IP )
-	                                                  || filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 )
-	                                                  || filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) );
+function isIp($ip)
+{
+    return !empty($ip) && strlen($ip) <= 45 && (filter_var($ip, FILTER_VALIDATE_IP)
+            || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
+            || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6));
 }
 
 /**
  * @return string
  */
-function patternTel() {
-	return ' pattern="[0-9-+ ]+" ';
+function patternTel()
+{
+    return ' pattern="[0-9-+ ]+" ';
 }
 
 /**
  * @return string
  */
-function patternMail() {
-	return ' pattern="[^@\s]+@[^@\s]+\.[^@\s]+" ';
+function patternMail()
+{
+    return ' pattern="[^@\s]+@[^@\s]+\.[^@\s]+" ';
 }
 
 /**
  * @return string
  */
-function patternUrl() {
-	return ' pattern="https?://.+" ';
+function patternUrl()
+{
+    return ' pattern="https?://.+" ';
 }
 
 /**
@@ -3767,25 +3960,26 @@ function patternUrl() {
  *
  * @return string
  */
-function webUrl( $file, $param = null ) {
-	$url = '';
-	if ( ! is_null( $param ) ) {
-		$url .= $param;
-	}
+function webUrl($file, $param = null)
+{
+    $url = '';
+    if (!is_null($param)) {
+        $url .= $param;
+    }
 
-	if ( false !== strpos( $file, '#' ) && substr( $file, - 1 ) == '/' ) {
-		$file = substr( $file, 0, - 1 );
+    if (false !== strpos($file, '#') && substr($file, -1) == '/') {
+        $file = substr($file, 0, -1);
 
-		if ( $file === '#' ) {
-			return $file;
-		}
-	}
+        if ($file === '#') {
+            return $file;
+        }
+    }
 
-	if ( substr( $file, 0, 4 ) === "http" ) {
-		return $file;
-	}
+    if (substr($file, 0, 4) === "http") {
+        return $file;
+    }
 
-	return WEB_DIR_URL . $file . $url;
+    return WEB_DIR_URL . $file . $url;
 }
 
 /**
@@ -3793,17 +3987,18 @@ function webUrl( $file, $param = null ) {
  *
  * @return string
  */
-function externalLink( $link ) {
-	if ( ! empty( $link ) && substr( $link, 0, 4 ) === "http" ) {
+function externalLink($link)
+{
+    if (!empty($link) && substr($link, 0, 4) === "http") {
 
-		$linkData = parse_url( $link );
+        $linkData = parse_url($link);
 
-		if ( $_SERVER['SERVER_NAME'] != $linkData['host'] ) {
-			return ' target="_blank" ';
-		}
-	}
+        if ($_SERVER['SERVER_NAME'] != $linkData['host']) {
+            return ' target="_blank" ';
+        }
+    }
 
-	return '';
+    return '';
 }
 
 /**
@@ -3812,57 +4007,58 @@ function externalLink( $link ) {
  *
  * @return string
  */
-function linkBuild( $menu, $params = [] ) {
-	if ( is_object( $menu ) ) {
+function linkBuild($menu, $params = [])
+{
+    if (is_object($menu)) {
 
-		$defaultParams = [
-			'linkParams' => [],
-			'class'      => '',
-			'activePage' => 'active',
-			'parent'     => false
-		];
+        $defaultParams = [
+            'linkParams' => [],
+            'class' => '',
+            'activePage' => 'active',
+            'parent' => false
+        ];
 
-		$slug  = $menu->slug;
-		$title = 'title="' . $menu->name . '"';
+        $slug = $menu->slug;
+        $title = 'title="' . $menu->name . '"';
 
-		$params = array_merge( $defaultParams, $params );
+        $params = array_merge($defaultParams, $params);
 
-		//External link
-		if ( substr( $slug, 0, 4 ) === "http" ) {
+        //External link
+        if (substr($slug, 0, 4) === "http") {
 
-			$target   = '';
-			$linkData = parse_url( $slug );
+            $target = '';
+            $linkData = parse_url($slug);
 
-			if ( $_SERVER['SERVER_NAME'] != $linkData['host'] || false !== strpos( $linkData['path'], '.' ) ) {
-				$target = 'target="_blank"';
-			}
+            if ($_SERVER['SERVER_NAME'] != $linkData['host'] || false !== strpos($linkData['path'], '.')) {
+                $target = 'target="_blank"';
+            }
 
-			return '<a href="' . $slug . '" class="' . $params['class'] . '" ' . $target . ' ' . $title . '>' . $menu->name . '</a>';
-		}
+            return '<a href="' . $slug . '" class="' . $params['class'] . '" ' . $target . ' ' . $title . '>' . $menu->name . '</a>';
+        }
 
-		//Anchor
-		if ( $slug === '#' || $params['parent'] == true ) {
-			return '<a href="#" class="' . $params['class'] . '" ' . $title . '>' . $menu->name . '</a>';
-		}
+        //Anchor
+        if ($slug === '#' || $params['parent'] == true) {
+            return '<a href="#" class="' . $params['class'] . '" ' . $title . '>' . $menu->name . '</a>';
+        }
 
-		$slug .= '/';
+        $slug .= '/';
 
-		//Parameters
-		if ( ! isArrayEmpty( $params['linkParams'] ) ) {
+        //Parameters
+        if (!isArrayEmpty($params['linkParams'])) {
 
-			if ( count( $params['linkParams'] ) == 1 ) {
-				$slug .= $params['linkParams'][0];
-			} else {
-				$slug .= implode( '/', $params['linkParams'] );
-			}
+            if (count($params['linkParams']) == 1) {
+                $slug .= $params['linkParams'][0];
+            } else {
+                $slug .= implode('/', $params['linkParams']);
+            }
 
-			$slug .= '/';
-		}
+            $slug .= '/';
+        }
 
-		return '<a href="' . WEB_DIR_URL . $slug . '" ' . $title . ' class="' . $params['class'] . ' ' . activePage( $menu->slug, $params['activePage'] ) . '">' . $menu->name . '</a>';
-	}
+        return '<a href="' . WEB_DIR_URL . $slug . '" ' . $title . ' class="' . $params['class'] . ' ' . activePage($menu->slug, $params['activePage']) . '">' . $menu->name . '</a>';
+    }
 
-	return $menu;
+    return $menu;
 }
 
 /**
@@ -3873,13 +4069,14 @@ function linkBuild( $menu, $params = [] ) {
  *
  * @return string
  */
-function getUrl( $file, $param = null ) {
-	$url = '';
-	if ( ! is_null( $param ) ) {
-		$url .= $param . '/';
-	}
+function getUrl($file, $param = null)
+{
+    $url = '';
+    if (!is_null($param)) {
+        $url .= $param . '/';
+    }
 
-	return WEB_ADMIN_URL . $file . $url;
+    return WEB_ADMIN_URL . $file . $url;
 }
 
 /**
@@ -3888,13 +4085,14 @@ function getUrl( $file, $param = null ) {
  *
  * @return string
  */
-function getPluginUrl( $file, $param = null ) {
-	$url = '';
-	if ( ! is_null( $param ) ) {
-		$url .= $param . '/';
-	}
+function getPluginUrl($file, $param = null)
+{
+    $url = '';
+    if (!is_null($param)) {
+        $url .= $param . '/';
+    }
 
-	return WEB_PLUGIN_URL . $file . $url;
+    return WEB_PLUGIN_URL . $file . $url;
 }
 
 /**
@@ -3902,12 +4100,13 @@ function getPluginUrl( $file, $param = null ) {
  *
  * @return bool|string
  */
-function getPageTypes( $type ) {
-	if ( in_array( mb_strtolower( $type ), array_keys( PAGE_TYPES ) ) ) {
-		return PAGE_TYPES[ mb_strtolower( $type ) ];
-	}
+function getPageTypes($type)
+{
+    if (in_array(mb_strtolower($type), array_keys(PAGE_TYPES))) {
+        return PAGE_TYPES[mb_strtolower($type)];
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -3915,10 +4114,11 @@ function getPageTypes( $type ) {
  *
  * @return mixed
  */
-function getFileName( $path ) {
-	$pathInfos = pathinfo( $path );
+function getFileName($path)
+{
+    $pathInfos = pathinfo($path);
 
-	return $pathInfos['filename'];
+    return $pathInfos['filename'];
 }
 
 /**
@@ -3927,21 +4127,22 @@ function getFileName( $path ) {
  *
  * @return array|mixed
  */
-function getSerializedOptions( $fileOptions, $key = '' ) {
-	$arrayOptions = array();
-	if ( ! empty( $fileOptions ) ) {
+function getSerializedOptions($fileOptions, $key = '')
+{
+    $arrayOptions = array();
+    if (!empty($fileOptions)) {
 
-		$arrayOptions = @unserialize( $fileOptions );
+        $arrayOptions = @unserialize($fileOptions);
 
-		if ( $arrayOptions && ! isArrayEmpty( $arrayOptions ) ) {
+        if ($arrayOptions && !isArrayEmpty($arrayOptions)) {
 
-			if ( ! empty( $key ) && array_key_exists( $key, $arrayOptions ) ) {
-				return $arrayOptions[ $key ];
-			}
-		}
-	}
+            if (!empty($key) && array_key_exists($key, $arrayOptions)) {
+                return $arrayOptions[$key];
+            }
+        }
+    }
 
-	return $arrayOptions;
+    return $arrayOptions;
 }
 
 /**
@@ -3951,30 +4152,31 @@ function getSerializedOptions( $fileOptions, $key = '' ) {
  *
  * @return array
  */
-function getFileTemplatePosition( $filesArray, $position, $forcedPosition = false ) {
+function getFileTemplatePosition($filesArray, $position, $forcedPosition = false)
+{
 
-	$newFilesArray = array();
-	if ( $filesArray && ! isArrayEmpty( $filesArray ) ) {
-		foreach ( $filesArray as $key => $file ) {
-			if ( is_object( $file ) && $position == getSerializedOptions( $file->options, 'templatePosition' ) ) {
-				array_push( $newFilesArray, $file );
-			}
-		}
+    $newFilesArray = array();
+    if ($filesArray && !isArrayEmpty($filesArray)) {
+        foreach ($filesArray as $key => $file) {
+            if (is_object($file) && $position == getSerializedOptions($file->options, 'templatePosition')) {
+                array_push($newFilesArray, $file);
+            }
+        }
 
-		if ( isArrayEmpty( $newFilesArray ) ) {
+        if (isArrayEmpty($newFilesArray)) {
 
-			if ( true === $forcedPosition ) {
-				$newFilesArray = $filesArray;
-			}
+            if (true === $forcedPosition) {
+                $newFilesArray = $filesArray;
+            }
 
-			if ( $forcedPosition > 0 ) {
-				$forcedFilesArray = getFileTemplatePosition( $filesArray, $forcedPosition );
-				$newFilesArray    = ! isArrayEmpty( $forcedFilesArray ) ? $forcedFilesArray : $filesArray;
-			}
-		}
-	}
+            if ($forcedPosition > 0) {
+                $forcedFilesArray = getFileTemplatePosition($filesArray, $forcedPosition);
+                $newFilesArray = !isArrayEmpty($forcedFilesArray) ? $forcedFilesArray : $filesArray;
+            }
+        }
+    }
 
-	return $newFilesArray;
+    return $newFilesArray;
 }
 
 /**
@@ -3986,29 +4188,30 @@ function getFileTemplatePosition( $filesArray, $position, $forcedPosition = fals
  *
  * @return bool|string
  */
-function getFirstImage( array $imageArray, $otherClass = '', $thumbSize = false, $onlyUrl = false, $onlyPath = false ) {
-	if ( $imageArray ) {
-		$firstImage = current( $imageArray );
-		if ( isImage( FILE_DIR_PATH . $firstImage->name ) ) {
-			if ( $onlyUrl ) {
-				return WEB_DIR_INCLUDE . $firstImage->name;
-			} else if ( $onlyPath ) {
-				return FILE_DIR_PATH . $firstImage->name;
-			} else {
-				return '<img src="' .
-				       (
-				       ! $thumbSize
-					       ? WEB_DIR_INCLUDE . $firstImage->name
-					       : getThumb( $firstImage->name, $thumbSize )
-				       )
-				       . '" alt="' . $firstImage->title . '" data-originsrc="' . WEB_DIR_INCLUDE . $firstImage->name . '" class="' . $otherClass . '">';
-			}
-		} else {
-			return getFirstImage( array_slice( $imageArray, 1 ), $otherClass, $thumbSize );
-		}
-	}
+function getFirstImage(array $imageArray, $otherClass = '', $thumbSize = false, $onlyUrl = false, $onlyPath = false)
+{
+    if ($imageArray) {
+        $firstImage = current($imageArray);
+        if (isImage(FILE_DIR_PATH . $firstImage->name)) {
+            if ($onlyUrl) {
+                return WEB_DIR_INCLUDE . $firstImage->name;
+            } else if ($onlyPath) {
+                return FILE_DIR_PATH . $firstImage->name;
+            } else {
+                return '<img src="' .
+                    (
+                    !$thumbSize
+                        ? WEB_DIR_INCLUDE . $firstImage->name
+                        : getThumb($firstImage->name, $thumbSize)
+                    )
+                    . '" alt="' . $firstImage->title . '" data-originsrc="' . WEB_DIR_INCLUDE . $firstImage->name . '" class="' . $otherClass . '">';
+            }
+        } else {
+            return getFirstImage(array_slice($imageArray, 1), $otherClass, $thumbSize);
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -4020,23 +4223,24 @@ function getFirstImage( array $imageArray, $otherClass = '', $thumbSize = false,
  *
  * @return bool|string
  */
-function getFirstVideo( array $videoArray, $otherClass = '', $otherAttr = '', $onlyUrl = false, $onlyPath = false ) {
-	if ( $videoArray ) {
-		$firstVideo = current( $videoArray );
-		if ( isVideo( FILE_DIR_PATH . $firstVideo->name ) ) {
-			if ( $onlyUrl ) {
-				return WEB_DIR_INCLUDE . $firstVideo->name;
-			} else if ( $onlyPath ) {
-				return FILE_DIR_PATH . $firstVideo->name;
-			} else {
-				return '<video src="' . WEB_DIR_INCLUDE . $firstVideo->name . '" class="' . $otherClass . '" ' . $otherAttr . '></video>';
-			}
-		} else {
-			return getFirstVideo( array_slice( $videoArray, 1 ), $otherClass );
-		}
-	}
+function getFirstVideo(array $videoArray, $otherClass = '', $otherAttr = '', $onlyUrl = false, $onlyPath = false)
+{
+    if ($videoArray) {
+        $firstVideo = current($videoArray);
+        if (isVideo(FILE_DIR_PATH . $firstVideo->name)) {
+            if ($onlyUrl) {
+                return WEB_DIR_INCLUDE . $firstVideo->name;
+            } else if ($onlyPath) {
+                return FILE_DIR_PATH . $firstVideo->name;
+            } else {
+                return '<video src="' . WEB_DIR_INCLUDE . $firstVideo->name . '" class="' . $otherClass . '" ' . $otherAttr . '></video>';
+            }
+        } else {
+            return getFirstVideo(array_slice($videoArray, 1), $otherClass);
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -4044,16 +4248,17 @@ function getFirstVideo( array $videoArray, $otherClass = '', $otherAttr = '', $o
  *
  * @return bool|string
  */
-function getLastImage( $imageArray ) {
-	if ( $imageArray ) {
-		$lastImage = end( $imageArray );
-		if ( isImage( FILE_DIR_PATH . $lastImage->name ) ) {
-			return '<img src="' . WEB_DIR_INCLUDE . $lastImage->name . '"
+function getLastImage($imageArray)
+{
+    if ($imageArray) {
+        $lastImage = end($imageArray);
+        if (isImage(FILE_DIR_PATH . $lastImage->name)) {
+            return '<img src="' . WEB_DIR_INCLUDE . $lastImage->name . '"
                                  alt="' . $lastImage->title . '">';
-		}
-	}
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -4061,38 +4266,39 @@ function getLastImage( $imageArray ) {
  *
  * @return bool|string
  */
-function getLittleImage( $imageArray ) {
-	if ( $imageArray ) {
+function getLittleImage($imageArray)
+{
+    if ($imageArray) {
 
-		$littleImage     = current( $imageArray );
-		$littleImageSize = getimagesize( FILE_DIR_PATH . $littleImage->name );
+        $littleImage = current($imageArray);
+        $littleImageSize = getimagesize(FILE_DIR_PATH . $littleImage->name);
 
-		foreach ( $imageArray as $key => $img ) {
-			if ( isImage( FILE_DIR_PATH . $img->name ) ) {
+        foreach ($imageArray as $key => $img) {
+            if (isImage(FILE_DIR_PATH . $img->name)) {
 
-				$imageSize = getimagesize( FILE_DIR_PATH . $img->name );
+                $imageSize = getimagesize(FILE_DIR_PATH . $img->name);
 
-				if ( $imageSize[0] < $littleImageSize[0] && $imageSize[1] < $littleImageSize[1] ) {
-					$littleImage     = $img;
-					$littleImageSize = $imageSize;
-				} else {
-					$proportionW = $imageSize[0] - $littleImageSize[0];
-					$proportionY = $imageSize[1] - $littleImageSize[1];
-					$proportion  = $proportionW + $proportionY;
+                if ($imageSize[0] < $littleImageSize[0] && $imageSize[1] < $littleImageSize[1]) {
+                    $littleImage = $img;
+                    $littleImageSize = $imageSize;
+                } else {
+                    $proportionW = $imageSize[0] - $littleImageSize[0];
+                    $proportionY = $imageSize[1] - $littleImageSize[1];
+                    $proportion = $proportionW + $proportionY;
 
-					if ( $proportion < $littleImageSize[0] && $proportion < $littleImageSize[1] ) {
-						$littleImage     = $img;
-						$littleImageSize = $imageSize;
-					}
-				}
-			}
-		}
+                    if ($proportion < $littleImageSize[0] && $proportion < $littleImageSize[1]) {
+                        $littleImage = $img;
+                        $littleImageSize = $imageSize;
+                    }
+                }
+            }
+        }
 
-		return '<img src="' . WEB_DIR_INCLUDE . $littleImage->name . '"
+        return '<img src="' . WEB_DIR_INCLUDE . $littleImage->name . '"
                                  alt="' . $littleImage->title . '">';
-	}
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -4100,18 +4306,19 @@ function getLittleImage( $imageArray ) {
  *
  * @return array
  */
-function getOnlyImages( $imageArray ) {
-	$imagesFiltredArray = array();
-	if ( $imageArray ) {
+function getOnlyImages($imageArray)
+{
+    $imagesFiltredArray = array();
+    if ($imageArray) {
 
-		foreach ( $imageArray as $image ) {
-			if ( isImage( FILE_DIR_PATH . $image->name ) ) {
-				array_push( $imagesFiltredArray, WEB_DIR_INCLUDE . $image->name );
-			}
-		}
-	}
+        foreach ($imageArray as $image) {
+            if (isImage(FILE_DIR_PATH . $image->name)) {
+                array_push($imagesFiltredArray, WEB_DIR_INCLUDE . $image->name);
+            }
+        }
+    }
 
-	return $imagesFiltredArray;
+    return $imagesFiltredArray;
 }
 
 /**
@@ -4122,13 +4329,14 @@ function getOnlyImages( $imageArray ) {
  *
  * @return string
  */
-function showImage( stdClass $media, $class = '', $attr = '', $thumbSize = false ) {
-	if ( property_exists( $media, 'name' ) && property_exists( $media, 'title' ) ) {
+function showImage(stdClass $media, $class = '', $attr = '', $thumbSize = false)
+{
+    if (property_exists($media, 'name') && property_exists($media, 'title')) {
 
-		return '<img src="' . imgUrl( $media, $thumbSize ) . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
-	}
+        return '<img src="' . imgUrl($media, $thumbSize) . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
+    }
 
-	return '';
+    return '';
 }
 
 /**
@@ -4137,12 +4345,13 @@ function showImage( stdClass $media, $class = '', $attr = '', $thumbSize = false
  *
  * @return string|null
  */
-function imgUrl( stdClass $media, $thumbSize = false ) {
-	if ( property_exists( $media, 'name' ) ) {
-		return ! $thumbSize ? WEB_DIR_INCLUDE . $media->name : getThumb( $media->name, $thumbSize );
-	}
+function imgUrl(stdClass $media, $thumbSize = false)
+{
+    if (property_exists($media, 'name')) {
+        return !$thumbSize ? WEB_DIR_INCLUDE . $media->name : getThumb($media->name, $thumbSize);
+    }
 
-	return null;
+    return null;
 }
 
 /**
@@ -4150,10 +4359,11 @@ function imgUrl( stdClass $media, $thumbSize = false ) {
  *
  * @return mixed
  */
-function getFileExtension( $path ) {
-	$pathInfos = pathinfo( $path );
+function getFileExtension($path)
+{
+    $pathInfos = pathinfo($path);
 
-	return isset( $pathInfos['extension'] ) ? $pathInfos['extension'] : false;
+    return isset($pathInfos['extension']) ? $pathInfos['extension'] : false;
 }
 
 /**
@@ -4161,47 +4371,48 @@ function getFileExtension( $path ) {
  *
  * @return string
  */
-function getImgAccordingExtension( $extension ) {
+function getImgAccordingExtension($extension)
+{
 
-	$src = WEB_TEMPLATE_URL . 'images/';
-	switch ( strtolower( $extension ) ) {
-		case 'jpg':
-		case 'jpeg':
-		case 'gif':
-		case 'png':
-			return 'img';
-			break;
-		case 'pdf':
-			return $src . 'Pdf.png';
-			break;
-		case 'doc':
-		case 'docx':
-			return $src . 'Word.png';
-			break;
-		case 'xls':
-		case 'xlsx':
-			return $src . 'Excel.png';
-			break;
-		case 'ppt':
-		case 'pptx':
-			return $src . 'PowerPoint.png';
-			break;
-		case 'mp3':
-		case 'wma':
-		case 'wov':
-			return $src . 'Music.png';
-			break;
-		case 'mp4':
-		case 'webm':
-		case 'ogg':
-		case 'ogv':
-			return $src . 'Videos.png';
-			break;
-		default:
-			return $src . 'AllFileType.png';
-			break;
+    $src = WEB_TEMPLATE_URL . 'images/';
+    switch (strtolower($extension)) {
+        case 'jpg':
+        case 'jpeg':
+        case 'gif':
+        case 'png':
+            return 'img';
+            break;
+        case 'pdf':
+            return $src . 'Pdf.png';
+            break;
+        case 'doc':
+        case 'docx':
+            return $src . 'Word.png';
+            break;
+        case 'xls':
+        case 'xlsx':
+            return $src . 'Excel.png';
+            break;
+        case 'ppt':
+        case 'pptx':
+            return $src . 'PowerPoint.png';
+            break;
+        case 'mp3':
+        case 'wma':
+        case 'wov':
+            return $src . 'Music.png';
+            break;
+        case 'mp4':
+        case 'webm':
+        case 'ogg':
+        case 'ogv':
+            return $src . 'Videos.png';
+            break;
+        default:
+            return $src . 'AllFileType.png';
+            break;
 
-	}
+    }
 }
 
 /**
@@ -4209,19 +4420,21 @@ function getImgAccordingExtension( $extension ) {
  *
  * @return string
  */
-function getContainerErrorMsg( $msg ) {
-	return '<div class="container-fluid"><div class="row"><div class="col-12"><p>' . $msg . '</p></div></div></div>';
+function getContainerErrorMsg($msg)
+{
+    return '<div class="container-fluid"><div class="row"><div class="col-12"><p>' . $msg . '</p></div></div></div>';
 }
 
 /**
  *
  */
-function setPays() {
-	if ( empty( $_SESSION['pays'] ) ) {
-		$json             = file_get_contents( 'http://getcitydetails.geobytes.com/GetCityDetails?fqcn=' . getIP() );
-		$json             = json_decode( $json );
-		$_SESSION['pays'] = $json->geobytesinternet;
-	}
+function setPays()
+{
+    if (empty($_SESSION['pays'])) {
+        $json = file_get_contents('http://getcitydetails.geobytes.com/GetCityDetails?fqcn=' . getIP());
+        $json = json_decode($json);
+        $_SESSION['pays'] = $json->geobytesinternet;
+    }
 }
 
 /**
@@ -4229,24 +4442,25 @@ function setPays() {
  *
  * @return string
  */
-function FormatTel( $numTel ) {
-	$i      = 0;
-	$j      = 0;
-	$format = "";
-	while ( $i < strlen( $numTel ) ) {
-		if ( $j < 2 ) {
-			if ( preg_match( '/^[0-9]$/', $numTel[ $i ] ) ) {
-				$format .= $numTel[ $i ];
-				$j ++;
-			}
-			$i ++;
-		} else {
-			$format .= " ";
-			$j      = 0;
-		}
-	}
+function FormatTel($numTel)
+{
+    $i = 0;
+    $j = 0;
+    $format = "";
+    while ($i < strlen($numTel)) {
+        if ($j < 2) {
+            if (preg_match('/^[0-9]$/', $numTel[$i])) {
+                $format .= $numTel[$i];
+                $j++;
+            }
+            $i++;
+        } else {
+            $format .= " ";
+            $j = 0;
+        }
+    }
 
-	return $format;
+    return $format;
 }
 
 /**
@@ -4255,21 +4469,22 @@ function FormatTel( $numTel ) {
  *
  * @return mixed
  */
-function noaccent( $str, $encoding = 'utf-8' ) {
-	// transformer les caractères accentués en entités HTML
-	$str = htmlentities( $str, ENT_NOQUOTES, $encoding );
+function noaccent($str, $encoding = 'utf-8')
+{
+    // transformer les caractères accentués en entités HTML
+    $str = htmlentities($str, ENT_NOQUOTES, $encoding);
 
-	// remplacer les entités HTML pour avoir juste le premier caractères non accentués
-	// Exemple : "&ecute;" => "e", "&Ecute;" => "E", "à" => "a" ...
-	$str = preg_replace( '#&([A-za-z])(?:acute|grave|cedil|circ|orn|ring|slash|th|tilde|uml);#', '\1', $str );
+    // remplacer les entités HTML pour avoir juste le premier caractères non accentués
+    // Exemple : "&ecute;" => "e", "&Ecute;" => "E", "à" => "a" ...
+    $str = preg_replace('#&([A-za-z])(?:acute|grave|cedil|circ|orn|ring|slash|th|tilde|uml);#', '\1', $str);
 
-	// Remplacer les ligatures tel que : , Æ ...
-	// Exemple "œ" => "oe"
-	$str = preg_replace( '#&([A-za-z]{2})(?:lig);#', '\1', $str );
-	// Supprimer tout le reste
-	$str = preg_replace( '#&[^;]+;#', '', $str );
+    // Remplacer les ligatures tel que : , Æ ...
+    // Exemple "œ" => "oe"
+    $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
+    // Supprimer tout le reste
+    $str = preg_replace('#&[^;]+;#', '', $str);
 
-	return $str;
+    return $str;
 }
 
 /**
@@ -4278,14 +4493,15 @@ function noaccent( $str, $encoding = 'utf-8' ) {
  *
  * @return null|string|string[]
  */
-function removeAccents( $str, $charset = 'utf-8' ) {
-	$str = htmlentities( $str, ENT_NOQUOTES, $charset );
+function removeAccents($str, $charset = 'utf-8')
+{
+    $str = htmlentities($str, ENT_NOQUOTES, $charset);
 
-	$str = preg_replace( '#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str );
-	$str = preg_replace( '#&([A-za-z]{2})(?:lig);#', '\1', $str ); // pour les ligatures e.g. '&oelig;'
-	$str = preg_replace( '#&[^;]+;#', '', $str ); // supprime les autres caractères
+    $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+    $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
+    $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
 
-	return $str;
+    return $str;
 }
 
 
@@ -4296,64 +4512,65 @@ function removeAccents( $str, $charset = 'utf-8' ) {
  * @return string
  * @throws Exception
  */
-function formatDateDiff( $start, $end = null ) {
-	if ( ! ( $start instanceof DateTime ) ) {
-		$start = new DateTime( $start );
-	}
+function formatDateDiff($start, $end = null)
+{
+    if (!($start instanceof DateTime)) {
+        $start = new DateTime($start);
+    }
 
-	if ( $end === null ) {
-		$end = new DateTime();
-	}
+    if ($end === null) {
+        $end = new DateTime();
+    }
 
-	if ( ! ( $end instanceof DateTime ) ) {
-		$end = new DateTime( $start );
-	}
+    if (!($end instanceof DateTime)) {
+        $end = new DateTime($start);
+    }
 
-	$interval = $start->diff( $end );
+    $interval = $start->diff($end);
 
-	if ( $start == $end ) {
-		return "Aujourd'hui";
-	}
-	$doPlural = function ( $nb, $str ) {
-		return $nb > 1 && $str != 'mois' ? $str . 's' : $str;
-	};
+    if ($start == $end) {
+        return "Aujourd'hui";
+    }
+    $doPlural = function ($nb, $str) {
+        return $nb > 1 && $str != 'mois' ? $str . 's' : $str;
+    };
 
-	$format = array();
-	if ( $interval->y !== 0 ) {
-		$format[] = "%y " . $doPlural( $interval->y, "année" );
-	}
-	if ( $interval->m !== 0 ) {
-		$format[] = "%m " . $doPlural( $interval->m, "mois" );
-	}
-	if ( $interval->d !== 0 ) {
-		$format[] = "%d " . $doPlural( $interval->d, "jour" );
-	}
-	if ( $interval->h !== 0 ) {
-		$format[] = "%h " . $doPlural( $interval->h, "heure" );
-	}
-	if ( $interval->i !== 0 ) {
-		$format[] = "%i " . $doPlural( $interval->i, "minute" );
-	}
-	if ( $interval->s !== 0 ) {
-		if ( ! count( $format ) ) {
-			return "moins d\'une minute";
-		} else {
-			$format[] = "%s " . $doPlural( $interval->s, "seconde" );
-		}
-	}
-	if ( ! empty( $interval->format( '%r' ) ) ) {
-		$time = 'il y a ';
-	} else {
-		$time = 'dans ';
-	}
+    $format = array();
+    if ($interval->y !== 0) {
+        $format[] = "%y " . $doPlural($interval->y, "année");
+    }
+    if ($interval->m !== 0) {
+        $format[] = "%m " . $doPlural($interval->m, "mois");
+    }
+    if ($interval->d !== 0) {
+        $format[] = "%d " . $doPlural($interval->d, "jour");
+    }
+    if ($interval->h !== 0) {
+        $format[] = "%h " . $doPlural($interval->h, "heure");
+    }
+    if ($interval->i !== 0) {
+        $format[] = "%i " . $doPlural($interval->i, "minute");
+    }
+    if ($interval->s !== 0) {
+        if (!count($format)) {
+            return "moins d\'une minute";
+        } else {
+            $format[] = "%s " . $doPlural($interval->s, "seconde");
+        }
+    }
+    if (!empty($interval->format('%r'))) {
+        $time = 'il y a ';
+    } else {
+        $time = 'dans ';
+    }
 
-	if ( count( $format ) > 1 ) {
-		$format = array_shift( $format ) . " et " . array_shift( $format );
-	} else {
-		$format = array_pop( $format );
-	}
+    if (count($format) > 1) {
+        $format = array_shift($format) . " et " . array_shift($format);
+    } else {
+        $format = array_pop($format);
+    }
 
-	return $time . $interval->format( $format );
+    return $time . $interval->format($format);
 }
 
 /**
@@ -4361,25 +4578,26 @@ function formatDateDiff( $start, $end = null ) {
  *
  * @return string
  */
-function formatBillingNB( $nb ) {
-	switch ( $nb ) {
-		case $nb < 10:
-			$nb = '0000' . $nb;
-			break;
-		case $nb < 100:
-			$nb = '000' . $nb;
-			break;
-		case $nb < 1000:
-			$nb = '00' . $nb;
-			break;
-		case $nb < 10000:
-			$nb = '0' . $nb;
-			break;
-		default:
-			break;
-	}
+function formatBillingNB($nb)
+{
+    switch ($nb) {
+        case $nb < 10:
+            $nb = '0000' . $nb;
+            break;
+        case $nb < 100:
+            $nb = '000' . $nb;
+            break;
+        case $nb < 1000:
+            $nb = '00' . $nb;
+            break;
+        case $nb < 10000:
+            $nb = '0' . $nb;
+            break;
+        default:
+            break;
+    }
 
-	return $nb;
+    return $nb;
 }
 
 /**
@@ -4391,29 +4609,30 @@ function formatBillingNB( $nb ) {
  * idle - twiddling thumbs
  * @return array
  */
-function getServerPerformances() {
-	$cpu = array();
-	$dif = array();
+function getServerPerformances()
+{
+    $cpu = array();
+    $dif = array();
 
-	$stat1 = file( '/proc/stat' );
-	sleep( 1 );
-	$stat2 = file( '/proc/stat' );
+    $stat1 = file('/proc/stat');
+    sleep(1);
+    $stat2 = file('/proc/stat');
 
-	$info1 = explode( " ", preg_replace( "!cpu +!", "", $stat1[0] ) );
-	$info2 = explode( " ", preg_replace( "!cpu +!", "", $stat2[0] ) );
+    $info1 = explode(" ", preg_replace("!cpu +!", "", $stat1[0]));
+    $info2 = explode(" ", preg_replace("!cpu +!", "", $stat2[0]));
 
-	$dif['user'] = $info2[0] - $info1[0];
-	$dif['nice'] = $info2[1] - $info1[1];
-	$dif['sys']  = $info2[2] - $info1[2];
-	$dif['idle'] = $info2[3] - $info1[3];
+    $dif['user'] = $info2[0] - $info1[0];
+    $dif['nice'] = $info2[1] - $info1[1];
+    $dif['sys'] = $info2[2] - $info1[2];
+    $dif['idle'] = $info2[3] - $info1[3];
 
-	$total = array_sum( $dif );
+    $total = array_sum($dif);
 
-	foreach ( $dif as $x => $y ) {
-		$cpu[ $x ] = str_replace( ',', '.', round( $y / $total * 100, 1 ) );
-	}
+    foreach ($dif as $x => $y) {
+        $cpu[$x] = str_replace(',', '.', round($y / $total * 100, 1));
+    }
 
-	return $cpu;
+    return $cpu;
 }
 
 /**
@@ -4421,17 +4640,18 @@ function getServerPerformances() {
  *
  * @return string
  */
-function getServerPerformanceColor( $cpu ) {
+function getServerPerformanceColor($cpu)
+{
 
-	$color = 'success';
+    $color = 'success';
 
-	if ( $cpu > 50 ) {
-		$color = 'warning';
-	} elseif ( $cpu > 80 ) {
-		$color = 'danger';
-	}
+    if ($cpu > 50) {
+        $color = 'warning';
+    } elseif ($cpu > 80) {
+        $color = 'danger';
+    }
 
-	return $color;
+    return $color;
 }
 
 /**
@@ -4442,110 +4662,111 @@ function getServerPerformanceColor( $cpu ) {
  * @return bool
  * @throws Exception
  */
-function sendMail( array $data, array $otherAddr = array(), array $options = array() ) {
-	$Mail = new PHPMailer();
+function sendMail(array $data, array $otherAddr = array(), array $options = array())
+{
+    $Mail = new PHPMailer();
 
-	$Mail->CharSet   = 'utf-8';
-	$Mail->SMTPDebug = ! empty( $data['debug'] ) ? $data['debug'] : 0;
+    $Mail->CharSet = 'utf-8';
+    $Mail->SMTPDebug = !empty($data['debug']) ? $data['debug'] : 0;
 
-	// Sending options
-	$defaultOptions = array(
-		'viewSenderSource'   => true,
-		'maxFileSizeAllowed' => 5 * 1024 * 1024
-	);
+    // Sending options
+    $defaultOptions = array(
+        'viewSenderSource' => true,
+        'maxFileSizeAllowed' => 5 * 1024 * 1024
+    );
 
-	// Synchronizing options
-	$options = array_merge( $defaultOptions, $options );
+    // Synchronizing options
+    $options = array_merge($defaultOptions, $options);
 
-	// SMTP data
-	if ( empty( $data['smtp'] ) ) {
+    // SMTP data
+    if (empty($data['smtp'])) {
 
-		$Mail->IsMail();
+        $Mail->IsMail();
 
-	} else {
+    } else {
 
-		$Mail->isSMTP();
+        $Mail->isSMTP();
 
-		$Mail->SMTPKeepAlive = ! empty( $data['keepAlive'] ) ? $data['keepAlive'] : false;
-		$Mail->SMTPSecure    = ! empty( $data['encryption'] ) ? $data['encryption'] : '';
+        $Mail->SMTPKeepAlive = !empty($data['keepAlive']) ? $data['keepAlive'] : false;
+        $Mail->SMTPSecure = !empty($data['encryption']) ? $data['encryption'] : '';
 
-		$Mail->Host = $data['smtp']['host'];
-		$Mail->Port = $data['smtp']['port'];
+        $Mail->Host = $data['smtp']['host'];
+        $Mail->Port = $data['smtp']['port'];
 
-		if ( ! empty( $data['smtp']['auth'] ) ) {
-			$Mail->SMTPAuth = $data['smtp']['auth'];
-			$Mail->Username = $data['smtp']['username'];
-			$Mail->Password = $data['smtp']['password'];
-		}
-	}
+        if (!empty($data['smtp']['auth'])) {
+            $Mail->SMTPAuth = $data['smtp']['auth'];
+            $Mail->Username = $data['smtp']['username'];
+            $Mail->Password = $data['smtp']['password'];
+        }
+    }
 
-	// Sender
-	$Mail->SetFrom( $data['fromEmail'], $data['fromName'] );
+    // Sender
+    $Mail->SetFrom($data['fromEmail'], $data['fromName']);
 
-	// Recipient
-	$Mail->ClearAddresses();
-	$Mail->AddAddress( $data['toEmail'], $data['toName'] );
+    // Recipient
+    $Mail->ClearAddresses();
+    $Mail->AddAddress($data['toEmail'], $data['toName']);
 
-	// Adding Recipients
-	if ( ! isArrayEmpty( $otherAddr ) ) {
-		foreach ( $otherAddr as $email => $name ) {
-			$Mail->AddAddress( $email, $name );
-		}
-	}
+    // Adding Recipients
+    if (!isArrayEmpty($otherAddr)) {
+        foreach ($otherAddr as $email => $name) {
+            $Mail->AddAddress($email, $name);
+        }
+    }
 
-	// Object
-	$Mail->Subject = $data['object'];
+    // Object
+    $Mail->Subject = $data['object'];
 
-	// View sender's source
-	if ( $options['viewSenderSource'] ) {
-		$sources         = '<p>--<br><em>Date: ' . date( 'd/m/Y H:i:s' ) . ', IP: ' . getIP() . ', Source: ' . WEB_DIR_URL . '</em></p>';
-		$data['message'] .= $sources;
-	}
+    // View sender's source
+    if ($options['viewSenderSource']) {
+        $sources = '<p>--<br><em>Date: ' . date('d/m/Y H:i:s') . ', IP: ' . getIP() . ', Source: ' . WEB_DIR_URL . '</em></p>';
+        $data['message'] .= $sources;
+    }
 
-	// Your message
-	$Mail->MsgHTML( $data['message'] );
+    // Your message
+    $Mail->MsgHTML($data['message']);
 
-	//Attach files from form
-	if ( ! empty( $data['files'] ) ) {
-		$files = $data['files'];
+    //Attach files from form
+    if (!empty($data['files'])) {
+        $files = $data['files'];
 
-		$File = new \App\File();
+        $File = new \App\File();
 
-		if ( is_array( $files['name'] ) ) {
-			for ( $i = 0; $i < count( $files['name'] ); $i ++ ) {
-				if ( ! empty( $files['name'][ $i ] ) && $files['size'][ $i ] < $options['maxFileSizeAllowed'] && $File->authorizedMediaFormat( $files['type'][ $i ] ) ) {
-					$Mail->AddAttachment( $files['tmp_name'][ $i ], $files['name'][ $i ] );
-				}
-			}
-		} else {
-			if ( ! empty( $files['name'] ) && $files['size'] < $options['maxFileSizeAllowed'] && $File->authorizedMediaFormat( $files['type'] ) ) {
-				$Mail->AddAttachment( $files['tmp_name'], $files['name'] );
-			}
-		}
-	}
+        if (is_array($files['name'])) {
+            for ($i = 0; $i < count($files['name']); $i++) {
+                if (!empty($files['name'][$i]) && $files['size'][$i] < $options['maxFileSizeAllowed'] && $File->authorizedMediaFormat($files['type'][$i])) {
+                    $Mail->AddAttachment($files['tmp_name'][$i], $files['name'][$i]);
+                }
+            }
+        } else {
+            if (!empty($files['name']) && $files['size'] < $options['maxFileSizeAllowed'] && $File->authorizedMediaFormat($files['type'])) {
+                $Mail->AddAttachment($files['tmp_name'], $files['name']);
+            }
+        }
+    }
 
-	//Attach files from url
-	if ( ! empty( $data['docs'] ) ) {
-		foreach ( $data['docs'] as $doc ) {
-			if ( filesize( $doc['src'] ) < $options['maxFileSizeAllowed'] ) {
-				$Mail->AddAttachment( $doc['src'], $doc['name'] );
-			}
-		}
-	}
+    //Attach files from url
+    if (!empty($data['docs'])) {
+        foreach ($data['docs'] as $doc) {
+            if (filesize($doc['src']) < $options['maxFileSizeAllowed']) {
+                $Mail->AddAttachment($doc['src'], $doc['name']);
+            }
+        }
+    }
 
-	//Attach files from string
-	if ( ! empty( $data['strAttach'] ) ) {
-		foreach ( $data['strAttach'] as $str ) {
-			$Mail->addStringAttachment( $str['src'], $str['name'] );
-		}
-	}
+    //Attach files from string
+    if (!empty($data['strAttach'])) {
+        foreach ($data['strAttach'] as $str) {
+            $Mail->addStringAttachment($str['src'], $str['name']);
+        }
+    }
 
-	//Sending mail
-	if ( $Mail->Send() ) {
-		return true;
-	} else {
-		return false; //$Mail->ErrorInfo
-	}
+    //Sending mail
+    if ($Mail->Send()) {
+        return true;
+    } else {
+        return false; //$Mail->ErrorInfo
+    }
 }
 
 /**
@@ -4553,21 +4774,22 @@ function sendMail( array $data, array $otherAddr = array(), array $options = arr
  *
  * @return array|boolean
  */
-function getMonth( $month = '' ) {
-	$month_arr[1]  = "Janvier";
-	$month_arr[2]  = "Février";
-	$month_arr[3]  = "Mars";
-	$month_arr[4]  = "Avril";
-	$month_arr[5]  = "Mai";
-	$month_arr[6]  = "Juin";
-	$month_arr[7]  = "Juillet";
-	$month_arr[8]  = "Août";
-	$month_arr[9]  = "Septembre";
-	$month_arr[10] = "Octobre";
-	$month_arr[11] = "Novembre";
-	$month_arr[12] = "Décembre";
+function getMonth($month = '')
+{
+    $month_arr[1] = "Janvier";
+    $month_arr[2] = "Février";
+    $month_arr[3] = "Mars";
+    $month_arr[4] = "Avril";
+    $month_arr[5] = "Mai";
+    $month_arr[6] = "Juin";
+    $month_arr[7] = "Juillet";
+    $month_arr[8] = "Août";
+    $month_arr[9] = "Septembre";
+    $month_arr[10] = "Octobre";
+    $month_arr[11] = "Novembre";
+    $month_arr[12] = "Décembre";
 
-	return ! empty( $month ) && array_key_exists( $month, $month_arr ) ? $month_arr[ $month ] : $month_arr;
+    return !empty($month) && array_key_exists($month, $month_arr) ? $month_arr[$month] : $month_arr;
 }
 
 /**
@@ -4575,39 +4797,41 @@ function getMonth( $month = '' ) {
  *
  * @return false|string
  */
-function age( $date ) {
-	$dna = strtotime( $date );
-	$now = time();
-	$age = date( 'Y', $now ) - date( 'Y', $dna );
-	if ( strcmp( date( 'md', $dna ), date( 'md', $now ) ) > 0 ) {
-		$age --;
-	}
+function age($date)
+{
+    $dna = strtotime($date);
+    $now = time();
+    $age = date('Y', $now) - date('Y', $dna);
+    if (strcmp(date('md', $dna), date('md', $now)) > 0) {
+        $age--;
+    }
 
-	return $age;
+    return $age;
 }
 
 
 /**
  * @param $file
  */
-function fichierType( $file ) {
+function fichierType($file)
+{
 
-	$type = pathinfo( strtolower( $file ), PATHINFO_EXTENSION );
-	if ( $type == 'jpg' || $type == 'png' || $type == 'jpeg' || $type == 'gif' ) {
-		echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_INCLUDE . $file . '" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
-	} elseif ( $type == 'doc' || $type == 'dot' || $type == 'docx' ) {
-		echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Word.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
-	} elseif ( $type == 'xlsx' || $type == 'xlt' || $type == 'xls' || $type == 'xla' ) {
-		echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Excel.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
-	} elseif ( $type == 'pptx' || $type == 'ppt' || $type == 'pot' || $type == 'pps' || $type == 'ppa' ) {
-		echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/PowerPoint.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
-	} elseif ( $type == 'pdf' ) {
-		echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Pdf.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
-	} elseif ( $type == 'mp3' ) {
-		echo '<audio src="' . WEB_DIR_INCLUDE . $file . '" type="audio/mpeg" controls></audio>';
-	} else {
-		echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/AllFileType.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a><span class="fileType">' . $type . '</span>';
-	}
+    $type = pathinfo(strtolower($file), PATHINFO_EXTENSION);
+    if ($type == 'jpg' || $type == 'png' || $type == 'jpeg' || $type == 'gif') {
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_INCLUDE . $file . '" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+    } elseif ($type == 'doc' || $type == 'dot' || $type == 'docx') {
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Word.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+    } elseif ($type == 'xlsx' || $type == 'xlt' || $type == 'xls' || $type == 'xla') {
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Excel.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+    } elseif ($type == 'pptx' || $type == 'ppt' || $type == 'pot' || $type == 'pps' || $type == 'ppa') {
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/PowerPoint.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+    } elseif ($type == 'pdf') {
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Pdf.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
+    } elseif ($type == 'mp3') {
+        echo '<audio src="' . WEB_DIR_INCLUDE . $file . '" type="audio/mpeg" controls></audio>';
+    } else {
+        echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/AllFileType.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a><span class="fileType">' . $type . '</span>';
+    }
 
 }
 
@@ -4619,32 +4843,33 @@ function fichierType( $file ) {
  *
  * @return string
  */
-function getLogo( $appoeLogo = false, $onlySrc = false ) {
-	$src = APP_IMG_URL . 'appoe-logo-black-sm.png';
-	if ( true === $appoeLogo ) {
-		return $src;
-	}
-	if ( is_string( $appoeLogo ) ) {
-		return $appoeLogo;
-	}
+function getLogo($appoeLogo = false, $onlySrc = false)
+{
+    $src = APP_IMG_URL . 'appoe-logo-black-sm.png';
+    if (true === $appoeLogo) {
+        return $src;
+    }
+    if (is_string($appoeLogo)) {
+        return $appoeLogo;
+    }
 
-	$urlFolder  = WEB_DIR_IMG;
-	$pathFolder = WEB_PUBLIC_PATH . 'images/';
-	$name       = 'appoe-logo';
+    $urlFolder = WEB_DIR_IMG;
+    $pathFolder = WEB_PUBLIC_PATH . 'images/';
+    $name = 'appoe-logo';
 
-	$extensions = array( 'png', 'jpg', 'jpeg', 'gif', 'svg' );
-	$extensions = array_merge( $extensions, array_map( 'strtoupper', $extensions ) );
+    $extensions = array('png', 'jpg', 'jpeg', 'gif', 'svg');
+    $extensions = array_merge($extensions, array_map('strtoupper', $extensions));
 
-	foreach ( $extensions as $extension ) {
+    foreach ($extensions as $extension) {
 
-		$logo = $name . '.' . $extension;
-		if ( file_exists( $pathFolder . $logo ) ) {
-			$src = $urlFolder . $logo;
-			break;
-		}
-	}
+        $logo = $name . '.' . $extension;
+        if (file_exists($pathFolder . $logo)) {
+            $src = $urlFolder . $logo;
+            break;
+        }
+    }
 
-	return ! $onlySrc ? '<img class="img-responsive logoNavbar" src="' . $src . '" alt="APPOE">' : $src;
+    return !$onlySrc ? '<img class="img-responsive logoNavbar" src="' . $src . '" alt="APPOE">' : $src;
 }
 
 /**
@@ -4652,21 +4877,23 @@ function getLogo( $appoeLogo = false, $onlySrc = false ) {
  *
  * @return string
  */
-function getOnlyPath( $url ) {
-	return isUrl( $url ) ? $_SERVER['DOCUMENT_ROOT'] . parse_url( $url, PHP_URL_PATH ) : '';
+function getOnlyPath($url)
+{
+    return isUrl($url) ? $_SERVER['DOCUMENT_ROOT'] . parse_url($url, PHP_URL_PATH) : '';
 }
 
 /**
  * @return string
  */
-function getAppoeVersion() {
+function getAppoeVersion()
+{
 
-	Version::setFile( WEB_APP_PATH . 'version.json' );
-	if ( Version::show() ):
-		return Version::getVersion();
-	endif;
+    Version::setFile(WEB_APP_PATH . 'version.json');
+    if (Version::show()):
+        return Version::getVersion();
+    endif;
 
-	return '';
+    return '';
 }
 
 /* --------------------------------------------------------------------------
@@ -4683,58 +4910,59 @@ function getAppoeVersion() {
  *
  * @return string
  */
-function moneyAsLetters( $Nombre, $Devise = 1, $Langue = 0 ) {
-	$dblEnt      = '';
-	$byDec       = '';
-	$bNegatif    = '';
-	$strDev      = '';
-	$strCentimes = '';
+function moneyAsLetters($Nombre, $Devise = 1, $Langue = 0)
+{
+    $dblEnt = '';
+    $byDec = '';
+    $bNegatif = '';
+    $strDev = '';
+    $strCentimes = '';
 
-	if ( $Nombre < 0 ) {
-		$bNegatif = true;
-		$Nombre   = abs( $Nombre );
+    if ($Nombre < 0) {
+        $bNegatif = true;
+        $Nombre = abs($Nombre);
 
-	}
-	$dblEnt = intval( $Nombre );
-	$byDec  = round( ( $Nombre - $dblEnt ) * 100 );
-	if ( $byDec == 0 ) {
-		if ( $dblEnt > 999999999999999 ) {
-			return "#TropGrand";
-		}
-	} else {
-		if ( $dblEnt > 9999999999999.99 ) {
-			return "#TropGrand";
-		}
-	}
-	switch ( $Devise ) {
-		case 0 :
-			if ( $byDec > 0 ) {
-				$strDev = " virgule";
-			}
-			break;
-		case 1 :
-			$strDev = " Euro";
-			if ( $byDec > 0 ) {
-				$strCentimes = $strCentimes . " Centimes";
-			}
-			break;
-		case 2 :
-			$strDev = " Dollar";
-			if ( $byDec > 0 ) {
-				$strCentimes = $strCentimes . " Cent";
-			}
-			break;
-	}
-	if ( ( $dblEnt > 1 ) && ( $Devise != 0 ) ) {
-		$strDev = $strDev . "s";
-	}
-	if ( $byDec > 0 ) {
-		$NumberLetter = ConvNumEnt( floatval( $dblEnt ), $Langue ) . $strDev . " et " . ConvNumDizaine( $byDec, $Langue ) . $strCentimes;
-	} else {
-		$NumberLetter = ConvNumEnt( floatval( $dblEnt ), $Langue ) . $strDev;
-	}
+    }
+    $dblEnt = intval($Nombre);
+    $byDec = round(($Nombre - $dblEnt) * 100);
+    if ($byDec == 0) {
+        if ($dblEnt > 999999999999999) {
+            return "#TropGrand";
+        }
+    } else {
+        if ($dblEnt > 9999999999999.99) {
+            return "#TropGrand";
+        }
+    }
+    switch ($Devise) {
+        case 0 :
+            if ($byDec > 0) {
+                $strDev = " virgule";
+            }
+            break;
+        case 1 :
+            $strDev = " Euro";
+            if ($byDec > 0) {
+                $strCentimes = $strCentimes . " Centimes";
+            }
+            break;
+        case 2 :
+            $strDev = " Dollar";
+            if ($byDec > 0) {
+                $strCentimes = $strCentimes . " Cent";
+            }
+            break;
+    }
+    if (($dblEnt > 1) && ($Devise != 0)) {
+        $strDev = $strDev . "s";
+    }
+    if ($byDec > 0) {
+        $NumberLetter = ConvNumEnt(floatval($dblEnt), $Langue) . $strDev . " et " . ConvNumDizaine($byDec, $Langue) . $strCentimes;
+    } else {
+        $NumberLetter = ConvNumEnt(floatval($dblEnt), $Langue) . $strDev;
+    }
 
-	return $NumberLetter;
+    return $NumberLetter;
 }
 
 /**
@@ -4743,66 +4971,67 @@ function moneyAsLetters( $Nombre, $Devise = 1, $Langue = 0 ) {
  *
  * @return mixed|string
  */
-function ConvNumEnt( $Nombre, $Langue ) {
-	$byNum    = $iTmp = $dblReste = '';
-	$StrTmp   = '';
-	$NumEnt   = '';
-	$iTmp     = $Nombre - ( intval( $Nombre / 1000 ) * 1000 );
-	$NumEnt   = ConvNumCent( intval( $iTmp ), $Langue );
-	$dblReste = intval( $Nombre / 1000 );
-	$iTmp     = $dblReste - ( intval( $dblReste / 1000 ) * 1000 );
-	$StrTmp   = ConvNumCent( intval( $iTmp ), $Langue );
-	switch ( $iTmp ) {
-		case 0 :
-			break;
-		case 1 :
-			$StrTmp = "mille ";
-			break;
-		default :
-			$StrTmp = $StrTmp . " mille ";
-	}
-	$NumEnt   = $StrTmp . $NumEnt;
-	$dblReste = intval( $dblReste / 1000 );
-	$iTmp     = $dblReste - ( intval( $dblReste / 1000 ) * 1000 );
-	$StrTmp   = ConvNumCent( intval( $iTmp ), $Langue );
-	switch ( $iTmp ) {
-		case 0 :
-			break;
-		case 1 :
-			$StrTmp = $StrTmp . " million ";
-			break;
-		default :
-			$StrTmp = $StrTmp . " millions ";
-	}
-	$NumEnt   = $StrTmp . $NumEnt;
-	$dblReste = intval( $dblReste / 1000 );
-	$iTmp     = $dblReste - ( intval( $dblReste / 1000 ) * 1000 );
-	$StrTmp   = ConvNumCent( intval( $iTmp ), $Langue );
-	switch ( $iTmp ) {
-		case 0 :
-			break;
-		case 1 :
-			$StrTmp = $StrTmp . " milliard ";
-			break;
-		default :
-			$StrTmp = $StrTmp . " milliards ";
-	}
-	$NumEnt   = $StrTmp . $NumEnt;
-	$dblReste = intval( $dblReste / 1000 );
-	$iTmp     = $dblReste - ( intval( $dblReste / 1000 ) * 1000 );
-	$StrTmp   = ConvNumCent( intval( $iTmp ), $Langue );
-	switch ( $iTmp ) {
-		case 0 :
-			break;
-		case 1 :
-			$StrTmp = $StrTmp . " billion ";
-			break;
-		default :
-			$StrTmp = $StrTmp . " billions ";
-	}
-	$NumEnt = $StrTmp . $NumEnt;
+function ConvNumEnt($Nombre, $Langue)
+{
+    $byNum = $iTmp = $dblReste = '';
+    $StrTmp = '';
+    $NumEnt = '';
+    $iTmp = $Nombre - (intval($Nombre / 1000) * 1000);
+    $NumEnt = ConvNumCent(intval($iTmp), $Langue);
+    $dblReste = intval($Nombre / 1000);
+    $iTmp = $dblReste - (intval($dblReste / 1000) * 1000);
+    $StrTmp = ConvNumCent(intval($iTmp), $Langue);
+    switch ($iTmp) {
+        case 0 :
+            break;
+        case 1 :
+            $StrTmp = "mille ";
+            break;
+        default :
+            $StrTmp = $StrTmp . " mille ";
+    }
+    $NumEnt = $StrTmp . $NumEnt;
+    $dblReste = intval($dblReste / 1000);
+    $iTmp = $dblReste - (intval($dblReste / 1000) * 1000);
+    $StrTmp = ConvNumCent(intval($iTmp), $Langue);
+    switch ($iTmp) {
+        case 0 :
+            break;
+        case 1 :
+            $StrTmp = $StrTmp . " million ";
+            break;
+        default :
+            $StrTmp = $StrTmp . " millions ";
+    }
+    $NumEnt = $StrTmp . $NumEnt;
+    $dblReste = intval($dblReste / 1000);
+    $iTmp = $dblReste - (intval($dblReste / 1000) * 1000);
+    $StrTmp = ConvNumCent(intval($iTmp), $Langue);
+    switch ($iTmp) {
+        case 0 :
+            break;
+        case 1 :
+            $StrTmp = $StrTmp . " milliard ";
+            break;
+        default :
+            $StrTmp = $StrTmp . " milliards ";
+    }
+    $NumEnt = $StrTmp . $NumEnt;
+    $dblReste = intval($dblReste / 1000);
+    $iTmp = $dblReste - (intval($dblReste / 1000) * 1000);
+    $StrTmp = ConvNumCent(intval($iTmp), $Langue);
+    switch ($iTmp) {
+        case 0 :
+            break;
+        case 1 :
+            $StrTmp = $StrTmp . " billion ";
+            break;
+        default :
+            $StrTmp = $StrTmp . " billions ";
+    }
+    $NumEnt = $StrTmp . $NumEnt;
 
-	return $NumEnt;
+    return $NumEnt;
 }
 
 /**
@@ -4811,95 +5040,96 @@ function ConvNumEnt( $Nombre, $Langue ) {
  *
  * @return mixed|string
  */
-function ConvNumDizaine( $Nombre, $Langue ) {
-	$TabUnit    = $TabDiz = '';
-	$byUnit     = $byDiz = '';
-	$strLiaison = '';
+function ConvNumDizaine($Nombre, $Langue)
+{
+    $TabUnit = $TabDiz = '';
+    $byUnit = $byDiz = '';
+    $strLiaison = '';
 
-	$TabUnit = array(
-		"",
-		"un",
-		"deux",
-		"trois",
-		"quatre",
-		"cinq",
-		"six",
-		"sept",
-		"huit",
-		"neuf",
-		"dix",
-		"onze",
-		"douze",
-		"treize",
-		"quatorze",
-		"quinze",
-		"seize",
-		"dix-sept",
-		"dix-huit",
-		"dix-neuf"
-	);
-	$TabDiz  = array(
-		"",
-		"",
-		"vingt",
-		"trente",
-		"quarante",
-		"cinquante",
-		"soixante",
-		"soixante",
-		"quatre-vingt",
-		"quatre-vingt"
-	);
-	if ( $Langue == 1 ) {
-		$TabDiz[7] = "septante";
-		$TabDiz[9] = "nonante";
-	} else if ( $Langue == 2 ) {
-		$TabDiz[7] = "septante";
-		$TabDiz[8] = "huitante";
-		$TabDiz[9] = "nonante";
-	}
-	$byDiz      = intval( $Nombre / 10 );
-	$byUnit     = $Nombre - ( $byDiz * 10 );
-	$strLiaison = "-";
-	if ( $byUnit == 1 ) {
-		$strLiaison = " et ";
-	}
-	switch ( $byDiz ) {
-		case 0 :
-			$strLiaison = "";
-			break;
-		case 1 :
-			$byUnit     = $byUnit + 10;
-			$strLiaison = "";
-			break;
-		case 7 :
-			if ( $Langue == 0 ) {
-				$byUnit = $byUnit + 10;
-			}
-			break;
-		case 8 :
-			if ( $Langue != 2 ) {
-				$strLiaison = "-";
-			}
-			break;
-		case 9 :
-			if ( $Langue == 0 ) {
-				$byUnit     = $byUnit + 10;
-				$strLiaison = "-";
-			}
-			break;
-	}
-	$NumDizaine = $TabDiz[ $byDiz ];
-	if ( $byDiz == 8 && $Langue != 2 && $byUnit == 0 ) {
-		$NumDizaine = $NumDizaine . "s";
-	}
-	if ( $TabUnit[ $byUnit ] != "" ) {
-		$NumDizaine = $NumDizaine . $strLiaison . $TabUnit[ $byUnit ];
-	} else {
-		$NumDizaine = $NumDizaine;
-	}
+    $TabUnit = array(
+        "",
+        "un",
+        "deux",
+        "trois",
+        "quatre",
+        "cinq",
+        "six",
+        "sept",
+        "huit",
+        "neuf",
+        "dix",
+        "onze",
+        "douze",
+        "treize",
+        "quatorze",
+        "quinze",
+        "seize",
+        "dix-sept",
+        "dix-huit",
+        "dix-neuf"
+    );
+    $TabDiz = array(
+        "",
+        "",
+        "vingt",
+        "trente",
+        "quarante",
+        "cinquante",
+        "soixante",
+        "soixante",
+        "quatre-vingt",
+        "quatre-vingt"
+    );
+    if ($Langue == 1) {
+        $TabDiz[7] = "septante";
+        $TabDiz[9] = "nonante";
+    } else if ($Langue == 2) {
+        $TabDiz[7] = "septante";
+        $TabDiz[8] = "huitante";
+        $TabDiz[9] = "nonante";
+    }
+    $byDiz = intval($Nombre / 10);
+    $byUnit = $Nombre - ($byDiz * 10);
+    $strLiaison = "-";
+    if ($byUnit == 1) {
+        $strLiaison = " et ";
+    }
+    switch ($byDiz) {
+        case 0 :
+            $strLiaison = "";
+            break;
+        case 1 :
+            $byUnit = $byUnit + 10;
+            $strLiaison = "";
+            break;
+        case 7 :
+            if ($Langue == 0) {
+                $byUnit = $byUnit + 10;
+            }
+            break;
+        case 8 :
+            if ($Langue != 2) {
+                $strLiaison = "-";
+            }
+            break;
+        case 9 :
+            if ($Langue == 0) {
+                $byUnit = $byUnit + 10;
+                $strLiaison = "-";
+            }
+            break;
+    }
+    $NumDizaine = $TabDiz[$byDiz];
+    if ($byDiz == 8 && $Langue != 2 && $byUnit == 0) {
+        $NumDizaine = $NumDizaine . "s";
+    }
+    if ($TabUnit[$byUnit] != "") {
+        $NumDizaine = $NumDizaine . $strLiaison . $TabUnit[$byUnit];
+    } else {
+        $NumDizaine = $NumDizaine;
+    }
 
-	return $NumDizaine;
+    return $NumDizaine;
 }
 
 /**
@@ -4908,41 +5138,43 @@ function ConvNumDizaine( $Nombre, $Langue ) {
  *
  * @return mixed|string
  */
-function ConvNumCent( $Nombre, $Langue ) {
-	$TabUnit  = '';
-	$byCent   = $byReste = '';
-	$strReste = '';
-	$NumCent  = '';
-	$TabUnit  = array( "", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix" );
+function ConvNumCent($Nombre, $Langue)
+{
+    $TabUnit = '';
+    $byCent = $byReste = '';
+    $strReste = '';
+    $NumCent = '';
+    $TabUnit = array("", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix");
 
-	$byCent   = intval( $Nombre / 100 );
-	$byReste  = $Nombre - ( $byCent * 100 );
-	$strReste = ConvNumDizaine( $byReste, $Langue );
-	switch ( $byCent ) {
-		case 0 :
-			$NumCent = $strReste;
-			break;
-		case 1 :
-			if ( $byReste == 0 ) {
-				$NumCent = "cent";
-			} else {
-				$NumCent = "cent " . $strReste;
-			}
-			break;
-		default :
-			if ( $byReste == 0 ) {
-				$NumCent = $TabUnit[ $byCent ] . " cents";
-			} else {
-				$NumCent = $TabUnit[ $byCent ] . " cent " . $strReste;
-			}
-	}
+    $byCent = intval($Nombre / 100);
+    $byReste = $Nombre - ($byCent * 100);
+    $strReste = ConvNumDizaine($byReste, $Langue);
+    switch ($byCent) {
+        case 0 :
+            $NumCent = $strReste;
+            break;
+        case 1 :
+            if ($byReste == 0) {
+                $NumCent = "cent";
+            } else {
+                $NumCent = "cent " . $strReste;
+            }
+            break;
+        default :
+            if ($byReste == 0) {
+                $NumCent = $TabUnit[$byCent] . " cents";
+            } else {
+                $NumCent = $TabUnit[$byCent] . " cent " . $strReste;
+            }
+    }
 
-	return $NumCent;
+    return $NumCent;
 }
 
 /****** JOURS FERIES ******/
-function dimanche_paques( $annee ) {
-	return date( "Y-m-d", easter_date( $annee ) );
+function dimanche_paques($annee)
+{
+    return date("Y-m-d", easter_date($annee));
 }
 
 /**
@@ -4950,10 +5182,11 @@ function dimanche_paques( $annee ) {
  *
  * @return false|string
  */
-function vendredi_saint( $annee ) {
-	$dimanche_paques = dimanche_paques( $annee );
+function vendredi_saint($annee)
+{
+    $dimanche_paques = dimanche_paques($annee);
 
-	return date( "Y-m-d", strtotime( "$dimanche_paques -2 day" ) );
+    return date("Y-m-d", strtotime("$dimanche_paques -2 day"));
 }
 
 /**
@@ -4961,10 +5194,11 @@ function vendredi_saint( $annee ) {
  *
  * @return false|string
  */
-function lundi_paques( $annee ) {
-	$dimanche_paques = dimanche_paques( $annee );
+function lundi_paques($annee)
+{
+    $dimanche_paques = dimanche_paques($annee);
 
-	return date( "Y-m-d", strtotime( "$dimanche_paques +1 day" ) );
+    return date("Y-m-d", strtotime("$dimanche_paques +1 day"));
 }
 
 /**
@@ -4972,10 +5206,11 @@ function lundi_paques( $annee ) {
  *
  * @return false|string
  */
-function jeudi_ascension( $annee ) {
-	$dimanche_paques = dimanche_paques( $annee );
+function jeudi_ascension($annee)
+{
+    $dimanche_paques = dimanche_paques($annee);
 
-	return date( "Y-m-d", strtotime( "$dimanche_paques +39 day" ) );
+    return date("Y-m-d", strtotime("$dimanche_paques +39 day"));
 }
 
 /**
@@ -4983,10 +5218,11 @@ function jeudi_ascension( $annee ) {
  *
  * @return false|string
  */
-function lundi_pentecote( $annee ) {
-	$dimanche_paques = dimanche_paques( $annee );
+function lundi_pentecote($annee)
+{
+    $dimanche_paques = dimanche_paques($annee);
 
-	return date( "Y-m-d", strtotime( "$dimanche_paques +50 day" ) );
+    return date("Y-m-d", strtotime("$dimanche_paques +50 day"));
 }
 
 
@@ -4996,28 +5232,29 @@ function lundi_pentecote( $annee ) {
  *
  * @return array
  */
-function jours_feries( $annee, $alsacemoselle = false ) {
-	$jours_feries = array(
-		dimanche_paques( $annee ),
-		lundi_paques( $annee ),
-		jeudi_ascension( $annee ),
-		lundi_pentecote( $annee ),
-		"$annee-01-01",
-		"$annee-05-01",
-		"$annee-05-08",
-		"$annee-05-15",
-		"$annee-07-14",
-		"$annee-11-11",
-		"$annee-11-01",
-		"$annee-12-25"
-	);
-	if ( $alsacemoselle ) {
-		$jours_feries[] = "$annee-12-26";
-		$jours_feries[] = vendredi_saint( $annee );
-	}
-	sort( $jours_feries );
+function jours_feries($annee, $alsacemoselle = false)
+{
+    $jours_feries = array(
+        dimanche_paques($annee),
+        lundi_paques($annee),
+        jeudi_ascension($annee),
+        lundi_pentecote($annee),
+        "$annee-01-01",
+        "$annee-05-01",
+        "$annee-05-08",
+        "$annee-05-15",
+        "$annee-07-14",
+        "$annee-11-11",
+        "$annee-11-01",
+        "$annee-12-25"
+    );
+    if ($alsacemoselle) {
+        $jours_feries[] = "$annee-12-26";
+        $jours_feries[] = vendredi_saint($annee);
+    }
+    sort($jours_feries);
 
-	return $jours_feries;
+    return $jours_feries;
 }
 
 /**
@@ -5026,9 +5263,10 @@ function jours_feries( $annee, $alsacemoselle = false ) {
  *
  * @return bool
  */
-function isferie( $jour, $alsaceMoselle = false ) {
-	$jour  = date( "Y-m-d", strtotime( $jour ) );
-	$annee = substr( $jour, 0, 4 );
+function isferie($jour, $alsaceMoselle = false)
+{
+    $jour = date("Y-m-d", strtotime($jour));
+    $annee = substr($jour, 0, 4);
 
-	return in_array( $jour, jours_feries( $annee, $alsaceMoselle ) );
+    return in_array($jour, jours_feries($annee, $alsaceMoselle));
 }
