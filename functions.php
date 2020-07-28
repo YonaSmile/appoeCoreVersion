@@ -211,28 +211,27 @@ function getMetaData()
     $header .= '<meta property="og:site_name" content="' . WEB_TITLE . '" />';
 
     //JSON-LD
-    $header .= '<script type="application/ld+json">[';
-    $header .= '{"@context": "https://schema.org",';
-    $header .= '"@type": "Organization",';
-    $header .= '"name": "' . WEB_TITLE . '",';
-    $header .= '"url": "' . WEB_DIR_URL . '",';
-    $header .= '"logo": "' . getLogo(false, true) . '"';
-    $header .= '}';
-
     if (getPageType() === 'ARTICLE') {
-        $header .= ',{"@context": "https://schema.org",';
+        $header .= '<script type="application/ld+json">{';
+        $header .= '"@context": "https://schema.org",';
         $header .= '"@type": "NewsArticle",';
-        $header .= '"image": "' . getPageImage() . '",';
-        $header .= '"headline": "' . getPageName() . '",';
-        $header .= '"description": "' . getPageDescription() . '",';
+        $header .= '"image": ["' . getPageImage() . '"],';
+        $header .= '"headline": "' . htmlspecialchars(getPageName()) . '",';
+        $header .= '"description": "' . htmlspecialchars(getPageDescription()) . '",';
         $header .= '"datePublished": "' . getArticle()->getCreatedAt() . '",';
         $header .= '"dateModified": "' . getArticle()->getUpdatedAt() . '",';
         $header .= '"mainEntityOfPage": {"@type": "WebPage","@id": "' . WEB_DIR_URL . ltrim($_SERVER["REQUEST_URI"], '/') . '"},';
         $header .= '"publisher": {"@type": "Organization","name": "' . WEB_TITLE . '","logo": {"@type": "ImageObject","url": "' . getLogo(false, true) . '"}},';
         $header .= '"author": {"@type": "Organization","name": "' . WEB_TITLE . '"}';
-        $header .= '}]</script>';
+        $header .= '}</script>';
     } else {
-        $header .= ']</script>';
+        $header .= '<script type="application/ld+json">{';
+        $header .= '"@context": "https://schema.org",';
+        $header .= '"@type": "Organization",';
+        $header .= '"name": "' . WEB_TITLE . '",';
+        $header .= '"url": "' . WEB_DIR_URL . '",';
+        $header .= '"logo": "' . getLogo(false, true) . '"';
+        $header .= '}</script>';
     }
     return $header;
 }
