@@ -162,8 +162,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     //Create menu
     $AppConfig = new AppConfig();
     if (empty($_SESSION['MENU']) || getSessionLang() !== LANG
-        || 'true' == $AppConfig->get('options', 'maintenance')
-        || 'false' == $AppConfig->get('options', 'cacheProcess')) {
+        || 'true' === $AppConfig->get('options', 'maintenance')
+        || 'false' === $AppConfig->get('options', 'cacheProcess')) {
         setSessionLang();
         $CmsMenu = new CmsMenu();
         $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());

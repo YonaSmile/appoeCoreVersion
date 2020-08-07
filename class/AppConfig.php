@@ -24,14 +24,14 @@ class AppConfig
      */
     private $defaultConfig = array(
         'options' => array(
-            'maintenance' => false,
-            'forceHTTPS' => false,
-            'cacheProcess' => false,
-            'sharingWork' => false,
-            'allowApi' => false
+            'maintenance' => 'false',
+            'forceHTTPS' => 'false',
+            'cacheProcess' => 'false',
+            'sharingWork' => 'false',
+            'allowApi' => 'false'
         ),
         'data' => array(
-	        'defaultEmail' => '',
+            'defaultEmail' => '',
             'apiToken' => ''
         ),
         'accessPermissions' => array(),
@@ -52,7 +52,7 @@ class AppConfig
         'sharingWork' => 'Autoriser le travail sur la même page',
         'allowApi' => 'Autoriser l\'API',
         'apiToken' => 'Clé API',
-	    'defaultEmail' => 'Adresse Email par défaut'
+        'defaultEmail' => 'Adresse Email par défaut'
     );
 
     /**

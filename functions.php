@@ -1319,7 +1319,7 @@ function checkMaintenance()
 {
     $AppConfig = new AppConfig();
 
-    if ('true' == $AppConfig->get('options', 'maintenance')) {
+    if ('true' === $AppConfig->get('options', 'maintenance')) {
 
         //Check IP permission
         $ip = getIP();
