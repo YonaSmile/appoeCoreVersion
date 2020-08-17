@@ -549,7 +549,7 @@ function getTitle($name = '', $slug = '', $appendName = '', $appendHtml = '')
  */
 function getAppoeCredit($color = "")
 {
-    return 'Propulsé par <a target="_blank" ' . (!empty($color) ? 'style="color:' . $color . '"' : '') . ' href="http://aoe-communication.com/" title="APPOE">APPOE</a>';
+    return 'Propulsé par <a target="_blank" ' . (!empty($color) ? 'style="color:' . $color . '"' : '') . ' href="https://aoe-communication.com/" title="APPOE">APPOE</a>';
 }
 
 /**
@@ -640,10 +640,22 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 function isImage($mediaPath)
 {
     if (file_exists($mediaPath)) {
-        return filesize($mediaPath) > 11 ? (exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG || exif_imagetype($mediaPath) == IMAGETYPE_GIF) : false;
+        return filesize($mediaPath) > 11 ? (
+            exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG
+            || exif_imagetype($mediaPath) == IMAGETYPE_GIF || isSvg($mediaPath)
+        ) : false;
     }
 
     return false;
+}
+
+/**
+ * @param $mediaPath
+ * @return bool
+ */
+function isSvg($mediaPath)
+{
+    return 'image/svg+xml' === mime_content_type($mediaPath);
 }
 
 /**

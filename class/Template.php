@@ -77,10 +77,10 @@ class Template
             if (strpos($adminZone, '_')) {
 
                 //Get data
-                $metaKey = strstr($adminZone, '_', true);
+                list($metaKey, $formType, $col) = array_pad(explode('_', $adminZone), 3, '');
 
                 //Set data
-                $this->pageHtmlContent = str_replace($this->pageHtmlZones[0][$i], sprintf('%s', !empty($this->pageDbData[$metaKey]) ? $this->formatText($this->pageDbData[$metaKey]->metaValue) : ''), $this->pageHtmlContent);
+                $this->pageHtmlContent = str_replace($this->pageHtmlZones[0][$i], sprintf('%s', !empty($this->pageDbData[$metaKey]) ? $this->formatText($this->pageDbData[$metaKey]->metaValue, $formType) : ''), $this->pageHtmlContent);
 
             } else {
 
@@ -204,7 +204,7 @@ class Template
                     //Check container authorised data
                     if ($this->isAuthorisedHtmlContainer($htmlTag)) {
 
-                        $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag templateZoneTitle ' . $class . ' " id="'.$zoneName.'">' . ucfirst($text) . '</' . $htmlTag . '>';
+                        $pageHtmlZonesTypes[] = '<' . $htmlTag . ' class="templateZoneTag templateZoneTitle ' . $class . ' " id="' . $zoneName . '">' . ucfirst($text) . '</' . $htmlTag . '>';
                     }
 
                 } else {
@@ -235,13 +235,14 @@ class Template
 
     /**
      * @param $text
+     * @param $type
      * @return string
      */
-    public function formatText($text)
+    public function formatText($text, $type)
     {
 
         $htmlTags = htmlSpeCharDecode($text);
-        return false !== strpos($htmlTags, '<br') ? $htmlTags : nl2br($htmlTags);
+        return $type === 'textBig' ? nl2br($htmlTags) : $htmlTags;
     }
 
     /**
