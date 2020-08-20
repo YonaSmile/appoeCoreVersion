@@ -17,7 +17,7 @@ class Shinoui
         $lb = self::Unorder($e, mt_rand(0, 2147483647) . $b);
         $oo = mt_rand(0, 255);
         for ($i = 1; $i < $xx + 1; $i++) {
-            $fd = $lb{(int)self::Seed(63, chr($oo))};
+            $fd = $lb[(int)self::Seed(63, chr($oo))];
             $oo = fmod($oo += ord($fd) + $i + mt_rand(0, 255), 255);
             $u .= $fd;
         }
@@ -27,21 +27,21 @@ class Shinoui
         $n = hexdec(substr(md5($d . $u), -8)) & 255;
         for ($r = $i = 0; $i < $s; $i += 3, $r++) {
             $r = (int)fmod($r += $n, 255);
-            $g = (ord($a{$i} ^ chr($r += $n)) << 16) + (ord($a{$i + 1} ^ chr($r += $n)) << 8) + (ord($a{$i + 2} ^ chr($r += $n)));
+            $g = (ord($a[$i] ^ chr($r += $n)) << 16) + (ord($a[$i + 1] ^ chr($r += $n)) << 8) + (ord($a[$i + 2] ^ chr($r += $n)));
             $ha = $g >> 18;
             $hb = $g >> 12;
             $hc = $g >> 6;
-            $t .= $l{$ha} . $l{$hb & 63} . $l{$hc & 63} . $l{$g & 63};
+            $t .= $l[$ha] . $l[$hb & 63] . $l[$hc & 63] . $l[$g & 63];
             $l = self::Passpass($l, $ha, $hb, $hc, $g, $r);
         }
         switch ($c - $s) {
             case 1:
-                $g = ord($a{$i} ^ chr($r + $n)) << 16;
-                $t .= $l{$g >> 18} . $l{($g >> 12) & 63};
+                $g = ord($a[$i] ^ chr($r + $n)) << 16;
+                $t .= $l[$g >> 18] . $l[($g >> 12) & 63];
                 break;
             case 2:
-                $g = (ord($a{$i} ^ chr($r += $n)) << 16) + (ord($a{$i + 1} ^ chr($r + $n)) << 8);
-                $t .= $l{$g >> 18} . $l{($g >> 12) & 63} . $l{($g >> 6) & 63};
+                $g = (ord($a[$i] ^ chr($r += $n)) << 16) + (ord($a[$i + 1] ^ chr($r + $n)) << 8);
+                $t .= $l[$g >> 18] . $l[($g >> 12) & 63] . $l[($g >> 6) & 63];
                 break;
         }
         $c = strlen($t);
@@ -72,11 +72,11 @@ class Shinoui
             $f++;
         }
         for ($r = $i = 0; $i < $c; $i += 4, $r++) {
-            $q = $e{strpos($l, $a{$i})} . $e{strpos($l, $a{$i + 1})} . $e{strpos($l, $a{$i + 2})} . $e{strpos($l, $a{$i + 3})};
-            $ha = strpos($e, $q{0});
-            $hb = strpos($e, $q{1});
-            $hc = strpos($e, $q{2});
-            $hd = strpos($e, $q{3});
+            $q = $e[strpos($l, $a[$i])] . $e[strpos($l, $a[$i + 1])] . $e[strpos($l, $a[$i + 2])] . $e[strpos($l, $a[$i + 3])];
+            $ha = strpos($e, $q[0]);
+            $hb = strpos($e, $q[1]);
+            $hc = strpos($e, $q[2]);
+            $hd = strpos($e, $q[3]);
             $g = ($ha << 18) + ($hb << 12) + ($hc << 6) + $hd;
             $r = (int)fmod($r += $n, 255);
             $d .= (chr($g >> 16) ^ chr($r += $n)) . (chr(($g >> 8) & 255) ^ chr($r += $n)) . (chr($g & 255) ^ chr($r += $n));
@@ -84,13 +84,13 @@ class Shinoui
         }
         switch ($f) {
             case 1:
-                $q = $e{strpos($l, $a{$i})} . $e{strpos($l, $a{$i + 1})} . $e{strpos($l, $a{$i + 2})};
-                $g = (strpos($e, $q{0}) << 18) + (strpos($e, $q{1}) << 12) + (strpos($e, $q{2}) << 6);
+                $q = $e[strpos($l, $a[$i])] . $e[strpos($l, $a[$i + 1])] . $e[strpos($l, $a[$i + 2])];
+                $g = (strpos($e, $q[0]) << 18) + (strpos($e, $q[1]) << 12) + (strpos($e, $q[2]) << 6);
                 $d .= (chr($g >> 16) ^ chr($r += $n)) . (chr(($g >> 8) & 255) ^ chr($r + $n));
                 break;
             case 2:
-                $q = $e{strpos($l, $a{$i})} . $e{strpos($l, $a{$i + 1})};
-                $g = (strpos($e, $q{0}) << 18) + (strpos($e, $q{1}) << 12);
+                $q = $e[strpos($l, $a[$i])] . $e[strpos($l, $a[$i + 1])];
+                $g = (strpos($e, $q[0]) << 18) + (strpos($e, $q[1]) << 12);
                 $d .= chr($g >> 16) ^ chr($r + $n);
                 break;
         }

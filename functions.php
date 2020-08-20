@@ -2235,16 +2235,24 @@ function getAsset($assetName, $getStream = false, $params = null)
  * @param int $desired_width
  * @param int $quality
  *
+ * @param bool $webp
  * @return bool|int
  */
-function thumb($filename, $desired_width = 100, $quality = 80)
+function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
 {
     $src = FILE_DIR_PATH . $filename;
     $dest = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
-
+    if ($webp) {
+        $fileInfo = pathinfo($filename);
+        $dest = FILE_DIR_PATH . 'webp' . DIRECTORY_SEPARATOR . $desired_width . '_' . $fileInfo['filename'] . '.WEBP';
+    }
 
     if (!file_exists(FILE_DIR_PATH . 'thumb/')) {
         mkdir(FILE_DIR_PATH . 'thumb', 0705);
+    }
+
+    if (!file_exists(FILE_DIR_PATH . 'webp/')) {
+        mkdir(FILE_DIR_PATH . 'webp', 0705);
     }
 
     if (is_file($src) && !is_file($dest) && isImage($src)) {
@@ -2262,9 +2270,11 @@ function thumb($filename, $desired_width = 100, $quality = 80)
             if ($ext == "JPG" or $ext == "JPEG") {
                 $source_image = imagecreatefromjpeg($src);
             } elseif ($ext == "PNG") {
-                $source_image = ImageCreateFromPNG($src);
+                $source_image = imagecreatefrompng($src);
             } elseif ($ext == "GIF") {
-                $source_image = ImageCreateFromGIF($src);
+                $source_image = imagecreatefromgif($src);
+            } elseif ($ext == "WEBP") {
+                $source_image = imagecreatefromwebp($src);
             }
 
             $width = imagesx($source_image);
@@ -2280,41 +2290,71 @@ function thumb($filename, $desired_width = 100, $quality = 80)
             /* copy source image at a resized size */
             imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
 
-            /* create the physical thumbnail image to its destination */
-            if ($ext == "JPG" or $ext == "JPEG") {
-                imagejpeg($virtual_image, $dest, $quality);
-            } elseif ($ext == "PNG") {
-                imagePNG($virtual_image, $dest);
-            } elseif ($ext == "GIF") {
-                imageGIF($virtual_image, $dest);
-            }
+            if ($webp) {
+                imagewebp($virtual_image, $dest, $quality);
 
+            } else {
+
+                /* create the physical thumbnail image to its destination */
+                if ($ext == "JPG" or $ext == "JPEG") {
+                    imagejpeg($virtual_image, $dest, $quality);
+                } elseif ($ext == "PNG") {
+                    imagepng($virtual_image, $dest);
+                } elseif ($ext == "GIF") {
+                    imagegif($virtual_image, $dest);
+                } elseif ($ext == "WEBP") {
+                    imagewebp($virtual_image, $dest, $quality);
+                }
+            }
             return true;
         }
     }
-
     return false;
 }
 
 /**
  * @param $filename
  * @param $desired_width
- * @param $quality
+ * @param bool $webp
+ * @param int $quality
  *
  * @return string
  */
-function getThumb($filename, $desired_width, $quality = 100)
+function getThumb($filename, $desired_width, $webp = false, $quality = 100)
 {
-    //Check if file exist
-    if (is_file(FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename)) {
-        return WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
+    if ($webp) {
+
+        $basepath = FILE_DIR_PATH . 'webp' . DIRECTORY_SEPARATOR . $desired_width . '_';
+        $baseurl = WEB_DIR_INCLUDE . 'webp' . DIRECTORY_SEPARATOR . $desired_width . '_';
+        $filepath = $basepath . $filename;
+
+        //Check if webp format exist
+        if (is_file($filepath)) {
+            return $baseurl . $filename;
+        }
+
+        $fileInfo = pathinfo($filename);
+        $filepath = $basepath . $fileInfo['filename'] . '.WEBP';
+
+        if (is_file($filepath)) {
+            return $baseurl . $fileInfo['filename'] . '.WEBP';
+        }
+
     } else {
 
-        //Create thumb
-        $thumb = thumb($filename, $desired_width, $quality);
+        $basepath = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_';
+        $baseurl = WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_';
+        $filepath = $basepath . $filename;
 
-        return $thumb ? getThumb($filename, $desired_width) : WEB_DIR_INCLUDE . $filename;
+        //Check if file exist
+        if (is_file($filepath)) {
+            return $baseurl . $filename;
+        }
     }
+
+    //Create thumb
+    $thumb = thumb($filename, $desired_width, $quality, $webp);
+    return $thumb ? getThumb($filename, $desired_width, $webp) : WEB_DIR_INCLUDE . $filename;
 }
 
 /**
@@ -4215,15 +4255,16 @@ function getFileTemplatePosition($filesArray, $position, $forcedPosition = false
 }
 
 /**
- * @param $imageArray
- * @param $otherClass
- * @param $thumbSize
- * @param $onlyUrl
- * @param $onlyPath
+ * @param array $imageArray
+ * @param string $otherClass
+ * @param bool $thumbSize
+ * @param bool $onlyUrl
+ * @param bool $onlyPath
  *
+ * @param bool $webp
  * @return bool|string
  */
-function getFirstImage(array $imageArray, $otherClass = '', $thumbSize = false, $onlyUrl = false, $onlyPath = false)
+function getFirstImage(array $imageArray, $otherClass = '', $thumbSize = false, $onlyUrl = false, $onlyPath = false, $webp = false)
 {
     if ($imageArray) {
         $firstImage = current($imageArray);
@@ -4233,12 +4274,7 @@ function getFirstImage(array $imageArray, $otherClass = '', $thumbSize = false, 
             } else if ($onlyPath) {
                 return FILE_DIR_PATH . $firstImage->name;
             } else {
-                return '<img src="' .
-                    (
-                    !$thumbSize
-                        ? WEB_DIR_INCLUDE . $firstImage->name
-                        : getThumb($firstImage->name, $thumbSize)
-                    )
+                return '<img src="' . (!$thumbSize ? WEB_DIR_INCLUDE . $firstImage->name : getThumb($firstImage->name, $thumbSize, $webp))
                     . '" alt="' . $firstImage->title . '" data-originsrc="' . WEB_DIR_INCLUDE . $firstImage->name . '" class="' . $otherClass . '">';
             }
         } else {
@@ -4362,13 +4398,15 @@ function getOnlyImages($imageArray)
  * @param string $attr
  * @param bool $thumbSize
  *
+ * @param int $quality
+ * @param bool $webp
  * @return string
  */
-function showImage(stdClass $media, $class = '', $attr = '', $thumbSize = false)
+function showImage(stdClass $media, $class = '', $attr = '', $thumbSize = false, $quality = 80, $webp = false)
 {
     if (property_exists($media, 'name') && property_exists($media, 'title')) {
 
-        return '<img src="' . imgUrl($media, $thumbSize) . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
+        return '<img src="' . imgUrl($media, $thumbSize, $quality, $webp) . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
     }
 
     return '';
@@ -4378,12 +4416,14 @@ function showImage(stdClass $media, $class = '', $attr = '', $thumbSize = false)
  * @param stdClass $media
  * @param bool $thumbSize
  *
+ * @param int $quality
+ * @param bool $webp
  * @return string|null
  */
-function imgUrl(stdClass $media, $thumbSize = false)
+function imgUrl(stdClass $media, $thumbSize = false, $quality = 80, $webp = false)
 {
     if (property_exists($media, 'name')) {
-        return !$thumbSize ? WEB_DIR_INCLUDE . $media->name : getThumb($media->name, $thumbSize);
+        return !$thumbSize ? WEB_DIR_INCLUDE . $media->name : getThumb($media->name, $thumbSize, $webp, $quality);
     }
 
     return null;
