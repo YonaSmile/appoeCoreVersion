@@ -549,7 +549,7 @@ function getTitle($name = '', $slug = '', $appendName = '', $appendHtml = '')
  */
 function getAppoeCredit($color = "")
 {
-    return 'Propulsé par <a target="_blank" ' . (!empty($color) ? 'style="color:' . $color . '"' : '') . ' href="https://aoe-communication.com/" title="APPOE">APPOE</a>';
+    return 'Propulsé par <a target="_blank" ' . (!empty($color) ? 'style="color:' . $color . '"' : '') . ' href="https://aoe-communication.com/solution/appoe-administration-by-aoe" title="APPOE">APPOE</a>';
 }
 
 /**
