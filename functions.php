@@ -4270,7 +4270,7 @@ function getFirstImage(array $imageArray, $otherClass = '', $thumbSize = false, 
         $firstImage = current($imageArray);
         if (isImage(FILE_DIR_PATH . $firstImage->name)) {
             if ($onlyUrl) {
-                return WEB_DIR_INCLUDE . $firstImage->name;
+                return !$thumbSize ? WEB_DIR_INCLUDE . $firstImage->name : getThumb($firstImage->name, $thumbSize, $webp);
             } else if ($onlyPath) {
                 return FILE_DIR_PATH . $firstImage->name;
             } else {
