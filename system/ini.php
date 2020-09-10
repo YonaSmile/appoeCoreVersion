@@ -11,22 +11,22 @@ ini_set( 'default_charset', 'UTF-8' );
 
 //Table prefix
 if ( ! defined( 'TABLEPREFIX' ) ) {
-	define( 'TABLEPREFIX', '' );
+    define( 'TABLEPREFIX', '' );
 }
 
 //Debug APPOE
 if ( ! defined( 'DEBUG' ) ) {
-	define( 'DEBUG', false );
+    define( 'DEBUG', false );
 }
 
 //Default cache duration in minutes
 if ( ! defined( 'CACHE_DURATION' ) ) {
-	define( 'CACHE_DURATION', 60 * 24 );
+    define( 'CACHE_DURATION', 60 * 24 * 10 );
 }
 
 //Acces restriction to APPOE with a min role id
 if ( ! defined( 'APPOE_MIN_ROLE' ) ) {
-	define( 'APPOE_MIN_ROLE', 1 );
+    define( 'APPOE_MIN_ROLE', 1 );
 }
 
 /**
@@ -84,26 +84,26 @@ define( 'INTERFACE_LANG', 'fr' );
  * Set App Content lang
  */
 if ( ! empty( $_SESSION['APP_LANG'] ) ) {
-	define( 'APP_LANG', $_SESSION['APP_LANG'] );
+    define( 'APP_LANG', $_SESSION['APP_LANG'] );
 } else {
-	define( 'APP_LANG', 'fr' );
+    define( 'APP_LANG', 'fr' );
 }
 
 /**
  * Set website lang
  */
 if ( ! empty( $_COOKIE['LANG'] ) && array_key_exists( $_COOKIE['LANG'], LANGUAGES ) ) {
-	define( 'LANG', $_COOKIE['LANG'] );
+    define( 'LANG', $_COOKIE['LANG'] );
 
 } else {
 
-	if ( ! empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) && array_key_exists( $_SERVER['HTTP_ACCEPT_LANGUAGE'], LANGUAGES ) ) {
-		define( 'LANG', substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2 ) );
-	} else {
-		define( 'LANG', 'fr' );
-	}
+    if ( ! empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) && array_key_exists( $_SERVER['HTTP_ACCEPT_LANGUAGE'], LANGUAGES ) ) {
+        define( 'LANG', substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2 ) );
+    } else {
+        define( 'LANG', 'fr' );
+    }
 
-	setcookie( 'LANG', LANG, strtotime( '+30 days' ), WEB_DIR, '', false, true );
+    setcookie( 'LANG', LANG, strtotime( '+30 days' ), WEB_DIR, '', false, true );
 }
 
 /**
@@ -117,33 +117,33 @@ setlocale( LC_ALL, strtolower( LANG ) . '_' . strtoupper( LANG ) . '.UTF-8' );
 define( 'NUM_OF_ATTEMPTS', 30 );
 
 const APP_TABLES = array(
-	TABLEPREFIX . 'appoe_users',
-	TABLEPREFIX . 'appoe_menu',
-	TABLEPREFIX . 'appoe_files',
-	TABLEPREFIX . 'appoe_filesContent',
-	TABLEPREFIX . 'appoe_categories',
-	TABLEPREFIX . 'appoe_categoryRelations'
+    TABLEPREFIX . 'appoe_users',
+    TABLEPREFIX . 'appoe_menu',
+    TABLEPREFIX . 'appoe_files',
+    TABLEPREFIX . 'appoe_filesContent',
+    TABLEPREFIX . 'appoe_categories',
+    TABLEPREFIX . 'appoe_categoryRelations'
 );
 
 const CATEGORY_TYPES = array(
-	'APPOE',
-	'MEDIA',
-	'AUTRE'
+    'APPOE',
+    'MEDIA',
+    'AUTRE'
 );
 
 const PAGE_TYPES = array(
-	'boutique' => 'SHOP',
-	'shop'     => 'SHOP',
-	'produit'  => 'SHOP',
-	'product'  => 'SHOP',
-	'article'  => 'ITEMGLUE',
-	'news'     => 'ITEMGLUE',
-	'archives' => 'ITEMGLUE',
-	'blog'     => 'ITEMGLUE'
+    'boutique' => 'SHOP',
+    'shop'     => 'SHOP',
+    'produit'  => 'SHOP',
+    'product'  => 'SHOP',
+    'article'  => 'ITEMGLUE',
+    'news'     => 'ITEMGLUE',
+    'archives' => 'ITEMGLUE',
+    'blog'     => 'ITEMGLUE'
 );
 
 //Load plugin files only for a specific app filename : plugin name => [filename, filename, ] || false (without extension)
 const INI_LOAD_PLUGIN_FOR_APP_FILENAME = array(
-	'leaflet'        => false,
-	'interactiveMap' => [ 'updateInterMapContent', 'updateInterMap' ]
+    'leaflet'        => false,
+    'interactiveMap' => [ 'updateInterMapContent', 'updateInterMap' ]
 );
