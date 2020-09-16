@@ -3220,38 +3220,40 @@ function includePluginsSecondaryMenu()
 
 
 /**
- * @param $forApp
+ * @param bool $forApp
+ * @param bool $min
  */
-function includePluginsJs($forApp = false)
+function includePluginsJs($forApp = false, $min = false)
 {
-    $plugins = getPlugins();
+    if (!$min) {
+        $plugins = getPlugins();
 
-    if (is_array($plugins) && !empty($plugins)) {
+        if (is_array($plugins) && !empty($plugins)) {
 
-        foreach ($plugins as $plugin) {
+            foreach ($plugins as $plugin) {
 
-            if (loadPluginForFilename($plugin['name'])) {
+                if (loadPluginForFilename($plugin['name'])) {
 
-                $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
-                $filePath = $pluginPath . 'js';
-                $setupPath = $pluginPath . 'setup.php';
+                    $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
+                    $filePath = $pluginPath . 'js';
+                    $setupPath = $pluginPath . 'setup.php';
 
-                if (is_dir($filePath) && !file_exists($setupPath)) {
+                    if (is_dir($filePath) && !file_exists($setupPath)) {
 
-                    foreach (getFilesFromDir($filePath) as $file) {
+                        foreach (getFilesFromDir($filePath) as $file) {
 
-                        //File path
-                        $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
+                            //File path
+                            $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
 
-                        //Show js file in html doc
-                        echo '<script type="text/javascript" src="' . $src . '"></script>';
+                            //Show js file in html doc
+                            echo '<script type="text/javascript" src="' . $src . '"></script>';
 
+                        }
                     }
                 }
             }
         }
     }
-
     echo '<script type="text/javascript" src="' . WEB_LIB_URL . 'js/functions.js"></script>';
 
     if ($forApp) {
@@ -3293,35 +3295,36 @@ function includePluginsJsForApp()
 
 
 /**
- *
+ * @param bool $min
  */
-function includePluginsStyles()
+function includePluginsStyles($min = false)
 {
-    $plugins = getPlugins();
+    if (!$min) {
+        $plugins = getPlugins();
 
-    if (is_array($plugins) && !empty($plugins)) {
+        if (is_array($plugins) && !empty($plugins)) {
 
-        foreach ($plugins as $plugin) {
+            foreach ($plugins as $plugin) {
 
-            $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
-            $filePath = $pluginPath . 'css';
-            $setupPath = $pluginPath . 'setup.php';
+                $pluginPath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR;
+                $filePath = $pluginPath . 'css';
+                $setupPath = $pluginPath . 'setup.php';
 
-            if (is_dir($filePath) && !file_exists($setupPath)) {
+                if (is_dir($filePath) && !file_exists($setupPath)) {
 
-                foreach (getFilesFromDir($filePath) as $file) {
+                    foreach (getFilesFromDir($filePath) as $file) {
 
-                    //File path
-                    $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
+                        //File path
+                        $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
 
-                    //Show css file in html doc
-                    echo loadPluginForFilename($plugin['name']) || substr($file, -8, 4) == 'base' ?
-                        '<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
+                        //Show css file in html doc
+                        echo loadPluginForFilename($plugin['name']) || substr($file, -8, 4) == 'base' ?
+                            '<link rel="stylesheet" href="' . $src . '" type="text/css">' : '';
+                    }
                 }
             }
         }
     }
-
     echo '<link rel="stylesheet" href="' . WEB_TEMPLATE_URL . 'css/utils.css" type="text/css">';
 }
 
@@ -4400,13 +4403,18 @@ function getOnlyImages($imageArray)
  *
  * @param int $quality
  * @param bool $webp
+ * @param bool $onlyUrl
  * @return string
  */
-function showImage(stdClass $media, $class = '', $attr = '', $thumbSize = false, $quality = 80, $webp = false)
+function showImage(stdClass $media, $class = '', $attr = '', $thumbSize = false, $quality = 80, $webp = false, $onlyUrl = false)
 {
     if (property_exists($media, 'name') && property_exists($media, 'title')) {
 
-        return '<img src="' . imgUrl($media, $thumbSize, $quality, $webp) . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
+        $url = imgUrl($media, $thumbSize, $quality, $webp);
+
+        if ($onlyUrl) return $url;
+
+        return '<img src="' . $url . '" alt="' . $media->title . '" class="' . $class . '" ' . $attr . '>';
     }
 
     return '';
