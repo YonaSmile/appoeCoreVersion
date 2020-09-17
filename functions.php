@@ -858,6 +858,10 @@ function trad($text, $tradToOrigin = false, $lang = LANG)
  */
 function slugify($text)
 {
+    if (is_array($text)) {
+        $text = implode('-', $text);
+    }
+
     // replace non letter or digits by -
     $text = preg_replace('~[^\pL\d]+~u', '-', $text);
 
