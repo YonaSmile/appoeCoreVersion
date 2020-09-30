@@ -21,7 +21,7 @@ if ( ! defined( 'DEBUG' ) ) {
 
 //Default cache duration in minutes
 if ( ! defined( 'CACHE_DURATION' ) ) {
-    define( 'CACHE_DURATION', 60 * 24 * 10 );
+    define( 'CACHE_DURATION', 60 * 60 * 24 * 10 );
 }
 
 //Acces restriction to APPOE with a min role id
