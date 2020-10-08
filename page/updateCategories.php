@@ -14,17 +14,9 @@ if ($allCategories) {
         $separetedCategories[$allTypes[$category->type]][$category->parentId][] = $category;
     }
 }
-echo getTitle(getAppPageName(), getAppPageSlug()); ?>
+echo getTitle(getAppPageName(), getAppPageSlug());
+showPostResponse(getDataPostResponse()); ?>
     <div class="container-fluid">
-        <?php if (isset($Response)): ?>
-            <div class="row">
-                <div class="col-12">
-                    <div class="alert alert-<?= $Response->display()->status ?>" role="alert">
-                        <?= $Response->display()->error_msg; ?>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
         <button id="addCategory" type="button" class="btn btn-primary mb-4" data-toggle="modal"
                 data-target="#modalAddCategory">
             <?= trans('Nouvelle Catégorie'); ?>
