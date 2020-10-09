@@ -33,7 +33,6 @@ if (!defined('APPOE_MIN_ROLE')) {
  * App paths
  */
 define('FILE_DIR_NAME', 'include/');
-define('APP_ROOT', WEB_DIR . 'app/');
 define('CACHE_PATH', ROOT_PATH . 'tmp/');
 define('WEB_APP_PATH', ROOT_PATH . 'app/');
 define('WEB_PUBLIC_PATH', ROOT_PATH . 'public/');
