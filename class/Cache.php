@@ -2,7 +2,8 @@
 
 namespace App;
 
-class Cache {
+class Cache
+{
 
     public $dirname = CACHE_PATH . LANG . DIRECTORY_SEPARATOR;
     public $filename;
@@ -11,12 +12,19 @@ class Cache {
 
     private $buffer = false;
 
-    public function __construct( $filename ) {
+    public function __construct($filename)
+    {
 
         $this->filename = $filename;
 
-        if ( ! is_dir( $this->dirname ) ) {
-            mkdir( $this->dirname, 0755, true );
+        if (!is_dir($this->dirname)) {
+            if (mkdir($this->dirname, 0755, true)) {
+                if (createFile(CACHE_PATH . 'index.php')) {
+                    $indexFile = fopen(CACHE_PATH . 'index.php', 'w');
+                    fwrite($indexFile, DEFAULT_INDEX_CONTENT);
+                    fclose($indexFile);
+                }
+            }
         }
 
         $this->file = $this->dirname . $this->filename;
@@ -26,15 +34,16 @@ class Cache {
      * Read from cache file
      * @return bool|false|string
      */
-    public function read() {
+    public function read()
+    {
 
-        if ( file_exists( $this->file ) ) {
-            $lifetime = ( time() - filemtime( $this->file ) ) / 60;
-            if ( $lifetime > $this->duration ) {
+        if (file_exists($this->file)) {
+            $lifetime = (time() - filemtime($this->file)) / 60;
+            if ($lifetime > $this->duration) {
                 return false;
             }
 
-            return file_get_contents( $this->file );
+            return file_get_contents($this->file);
         }
 
         return false;
@@ -45,22 +54,24 @@ class Cache {
      *
      * @param $content
      */
-    public function write( $content ) {
-        file_put_contents( $this->file, $content );
+    public function write($content)
+    {
+        file_put_contents($this->file, $content);
     }
 
     /**
      * Starting write in cache file if APPOE isn't in maintenance mode
      * @return bool
      */
-    public function start() {
+    public function start()
+    {
 
         $AppConfig = new AppConfig();
-        if ( 'false' === $AppConfig->get( 'options', 'cacheProcess' ) || 'true' === $AppConfig->get( 'options', 'maintenance' ) ) {
+        if ('false' === $AppConfig->get('options', 'cacheProcess') || 'true' === $AppConfig->get('options', 'maintenance')) {
             return false;
         }
 
-        if ( $content = $this->read() ) {
+        if ($content = $this->read()) {
             echo $content;
 
             return true;
@@ -75,13 +86,14 @@ class Cache {
      * end writing in cache file
      * @return bool
      */
-    public function end() {
-        if ( ! $this->buffer ) {
+    public function end()
+    {
+        if (!$this->buffer) {
             return false;
         }
         $content = ob_get_clean();
         echo $content;
-        $this->write( $content );
+        $this->write($content);
 
         return true;
     }
@@ -89,10 +101,11 @@ class Cache {
     /**
      * delete cache file
      */
-    public function delete() {
+    public function delete()
+    {
 
-        if ( file_exists( $this->file ) ) {
-            unlink( $this->file );
+        if (file_exists($this->file)) {
+            unlink($this->file);
         }
     }
 }
