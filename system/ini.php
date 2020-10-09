@@ -34,7 +34,7 @@ if (!defined('APPOE_MIN_ROLE')) {
  */
 define('FILE_DIR_NAME', 'include/');
 define('APP_ROOT', WEB_DIR . 'app/');
-define('', ROOT_PATH . 'tmp/');
+define('CACHE_PATH', ROOT_PATH . 'tmp/');
 define('WEB_APP_PATH', ROOT_PATH . 'app/');
 define('WEB_PUBLIC_PATH', ROOT_PATH . 'public/');
 define('WEB_PATH', WEB_PUBLIC_PATH . 'html/');
