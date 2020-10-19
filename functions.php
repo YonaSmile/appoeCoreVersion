@@ -642,7 +642,7 @@ function isImage($mediaPath)
     if (file_exists($mediaPath)) {
         return filesize($mediaPath) > 11 ? (
             exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG
-            || exif_imagetype($mediaPath) == IMAGETYPE_GIF || isSvg($mediaPath)
+            || exif_imagetype($mediaPath) == IMAGETYPE_GIF || exif_imagetype($mediaPath) == IMAGETYPE_WEBP || isSvg($mediaPath)
         ) : false;
     }
 
@@ -4467,6 +4467,8 @@ function getImgAccordingExtension($extension)
         case 'jpeg':
         case 'gif':
         case 'png':
+        case 'svg':
+        case 'webp':
             return 'img';
             break;
         case 'pdf':
