@@ -295,7 +295,7 @@ class File
      */
     public function createTable()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `'.TABLEPREFIX.'appoe_files` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `' . TABLEPREFIX . 'appoe_files` (
   					`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
                 	`userId` INT(11) UNSIGNED NOT NULL,
@@ -326,11 +326,11 @@ class File
     {
 
         $sql = 'SELECT DISTINCT F.*,
-        (SELECT cc1.title FROM '.TABLEPREFIX.'appoe_filesContent AS cc1 WHERE cc1.fileId = F.id AND cc1.lang = :lang) AS title,
-        (SELECT cc2.description FROM '.TABLEPREFIX.'appoe_filesContent AS cc2 WHERE cc2.fileId = F.id AND cc2.lang = :lang) AS description,
+        (SELECT cc1.title FROM ' . TABLEPREFIX . 'appoe_filesContent AS cc1 WHERE cc1.fileId = F.id AND cc1.lang = :lang) AS title,
+        (SELECT cc2.description FROM ' . TABLEPREFIX . 'appoe_filesContent AS cc2 WHERE cc2.fileId = F.id AND cc2.lang = :lang) AS description,
         C.id AS categoryId, C.name AS categoryName
-        FROM '.TABLEPREFIX.'appoe_files AS F 
-        LEFT JOIN '.TABLEPREFIX.'appoe_categories AS C
+        FROM ' . TABLEPREFIX . 'appoe_files AS F 
+        LEFT JOIN ' . TABLEPREFIX . 'appoe_categories AS C
         ON(C.id = F.typeId)
         WHERE F.id = :id
         GROUP BY F.id ORDER BY F.position ASC, F.updated_at DESC';
@@ -369,11 +369,11 @@ class File
     public function showFiles()
     {
         $sql = 'SELECT DISTINCT F.*,
-        (SELECT cc1.title FROM '.TABLEPREFIX.'appoe_filesContent AS cc1 WHERE cc1.fileId = F.id AND cc1.lang = :lang) AS title,
-        (SELECT cc2.description FROM '.TABLEPREFIX.'appoe_filesContent AS cc2 WHERE cc2.fileId = F.id AND cc2.lang = :lang) AS description,
+        (SELECT cc1.title FROM ' . TABLEPREFIX . 'appoe_filesContent AS cc1 WHERE cc1.fileId = F.id AND cc1.lang = :lang) AS title,
+        (SELECT cc2.description FROM ' . TABLEPREFIX . 'appoe_filesContent AS cc2 WHERE cc2.fileId = F.id AND cc2.lang = :lang) AS description,
         C.id AS categoryId, C.name AS categoryName
-        FROM '.TABLEPREFIX.'appoe_files AS F 
-        LEFT JOIN '.TABLEPREFIX.'appoe_categories AS C
+        FROM ' . TABLEPREFIX . 'appoe_files AS F 
+        LEFT JOIN ' . TABLEPREFIX . 'appoe_categories AS C
         ON(C.id = F.typeId)
         WHERE F.type = :type AND F.typeId = :typeId
         GROUP BY F.id ORDER BY F.position ASC, F.updated_at DESC';
@@ -391,7 +391,7 @@ class File
      */
     public function showAll()
     {
-        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_files GROUP BY name ORDER BY name ASC';
+        $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_files GROUP BY name ORDER BY name ASC';
         $stmt = $this->dbh->prepare($sql);
 
         $stmt->execute();
@@ -430,7 +430,7 @@ class File
      */
     public function update()
     {
-        $sql = 'UPDATE '.TABLEPREFIX.'appoe_files 
+        $sql = 'UPDATE ' . TABLEPREFIX . 'appoe_files 
         SET userId = :userId, typeId = :typeId, link = :link, position = :position, options = :options 
         WHERE id = :id';
 
@@ -458,7 +458,7 @@ class File
      */
     public function changePosition()
     {
-        $sql = 'UPDATE '.TABLEPREFIX.'appoe_files SET position = :position WHERE id = :id';
+        $sql = 'UPDATE ' . TABLEPREFIX . 'appoe_files SET position = :position WHERE id = :id';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':position', $this->position);
         $stmt->bindParam(':id', $this->id);
@@ -473,12 +473,12 @@ class File
         }
     }
 
-	/**
-	 *
-	 * @param bool $saveToDb
-	 *
-	 * @return array
-	 */
+    /**
+     *
+     * @param bool $saveToDb
+     *
+     * @return array
+     */
     public function upload($saveToDb = true)
     {
         $returnArr = array(
@@ -520,14 +520,14 @@ class File
                             appLog('Upload file -> name: ' . $filename);
                             array_push($returnArr['filename'], $filename);
 
-	                        if ( $saveToDb ) {
+                            if ($saveToDb) {
 
-		                        $this->name = $filename;
+                                $this->name = $filename;
 
-		                        if ( ! $this->save() ) {
-			                        continue;
-		                        }
-	                        }
+                                if (!$this->save()) {
+                                    continue;
+                                }
+                            }
 
                             $uploadFilesCounter++;
 
@@ -544,70 +544,71 @@ class File
         return $returnArr;
     }
 
-	/**
-	 *
-	 * @param bool $saveToDb
-	 *
-	 * @return array
-	 */
-	public function uploadOneFile( $saveToDb = true ) {
+    /**
+     *
+     * @param bool $saveToDb
+     *
+     * @return array
+     */
+    public function uploadOneFile($saveToDb = true)
+    {
 
-		$returnArr = array(
-			'filename' => '',
-			'errors'   => ''
-		);
+        $returnArr = array(
+            'filename' => '',
+            'errors' => ''
+        );
 
-		$file = $this->uploadFiles;
+        $file = $this->uploadFiles;
 
-		if ( ! empty( $file['name'] ) ) {
+        if (!empty($file['name'])) {
 
-			if ( $file['error'] == 0 ) {
+            if ($file['error'] == 0) {
 
-				$tmp_name = $file['tmp_name'];
-				$filename = $this->cleanText( $file['name'] );
-				$type     = $file['type'];
-				$size     = $file['size'];
+                $tmp_name = $file['tmp_name'];
+                $filename = $this->cleanText($file['name']);
+                $type = $file['type'];
+                $size = $file['size'];
 
-				$returnArr['filename'] = $filename;
+                $returnArr['filename'] = $filename;
 
-				if ( $size <= $this->maxSize ) {
+                if ($size <= $this->maxSize) {
 
-					if ( $this->authorizedMediaFormat( $type ) ) {
+                    if ($this->authorizedMediaFormat($type)) {
 
-						if ( move_uploaded_file( $tmp_name, $this->filePath . $filename ) === false ) {
+                        if (move_uploaded_file($tmp_name, $this->filePath . $filename) === false) {
 
-							$returnArr['errors'] = trans( 'Impossible de charger le fichier.' );
-							return $returnArr;
-						}
+                            $returnArr['errors'] = trans('Impossible de charger le fichier.');
+                            return $returnArr;
+                        }
 
-						appLog( 'Upload file -> name: ' . $filename );
+                        appLog('Upload file -> name: ' . $filename);
 
-						if ( $saveToDb ) {
+                        if ($saveToDb) {
 
-							$this->name = $filename;
+                            $this->name = $filename;
 
-							if ( ! $this->save() ) {
-								$returnArr['errors'] = trans( 'Impossible d\'enregistrer le fichier.' );
+                            if (!$this->save()) {
+                                $returnArr['errors'] = trans('Impossible d\'enregistrer le fichier.');
 
-								return $returnArr;
-							}
-						}
-
-
-					} else {
-						$returnArr['errors'] = trans( 'Le format du fichier n\'est pas reconnu.' );
-					}
-				} else {
-					$returnArr['errors'] = trans( 'Le fichier dépasse le poids autorisé.' );
-				}
-			} else {
-				$returnArr['errors'] = $file['error'];
-			}
-		}
+                                return $returnArr;
+                            }
+                        }
 
 
-		return $returnArr;
-	}
+                    } else {
+                        $returnArr['errors'] = trans('Le format du fichier n\'est pas reconnu.');
+                    }
+                } else {
+                    $returnArr['errors'] = trans('Le fichier dépasse le poids autorisé.');
+                }
+            } else {
+                $returnArr['errors'] = $file['error'];
+            }
+        }
+
+
+        return $returnArr;
+    }
 
     /**
      * @param $filename
@@ -645,6 +646,7 @@ class File
             $authorizedFormat = array(
                 'image/jpeg', 'image/png', 'image/gif',
                 'image/jpg', 'image/svg+xml', 'image/tiff',
+                'image/x-icon', 'image/webp',
                 'application/pdf', 'application/vnd.ms-word',
                 'application/vnd.ms-powerpoint', 'application/vnd.ms-excel',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -673,7 +675,7 @@ class File
      */
     public function save()
     {
-        $sql = 'INSERT INTO '.TABLEPREFIX.'appoe_files (userId, type, typeId, name, updated_at) 
+        $sql = 'INSERT INTO ' . TABLEPREFIX . 'appoe_files (userId, type, typeId, name, updated_at) 
         VALUES(:userId, :type, :typeId, :name, NOW())';
 
         $stmt = $this->dbh->prepare($sql);
@@ -702,7 +704,7 @@ class File
     public function rename($oldName)
     {
 
-        $sql = 'UPDATE '.TABLEPREFIX.'appoe_files SET name = :name WHERE name = :oldName';
+        $sql = 'UPDATE ' . TABLEPREFIX . 'appoe_files SET name = :name WHERE name = :oldName';
 
         $stmt = DB::exec($sql, [':name' => $this->name, ':oldName' => $oldName]);
 
@@ -739,7 +741,7 @@ class File
      */
     public function countFile($all = false)
     {
-        $sql = (!$all) ? 'SELECT * FROM '.TABLEPREFIX.'appoe_files WHERE name = :name' : 'SELECT * FROM '.TABLEPREFIX.'appoe_files WHERE type = "MEDIA"';
+        $sql = (!$all) ? 'SELECT * FROM ' . TABLEPREFIX . 'appoe_files WHERE name = :name' : 'SELECT * FROM ' . TABLEPREFIX . 'appoe_files WHERE type = "MEDIA"';
         $stmt = $this->dbh->prepare($sql);
 
         if (!$all) {
@@ -762,7 +764,7 @@ class File
     public function deleteFileByName()
     {
 
-        $sql = 'DELETE FROM '.TABLEPREFIX.'appoe_files WHERE name = :name';
+        $sql = 'DELETE FROM ' . TABLEPREFIX . 'appoe_files WHERE name = :name';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':name', $this->name);
@@ -787,8 +789,8 @@ class File
     {
         $this->deleteFileByPath();
 
-        $sql = 'DELETE FROM '.TABLEPREFIX.'appoe_files WHERE id = :id;
-                DELETE FROM '.TABLEPREFIX.'appoe_files_content WHERE fileId = :id;';
+        $sql = 'DELETE FROM ' . TABLEPREFIX . 'appoe_files WHERE id = :id;
+                DELETE FROM ' . TABLEPREFIX . 'appoe_files_content WHERE fileId = :id;';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
