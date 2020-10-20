@@ -489,7 +489,7 @@ class File
         );
         $uploadFilesCounter = 0;
         $dbSaveFilesCounter = 0;
-
+        $formUploadToDB = true;
         $files = $this->uploadFiles;
         $fileCount = !empty($files['name'][0]) ? count($files['name']) : 0;
 
@@ -513,10 +513,11 @@ class File
                                     deleteThumb($filename, 370);
                                     appLog('Delete file to overwrite it -> name: ' . $filename);
                                 }
+                                $formUploadToDB = false;
                             }
 
                             if (move_uploaded_file($tmp_name, $this->filePath . $filename) === false) {
-                                $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('n\'a pas pu être enregistré.') . '<br>';
+                                $returnArr['errors'] .= sprintf(trans('Le fichier %s n\'a pas pu être enregistré.'), $filename) . '<br>';
                                 continue;
                             }
                             /*} else {
@@ -526,16 +527,13 @@ class File
                             appLog('Upload file -> name: ' . $filename);
                             array_push($returnArr['filename'], $filename);
 
-                            if ($saveToDb) {
+                            if ($saveToDb && $formUploadToDB) {
 
                                 $this->name = $filename;
-
-                                if (!$this->save()) {
-                                    continue;
+                                if ($this->save()) {
+                                    $dbSaveFilesCounter++;
                                 }
                             }
-
-                            $dbSaveFilesCounter++;
 
                         } else {
                             $returnArr['errors'] .= trans('Le format du fichier') . ' ' . $filename . ' ' . trans('n\'est pas reconnu.') . '<br>';
