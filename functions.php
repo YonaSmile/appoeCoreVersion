@@ -2372,6 +2372,7 @@ function deleteThumb($filename, $desired_width)
     $thumbPath = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_' . $filename;
     if (file_exists($thumbPath)) {
         if (unlink($thumbPath)) {
+            appLog('Delete thumb -> name: ' . $filename);
             return true;
         }
     }
