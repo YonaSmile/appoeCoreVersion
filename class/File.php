@@ -506,16 +506,19 @@ class File
 
                         if ($this->authorizedMediaFormat($type)) {
 
-                            if (!file_exists($this->filePath . $filename)) {
-
-                                if (move_uploaded_file($tmp_name, $this->filePath . $filename) === false) {
-
-                                    $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('n\'a pas pu être enregistré.') . '<br>';
-                                    continue;
-                                }
-                            } else {
-                                $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('existe déjà, il a donc été partagé et non remplacé.') . '<br>';
+                            if (file_exists($this->filePath . $filename)) {
+                                deleteThumb($filename, 370);
+                                appLog('Delete thumb -> name: ' . $filename);
+                                appLog('Overwritten file -> name: ' . $filename);
                             }
+
+                            if (move_uploaded_file($tmp_name, $this->filePath . $filename) === false) {
+                                $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('n\'a pas pu être enregistré.') . '<br>';
+                                continue;
+                            }
+                            /*} else {
+                                $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('existe déjà, il a donc été partagé et non remplacé.') . '<br>';
+                            }*/
 
                             appLog('Upload file -> name: ' . $filename);
                             array_push($returnArr['filename'], $filename);
