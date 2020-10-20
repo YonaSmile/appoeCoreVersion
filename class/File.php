@@ -511,7 +511,7 @@ class File
                             if (file_exists($this->filePath . $filename)) {
                                 if (unlink($this->filePath . $filename)) {
                                     deleteThumb($filename, 370);
-                                    appLog('Delete file + thumb for file overwrite -> name: ' . $filename);
+                                    appLog('Delete file to overwrite it -> name: ' . $filename);
                                 }
                             }
 
