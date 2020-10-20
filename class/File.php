@@ -484,9 +484,11 @@ class File
         $returnArr = array(
             'filename' => array(),
             'countUpload' => '',
+            'countDbSaved' => '',
             'errors' => ''
         );
         $uploadFilesCounter = 0;
+        $dbSaveFilesCounter = 0;
 
         $files = $this->uploadFiles;
         $fileCount = !empty($files['name'][0]) ? count($files['name']) : 0;
@@ -507,10 +509,9 @@ class File
                         if ($this->authorizedMediaFormat($type)) {
 
                             if (file_exists($this->filePath . $filename)) {
-                                if(unlink($this->filePath . $filename)) {
+                                if (unlink($this->filePath . $filename)) {
                                     deleteThumb($filename, 370);
                                     appLog('Delete file + thumb for file overwrite -> name: ' . $filename);
-                                    appLog('Overwritten file -> name: ' . $filename);
                                 }
                             }
 
@@ -521,7 +522,7 @@ class File
                             /*} else {
                                 $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('existe déjà, il a donc été partagé et non remplacé.') . '<br>';
                             }*/
-
+                            $uploadFilesCounter++;
                             appLog('Upload file -> name: ' . $filename);
                             array_push($returnArr['filename'], $filename);
 
@@ -534,7 +535,7 @@ class File
                                 }
                             }
 
-                            $uploadFilesCounter++;
+                            $dbSaveFilesCounter++;
 
                         } else {
                             $returnArr['errors'] .= trans('Le format du fichier') . ' ' . $filename . ' ' . trans('n\'est pas reconnu.') . '<br>';
@@ -546,6 +547,7 @@ class File
             }
         }
         $returnArr['countUpload'] = $uploadFilesCounter . '/' . $fileCount;
+        $returnArr['countDbSaved'] = $dbSaveFilesCounter . '/' . $fileCount;
         return $returnArr;
     }
 
