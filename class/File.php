@@ -507,9 +507,11 @@ class File
                         if ($this->authorizedMediaFormat($type)) {
 
                             if (file_exists($this->filePath . $filename)) {
-                                deleteThumb($filename, 370);
-                                appLog('Delete thumb -> name: ' . $filename);
-                                appLog('Overwritten file -> name: ' . $filename);
+                                if(unlink($this->filePath . $filename)) {
+                                    deleteThumb($filename, 370);
+                                    appLog('Delete file + thumb for file overwrite -> name: ' . $filename);
+                                    appLog('Overwritten file -> name: ' . $filename);
+                                }
                             }
 
                             if (move_uploaded_file($tmp_name, $this->filePath . $filename) === false) {
