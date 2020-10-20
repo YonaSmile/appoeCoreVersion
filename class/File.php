@@ -489,7 +489,6 @@ class File
         );
         $uploadFilesCounter = 0;
         $dbSaveFilesCounter = 0;
-        $formUploadToDB = true;
         $files = $this->uploadFiles;
         $fileCount = !empty($files['name'][0]) ? count($files['name']) : 0;
 
@@ -500,6 +499,7 @@ class File
                 $error = $files['error'][$i];
                 if ($error == 0) {
 
+                    $formUploadToDB = true;
                     $tmp_name = $files['tmp_name'][$i];
                     $filename = $this->cleanText($files['name'][$i]);
                     $type = $files['type'][$i];
