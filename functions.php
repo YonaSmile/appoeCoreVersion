@@ -4809,7 +4809,8 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
 
     // View sender's source
     if ($options['viewSenderSource']) {
-        $sources = '<p>--<br><em>Date: ' . date('d/m/Y H:i:s') . ', IP: ' . getIP() . ', Source: ' . WEB_DIR_URL . '</em></p>';
+        $sources = '<p>--<br><small><strong>Date:</strong> ' . date('d/m/Y H:i:s')
+            . ', <strong>IP:</strong> ' . getIP() . ', <strong>Source:</strong> ' . WEB_DIR_URL . '</small></p>';
         $data['message'] .= $sources;
     }
 
