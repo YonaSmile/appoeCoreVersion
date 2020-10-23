@@ -8,7 +8,7 @@ $allConfig = $AppConfig->get();
 
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <button class="btn btn-sm btn-outline-info" id="restoreConfig">Réinitialiser</button>
-    <button class="btn btn-sm btn-outline-danger" id="clearFilesCache">Vider le cache des fichiers</button>
+    <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des fichiers</button>
     <button class="btn btn-sm btn-outline-danger" id="clearServerCache">Purger le cache du serveur</button>
     <div class="container-fluid">
         <div class="row">
