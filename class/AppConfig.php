@@ -180,6 +180,14 @@ class AppConfig
     private function dataOperations($data)
     {
 
+        if (array_key_exists('maintenance', $data)) {
+            $htaccessContent = DEFAULT_HTACCESS;
+            if ($data['maintenance'] === 'false') {
+                $htaccessContent .= "\n\r" . HTACCESS_CACHE;
+            }
+            createFile(ROOT_PATH . '.htaccess', ['content' => $htaccessContent]);
+        }
+
         if (array_key_exists('allowApi', $data)) {
             if ($data['allowApi'] === 'true') {
                 $this->config['data']['apiToken'] = setToken(false);

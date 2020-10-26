@@ -1654,18 +1654,29 @@ function createFolder($structure, $chmod = 0755)
 }
 
 /**
- * Create file
+ * Create file with options
  *
  * @param string $structure
- *
+ * @param array $options
  * @return bool
  */
-function createFile($structure)
+function createFile($structure, array $options = array())
 {
+    $defaultOptions = array('mode' => 'w', 'chmod' => 0644, 'content' => null);
+    $options = array_merge($defaultOptions, $options);
+
     if (!is_file($structure)) {
         if (!fopen($structure, 'w')) {
             return false;
         }
+    }
+
+    chmod($structure, $options['chmod']);
+
+    if ($options['content']) {
+        $file = fopen($structure, $options['mode']);
+        fwrite($file, $options['content']);
+        fclose($file);
     }
 
     return true;
