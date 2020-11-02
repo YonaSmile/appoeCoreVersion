@@ -19,11 +19,7 @@ class Cache
 
         if (!is_dir($this->dirname)) {
             if (mkdir($this->dirname, 0755, true)) {
-                if (createFile(CACHE_PATH . 'index.php')) {
-                    $indexFile = fopen(CACHE_PATH . 'index.php', 'w');
-                    fwrite($indexFile, DEFAULT_INDEX_CONTENT);
-                    fclose($indexFile);
-                }
+                createFile(CACHE_PATH . 'index.php', ['content' => DEFAULT_INDEX_CONTENT]);
             }
         }
 
