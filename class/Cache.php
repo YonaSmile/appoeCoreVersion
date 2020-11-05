@@ -87,12 +87,25 @@ class Cache
         if (!$this->buffer) {
             return false;
         }
-        $content = ob_get_clean();
+        $content = $this->minifyHtml(ob_get_clean());
         echo $content;
         $this->write($content);
 
         return true;
     }
+
+    /**
+     * @param $buffer
+     * @return string
+     */
+    public function minifyHtml($buffer)
+    {
+        $search = array("/\>[^\S ]+/s", "/[^\S ]+\</s", "/<!--(.|\s)*?-->/", "/\s+\n/", "/\n\s+/", "/ +/");
+        $replace = array(">", "<", "", "\n", "\n ", " ");
+        $buffer = preg_replace($search, $replace, $buffer);
+        return $buffer;
+    }
+
 
     /**
      * delete cache file
