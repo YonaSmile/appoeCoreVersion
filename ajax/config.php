@@ -50,7 +50,7 @@ if (checkAjaxRequest()) {
 
         if (!empty($_POST['clearServerCache']) && $_POST['clearServerCache'] == 'OK') {
 
-            if (getAsset('purgeCache', true)) {
+            if (purgeVarnishCache()) {
 
                 echo json_encode(true);
                 exit();

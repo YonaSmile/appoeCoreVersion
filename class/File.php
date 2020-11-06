@@ -22,6 +22,7 @@ class File
     protected $lang = LANG;
     protected $maxSize = 5621440;
     protected $filePath = FILE_DIR_PATH;
+    protected $fileUrl = WEB_DIR_INCLUDE;
     protected $uploadFiles = null;
     protected $dbh = null;
 
@@ -511,6 +512,7 @@ class File
                             if (file_exists($this->filePath . $filename)) {
                                 if (unlink($this->filePath . $filename)) {
                                     deleteThumb($filename, 370);
+                                    purgeVarnishCache($this->fileUrl . $filename);
                                     appLog('Delete file to overwrite it -> name: ' . $filename);
                                 }
                                 $formUploadToDB = false;

@@ -1657,7 +1657,7 @@ function createFolder($structure, $chmod = 0755)
  * Create file with options
  *
  * @param string $structure
- * @param array $options
+ * @param array $options can contains [mode, chmod, content]
  * @return bool
  */
 function createFile($structure, array $options = array())
@@ -2244,6 +2244,30 @@ function getAsset($assetName, $getStream = false, $params = null)
     return false;
 }
 
+/**
+ * Purge du cache Varnish en utilisant la requête HTTP PURGE/PURGEALL
+ * @param null $url
+ * @return bool
+ */
+function purgeVarnishCache($url = null)
+{
+
+    $return = false;
+    $purge = !is_null($url) ? 'PURGE' : 'PURGEALL';
+    $url = !is_null($url) ? $url : WEB_DIR_URL;
+    if ($ch = curl_init($url)) {
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $purge);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+
+        if (curl_exec($ch)) {
+            $return = true;
+        }
+        curl_close($ch);
+    }
+
+    return $return;
+}
 
 /**
  * @param $filename
@@ -4482,37 +4506,28 @@ function getImgAccordingExtension($extension)
         case 'svg':
         case 'webp':
             return 'img';
-            break;
         case 'pdf':
             return $src . 'Pdf.png';
-            break;
         case 'doc':
         case 'docx':
             return $src . 'Word.png';
-            break;
         case 'xls':
         case 'xlsx':
             return $src . 'Excel.png';
-            break;
         case 'ppt':
         case 'pptx':
             return $src . 'PowerPoint.png';
-            break;
         case 'mp3':
         case 'wma':
         case 'wov':
             return $src . 'Music.png';
-            break;
         case 'mp4':
         case 'webm':
         case 'ogg':
         case 'ogv':
             return $src . 'Videos.png';
-            break;
         default:
             return $src . 'AllFileType.png';
-            break;
-
     }
 }
 
