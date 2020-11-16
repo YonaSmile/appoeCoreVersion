@@ -2607,11 +2607,7 @@ function getFileContent($path, $params = null)
     }
 
     ob_start();
-
-    if (file_exists($path)) {
-        include $path;
-    }
-
+    inc($path);
     $pageContent = ob_get_clean();
 
     if (is_array($params) && preg_match_all("/{{(.*?)}}/", $pageContent, $match)) {
