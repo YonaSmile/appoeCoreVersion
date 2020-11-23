@@ -695,6 +695,19 @@ function isVideo($mediaPath)
 }
 
 /**
+ * Return a data URI for file
+ * @param $file
+ * @return string
+ */
+function dataURIencode($file)
+{
+
+    $mime_type = mime_content_type($file);
+    $file_binary = file_get_contents($file);
+    return 'data:' . $mime_type . ';base64,' . base64_encode($file_binary);
+}
+
+/**
  * @param $text
  * @param $size
  *
