@@ -252,10 +252,11 @@ class Form
      * @param array $data
      * @param string $compare
      * @param bool $require
-     * @param string $otherClasses
+     * @param string $otherClass
+     * @param string $otherAttr
      * @return string
      */
-    public static function radio($title, $name, array $data, $compare = '', $require = false, $otherClasses = '')
+    public static function radio($title, $name, array $data, $compare = '', $require = false, $otherClass = '', $otherAttr = '')
     {
 
         $require = $require ? 'required="true"' : '';
@@ -270,9 +271,9 @@ class Form
                     $checked = 'checked="checked"';
                 }
             }
-            $html .= '<div class="custom-control custom-radio ' . $otherClasses . '">';
+            $html .= '<div class="custom-control custom-radio ' . $otherClass . '">';
             $html .= '<input type="radio" class="custom-control-input" name="' . $name . '" id="' . $name . $id . '" value="' . $id . '" 
-			' . $checked . ' ' . $require . '><label class="custom-control-label" for="' . $name . $id . '">' . $value;
+			' . $checked . ' ' . $otherAttr . ' ' . $require . '><label class="custom-control-label" for="' . $name . $id . '">' . $value;
             $html .= '</label></div>';
         }
         $html .= '</div>';

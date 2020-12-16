@@ -5,8 +5,7 @@ use App\Category;
 use App\Plugin\Cms\Cms;
 use App\Plugin\ItemGlue\Article;
 
-echo getTitle(getAppPageName(), getAppPageSlug());
-echo implode('', includePersoPluginsDashboard()); ?>
+echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="row mb-3">
         <div class="d-flex col-12 col-lg-8">
             <div class="card border-0 w-100">
@@ -87,6 +86,7 @@ echo implode('', includePersoPluginsDashboard()); ?>
         </div>
     </div>
 <?php
+includePersoPluginsDashboard();
 $dashboardDetails = includePluginsDashboard();
 
 if (isTechnicien(getUserRoleId())) {
