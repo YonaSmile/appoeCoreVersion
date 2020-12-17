@@ -2327,6 +2327,8 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
                 $source_image = imagecreatefromgif($src);
             } elseif ($ext == "WEBP") {
                 $source_image = imagecreatefromwebp($src);
+            } else {
+                return false;
             }
 
             $width = imagesx($source_image);
