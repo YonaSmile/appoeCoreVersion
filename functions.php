@@ -2345,6 +2345,8 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
                 $source_image = imagecreatefromgif($src);
             } elseif ($ext == "WEBP") {
                 $source_image = imagecreatefromwebp($src);
+            } else {
+                return false;
             }
 
             $width = imagesx($source_image);
@@ -2608,18 +2610,24 @@ function postHttpRequest($url, array $params)
 /**
  * @param $url
  *
+ * @param array $options
  * @return mixed|string
  */
-function getHttpRequest($url)
+function getHttpRequest($url, $options = array())
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
+    if(!isArrayEmpty($options)){
+        foreach ($options as $curlOpt => $curlVal){
+            curl_setopt($ch, $curlOpt, $curlVal);
+        }
+    }
+
     $response = curl_exec($ch);
     $errorRequest = curl_error($ch);
-
     curl_close($ch);
 
     return !empty($response) ? $response : $errorRequest;
@@ -3144,26 +3152,14 @@ function includePluginsDashboard()
  */
 function includePersoPluginsDashboard()
 {
-    $dashboardDetails = array();
     $plugins = getPlugins();
 
     if (is_array($plugins) && !empty($plugins)) {
 
         foreach ($plugins as $plugin) {
-
-            $filePath = $plugin['pluginPath'] . 'perso_dashboard.php';
-            if (file_exists($filePath)) {
-
-                $dashboard = getFileContent($filePath);
-                if (!empty($dashboard)) {
-                    $dashboardDetails[] = $dashboard;
-                }
-            }
-
+            inc($plugin['pluginPath'] . 'perso_dashboard.php');
         }
     }
-
-    return $dashboardDetails;
 }
 
 /**
