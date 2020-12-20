@@ -99,20 +99,40 @@ class Template
     {
 
         $html = '';
+        $col = $this->defaultCol;
+        $options = array();
 
         //Check for form types
         if (false !== strpos($zone, '_')) {
 
             //Get data
-            list($metaKey, $formType, $col) = array_pad(explode('_', $zone), 3, '');
+            list($metaKey, $formType, $params) = array_pad(explode('_', $zone), 3, '');
 
             //Get input value
             $metaKeyDisplay = ucfirst(str_replace('-', ' ', $metaKey));
             $idCmsContent = !empty($this->pageDbData[$metaKey]) ? $this->pageDbData[$metaKey]->id : '';
             $valueCmsContent = !empty($this->pageDbData[$metaKey]) ? $this->pageDbData[$metaKey]->metaValue : '';
 
+            //Get input params
+            if (preg_match_all("/\[(.*?)\]/", $params, $match)) {
+
+                $params = array_filter(explode(';', $match[1][0]));
+                foreach ($params as $i => $param) {
+                    list($key, $val) = explode('=', $param);
+                    $options[$key] = $val;
+
+                }
+
+                if (array_key_exists('col', $options)) {
+                    $col = $options['col'];
+                }
+
+            } else {
+                $col = $params;
+            }
+
             //Display input zone
-            $html .= '<div class="col-12 col-lg-' . (!empty($col) ? $col : $this->defaultCol) . ' my-2 templateZoneInput">';
+            $html .= '<div class="col-12 col-lg-' . $col . ' my-2 templateZoneInput">';
 
 
             //Check unique input
