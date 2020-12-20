@@ -237,6 +237,24 @@ function getMetaData()
 }
 
 /**
+ * @return string
+ */
+function getAppoeFavicon()
+{
+    $html = '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no">';
+    $html .= '<link rel="apple-touch-icon" sizes="180x180" href="' . APP_LOGO_URL . 'apple-touch-icon.png">';
+    $html .= '<link rel="icon" type="image/png" sizes="32x32" href="' . APP_LOGO_URL . 'favicon-32x32.png">';
+    $html .= '<link rel="icon" type="image/png" sizes="16x16" href="' . APP_LOGO_URL . 'favicon-16x16.png">';
+    $html .= '<link rel="manifest" href="' . APP_LOGO_URL . 'site.webmanifest">';
+    $html .= '<link rel="mask-icon" href="' . APP_LOGO_URL . 'safari-pinned-tab.svg" color="#5ea3a3">';
+    $html .= '<meta name="apple-mobile-web-app-title" content="APPOE">';
+    $html .= '<meta name="application-name" content="APPOE">';
+    $html .= '<meta name="msapplication-TileColor" content="#ffffff">';
+    $html .= '<meta name="theme-color" content="#ffffff">';
+    return $html;
+}
+
+/**
  * @param $pageName
  */
 function setAppPageName($pageName)
