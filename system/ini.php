@@ -103,8 +103,8 @@ if (!empty($_COOKIE['LANG']) && array_key_exists($_COOKIE['LANG'], LANGUAGES)) {
     } else {
         define('LANG', 'fr');
     }
-
-    setcookie('LANG', LANG, strtotime('+30 days'), WEB_DIR, '', false, true);
+    $options = array ('expires' => strtotime('+30 days'), 'path' => WEB_DIR, 'secure' => false, 'httponly' => true, 'samesite' => 'Strict');
+    setcookie('LANG', LANG, $options);
 }
 
 /**

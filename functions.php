@@ -3862,7 +3862,8 @@ function disconnectUser($destroyAndRedirect = true)
 
     //Delete auth cookie
     if (isset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])])) {
-        setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', -3600, '/', '', false, true);
+        $options = array('expires' => -3600, 'path' => '/', 'secure' => false, 'httponly' => true, 'samesite' => 'Strict');
+        setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), '', $options);
         unset($_COOKIE['hibour' . slugify($_SERVER['HTTP_HOST'])]);
     }
 

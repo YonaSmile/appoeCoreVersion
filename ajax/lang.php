@@ -14,7 +14,8 @@ if (checkAjaxRequest()) {
             //TODO if ($_POST['interfaceLang'] == 'content') {}
 
             //default set lang for app content and website
-            setcookie('LANG', $_POST['lang'], strtotime('+30 days'), WEB_DIR, '', false, true);
+            $options = array ('expires' => time() + ( 12 * 3600 ), 'path' => WEB_DIR, 'secure' => false, 'httponly' => true, 'samesite' => 'Strict');
+            setcookie('LANG', $_POST['lang'], $options);
         }
 
         echo 'true';
