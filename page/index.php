@@ -118,11 +118,11 @@ if ($dashboardDetails && is_array($dashboardDetails)): ?>
                     $icon = substr($dashboard['url'], $posUrl + 1, -1);
                 }
                 ?>
-                <div class="col-12 col-lg-4 mb-3">
+                <div class="col-12 col-sm-6 col-lg-4 mb-3">
                     <div class="card d-flex justify-content-start py-4 border-0 dashboardCard">
                         <div class="card-body">
-                            <h2 class="card-title m-0 icon-<?= $icon; ?>"><a
-                                        href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
+                            <h2 class="card-title m-0 icon-<?= $icon; ?>">
+                                <a href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
                             <span class="dashboardNum"><?= $dashboard['count']; ?></span>
                         </div>
                         <?php if (!empty($dashboard['html'])): ?>
