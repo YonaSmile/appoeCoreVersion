@@ -733,11 +733,7 @@ function dataURIencode($file)
  */
 function shortenText($text, $size)
 {
-    return
-        mb_strimwidth(
-            strip_tags(
-                html_entity_decode(
-                    htmlspecialchars_decode($text))), 0, $size, '...', 'utf-8');
+    return mb_strimwidth(strip_tags(htmlspecialchars_decode($text)), 0, $size, '...', 'utf-8');
 }
 
 /**
@@ -4906,7 +4902,7 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
     if ($Mail->Send()) {
         return true;
     } else {
-        return false; //$Mail->ErrorInfo
+        return !empty($data['debug']) ? $Mail->ErrorInfo : false;
     }
 }
 
@@ -4958,7 +4954,7 @@ function fichierType($file)
 {
 
     $type = pathinfo(strtolower($file), PATHINFO_EXTENSION);
-    if ($type == 'jpg' || $type == 'png' || $type == 'jpeg' || $type == 'gif') {
+    if ($type == 'jpg' || $type == 'png' || $type == 'jpeg' || $type == 'gif' || $type == 'webp') {
         echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_DIR_INCLUDE . $file . '" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
     } elseif ($type == 'doc' || $type == 'dot' || $type == 'docx') {
         echo '<a href="' . WEB_DIR_INCLUDE . $file . '" target="_blank"><img src="' . WEB_TEMPLATE_URL . 'images/Word.png" alt="' . $file . '" title="' . $file . '" class="img-responsive"></a>';
@@ -5037,18 +5033,11 @@ function getAppoeVersion()
     return '';
 }
 
-/* --------------------------------------------------------------------------
+/**
  * fonction permettant de transformer une valeur numérique en valeur en lettre
  * @param int $Nombre le nombre a convertir
  * @param int $Devise (0 = aucune, 1 = Euro €, 2 = Dollar $)
  * @param int $Langue (0 = Français, 1 = Belgique, 2 = Suisse)
- * @return string la chaine
- */
-/**
- * @param $Nombre
- * @param int $Devise
- * @param int $Langue
- *
  * @return string
  */
 function moneyAsLetters($Nombre, $Devise = 1, $Langue = 0)
@@ -5062,7 +5051,6 @@ function moneyAsLetters($Nombre, $Devise = 1, $Langue = 0)
     if ($Nombre < 0) {
         $bNegatif = true;
         $Nombre = abs($Nombre);
-
     }
     $dblEnt = intval($Nombre);
     $byDec = round(($Nombre - $dblEnt) * 100);
