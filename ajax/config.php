@@ -56,24 +56,6 @@ if (checkAjaxRequest()) {
                 exit();
             }
         }
-
-        if (!empty($_POST['clearFilesCache']) && $_POST['clearFilesCache'] == 'OK') {
-
-            if (clearCache()) {
-
-                echo json_encode(true);
-                exit();
-            }
-        }
-
-        if (!empty($_POST['clearPageCache']) && !empty($_POST['pageSlug']) && !empty($_POST['pageLang'])) {
-
-            if (clearPageCache($_POST['pageLang'], $_POST['pageSlug'] . '.php')) {
-
-                echo json_encode(true);
-                exit();
-            }
-        }
     }
 }
 echo json_encode(false);

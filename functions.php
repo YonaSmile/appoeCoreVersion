@@ -332,50 +332,6 @@ function activePage($url, $classNameAdded = 'active')
 }
 
 /**
- * delete all cache in lang folders
- */
-function clearCache()
-{
-
-    if (is_dir(CACHE_PATH)) {
-        foreach (getLangs() as $lang => $language) {
-            if (is_dir(CACHE_PATH . $lang)) {
-                foreach (glob(CACHE_PATH . $lang . '/*') as $file) {
-                    unlink($file);
-                }
-            }
-        }
-
-        return true;
-    }
-
-    return false;
-}
-
-/**
- * delete cache file
- *
- * @param $lang
- * @param $file
- *
- * @return bool
- */
-function clearPageCache($lang, $file)
-{
-
-    if (is_dir(CACHE_PATH . $lang)) {
-
-        if (file_exists(CACHE_PATH . $lang . DIRECTORY_SEPARATOR . $file)) {
-            unlink(CACHE_PATH . $lang . DIRECTORY_SEPARATOR . $file);
-        }
-
-        return true;
-    }
-
-    return false;
-}
-
-/**
  * Show Maintenance Header
  *
  * @param String $text
@@ -1666,13 +1622,13 @@ function saveFiles($folder = 'public')
  *
  * @param string $structure
  * @param int $chmod
- *
+ * @param bool $recursive
  * @return bool
  */
-function createFolder($structure, $chmod = 0755)
+function createFolder($structure, $chmod = 0755, $recursive = false)
 {
     if (!is_dir($structure)) {
-        if (!mkdir($structure, $chmod)) {
+        if (!mkdir($structure, $chmod, $recursive)) {
             return false;
         }
     }
@@ -2616,8 +2572,8 @@ function getHttpRequest($url, $options = array())
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-    if(!isArrayEmpty($options)){
-        foreach ($options as $curlOpt => $curlVal){
+    if (!isArrayEmpty($options)) {
+        foreach ($options as $curlOpt => $curlVal) {
             curl_setopt($ch, $curlOpt, $curlVal);
         }
     }
