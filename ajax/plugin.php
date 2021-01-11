@@ -86,26 +86,10 @@ if ( checkAjaxRequest() ) {
         exit();
     }
 
-    //Lib version
-    if ( ! empty( $_POST['checkLibVersion'] ) ) {
-        echo getHttpRequest( $gitHubUserContent . 'appoeLibVersion/master/version.json' );
-        exit();
-    }
-
     if ( ! empty( $_POST['downloadPlugins'] ) ) {
 
         if ( downloadZip( ROOT_PATH . 'plugins.zip', $gitHub . 'appoePluginsVersions/archive/master.zip' ) ) {
             if ( unzipSkipFirstFolder( ROOT_PATH . 'plugins.zip', ROOT_PATH, 'appoePluginsVersions-master', WEB_PLUGIN_PATH ) ) {
-                echo 'true';
-            }
-        }
-        exit();
-    }
-
-    if ( ! empty( $_POST['downloadLib'] ) ) {
-
-        if ( downloadZip( ROOT_PATH . 'appoeLib.zip', $gitHub . 'appoeLibVersion/archive/master.zip' ) ) {
-            if ( unzipSkipFirstFolder( ROOT_PATH . 'appoeLib.zip', ROOT_PATH, 'appoeLibVersion-master', WEB_LIB_PATH ) ) {
                 echo 'true';
             }
         }

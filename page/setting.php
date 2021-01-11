@@ -89,28 +89,6 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                         </div>
                         <div class="my-4"></div>
                     </div>
-                    <div class="col-12" id="updateSystemContainer">
-                        <div class="p-3 bg-info text-white">
-                            <?= mb_strtoupper(trans('Librairies')); ?>
-                        </div>
-                        <div class="p-2 mb-2 bg-light" id="updateLibBtnContainer" style="display: none;">
-                            <button type="button" id="updateLib" class="btn btn-danger btn-sm operationBtn">
-                                <?= trans('Mettre à jour'); ?>
-                            </button>
-                        </div>
-                        <?php
-                        Version::setFile(WEB_LIB_PATH . 'version.json');
-                        if (Version::show()):
-                            ?>
-                            <div class="py-1 px-3 mb-2 bg-light">
-                                <small id="libVersion" data-libversion="<?= Version::getVersion(); ?>">
-                                    <?= trans('Version'); ?> <?= Version::getVersion(); ?>
-                                </small>
-                                <small class="responseVersion float-right"></small>
-                            </div>
-                        <?php endif; ?>
-                        <div class="my-4"></div>
-                    </div>
                     <div class="col-12">
                         <div class="p-3 bg-info text-white">
                             <?= mb_strtoupper(trans('Enregistrement')); ?>
