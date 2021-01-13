@@ -4811,7 +4811,7 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
     // View sender's source
     if ($options['viewSenderSource']) {
         $sources = '<p>--<br><small><strong>Date:</strong> ' . date('d/m/Y H:i:s')
-            . ', <strong>IP:</strong> ' . getIP() . ', <strong>Source:</strong> ' . WEB_DIR_URL . '</small></p>';
+            . ', <strong>IP:</strong> ' . getIP() . ', <strong>Source:</strong> ' . $_SERVER['REQUEST_URI'] . '</small></p>';
         $data['message'] .= $sources;
     }
 
@@ -4853,10 +4853,15 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
         }
     }
 
+    $MailLogger = new \App\MailLogger($data);
+
     //Sending mail
     if ($Mail->Send()) {
+        $MailLogger->save();
         return true;
     } else {
+        $MailLogger->setSent(false);
+        $MailLogger->save();
         return !empty($data['debug']) ? $Mail->ErrorInfo : false;
     }
 }

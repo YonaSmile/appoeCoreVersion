@@ -122,7 +122,8 @@ const APP_TABLES = array(
     TABLEPREFIX . 'appoe_files',
     TABLEPREFIX . 'appoe_filesContent',
     TABLEPREFIX . 'appoe_categories',
-    TABLEPREFIX . 'appoe_categoryRelations'
+    TABLEPREFIX . 'appoe_categoryRelations',
+    TABLEPREFIX . 'appoe_mailLogger'
 );
 
 const CATEGORY_TYPES = array(
