@@ -1652,16 +1652,15 @@ function createFile($structure, array $options = array())
         if (!fopen($structure, 'w')) {
             return false;
         }
+
+        chmod($structure, $options['chmod']);
+
+        if ($options['content']) {
+            $file = fopen($structure, $options['mode']);
+            fwrite($file, $options['content']);
+            fclose($file);
+        }
     }
-
-    chmod($structure, $options['chmod']);
-
-    if ($options['content']) {
-        $file = fopen($structure, $options['mode']);
-        fwrite($file, $options['content']);
-        fclose($file);
-    }
-
     return true;
 }
 
