@@ -4791,6 +4791,11 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
         }
     }
 
+    //Reply to
+    if (!empty($data['replyToEmail'])) {
+        $Mail->addReplyTo($data['replyToEmail'], !empty($data['replyToName']) ? $data['replyToName'] : '');
+    }
+
     // Sender
     $Mail->SetFrom($data['fromEmail'], $data['fromName']);
 
