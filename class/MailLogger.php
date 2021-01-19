@@ -26,7 +26,7 @@ class MailLogger
         if (!isArrayEmpty($data)) {
             $this->date = date('Y-m-d H:i:s');
             $this->ip = getIP();
-            $this->source = $_SERVER['REQUEST_URI'];
+            $this->source = $_SERVER['HTTP_REFERER'];
 
             $this->object = $data['object'];
             $this->toEmail = $data['toEmail'];
