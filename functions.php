@@ -1110,6 +1110,29 @@ function cleanData($data)
 }
 
 /**
+ * @param array $post
+ * @param $serverSecretKey
+ * @return bool
+ */
+function checkAjaxPostRecaptcha(array $post, $serverSecretKey)
+{
+    //Check Ajax Request
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+        && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+
+        //Clean Post
+        $recaptchaField = cleanRequest($post['g-recaptcha-response']);
+
+        //Check and Confirm Recaptcha V3
+        if (!empty($recaptchaField)) {
+            return checkRecaptcha($serverSecretKey, $recaptchaField);
+        }
+    }
+
+    return false;
+}
+
+/**
  * @param $secret
  * @param $token
  *
