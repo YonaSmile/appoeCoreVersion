@@ -4839,12 +4839,12 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
     // View sender's source
     if ($options['viewSenderSource']) {
         $sources = '<p>--<br><small><strong>Date:</strong> ' . date('d/m/Y H:i:s')
-            . ', <strong>IP:</strong> ' . getIP() . ', <strong>Source:</strong> ' . $_SERVER['HTTP_REFERER'] . '</small></p>';
+            . '<br><strong>Adresse IP:</strong> ' . getIP() . '<br><strong>Source:</strong> ' . $_SERVER['HTTP_REFERER'] . '</small></p>';
         $data['message'] .= $sources;
     }
 
-    // Your message
-    $Mail->MsgHTML($data['message']);
+    // Your message (with template)
+    $Mail->MsgHTML(getAsset('emailTemplate', true, ['object' => $data['object'], 'message' => $data['message']]));
 
     //Attach files from form
     if (!empty($data['files'])) {
