@@ -2311,13 +2311,16 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
 
             /* read the source image */
             if ($ext == "JPG" or $ext == "JPEG") {
-                $source_image = @imagecreatefromjpeg($src);
+                $source_image = imagecreatefromjpeg($src);
             } elseif ($ext == "PNG") {
-                $source_image = @imagecreatefrompng($src);
+                $source_image = imagecreatefrompng($src);
             } elseif ($ext == "GIF") {
-                $source_image = @imagecreatefromgif($src);
+                $source_image = imagecreatefromgif($src);
             } elseif ($ext == "WEBP") {
-                $source_image = @imagecreatefromwebp($src);
+                if(!function_exists('imagecreatefromwebp')) {
+                    return false;
+                }
+                $source_image = imagecreatefromwebp($src);
             } else {
                 return false;
             }
@@ -2340,6 +2343,9 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
             imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
 
             if ($webp) {
+                if(!function_exists('imagewebp')) {
+                    return false;
+                }
                 imagewebp($virtual_image, $dest, $quality);
 
             } else {
@@ -2352,6 +2358,9 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
                 } elseif ($ext == "GIF") {
                     imagegif($virtual_image, $dest);
                 } elseif ($ext == "WEBP") {
+                    if(!function_exists('imagewebp')) {
+                        return false;
+                    }
                     imagewebp($virtual_image, $dest, $quality);
                 }
             }
