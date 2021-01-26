@@ -2308,18 +2308,21 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
 
             // Find format
             $ext = strtoupper(pathinfo($src, PATHINFO_EXTENSION));
-            $source_image = '';
 
             /* read the source image */
             if ($ext == "JPG" or $ext == "JPEG") {
-                $source_image = imagecreatefromjpeg($src);
+                $source_image = @imagecreatefromjpeg($src);
             } elseif ($ext == "PNG") {
-                $source_image = imagecreatefrompng($src);
+                $source_image = @imagecreatefrompng($src);
             } elseif ($ext == "GIF") {
-                $source_image = imagecreatefromgif($src);
+                $source_image = @imagecreatefromgif($src);
             } elseif ($ext == "WEBP") {
-                $source_image = imagecreatefromwebp($src);
+                $source_image = @imagecreatefromwebp($src);
             } else {
+                return false;
+            }
+
+            if (!$source_image) {
                 return false;
             }
 
