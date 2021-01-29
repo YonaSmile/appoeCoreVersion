@@ -26,9 +26,8 @@ class DB
             $attempts = NUM_OF_ATTEMPTS;
 
             while ($attempts > 0) {
-
                 try {
-                    self::$dbh = new PDO(DBPATH, DBUSER, DBPASS, [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET time_zone = ' . date_default_timezone_get()]);
+                    self::$dbh = new PDO(DBPATH, DBUSER, DBPASS);
                     $attempts = 0;
 
                 } catch (PDOException $e) {
