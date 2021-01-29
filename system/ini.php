@@ -118,6 +118,7 @@ define('NUM_OF_ATTEMPTS', 30);
 
 const APP_TABLES = array(
     TABLEPREFIX . 'appoe_users',
+    TABLEPREFIX . 'appoe_options',
     TABLEPREFIX . 'appoe_menu',
     TABLEPREFIX . 'appoe_files',
     TABLEPREFIX . 'appoe_filesContent',

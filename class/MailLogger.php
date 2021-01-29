@@ -19,7 +19,7 @@ class MailLogger
 
     public function __construct(array $data = array())
     {
-        if (!$this->isTableExist()) {
+        if (!DB::isTableExist($this->tableName)) {
             $this->createTable();
         }
 
@@ -54,12 +54,6 @@ class MailLogger
                 `sent` tinyint(1) NOT NULL DEFAULT "1",
                 UNIQUE (`date`, `object`, `fromEmail`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
-        return !DB::exec($sql) ? false : true;
-    }
-
-    private function isTableExist()
-    {
-        $sql = 'DESCRIBE ' . $this->tableName;
         return !DB::exec($sql) ? false : true;
     }
 

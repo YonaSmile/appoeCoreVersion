@@ -2317,7 +2317,7 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
             } elseif ($ext == "GIF") {
                 $source_image = imagecreatefromgif($src);
             } elseif ($ext == "WEBP") {
-                if(!function_exists('imagecreatefromwebp')) {
+                if (!function_exists('imagecreatefromwebp')) {
                     return false;
                 }
                 $source_image = imagecreatefromwebp($src);
@@ -2343,7 +2343,7 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
             imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
 
             if ($webp) {
-                if(!function_exists('imagewebp')) {
+                if (!function_exists('imagewebp')) {
                     return false;
                 }
                 imagewebp($virtual_image, $dest, $quality);
@@ -2358,7 +2358,7 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
                 } elseif ($ext == "GIF") {
                     imagegif($virtual_image, $dest);
                 } elseif ($ext == "WEBP") {
-                    if(!function_exists('imagewebp')) {
+                    if (!function_exists('imagewebp')) {
                         return false;
                     }
                     imagewebp($virtual_image, $dest, $quality);
@@ -2572,18 +2572,26 @@ function updateDB()
 
 /**
  * @param $url
- * @param array $params
- *
+ * @param $params
+ * @param array $headers
+ * @param array $options
  * @return mixed|string
  */
-function postHttpRequest($url, array $params)
+function postHttpRequest($url, $params, $headers = [], $options = [])
 {
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_SSLVERSION, 6);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-    curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, "TLSv1");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_ENCODING, '');
+
+    if (!isArrayEmpty($options)) {
+        foreach ($options as $curlOpt => $curlVal) {
+            curl_setopt($ch, $curlOpt, $curlVal);
+        }
+    }
 
     $response = curl_exec($ch);
     $errorRequest = curl_error($ch);
@@ -4778,6 +4786,84 @@ function getServerPerformanceColor($cpu)
     }
 
     return $color;
+}
+
+/**
+ * @param array $options
+ * @return bool
+ * @throws Exception
+ */
+function emailVerification(array $options)
+{
+    //Encrypt key for email
+    $key = time();
+    $keyToConfirm = base64_encode(password_hash($key, PASSWORD_DEFAULT));
+
+    //Mail options
+    $defaultMailOptions = array(
+        'fromEmail' => 'noreply@' . $_SERVER['HTTP_HOST'],
+        'fromName' => WEB_TITLE,
+        'toName' => '',
+        'object' => WEB_TITLE . ' - Authentification requise',
+        'message' => '<p>Cet email vous a été envoyé suite à une demande d\'inscription à la newsletter.<br>Vous avez 2h pour confirmer votre adresse email</p>',
+        'confirmationPageSlug' => 'confirmation-email/'
+    );
+    $options = array_merge($defaultMailOptions, $options);
+
+    //Confirm mail button
+    $url = webUrl($options['confirmationPageSlug'] . '/?') . 'email=' . $options['toEmail'] . '&key=' . $keyToConfirm;
+    $options['message'] .= '<p style="text-align:center;"><a class="btn" href="' . $url . '" title="Confirmer mon adresse email">Confirmer mon adresse email</a></p>';
+
+    //Saving key and email in db
+    $Option = new \App\Option();
+    $Option->setType('CONFIRMATIONMAIL');
+    $Option->setKey($options['toEmail']);
+    $Option->setVal($key);
+    if ($Option->save()) {
+
+        //Sanding confirmation mail
+        if (sendMail($options)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * @param $get
+ * @param int $timeLimit
+ * @return bool|void|array
+ */
+function approveEmail($get, $timeLimit = 10800)
+{
+    if (!empty($get['email']) && !empty($get['key'])) {
+
+        //Clean data
+        $email = cleanData($get['email']);
+        $key = base64_decode(cleanData($get['key']));
+
+        //Check mail in db
+        $Option = new \App\Option();
+        $Option->setType('CONFIRMATIONMAIL');
+        $Option->setKey($email);
+        if ($demande = $Option->showByKey()) {
+
+            //Check encrypted key
+            if (password_verify($demande->val, $key)) {
+
+                //Check time lost since sending the email
+                if ((strtotime($demande->created_at) + $timeLimit) > time()) {
+
+                    //Delete confirmaion email
+                    $Option->setId($demande->id);
+                    if ($Option->delete()) {
+                        return $email;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 /**

@@ -143,31 +143,13 @@
         /* -------------------------------------
             BUTTONS
         ------------------------------------- */
-        .btn {
-            box-sizing: border-box;
-            width: 100%;
-        }
 
-        .btn > tbody > tr > td {
-            padding-bottom: 15px;
-        }
-
-        .btn table {
-            width: auto;
-        }
-
-        .btn table td {
-            background-color: #ffffff;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        .btn a {
-            background-color: #ffffff;
+        a.btn {
+            background-color: #3498db;
             border: solid 1px #3498db;
             border-radius: 5px;
             box-sizing: border-box;
-            color: #3498db;
+            color: #ffffff;
             cursor: pointer;
             display: inline-block;
             font-size: 14px;
@@ -176,16 +158,6 @@
             padding: 12px 25px;
             text-decoration: none;
             text-transform: capitalize;
-        }
-
-        .btn-primary table td {
-            background-color: #3498db;
-        }
-
-        .btn-primary a {
-            background-color: #3498db;
-            border-color: #3498db;
-            color: #ffffff;
         }
 
         /* -------------------------------------
