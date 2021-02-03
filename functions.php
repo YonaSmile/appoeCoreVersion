@@ -4851,12 +4851,12 @@ function approveEmail($get, $timeLimit = 2)
             //Check encrypted key
             if (password_verify($demande->val, $key)) {
 
-                //Check time lost since sending the email
-                if ((strtotime($demande->created_at) + ($timeLimit * 60 * 60)) > time()) {
+                //Delete confirmation email
+                $Option->setId($demande->id);
+                if ($Option->delete()) {
 
-                    //Delete confirmaion email
-                    $Option->setId($demande->id);
-                    if ($Option->delete()) {
+                    //Check time lost since sending the email
+                    if ((strtotime($demande->created_at) + ($timeLimit * 60 * 60)) > time()) {
                         return $email;
                     }
                 }
