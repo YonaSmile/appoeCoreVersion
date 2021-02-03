@@ -4831,10 +4831,10 @@ function emailVerification(array $options)
 
 /**
  * @param $get
- * @param int $timeLimit
+ * @param int $timeLimit in hours
  * @return bool|void|array
  */
-function approveEmail($get, $timeLimit = 10800)
+function approveEmail($get, $timeLimit = 2)
 {
     if (!empty($get['email']) && !empty($get['key'])) {
 
@@ -4852,7 +4852,7 @@ function approveEmail($get, $timeLimit = 10800)
             if (password_verify($demande->val, $key)) {
 
                 //Check time lost since sending the email
-                if ((strtotime($demande->created_at) + $timeLimit) > time()) {
+                if ((strtotime($demande->created_at) + ($timeLimit * 60 * 60)) > time()) {
 
                     //Delete confirmaion email
                     $Option->setId($demande->id);
