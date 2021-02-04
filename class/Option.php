@@ -48,8 +48,8 @@ class Option
                 `type` VARCHAR(100) NOT NULL,
                 `description` VARCHAR(255) NULL DEFAULT NULL,
                 `key` VARCHAR(255) NOT NULL,
-                `val` VARCHAR(255) NOT NULL,
-                UNIQUE (`type`, `key`, `val`),
+                `val` TEXT NOT NULL,
+                UNIQUE (`type`, `key`),
                 `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
@@ -239,8 +239,8 @@ class Option
      */
     public function exist()
     {
-        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key AND `val` = :val';
-        $params = array(':type' => $this->type, ':key' => $this->key, ':val' => $this->val);
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
+        $params = array(':type' => $this->type, ':key' => $this->key);
         return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
     }
 
