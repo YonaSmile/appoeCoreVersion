@@ -4938,7 +4938,8 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
     // View sender's source
     if ($options['viewSenderSource']) {
         $sources = '<p>--<br><small><strong>Date:</strong> ' . date('d/m/Y H:i:s')
-            . '<br><strong>Adresse IP:</strong> ' . getIP() . '<br><strong>Source:</strong> ' . $_SERVER['HTTP_REFERER'] . '</small></p>';
+            . '<br><strong>Adresse IP:</strong> ' . getIP()
+            . '<br><strong>Source:</strong> ' . (!empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_HOST']) . '</small></p>';
         $data['message'] .= $sources;
     }
 
