@@ -35,6 +35,7 @@ class Option
             if (!$this->exist()) {
                 return $this->save();
             }
+            return false;
         }
     }
 
