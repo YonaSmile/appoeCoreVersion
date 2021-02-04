@@ -18,7 +18,6 @@ class Option
     /**
      * Option constructor.
      * @param array $data
-     * @return bool|array|void
      */
     public function __construct(array $data = array())
     {
@@ -33,9 +32,8 @@ class Option
             $this->val = $data['val'];
 
             if (!$this->exist()) {
-                return $this->save();
+                $this->save();
             }
-            return false;
         }
     }
 
