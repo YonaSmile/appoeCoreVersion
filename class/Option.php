@@ -45,10 +45,10 @@ class Option
         $sql = 'CREATE TABLE IF NOT EXISTS ' . $this->tableName . ' (
                 `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 PRIMARY KEY (`id`),
-                `type` varchar(100) NOT NULL,
-                `description` varchar(255) NULL DEFAULT NULL,
-                `key` varchar(255) NOT NULL,
-                `val` TEXT NOT NULL,
+                `type` VARCHAR(100) NOT NULL,
+                `description` VARCHAR(255) NULL DEFAULT NULL,
+                `key` VARCHAR(255) NOT NULL,
+                `val` VARCHAR(255) NOT NULL,
                 UNIQUE (`type`, `key`, `val`),
                 `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -239,8 +239,8 @@ class Option
      */
     public function exist()
     {
-        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
-        $params = array(':type' => $this->type, ':key' => $this->key);
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key AND `val` = :val';
+        $params = array(':type' => $this->type, ':key' => $this->key, ':val' => $this->val);
         return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
     }
 
