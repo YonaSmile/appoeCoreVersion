@@ -26,23 +26,14 @@ class Option
             $this->createTable();
         }
 
-        if (!isArrayEmpty($data)) {
+        if (!empty($data['type']) && !empty($data['key']) && !empty($data['val'])) {
 
-            if (array_key_exists('id', $data)) {
-                $this->id = $data['id'];
-                return $this->show();
-            }
+            $this->type = $data['type'];
+            $this->key = $data['key'];
+            $this->val = $data['val'];
 
-            if (array_key_exists('type', $data)) {
-
-                $this->type = $data['type'];
-
-                if (array_key_exists('key', $data)) {
-                    $this->key = $data['key'];
-                    return $this->showByKey();
-                }
-
-                return $this->showByType();
+            if (!$this->exist()) {
+                return $this->save();
             }
         }
     }
@@ -64,13 +55,13 @@ class Option
                 `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 				INSERT INTO ' . $this->tableName . ' (`id`, `type`, `description`, `key`, `val`, `created_at`, `updated_at`) VALUES
-                    (1, "PREFERENCE", "Mode maintenance", "maintenance", "false", NOW(), NOW()),
-                    (2, "PREFERENCE", "Forcer le site en HTTPS", "forceHTTPS", "false", NOW(), NOW()),
-                    (3, "PREFERENCE", "Autoriser la mise en cache des fichiers", "cacheProcess", "false", NOW(), NOW()),
-                    (4, "PREFERENCE", "Autoriser le travail sur la même page", "sharingWork", "false", NOW(), NOW()),
-                    (5, "PREFERENCE", "Autoriser l\'API", "allowApi", "", NOW(), NOW()),
-                    (6, "PREFERENCE", "Clé API", "apiToken", "", NOW(), NOW()),
-                    (7, "PREFERENCE", "Adresse Email par défaut", "defaultEmail", "", NOW(), NOW());';
+                (1, "PREFERENCE", "Mode maintenance", "maintenance", "false", NOW(), NOW()),
+                (2, "PREFERENCE", "Forcer le site en HTTPS", "forceHTTPS", "false", NOW(), NOW()),
+                (3, "PREFERENCE", "Autoriser la mise en cache des fichiers", "cacheProcess", "false", NOW(), NOW()),
+                (4, "PREFERENCE", "Autoriser le travail sur la même page", "sharingWork", "false", NOW(), NOW()),
+                (5, "PREFERENCE", "Autoriser l\'API", "allowApi", "", NOW(), NOW()),
+                (6, "PREFERENCE", "Clé API", "apiToken", "", NOW(), NOW()),
+                (7, "PREFERENCE", "Adresse Email par défaut", "defaultEmail", "", NOW(), NOW());';
         return !DB::exec($sql) ? false : true;
     }
 
@@ -193,10 +184,7 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `id` = :id';
         $params = array(':id' => $this->id);
-        if ($return = DB::exec($sql, $params)) {
-            return $return->fetch(PDO::FETCH_OBJ);
-        }
-        return false;
+        return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
     }
 
     /**
@@ -206,10 +194,7 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type';
         $params = array(':type' => $this->type);
-        if ($return = DB::exec($sql, $params)) {
-            return $return->fetch(PDO::FETCH_OBJ);
-        }
-        return false;
+        return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
     }
 
     /**
@@ -219,10 +204,7 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
         $params = array(':type' => $this->type, ':key' => $this->key);
-        if ($return = DB::exec($sql, $params)) {
-            return $return->fetch(PDO::FETCH_OBJ);
-        }
-        return false;
+        return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
     }
 
     /**
@@ -256,11 +238,20 @@ class Option
     /**
      * @return bool
      */
+    public function exist()
+    {
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
+        $params = array(':type' => $this->type, ':key' => $this->key);
+        return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
+    }
+
+    /**
+     * @return bool
+     */
     public function delete()
     {
         $sql = 'DELETE FROM ' . $this->tableName . ' WHERE `id` = :id';
-        $params = array(':id' => $this->id);
-        if (DB::exec($sql, $params)) {
+        if (DB::exec($sql, [':id' => $this->id])) {
             appLog('Delete option -> user: ' . getUserLogin() . ' id: ' . $this->id);
             return true;
         }
