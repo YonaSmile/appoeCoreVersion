@@ -25,6 +25,24 @@ function pageSlug()
 /**
  * @param $id
  */
+function setPageCmsId($id)
+{
+    checkSession();
+    $_SESSION['currentPageCmsID'] = $id;
+}
+
+/**
+ * @param $lang
+ */
+function setPageLang($lang)
+{
+    checkSession();
+    $_SESSION['currentPageLang'] = $lang;
+}
+
+/**
+ * @param $id
+ */
 function setPageId($id)
 {
     checkSession();
@@ -101,6 +119,22 @@ function setArticle(\App\Plugin\ItemGlue\Article $Article)
 {
     checkSession();
     $_SESSION['currentArticle'] = base64_encode(serialize($Article));
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageCmsId()
+{
+    return !empty($_SESSION['currentPageCmsID']) ? $_SESSION['currentPageCmsID'] : '';
+}
+
+/**
+ * @return mixed|string
+ */
+function getPageLang()
+{
+    return !empty($_SESSION['currentPageLang']) ? $_SESSION['currentPageLang'] : '';
 }
 
 /**
@@ -392,11 +426,21 @@ function getSessionMenu($primaryIndex = 1, $parent = 10)
 }
 
 /**
- *
+ * @param $lang
  */
-function setSessionLang()
+function setCookiesLang($lang)
 {
-    $_SESSION['LANG'] = LANG;
+    $options = array('expires' => time() + (12 * 3600), 'path' => WEB_DIR, 'secure' => false, 'httponly' => true, 'samesite' => 'Strict');
+    setcookie('LANG', $lang, $options);
+    setSessionLang($lang);
+}
+
+/**
+ * @param string $lang
+ */
+function setSessionLang($lang = LANG)
+{
+    $_SESSION['LANG'] = $lang;
 }
 
 /**

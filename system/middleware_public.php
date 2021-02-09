@@ -32,7 +32,15 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     //Get Page parameters
     if (!empty($_GET['slug'])) {
 
-        $existPage = $Cms->showBySlug($_GET['slug'], LANG);
+        if ($PageBySlug = $Cms->getBySlug($_GET['slug'])) {
+            $Cms->setLang($PageBySlug->lang);
+            $existPage = $Cms->showBySlug($PageBySlug->metaValue, $PageBySlug->lang);
+
+            //Change cookie lang
+            if (getSessionLang() != $PageBySlug->lang) {
+                setCookiesLang($PageBySlug->lang);
+            }
+        }
 
         if (!$existPage) {
 
@@ -41,21 +49,6 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                 if (array_key_exists($_GET['slug'], SIMILAR_PAGES_SLUG)) {
                     $existPage = $Cms->showBySlug(SIMILAR_PAGES_SLUG[$_GET['slug']], LANG);
                     $Cms->setSlug($_GET['slug']);
-                }
-            }
-
-            if (!$existPage) {
-
-                //Check for other languages
-                $testedLang = array(LANG);
-                foreach (getLangs() as $minLang => $largeLang) {
-                    if (!in_array($minLang, $testedLang)) {
-                        $testedLang[] = $minLang;
-                        if ($Cms->showBySlug($_GET['slug'], $minLang)) {
-                            $existPage = true;
-                            break;
-                        }
-                    }
                 }
             }
         }
@@ -73,6 +66,8 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     }
 
     //Get default page informations
+    setPageCmsId($Cms->getId());
+    setPageLang($Cms->getLang());
     setPageId($Cms->getId());
     setPageType('PAGE');
     setPageName($Cms->getName());
@@ -107,7 +102,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                             setPageName($Article->getName());
                             setPageSlug($Article->getSlug());
                             setPageDescription($Article->getDescription());
-                            setPageImage(getFirstImage(getFileTemplatePosition($Article->medias, 1, true), '', false, true));
+                            setPageImage(getArtFeaturedImg($Article, ['tmpPos' => 1, 'onlyUrl' => true]));
                             setArticle($Article);
                         }
                     }
@@ -153,7 +148,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
                 setPageName($Article->getName());
                 setPageSlug($Article->getSlug());
                 setPageDescription($Article->getDescription());
-                setPageImage(getFirstImage(getFileTemplatePosition($Article->medias, 1, true), '', false, true));
+                setPageImage(getArtFeaturedImg($Article, ['tmpPos' => 1, 'onlyUrl' => true]));
                 setArticle($Article);
             }
         }
@@ -164,12 +159,11 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     if (empty($_SESSION['MENU']) || getSessionLang() !== LANG
         || 'true' === $AppConfig->get('options', 'maintenance')
         || 'false' === $AppConfig->get('options', 'cacheProcess')) {
-        setSessionLang();
         $CmsMenu = new CmsMenu();
         $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
         unset($CmsMenu);
     }
 
     //Delete vars
-    unset($Article, $ProductPage, $existPage, $testedLang, $pluginType, $pluginSlug);
+    unset($PageBySlug, $Article, $ProductPage, $existPage, $pluginType, $pluginSlug);
 }

@@ -94,15 +94,13 @@ if (!empty($_SESSION['APP_LANG'])) {
  */
 if (!empty($_COOKIE['LANG']) && array_key_exists($_COOKIE['LANG'], LANGUAGES)) {
     define('LANG', $_COOKIE['LANG']);
-
 } else {
-
     if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) && array_key_exists($_SERVER['HTTP_ACCEPT_LANGUAGE'], LANGUAGES)) {
         define('LANG', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
     } else {
         define('LANG', 'fr');
     }
-    $options = array ('expires' => strtotime('+30 days'), 'path' => WEB_DIR, 'secure' => false, 'httponly' => true, 'samesite' => 'Strict');
+    $options = array('expires' => strtotime('+30 days'), 'path' => WEB_DIR, 'secure' => false, 'httponly' => true, 'samesite' => 'Strict');
     setcookie('LANG', LANG, $options);
 }
 
