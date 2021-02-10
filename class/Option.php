@@ -12,7 +12,6 @@ class Option
     private $description = null;
     private $key;
     private $val;
-    private $created_at;
     private $updated_at;
 
     /**
@@ -50,17 +49,16 @@ class Option
                 `key` VARCHAR(255) NOT NULL,
                 `val` TEXT NOT NULL,
                 UNIQUE (`type`, `key`),
-                `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-				INSERT INTO ' . $this->tableName . ' (`id`, `type`, `description`, `key`, `val`, `created_at`, `updated_at`) VALUES
-                (1, "PREFERENCE", "Mode maintenance", "maintenance", "false", NOW(), NOW()),
-                (2, "PREFERENCE", "Forcer le site en HTTPS", "forceHTTPS", "false", NOW(), NOW()),
-                (3, "PREFERENCE", "Autoriser la mise en cache des fichiers", "cacheProcess", "false", NOW(), NOW()),
-                (4, "PREFERENCE", "Autoriser le travail sur la même page", "sharingWork", "false", NOW(), NOW()),
-                (5, "PREFERENCE", "Autoriser l\'API", "allowApi", "", NOW(), NOW()),
-                (6, "PREFERENCE", "Clé API", "apiToken", "", NOW(), NOW()),
-                (7, "PREFERENCE", "Adresse Email par défaut", "defaultEmail", "", NOW(), NOW());';
+				INSERT INTO ' . $this->tableName . ' (`id`, `type`, `description`, `key`, `val`, `updated_at`) VALUES
+                (1, "PREFERENCE", "Mode maintenance", "maintenance", "false", NOW()),
+                (2, "PREFERENCE", "Forcer le site en HTTPS", "forceHTTPS", "false", NOW()),
+                (3, "PREFERENCE", "Autoriser la mise en cache des fichiers", "cacheProcess", "false", NOW()),
+                (4, "PREFERENCE", "Autoriser le travail sur la même page", "sharingWork", "false", NOW()),
+                (5, "PREFERENCE", "Autoriser l\'API", "allowApi", "", NOW()),
+                (6, "PREFERENCE", "Clé API", "apiToken", "", NOW()),
+                (7, "PREFERENCE", "Adresse Email par défaut", "defaultEmail", "", NOW());';
         return !DB::exec($sql) ? false : true;
     }
 
@@ -142,22 +140,6 @@ class Option
     public function setVal($val)
     {
         $this->val = $val;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * @param mixed $created_at
-     */
-    public function setCreatedAt($created_at)
-    {
-        $this->created_at = $created_at;
     }
 
     /**
