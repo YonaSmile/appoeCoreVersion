@@ -4901,7 +4901,7 @@ function approveEmail($get, $timeLimit = 2)
                 if ($Option->delete()) {
 
                     //Check time lost since sending the email
-                    if ((strtotime($demande->created_at) + ($timeLimit * 60 * 60)) > time()) {
+                    if ((strtotime($demande->updated_at) + ($timeLimit * 60 * 60)) > time()) {
                         return $email;
                     }
                 }
