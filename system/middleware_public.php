@@ -33,13 +33,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     if (!empty($_GET['slug'])) {
 
         if ($PageBySlug = $Cms->getBySlug($_GET['slug'])) {
-            $Cms->setLang($PageBySlug->lang);
             $existPage = $Cms->showBySlug($PageBySlug->metaValue, $PageBySlug->lang);
-
-            //Change cookie lang
-            if (getSessionLang() != $PageBySlug->lang) {
-                setCookiesLang($PageBySlug->lang);
-            }
         }
 
         if (!$existPage) {
