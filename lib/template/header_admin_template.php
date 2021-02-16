@@ -26,7 +26,7 @@ includePluginsFiles(true);
 <body>
 <div id="loader">
     <div class="loaderContent">
-        <div class="spinner">
+        <div class="spinnerAppoe">
             <div class="rect1"></div>
             <div class="rect2"></div>
             <div class="rect3"></div>
