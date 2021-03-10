@@ -2383,6 +2383,12 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
             /* create a new, "virtual" image */
             $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
 
+            /* saving alpha color */
+            if($ext == "PNG" || $ext == "WEBP") {
+                imageAlphaBlending($virtual_image, false);
+                imageSaveAlpha($virtual_image, true);
+            }
+
             /* copy source image at a resized size */
             imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
 
