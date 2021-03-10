@@ -159,5 +159,5 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     }
 
     //Delete vars
-    unset($PageBySlug, $Article, $ProductPage, $existPage, $pluginType, $pluginSlug);
+    unset($PageBySlug, $Article, $ProductPage, $ProductPageContent, $existPage, $pluginType, $pluginSlug);
 }
