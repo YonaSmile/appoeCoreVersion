@@ -27,9 +27,7 @@
 
 <?php includePluginsFilesForAppInFooter();
 \App\Flash::constructAndDisplay(); ?>
-<div id="overlay">
-    <div id="overlayContent" class="overlayContent"></div>
-</div>
+<div id="overlay"><div id="overlayContent" class="overlayContent"></div></div>
 <script type="text/javascript" src="<?= WEB_TEMPLATE_URL; ?>plugins/bootstrap/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="<?= WEB_TEMPLATE_URL; ?>plugins/js/jquery.slimscroll.min.js"></script>
 <script type="text/javascript" src="<?= WEB_TEMPLATE_URL; ?>plugins/waves/waves.min.js"></script>
