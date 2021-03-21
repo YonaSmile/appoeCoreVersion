@@ -58,7 +58,7 @@ class Option
                 (4, "PREFERENCE", "Autoriser le travail sur la même page", "sharingWork", "false", NOW()),
                 (5, "PREFERENCE", "Autoriser l\'API", "allowApi", "", NOW()),
                 (6, "PREFERENCE", "Clé API", "apiToken", "", NOW()),
-                (7, "PREFERENCE", "Adresse Email par défaut", "defaultEmail", "", NOW());';
+                (7, "DATA", "Adresse Email par défaut", "defaultEmail", "", NOW());';
         return !DB::exec($sql) ? false : true;
     }
 
@@ -175,7 +175,7 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type';
         $params = array(':type' => $this->type);
-        return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
+        return (DB::exec($sql, $params))->fetchAll(PDO::FETCH_OBJ);
     }
 
     /**
