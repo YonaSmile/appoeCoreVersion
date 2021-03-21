@@ -30,16 +30,6 @@ if (Version::show() && Version::getVersion() < getHttpRequest($gitHubUserContent
     }
 }
 
-//Lib version
-Version::setFile(WEB_LIB_PATH . 'version.json');
-if (Version::show() && Version::getVersion() < getHttpRequest($gitHubUserContent . 'appoeLibVersion/master/version.json')) {
-
-    //Update Lib
-    if (downloadZip(ROOT_PATH . 'appoeLib.zip', 'https://github.com/YonaSmile/appoeLibVersion/archive/master.zip')) {
-        unzipSkipFirstFolder(ROOT_PATH . 'appoeLib.zip', ROOT_PATH, 'appoeLibVersion-master', WEB_LIB_PATH);
-    }
-}
-
 //Plugins versions
 $plugins = getPlugins();
 if (!isArrayEmpty($plugins)) {
