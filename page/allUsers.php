@@ -1,6 +1,5 @@
 <?php require( 'header.php' );
-$AppConfig    = new App\AppConfig();
-$defaultEmail = $AppConfig->get( 'data', 'defaultEmail' );
+$defaultEmail = getOptionPreference('defaultEmail');
 echo getTitle( getAppPageName(), getAppPageSlug() ); ?>
     <div class="row">
         <div class="col-12">

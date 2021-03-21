@@ -1,9 +1,9 @@
 <?php
 
-use App\AppConfig;
 use App\AppLogging;
 use App\Category;
 use App\Media;
+use App\Option;
 use App\Plugin\Traduction\Traduction;
 use App\Users;
 use App\Version;
@@ -571,16 +571,27 @@ function getAppoeCredit($color = "")
 }
 
 /**
- * @param bool $key
- * @param bool $subKey
- *
+ * @param $key
  * @return bool
  */
-function getConfig($key = false, $subKey = false)
+function getOptionPreference($key)
 {
-    $AppConfig = new AppConfig();
+    $Option = new \App\Option();
+    $Option->setType('PREFERENCE');
+    $Option->setKey($key);
+    return $Option->getValByKey();
+}
 
-    return $AppConfig->get($key, $subKey);
+/**
+ * @param $key
+ * @return bool
+ */
+function getOptionData($key)
+{
+    $Option = new \App\Option();
+    $Option->setType('DATA');
+    $Option->setKey($key);
+    return $Option->getValByKey();
 }
 
 /**
@@ -1383,15 +1394,16 @@ function checkIfInArrayString($array, $searchingFor)
  */
 function checkMaintenance()
 {
-    $AppConfig = new AppConfig();
-
-    if ('true' === $AppConfig->get('options', 'maintenance')) {
+    if ('true' === getOptionPreference('maintenance')) {
 
         //Check IP permission
         $ip = getIP();
 
+        $Option = new Option();
+        $Option->setType('IPACCESS');
+
         //Check Ip from db
-        if (in_array($ip, $AppConfig->get('accessPermissions'))) {
+        if (in_array($ip, extractFromObjToSimpleArr($Option->showByType(), 'key', 'key'))) {
             return false;
         }
 
@@ -1728,6 +1740,35 @@ function createFile($structure, array $options = array())
             fclose($file);
         }
     }
+    return true;
+}
+
+/**
+ * Update file with options
+ *
+ * @param string $structure
+ * @param array $options can contains [mode, chmod, content]
+ * @return bool
+ */
+function updateFile($structure, array $options = array())
+{
+    $defaultOptions = array('mode' => 'w', 'chmod' => 0644, 'content' => null);
+    $options = array_merge($defaultOptions, $options);
+
+    if (!is_file($structure)) {
+        if (!fopen($structure, 'w')) {
+            return false;
+        }
+    }
+
+    chmod($structure, $options['chmod']);
+
+    if ($options['content']) {
+        $file = fopen($structure, $options['mode']);
+        fwrite($file, $options['content']);
+        fclose($file);
+    }
+
     return true;
 }
 
@@ -2384,7 +2425,7 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
             $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
 
             /* saving alpha color */
-            if($ext == "PNG" || $ext == "WEBP") {
+            if ($ext == "PNG" || $ext == "WEBP") {
                 imageAlphaBlending($virtual_image, false);
                 imageSaveAlpha($virtual_image, true);
             }
@@ -4866,7 +4907,7 @@ function emailVerification(array $options)
     $options['message'] .= '<p style="text-align:center;"><a class="btn" href="' . $url . '" title="' . $options['confirmationBtnText'] . '">' . $options['confirmationBtnText'] . '</a></p>';
 
     //Saving key and email in db
-    $Option = new \App\Option();
+    $Option = new Option();
     $Option->setType('CONFIRMATIONMAIL');
     $Option->setKey($options['toEmail']);
     $Option->setVal($key);
@@ -4894,7 +4935,7 @@ function approveEmail($get, $timeLimit = 2)
         $key = base64_decode(cleanData($get['key']));
 
         //Check mail in db
-        $Option = new \App\Option();
+        $Option = new Option();
         $Option->setType('CONFIRMATIONMAIL');
         $Option->setKey($email);
         if ($demande = $Option->showByKey()) {

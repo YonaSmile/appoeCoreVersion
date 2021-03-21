@@ -4,7 +4,6 @@ includePluginsFiles();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
 
-use App\AppConfig;
 use App\Plugin\Cms\Cms;
 use App\Plugin\Cms\CmsMenu;
 use App\Plugin\Shop\Product;
@@ -149,10 +148,11 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     }
 
     //Create menu
-    $AppConfig = new AppConfig();
+    $maintenance = getOptionPreference('maintenance');
+    $cacheProcess = getOptionPreference('cacheProcess');
     if (empty($_SESSION['MENU']) || getSessionLang() !== LANG
-        || 'true' === $AppConfig->get('options', 'maintenance')
-        || 'false' === $AppConfig->get('options', 'cacheProcess')) {
+        || 'true' === $maintenance
+        || 'false' === $cacheProcess) {
         $CmsMenu = new CmsMenu();
         $_SESSION['MENU'] = constructMenu($CmsMenu->showAll());
         unset($CmsMenu);

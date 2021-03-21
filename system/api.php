@@ -1,12 +1,13 @@
 <?php
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 includePluginsFiles(true);
 
 //Clean data
 $_POST = cleanRequest($_POST);
-$Config = getConfig();
-
-if (!empty($_POST['token']) && $Config['options']['allowApi'] === 'true' && $_POST['token'] == $Config['data']['apiToken']) {
+$allowApi = getOptionPreference('allowApi');
+$token = getOptionData('apiToken');
+if (!empty($_POST['token']) && $allowApi === 'true' && $_POST['token'] == $token) {
 
     if (!headers_sent()) {
         header("Content-Type: application/json; charset=UTF-8");

@@ -1,53 +1,63 @@
 <?php
 require('header.php');
 
-use App\AppConfig;
+use App\Option;
 
-$AppConfig = new AppConfig();
-$allConfig = $AppConfig->get();
+$Option = new Option();
+$Option->setType('PREFERENCE');
+$preferences = $Option->showByType();
+$Option->setType('DATA');
+$datas = $Option->showByType();
+$Option->setType('IPACCESS');
+$ipAccess = $Option->showByType();
 
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
-    <button class="btn btn-sm btn-outline-info" id="restoreConfig">Réinitialiser</button>
     <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des fichiers</button>
     <button class="btn btn-sm btn-outline-danger" id="clearServerCache">Purger le cache du serveur</button>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-lg-4 my-5">
-                <div class="row">
-                    <div class="col-12 mb-3"><h5>Options</h5></div>
-                    <?php foreach ($allConfig['options'] as $name => $val): ?>
-                        <div class="col-12 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" data-config-type="options"
-                                       class="custom-control-input updatePreference"
-                                       name="<?= $name; ?>" id="<?= $name; ?>" <?= $val === 'true' ? 'checked' : ''; ?>>
-                                <label class="custom-control-label"
-                                       for="<?= $name; ?>"><?= trans($AppConfig->configExplanation[$name]); ?></label>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <div class="col-12 col-lg-8 my-5">
-                <div class="row">
-                    <div class="col-12 mb-3"><h5>Données</h5></div>
-                    <?php foreach ($allConfig['data'] as $name => $val):
-                        if (!empty($val)): ?>
+            <?php if ($preferences): ?>
+                <div class="col-12 col-lg-4 my-5">
+                    <div class="row">
+                        <div class="col-12 mb-3"><h5>Options</h5></div>
+                        <?php foreach ($preferences as $preference): ?>
                             <div class="col-12 mb-2">
-                                <strong><?= trans($AppConfig->configExplanation[$name]); ?></strong> :
-                                <mark data-src="<?= $val; ?>" class="copyContentOnClick"
-                                      style="cursor: pointer"><?= $val; ?></mark>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" data-config-type="PREFERENCE"
+                                           class="custom-control-input updatePreference"
+                                           name="<?= $preference->key; ?>" id="<?= $preference->key; ?>"
+                                        <?= $preference->val === 'true' ? 'checked' : ''; ?>>
+                                    <label class="custom-control-label"
+                                           for="<?= $preference->key; ?>"><?= $preference->description; ?></label>
+                                </div>
                             </div>
-                        <?php endif;
-                    endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif;
+            if ($datas): ?>
+                <div class="col-12 col-lg-8 my-5">
+                    <div class="row">
+                        <div class="col-12 mb-3"><h5>Données</h5></div>
+                        <?php foreach ($datas as $data):
+                            if (!empty($data->val)): ?>
+                                <div class="col-12 mb-2">
+                                    <strong><?= $data->description; ?></strong> :
+                                    <mark data-src="<?= $data->val; ?>" class="copyContentOnClick"
+                                          style="cursor: pointer"><?= $data->val; ?></mark>
+                                </div>
+                            <?php endif;
+                        endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
         <div class="row">
             <div class="col-12 col-lg-3 my-5">
                 <div class="row">
                     <div class="col-12 mb-3"><h5 class="m-0">Autorisations d'accès</h5>
-                        <small><strong class="text-secondary">Mon IP :</strong> <?= getIP(); ?></small>
+                        <small><strong class="text-secondary">Mon IP :</strong>
+                            <span id="addMyIp" style="cursor:pointer;"><?= getIP(); ?></span></small>
                     </div>
                 </div>
                 <div class="row">
@@ -69,9 +79,14 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     </div>
                     <div id="allPersimissions" class="col-12 mb-2">
                         <div class="row">
-                            <?php foreach ($allConfig['accessPermissions'] as $val): ?>
-                                <div class="col-12 ipAccess" data-ip="<?= $val; ?>"><?= $val; ?></div>
-                            <?php endforeach; ?>
+                            <?php
+                            if ($ipAccess):
+                                foreach ($ipAccess as $ip): ?>
+                                    <div class="col-12 ipAccess" data-ipaccess-id="<?= $ip->id; ?>"
+                                         data-ip="<?= $ip->key; ?>">
+                                        <?= $ip->key; ?></div>
+                                <?php endforeach;
+                            endif; ?>
                         </div>
                     </div>
                 </div>

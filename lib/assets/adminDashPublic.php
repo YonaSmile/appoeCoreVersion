@@ -1,7 +1,4 @@
 <?php
-
-use App\AppConfig;
-
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 if (isUserAuthorized('updatePageContent')): ?>
     <style>
@@ -65,8 +62,7 @@ if (isUserAuthorized('updatePageContent')): ?>
                 <img src="<?= APP_IMG_URL; ?>cog.svg" alt="">
             </a>
         <?php endif;
-        $AppConfig = new AppConfig();
-        if ($AppConfig->get('options', 'cacheProcess') === 'true'): ?>
+        if (getOptionPreference('cacheProcess') === 'true'): ?>
             <a href="#" id="clearCach" data-page-slug="<?= getPageSlug(); ?>" data-page-lang="<?= LANG; ?>"
                title="Vider le cache">
                 <img src="<?= APP_IMG_URL; ?>clear.svg" alt="">

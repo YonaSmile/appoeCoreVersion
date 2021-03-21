@@ -1,7 +1,7 @@
 <?php
 require_once('header.php');
 
-use App\AppConfig;
+use App\Option;
 
 if (checkAjaxRequest()) {
 
@@ -9,40 +9,49 @@ if (checkAjaxRequest()) {
 
         $_POST = cleanRequest($_POST);
 
-        if (!empty($_POST['configName']) && !empty($_POST['configValue']) && !empty($_POST['configType'])) {
+        if (!empty($_POST['key']) && !empty($_POST['val']) && !empty($_POST['type'])) {
 
-            $data = array($_POST['configName'] => $_POST['configValue']);
+            $Option = new Option($_POST);
 
-            $Config = new AppConfig();
-            if ($Config->write($_POST['configType'], $data)) {
-                echo json_encode(true);
-                exit();
+            switch ($_POST['key']) {
+                case 'maintenance':
+                    $htaccessContent = DEFAULT_HTACCESS;
+                    if ($_POST['val'] === 'false') {
+                        $htaccessContent .= "\n\r" . HTACCESS_CACHE;
+                    }
+
+                    updateFile(ROOT_PATH . '.htaccess', ['content' => $htaccessContent]);
+                    break;
+                case 'allowApi':
+                    $Option->setType('DATA');
+                    $Option->setKey('apiToken');
+                    if ($_POST['val'] === 'true') {
+                        $Option->setVal(setToken(false));
+                    } else {
+                        $Option->setVal('');
+                    }
+                    $Option->update();
+                    break;
+                default:
+                    break;
             }
+
+            echo json_encode(true);
+            exit();
         }
 
         if (!empty($_POST['addAccessPermission']) && !empty($_POST['ipAddress']) && isIp($_POST['ipAddress'])) {
 
-            $Config = new AppConfig();
-            if ($Config->addPermissionAccess($_POST['ipAddress'])) {
-                echo json_encode(true);
-                exit();
-            }
+            $Option = new Option(['type' => 'IPACCESS', 'key' => $_POST['ipAddress'], 'val' => 'add by ip : ' . getIP()]);
+            echo json_encode(true);
+            exit();
         }
 
-        if (!empty($_POST['deleteAccessPermission']) && !empty($_POST['ipAddress']) && isIp($_POST['ipAddress'])) {
+        if (!empty($_POST['deleteAccessPermission']) && !empty($_POST['ipAddressId']) && is_numeric($_POST['ipAddressId'])) {
 
-            $Config = new AppConfig();
-            if ($Config->deletePermissionAccess($_POST['ipAddress'])) {
-                echo json_encode(true);
-                exit();
-            }
-        }
-
-        if (!empty($_POST['restoreConfig']) && $_POST['restoreConfig'] == 'OK') {
-
-            $Config = new AppConfig();
-            if ($Config->restoreConfig()) {
-
+            $Option = new Option();
+            $Option->setId($_POST['ipAddressId']);
+            if ($Option->delete()) {
                 echo json_encode(true);
                 exit();
             }

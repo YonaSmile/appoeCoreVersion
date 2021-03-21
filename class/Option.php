@@ -32,6 +32,8 @@ class Option
 
             if (!$this->exist()) {
                 $this->save();
+            } else {
+                $this->update();
             }
         }
     }
@@ -56,8 +58,8 @@ class Option
                 (2, "PREFERENCE", "Forcer le site en HTTPS", "forceHTTPS", "false", NOW()),
                 (3, "PREFERENCE", "Autoriser la mise en cache des fichiers", "cacheProcess", "false", NOW()),
                 (4, "PREFERENCE", "Autoriser le travail sur la même page", "sharingWork", "false", NOW()),
-                (5, "PREFERENCE", "Autoriser l\'API", "allowApi", "", NOW()),
-                (6, "PREFERENCE", "Clé API", "apiToken", "", NOW()),
+                (5, "PREFERENCE", "Autoriser l\'API", "allowApi", "false", NOW()),
+                (6, "DATA", "Clé API", "apiToken", "", NOW()),
                 (7, "DATA", "Adresse Email par défaut", "defaultEmail", "", NOW());';
         return !DB::exec($sql) ? false : true;
     }
@@ -189,6 +191,17 @@ class Option
     }
 
     /**
+     * @return false
+     */
+    public function getValByKey()
+    {
+        if ($option = $this->showByKey()) {
+            return $option->val;
+        }
+        return false;
+    }
+
+    /**
      * @return bool
      */
     public function save()
@@ -196,7 +209,7 @@ class Option
         $sql = 'INSERT INTO ' . $this->tableName . ' (`type`, `description`, `key`, `val`) VALUES (:type, :description, :key, :val)';
         $params = array(':type' => $this->type, ':description' => $this->description, ':key' => $this->key, ':val' => $this->val);
         if (DB::exec($sql, $params)) {
-            appLog('Add option -> user: ' . getUserLogin() . ' type: ' . $this->type . ' key:' . $this->key . ' val:' . $this->val);
+            appLog('Add option -> type: ' . $this->type . ' key:' . $this->key . ' val:' . $this->val);
             return true;
         }
         return false;
@@ -210,7 +223,7 @@ class Option
         $sql = 'UPDATE ' . $this->tableName . ' SET `val` = :val WHERE `type` = :type AND `key` = :key';
         $params = array(':type' => $this->type, ':key' => $this->key, ':val' => $this->val);
         if (DB::exec($sql, $params)) {
-            appLog('Update option -> user: ' . getUserLogin() . ' type: ' . $this->type . ' key:' . $this->key . ' val:' . $this->val);
+            appLog('Update option -> type: ' . $this->type . ' key:' . $this->key . ' val:' . $this->val);
             return true;
         }
         return false;
@@ -221,9 +234,9 @@ class Option
      */
     public function exist()
     {
-        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
+        $sql = 'SELECT `id` FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
         $params = array(':type' => $this->type, ':key' => $this->key);
-        return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
+        return (DB::exec($sql, $params))->fetchColumn();
     }
 
     /**
@@ -233,7 +246,7 @@ class Option
     {
         $sql = 'DELETE FROM ' . $this->tableName . ' WHERE `id` = :id';
         if (DB::exec($sql, [':id' => $this->id])) {
-            appLog('Delete option -> user: ' . getUserLogin() . ' id: ' . $this->id);
+            appLog('Delete option -> id: ' . $this->id);
             return true;
         }
         return false;
