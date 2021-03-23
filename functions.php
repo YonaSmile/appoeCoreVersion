@@ -2471,7 +2471,7 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
  */
 function getThumb($filename, $desired_width, $webp = false, $quality = 100)
 {
-    if ($webp) {
+    if ($webp && strpos( $_SERVER['HTTP_ACCEPT'], 'image/webp' ) !== false) {
 
         $basepath = FILE_DIR_PATH . 'webp' . DIRECTORY_SEPARATOR . $desired_width . '_';
         $baseurl = WEB_DIR_INCLUDE . 'webp' . DIRECTORY_SEPARATOR . $desired_width . '_';
@@ -2491,6 +2491,7 @@ function getThumb($filename, $desired_width, $webp = false, $quality = 100)
 
     } else {
 
+        $webp = false;
         $basepath = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_';
         $baseurl = WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_';
         $filepath = $basepath . $filename;
