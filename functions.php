@@ -2491,7 +2491,6 @@ function getThumb($filename, $desired_width, $webp = false, $quality = 100)
 
     } else {
 
-        $webp = false;
         $basepath = FILE_DIR_PATH . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_';
         $baseurl = WEB_DIR_INCLUDE . 'thumb' . DIRECTORY_SEPARATOR . $desired_width . '_';
         $filepath = $basepath . $filename;
