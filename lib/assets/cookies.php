@@ -1,5 +1,5 @@
 <div id="cookieInfo"
-     style="display:none;position: fixed; bottom: 10px; left: 10px; min-width: 470px; max-width: 700px; padding: 20px; background: rgba(255,255,255,0.9); color: #000; box-sizing: border-box;z-index: 999999;text-align: left;font-size: 16px;line-height: 20px;">
+     style="display:none;position: fixed; bottom: 0; left: 0; min-width: 340px; width:100%; max-width: 700px; padding: 20px; background: rgba(255,255,255,0.9); color: #000; box-sizing: border-box;z-index: 999999;text-align: left;font-size: 16px;line-height: 20px;">
     <h3 style="margin-top: 0;line-height: 25px;font-size: 22px;">Nous utilisons des cookies de Google Analytics</h3>
     <p>Ce site Web utilise des cookies qui nous permettent d'analyser le trafic.<br>
         Ces informations ne sont pas partagées avec des partenaires d'analyse ou autres.</p>
