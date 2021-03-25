@@ -293,3 +293,68 @@ Header unset Cache-Control
     </FilesMatch>
 </IfModule>
 ############## END HTACCESS CACHE ##############';
+
+const THEME_DEFAULT_STYLE = array(
+    '--colorPrimary' => '#3eb293',
+    '--colorPrimaryOpacity' => 'rgba(62, 178, 147, 0.7)',
+    '--textBgColorPrimary' => '#FFF',
+    '--colorSecondary' => '#FF9373',
+    '--colorSecondaryOpacity' => 'rgba(255, 147, 117, 0.7)',
+    '--textBgColorSecondary' => '#FFF',
+);
+
+const THEME_CONTENT = '/************** PRIMARY COLOR **************/
+
+[class*="colorPrimary"],
+[class*="colorSecondary"] {
+    transition: all 0.3s;
+}
+
+.colorPrimary {
+    color: var(--colorPrimary);
+}
+
+.borderColorPrimary {
+    border-color: var(--colorPrimary);
+}
+
+.bgColorPrimary, a[class*="colorPrimary"]:focus, a[class*="colorPrimary"]:hover,
+button[class*="colorPrimary"]:focus, button[class*="colorPrimary"]:hover {
+    background: var(--colorPrimary);
+    color: var(--textBgColorPrimary);
+}
+
+/************** SECONDARY COLOR **************/
+
+.colorSecondary {
+    color: var(--colorSecondary);
+}
+
+.borderColorSecondary {
+    border-color: var(--colorSecondary);
+}
+
+.bgColorSecondary, #sidebar ul li.active > a, .dashboardCard:focus, .dashboardCard:hover, table.table th,
+a[class*="colorSecondary"]:focus, a[class*="colorSecondary"]:hover, button[class*="colorSecondary"]:focus,
+button[class*="colorSecondary"]:hover {
+    background: var(--colorSecondary);
+    color: var(--textBgColorSecondary);
+}
+
+/************** DASHBOARD **************/
+
+.dashboardNum {
+    background: var(--colorSecondary);
+    color: var(--textBgColorSecondary);
+}
+
+.dashboardCard:focus span.dashboardNum,
+.dashboardCard:hover span.dashboardNum {
+    background: var(--textBgColorSecondary);
+    color: var(--colorSecondary);
+}
+
+/************* MEDIA *************/
+.view > .mask {
+    background-color: var(--colorSecondaryOpacity);
+}';

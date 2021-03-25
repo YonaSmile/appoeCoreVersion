@@ -595,6 +595,45 @@ function getOptionData($key)
 }
 
 /**
+ * @param $key
+ * @return bool
+ */
+function getOptionTheme($key)
+{
+    $Option = new \App\Option();
+    $Option->setType('THEME');
+    $Option->setKey($key);
+    return $Option->getValByKey();
+}
+
+/**
+ * Show custom APPOE theme
+ */
+function showThemeRoot()
+{
+    if (!file_exists(WEB_TEMPLATE_PATH . 'css/theme.css')) {
+        $Option = new \App\Option();
+        $Option->setType('THEME');
+        $theme = $Option->showByType();
+
+        $themeRoot = ':root{';
+        if ($theme) {
+            foreach ($theme as $style) {
+                $themeRoot .= $style->key . ': ' . $style->val . ';';
+            }
+        } else {
+            foreach (THEME_DEFAULT_STYLE as $key => $value) {
+                $themeRoot .= $key . ': ' . $value . ';';
+            }
+        }
+        $themeRoot .= '}';
+
+        createFile(WEB_TEMPLATE_PATH . 'css/theme.css', ['content' => $themeRoot . THEME_CONTENT]);
+    }
+    echo '<link rel="stylesheet" type="text/css" href="' . WEB_TEMPLATE_URL . 'css/theme.css">';
+}
+
+/**
  * @param $array
  *
  * @return mixed
@@ -2471,7 +2510,7 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
  */
 function getThumb($filename, $desired_width, $webp = false, $quality = 100)
 {
-    if ($webp && strpos( $_SERVER['HTTP_ACCEPT'], 'image/webp' ) !== false) {
+    if ($webp && strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false) {
 
         $basepath = FILE_DIR_PATH . 'webp' . DIRECTORY_SEPARATOR . $desired_width . '_';
         $baseurl = WEB_DIR_INCLUDE . 'webp' . DIRECTORY_SEPARATOR . $desired_width . '_';

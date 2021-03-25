@@ -36,6 +36,14 @@ if (checkAjaxRequest()) {
                     break;
             }
 
+            switch ($_POST['type']) {
+                case 'THEME':
+                    unlink(WEB_TEMPLATE_PATH . 'css/theme.css');
+                    break;
+                default:
+                    break;
+            }
+
             echo json_encode(true);
             exit();
         }

@@ -17,9 +17,7 @@ includePluginsFiles(true);
     <link rel="stylesheet" type="text/css" href="<?= WEB_TEMPLATE_URL; ?>plugins/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<?= WEB_TEMPLATE_URL; ?>plugins/waves/waves.min.css">
     <link rel="stylesheet" href="<?= WEB_TEMPLATE_URL; ?>css/appoe.css" type="text/css">
-    <link rel="stylesheet" type="text/css"
-          href="<?= WEB_TEMPLATE_URL; ?>css/<?= file_exists(WEB_TEMPLATE_PATH . 'css/perso.css') ? 'perso.css' : 'default.css'; ?>">
-    <?php includePluginsStyles(); ?>
+    <?php showThemeRoot(); includePluginsStyles(); ?>
     <!-- SCRIPT -->
     <script src="<?= WEB_LIB_URL; ?>js/jquery-3.5.1.min.js"></script>
 </head>

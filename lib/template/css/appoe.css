@@ -47,6 +47,14 @@ body .wrapper {
     margin-top: 50px;
 }
 
+a {
+    color: #161b22;
+}
+
+a:focus, a:hover {
+    text-decoration: underline;
+}
+
 .img-circle {
     border-radius: 100%;
 }
@@ -406,6 +414,59 @@ select:hover {
     margin: 0 !important;
 }
 
+#colorsOptions input[type="color"] {
+    max-width: 100%;
+    padding: 0;
+    height: 100%;
+}
+
+#allPersimissions {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.dashboardCard {
+    transition: all 0.3s
+}
+
+.dashboardCard .htmlDashboard {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.dashboardCard .htmlDashboard > span {
+    margin: 4px;
+    padding: 4px;
+    font-size: 0.8em;
+    font-weight: 300;
+}
+
+.dashboardCard a {
+    color: #4b5b68;
+}
+
+.dashboardCard h2 a:before {
+    color: #d8d8da;
+}
+
+.dashboardNum {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    display: block;
+    font-weight: 500;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 38px;
+    transition: all 0.3s;
+    color: #FFF;
+}
+
 .simpleTitle {
     font-weight: 900;
     color: #ddd;
@@ -576,7 +637,16 @@ h1, h2 {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-weight: 700;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #344050;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid #edf2f9 !important;
 }
 
 hr.hrStyle {
@@ -775,14 +845,47 @@ table#currentProjetTable tr {
     max-width: 300px;
 }
 
+.file-thumbnail {
+    height: 2.25rem;
+    width: 2.25rem;
+}
+
+.fit-cover {
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid #edf2f9;
+    border-radius: 0 !important;
+    -webkit-box-shadow: 0 7px 14px 0 rgba(65, 69, 88, .1), 0 3px 6px 0 rgba(0, 0, 0, .07);
+    box-shadow: 0 7px 14px 0 rgba(65, 69, 88, .1), 0 3px 6px 0 rgba(0, 0, 0, .07);
+}
+
 .card-columns {
     -webkit-column-count: 5;
     -moz-column-count: 5;
     column-count: 5;
 }
 
-.card, .card-header {
+.card-header {
     border-radius: 0 !important;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #fff;
+    border-bottom: 0 solid #edf2f9;
 }
 
 /** MEDIA **/

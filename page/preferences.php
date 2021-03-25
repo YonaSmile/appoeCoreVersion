@@ -14,91 +14,199 @@ $ipAccess = $Option->showByType();
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des fichiers</button>
     <button class="btn btn-sm btn-outline-danger" id="clearServerCache">Purger le cache du serveur</button>
-    <div class="container-fluid">
-        <div class="row">
-            <?php if ($preferences): ?>
-                <div class="col-12 col-lg-4 my-5">
-                    <div class="row">
-                        <div class="col-12 mb-3"><h5>Options</h5></div>
-                        <?php foreach ($preferences as $preference): ?>
-                            <div class="col-12 mb-2">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" data-config-type="PREFERENCE"
-                                           class="custom-control-input updatePreference"
-                                           name="<?= $preference->key; ?>" id="<?= $preference->key; ?>"
-                                        <?= $preference->val === 'true' ? 'checked' : ''; ?>>
-                                    <label class="custom-control-label"
-                                           for="<?= $preference->key; ?>"><?= $preference->description; ?></label>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+    <div class="row">
+
+        <!-- OPTIONS -->
+        <?php if ($preferences): ?>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                        <strong class="mb-0 py-1">Options</strong>
                     </div>
-                </div>
-            <?php endif;
-            if ($datas): ?>
-                <div class="col-12 col-lg-8 my-5">
-                    <div class="row">
-                        <div class="col-12 mb-3"><h5>Données</h5></div>
-                        <?php foreach ($datas as $data):
-                            if (!empty($data->val)): ?>
-                                <div class="col-12 mb-2">
-                                    <strong><?= $data->description; ?></strong> :
-                                    <mark data-src="<?= $data->val; ?>" class="copyContentOnClick"
-                                          style="cursor: pointer"><?= $data->val; ?></mark>
-                                </div>
+                    <div class="card-body">
+                        <?php
+                        $numPreference = count($preferences);
+                        $i = 0;
+                        foreach ($preferences as $key => $preference): ?>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" data-config-type="PREFERENCE"
+                                       class="custom-control-input updatePreference"
+                                       name="<?= $preference->key; ?>" id="<?= $preference->key; ?>"
+                                    <?= $preference->val === 'true' ? 'checked' : ''; ?>>
+                                <label class="custom-control-label"
+                                       for="<?= $preference->key; ?>"><?= $preference->description; ?></label>
+                            </div>
+                            <?php if (++$i !== $numPreference): ?>
+                                <hr>
                             <?php endif;
                         endforeach; ?>
                     </div>
                 </div>
-            <?php endif; ?>
-        </div>
-        <div class="row">
-            <div class="col-12 col-lg-3 my-5">
-                <div class="row">
-                    <div class="col-12 mb-3"><h5 class="m-0">Autorisations d'accès</h5>
-                        <small><strong class="text-secondary">Mon IP :</strong>
-                            <span id="addMyIp" style="cursor:pointer;"><?= getIP(); ?></span></small>
-                    </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- AUTORISATION ACCES -->
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                    <strong class="mb-0 py-1">Autorisations d'accès</strong>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <strong class="text-secondary"><?= trans('Préconfiguré dans'); ?> ini.main</strong>
+                <div class="card-body">
+                    <div>
+                        <strong class="text-secondary">Mon IP</strong>
+                        <div>
+                            <span id="addMyIp" class="text-info text-break"
+                                  style="cursor:pointer;"><?= getIP(); ?></span>
+                        </div>
                     </div>
-                    <?php if (defined('IP_ALLOWED') && !isArrayEmpty(IP_ALLOWED)):
-                        foreach (IP_ALLOWED as $ip): ?>
-                            <div class="col-12 text-info">
-                                <small class="text-secondary">
-                                    <em><?= (false !== strpos($ip, ':')) ? 'IPV6' : 'IPV4'; ?></em>
-                                </small> <?= $ip; ?></div>
-                        <?php endforeach;
-                    endif; ?>
-                </div>
-                <div class="row">
-                    <div class="col-12 mt-3">
-                        <strong class="text-secondary"><?= trans('Ajouté manuellement'); ?></strong>
+                    <hr>
+                    <div>
+                        <strong class="text-secondary">Préconfiguré dans ini.main</strong>
+                        <?php if (defined('IP_ALLOWED') && !isArrayEmpty(IP_ALLOWED)):
+                            foreach (IP_ALLOWED as $ip): ?>
+                                <div>
+                                    <small class="text-secondary">
+                                        <em><?= (false !== strpos($ip, ':')) ? 'IPV6' : 'IPV4'; ?></em>
+                                    </small> <span class="text-info"><?= $ip; ?></span>
+                                </div>
+                            <?php endforeach;
+                        endif; ?>
                     </div>
-                    <div id="allPersimissions" class="col-12 mb-2">
-                        <div class="row">
-                            <?php
-                            if ($ipAccess):
+                    <hr>
+                    <div>
+                        <strong class="text-secondary">Ajouté manuellement</strong>
+                        <div id="allPersimissions">
+                            <?php if ($ipAccess):
                                 foreach ($ipAccess as $ip): ?>
-                                    <div class="col-12 ipAccess" data-ipaccess-id="<?= $ip->id; ?>"
+                                    <div class="ipAccess" data-ipaccess-id="<?= $ip->id; ?>"
                                          data-ip="<?= $ip->key; ?>">
                                         <?= $ip->key; ?></div>
                                 <?php endforeach;
                             endif; ?>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 position-relative">
+                    <hr>
+                    <div class="position-relative">
                         <input type="text" name="addPermissionAccess" placeholder="Nouvelle autorisation"
                                maxlength="45">
                         <span id="submitAddPermissionAccess"><i class="fas fa-plus"></i></span>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- DATA -->
+        <?php if ($datas): ?>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                        <strong class="mb-0 py-1">Données</strong>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        $numPreference = count($preferences);
+                        $i = 0;
+                        foreach ($datas as $data): ?>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong><?= $data->description; ?></strong>
+                                <mark data-src="<?= $data->val; ?>" class="copyContentOnClick"
+                                      style="cursor: pointer"><?= $data->val; ?></mark>
+                            </div>
+                            <?php if (++$i !== $numPreference): ?>
+                                <hr>
+                            <?php endif;
+                        endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- OUTILS -->
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                    <strong class="mb-0 py-1">Outils</strong>
+                </div>
+                <div class="card-body">
+                    <div class="media mb-3 align-items-center">
+                        <div class="file-thumbnail">
+                            <a target="_blank" href="https://aoe-communication.com/utils/APPOE-TUTO.pdf">
+                                <img class="border h-100 w-100 fit-cover"
+                                     src="<?= getImgAccordingExtension('pdf'); ?>" alt="Tutoriel">
+                            </a>
+                        </div>
+                        <div class="media-body ml-3">
+                            <h6 class="mb-1">
+                                <a class="font-weight-bold" target="_blank"
+                                   href="https://aoe-communication.com/utils/APPOE-TUTO.pdf">Tutoriel</a>
+                            </h6>
+                            <div>Tutoriel d'utilisation d'APPOE</div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4" id="colorsOptions">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                    <strong class="mb-0 py-1">Couleurs</strong>
+                </div>
+                <div class="card-body">
+                    <span class="d-block text-secondary text-center mb-2">Couleurs Primaires</span>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="media mb-3 align-items-center">
+                            <div class="file-thumbnail">
+
+                                <input type="color" class="themeColorChange" data-class="--colorPrimary"
+                                       data-title="colorPrimary" value="<?= getOptionTheme('--colorPrimary'); ?>">
+                            </div>
+                            <div class="media-body ml-3">
+                                <strong class="mb-1">Couleur primaire</strong>
+                                <div id="colorPrimary"><?= getOptionTheme('--colorPrimary'); ?></div>
+                            </div>
+                        </div>
+                        <div class="media mb-3 align-items-center">
+                            <div class="file-thumbnail">
+                                <input type="color" class="themeColorChange" data-class="--textBgColorPrimary"
+                                       data-title="textBgColorPrimary"
+                                       value="<?= getOptionTheme('--textBgColorPrimary'); ?>">
+                            </div>
+                            <div class="media-body ml-3">
+                                <strong class="mb-1">Texte sur fond</strong>
+                                <div id="textBgColorPrimary"><?= getOptionTheme('--textBgColorPrimary'); ?></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <span class="d-block text-secondary text-center mb-2">Couleurs Secondaires</span>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="media mb-3 align-items-center">
+                            <div class="file-thumbnail">
+                                <input type="color" class="themeColorChange" data-class="--colorSecondary"
+                                       data-title="colorSecondary" value="<?= getOptionTheme('--colorSecondary'); ?>">
+                            </div>
+                            <div class="media-body ml-3">
+                                <strong class="mb-1">Couleur secondaire</strong>
+                                <div id="colorSecondary"><?= getOptionTheme('--colorSecondary'); ?></div>
+                            </div>
+                        </div>
+                        <div class="media mb-3 align-items-center">
+                            <div class="file-thumbnail">
+                                <input type="color" class="themeColorChange" data-class="--textBgColorSecondary"
+                                       data-title="textBgColorSecondary"
+                                       value="<?= getOptionTheme('--textBgColorSecondary'); ?>">
+                            </div>
+                            <div class="media-body ml-3">
+                                <strong class="mb-1">Texte sur fond</strong>
+                                <div id="textBgColorSecondary"><?= getOptionTheme('--textBgColorSecondary'); ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="/app/lib/template/js/preferences.js"></script>
