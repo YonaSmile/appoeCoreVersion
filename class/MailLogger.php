@@ -90,4 +90,14 @@ class MailLogger
         }
         return false;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function showAll()
+    {
+        $sql = 'SELECT * FROM ' . $this->tableName . ' ORDER BY `date` DESC';
+        return (DB::exec($sql))->fetchAll(\PDO::FETCH_OBJ);
+    }
 }

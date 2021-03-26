@@ -2,14 +2,25 @@
 require('header.php');
 
 use App\Option;
+use App\MailLogger;
 
 $Option = new Option();
+$MailLogger = new MailLogger();
+
+//Preferences
 $Option->setType('PREFERENCE');
 $preferences = $Option->showByType();
+
+//Data
 $Option->setType('DATA');
 $datas = $Option->showByType();
+
+//Ip access
 $Option->setType('IPACCESS');
 $ipAccess = $Option->showByType();
+
+//Logged mails
+$allMails = $MailLogger->showAll();
 
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des fichiers</button>
@@ -148,6 +159,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
             </div>
         </div>
 
+        <!-- THEME -->
         <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4" id="colorsOptions">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
@@ -208,6 +220,41 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                 </div>
             </div>
         </div>
+
+        <!-- MAILS LOG -->
+        <?php if ($allMails): ?>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                        <strong class="mb-0 py-1">Mails</strong>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="slimScroll p-3" style="max-height: 300px;overflow-y: auto;">
+                            <?php
+                            $numMails = count($allMails);
+                            $i = 0;
+                            foreach ($allMails as $mail): ?>
+                                <div class="media mb-3 align-items-center">
+                                    <div class="file-thumbnail">
+                                        <span style="font-size: 30px;"
+                                              class="text-<?= $mail->sent ? 'success' : 'danger'; ?>">
+                                            <i class="fas fa-envelope-open-text"></i></span>
+                                    </div>
+                                    <div class="media-body ml-3">
+                                        <strong class="mb-1"><?= $mail->object; ?></strong>
+                                        <div><strong>Le:</strong> <?= displayCompleteDate($mail->date, true); ?></div>
+                                        <div><strong>À:</strong> <?= $mail->toEmail; ?></div>
+                                    </div>
+                                </div>
+                                <?php if (++$i !== $numMails): ?>
+                                    <hr>
+                                <?php endif;
+                            endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
     <script type="text/javascript" src="/app/lib/template/js/preferences.js"></script>
 <?php require('footer.php'); ?>

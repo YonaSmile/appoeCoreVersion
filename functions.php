@@ -1276,7 +1276,7 @@ function debug()
  *
  * @return bool
  */
-function isValidDateTime($dateStr, $format = 'Y-m-d H:i')
+function isValidDateTime($dateStr, $format = 'Y-m-d H:i:s')
 {
     $date = DateTime::createFromFormat($format, $dateStr);
 
@@ -1313,8 +1313,8 @@ function displayTimeStamp($timestamp, $hour = true)
  */
 function displayCompleteDate($date, $hour = false, $defaultFormat = false)
 {
-    $dateFormat = 'Y-m-d' . ($hour ? ' H:i' : '');
-    $dateFormatFr = 'd/m/Y' . ($hour ? ' H:i' : '');
+    $dateFormat = 'Y-m-d' . ($hour ? ' H:i:s' : '');
+    $dateFormatFr = 'd/m/Y' . ($hour ? ' H:i:s' : '');
 
     if (isValidDateTime($date, $dateFormatFr)) {
         $date = DateTime::createFromFormat($dateFormatFr, $date)->format($dateFormat);
