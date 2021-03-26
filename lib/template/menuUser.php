@@ -44,15 +44,6 @@
                 <i class="fas fa-cog"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
-                <?php
-                $helpPage = getPageHelp(getAppPageSlug());
-                if ($helpPage): ?>
-                    <a id="helpPageBtn" class="dropdown-item sidebarLink wave-effect"
-                       data-title="<?= getAppPageName(); ?>"
-                       data-message="<?= htmlspecialchars($helpPage); ?>">
-                        <small><?= trans('Aide'); ?></small>
-                    </a>
-                <?php endif; ?>
                 <a class="dropdown-item" href="<?= getUrl('preferences/'); ?>">
                     <small><?= trans('Préférences'); ?></small>
                 </a>

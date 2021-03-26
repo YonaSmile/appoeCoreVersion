@@ -1,10 +1,6 @@
 <?php require('header.php');
 
-use App\Menu;
 use App\Version;
-
-$Menu = new Menu();
-$allPermissions = extractFromObjToSimpleArr($Menu->displayMenuAll(), 'slug', 'name', 'pluginName', ' | ');
 
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="container-fluid">
@@ -128,36 +124,10 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                         </div>
                         <div class="my-4"></div>
                     </div>
-                    <div class="col-12">
-                        <div class="p-3 bg-info text-white">
-                            <?= mb_strtoupper(trans('Gestion des informations')); ?>
-                        </div>
-                        <div class="p-2 mb-2 bg-light">
-                            <button type="button" data-toggle="modal" data-target="#infoManagerModal"
-                                    class="btn btn-outline-info btn-sm">
-                                <?= trans('Aide des pages'); ?>
-                            </button>
-                        </div>
-                        <div class="my-4"></div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="infoManagerModal" role="dialog" aria-labelledby="myLargeModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form action="" id="managePageInfo" method="post">
-                        <?= \App\Form::select('Page', 'page', $allPermissions, '', true); ?>
-                        <div id="textInfosZone" class="my-3"></div>
-                        <?= \App\Form::target('ADDPAGEINFO'); ?>
-                        <?= \App\Form::submit('Enregistrer', 'saveInfos'); ?>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <script type="text/javascript" src="/app/lib/template/js/setting.js"></script>
 <?php require('footer.php'); ?>

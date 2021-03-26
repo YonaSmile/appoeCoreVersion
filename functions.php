@@ -870,46 +870,6 @@ function trans($key, $doc = 'general')
 }
 
 /**
- * @param string $urlPage
- *
- * @return mixed
- */
-function getPageHelp($urlPage)
-{
-
-    $helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
-
-    //get help file
-    $fileContent = getJsonContent($helpFile, $urlPage);
-
-    return $fileContent ? $fileContent : false;
-}
-
-/**
- * @param $urlPage
- * @param $text
- *
- * @return bool
- */
-function setHelpPage($urlPage, $text)
-{
-
-    $helpFile = FILE_LANG_PATH . INTERFACE_LANG . DIRECTORY_SEPARATOR . 'helpPages.json';
-
-    //get help file
-    $fileContent = getJsonContent($helpFile);
-
-    //check if file exist
-    if ($fileContent) {
-        $fileContent[$urlPage] = $text;
-
-        return putJsonContent($helpFile, $fileContent);
-    }
-
-    return false;
-}
-
-/**
  * @param $text
  * @param $tradToOrigin
  * @param $lang

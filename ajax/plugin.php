@@ -188,21 +188,4 @@ if ( checkAjaxRequest() ) {
         echo defined( $_POST['getDefinedConst'] ) ? constant( $_POST['getDefinedConst'] ) : '';
         exit();
     }
-
-    if ( ! empty( $_POST['pageInfos'] ) && ! empty( $_POST['filename'] ) ) {
-
-        $helpPage = getPageHelp( $_POST['filename'] );
-        echo Form::textarea( 'Information', 'pageInfo', htmlSpeCharDecode($helpPage), 5, true, '', 'appoeditor' );
-        exit();
-    }
-
-    if ( ! empty( $_POST['ADDPAGEINFO'] ) && ! empty( $_POST['page'] ) && ! empty( $_POST['pageInfo'] ) ) {
-
-        if ( setHelpPage( $_POST['page'], $_POST['pageInfo'] ) ) {
-            echo 'true';
-        } else {
-            trans( 'Une erreur s\'est produite lors de l\'enregistrement des informations' );
-        }
-        exit();
-    }
 }
