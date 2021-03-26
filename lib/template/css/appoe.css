@@ -420,9 +420,9 @@ select:hover {
     height: 100%;
 }
 
-#allPersimissions {
-    max-height: 150px;
-    overflow-y: auto;
+#allPersimissions .slimScrollDiv,
+#allPersimissions .slimScroll{
+    max-height: 150px !important;
 }
 
 .dashboardCard {

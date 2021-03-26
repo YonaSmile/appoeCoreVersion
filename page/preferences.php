@@ -1,8 +1,8 @@
 <?php
 require('header.php');
 
-use App\Option;
 use App\MailLogger;
+use App\Option;
 
 $Option = new Option();
 $MailLogger = new MailLogger();
@@ -87,13 +87,15 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <div>
                         <strong class="text-secondary">Ajouté manuellement</strong>
                         <div id="allPersimissions">
-                            <?php if ($ipAccess):
-                                foreach ($ipAccess as $ip): ?>
-                                    <div class="ipAccess" data-ipaccess-id="<?= $ip->id; ?>"
-                                         data-ip="<?= $ip->key; ?>">
-                                        <?= $ip->key; ?></div>
-                                <?php endforeach;
-                            endif; ?>
+                            <?php if ($ipAccess): ?>
+                                <div class="slimScroll">
+                                    <?php foreach ($ipAccess as $ip): ?>
+                                        <div class="ipAccess" data-ipaccess-id="<?= $ip->id; ?>"
+                                             data-ip="<?= $ip->key; ?>">
+                                            <?= $ip->key; ?></div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <hr>
@@ -229,7 +231,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                         <strong class="mb-0 py-1">Mails</strong>
                     </div>
                     <div class="card-body p-0">
-                        <div class="slimScroll p-3" style="max-height: 300px;overflow-y: auto;">
+                        <div class="slimScroll p-3">
                             <?php
                             $numMails = count($allMails);
                             $i = 0;
@@ -238,7 +240,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     <div class="file-thumbnail">
                                         <span style="font-size: 30px;"
                                               class="text-<?= $mail->sent ? 'success' : 'danger'; ?>">
-                                            <i class="fas fa-envelope-open-text"></i></span>
+                                            <i class="far fa-envelope<?= $mail->sent ? '-open' : ''; ?>"></i></span>
                                     </div>
                                     <div class="media-body ml-3">
                                         <strong class="mb-1"><?= $mail->object; ?></strong>
