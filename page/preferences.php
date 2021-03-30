@@ -87,15 +87,15 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <div>
                         <strong class="text-secondary">Ajouté manuellement</strong>
                         <div id="allPersimissions">
-                            <?php if ($ipAccess): ?>
-                                <div class="slimScroll">
-                                    <?php foreach ($ipAccess as $ip): ?>
+                            <div class="slimScroll">
+                                <?php if ($ipAccess):
+                                    foreach ($ipAccess as $ip): ?>
                                         <div class="ipAccess" data-ipaccess-id="<?= $ip->id; ?>"
                                              data-ip="<?= $ip->key; ?>">
                                             <?= $ip->key; ?></div>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php endif; ?>
+                                    <?php endforeach;
+                                endif; ?>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -249,7 +249,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     </div>
                                     <div class="ml-auto">
                                         <button class="btn colorPrimary seeMail" data-obj="<?= $mail->object; ?>"
-                                                data-msg="<?= htmlspecialchars($mail->message); ?>"><i class="far fa-envelope-open"></i></button>
+                                                data-msg="<?= htmlspecialchars($mail->message); ?>"><i
+                                                    class="far fa-envelope-open"></i></button>
                                     </div>
                                 </div>
                                 <?php if (++$i !== $numMails): ?>
