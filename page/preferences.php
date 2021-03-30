@@ -245,7 +245,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     <div class="media-body ml-3">
                                         <strong class="mb-1"><?= $mail->object; ?></strong>
                                         <div><strong>Le:</strong> <?= displayCompleteDate($mail->date, true); ?></div>
-                                        <div><strong>À:</strong> <?= $mail->toEmail; ?></div>
+                                        <div><strong>De:</strong> <?= $mail->fromName; ?> <<?= $mail->fromEmail; ?>></div>
                                     </div>
                                     <div class="ml-auto">
                                         <button class="btn colorPrimary seeMail" data-obj="<?= $mail->object; ?>"
