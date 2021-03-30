@@ -247,6 +247,10 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                         <div><strong>Le:</strong> <?= displayCompleteDate($mail->date, true); ?></div>
                                         <div><strong>À:</strong> <?= $mail->toEmail; ?></div>
                                     </div>
+                                    <div class="ml-auto">
+                                        <button class="btn colorPrimary seeMail" data-obj="<?= $mail->object; ?>"
+                                                data-msg="<?= htmlspecialchars($mail->message); ?>"><i class="far fa-envelope-open"></i></button>
+                                    </div>
                                 </div>
                                 <?php if (++$i !== $numMails): ?>
                                     <hr>
