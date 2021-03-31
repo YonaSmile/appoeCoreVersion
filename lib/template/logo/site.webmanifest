@@ -1,6 +1,7 @@
 {
-    "name": "APPOE",
+    "name": "APPOE by AOE-COMMUNICATION",
     "short_name": "APPOE",
+    "start_url": "/hibour",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
