@@ -191,7 +191,7 @@ if (checkAjaxRequest()) {
         foreach ($folders as $folder) {
             $saveFiles = saveFiles($folder);
             if (false !== $saveFiles) {
-                echo $folder . ' / ' . getSizeName($saveFiles['copySize']) . trans(' Fichiers enregistrés'), '. <a href="' . $saveFiles['downloadLink'] . '"> ' . trans('Télécharger') . ' (' . getSizeName($saveFiles['zipSize']) . ')</a><br>';
+                echo trans('Dossier') . ' <strong>' . $folder . '</strong> ' . trans('enregistré') . ' (' . getSizeName($saveFiles['copySize']) . ')', '. <a href="' . $saveFiles['downloadLink'] . '"> ' . trans('Télécharger') . ' (' . getSizeName($saveFiles['zipSize']) . ')</a><br>';
             }
         }
 
