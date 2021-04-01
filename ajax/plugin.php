@@ -179,7 +179,7 @@ if (checkAjaxRequest()) {
 
         $folders = [$_POST['folder']];
 
-        if ($folder = 'tous') {
+        if ($_POST['folder'] == 'tous') {
             $folders = ['public', 'include'];
             $dbFolderName = date('Y-m-d');
             $dbFileName = 'db-' . date('H_i');
