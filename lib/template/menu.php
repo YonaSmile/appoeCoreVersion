@@ -14,7 +14,7 @@ if (is_array($autorisedMenu)) {
 }
 ?>
 <ul class="list-unstyled components" id="adminMenu">
-    <div class="user-profile">
+    <div class="user-profile bgColorPrimary">
         <div class="dropdown user-pro-body">
             <div class="sidebar-header"><?= getLogo(); ?>
                 <?php if (isTechnicien(getUserRoleId())): ?>
