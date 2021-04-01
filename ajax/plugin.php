@@ -175,13 +175,26 @@ if (checkAjaxRequest()) {
         exit();
     }
 
-    if (!empty($_POST['saveFile'])) {
+    if (!empty($_POST['saveFile']) && !empty($_POST['folder'])) {
 
-        $folder = !empty($_POST['folder']) ? $_POST['folder'] : 'public';
-        $saveFiles = saveFiles($folder);
-        if (false !== $saveFiles) {
-            echo $folder . ' / ' . getSizeName($saveFiles['copySize']) . trans(' Fichiers enregistrés'), '. <a href="' . $saveFiles['downloadLink'] . '"> ' . trans('Télécharger') . ' (' . getSizeName($saveFiles['zipSize']) . ')</a>';
+        $folders = [$_POST['folder']];
+
+        if ($folder = 'tous') {
+            $folders = ['public', 'include'];
+            $dbFolderName = date('Y-m-d');
+            $dbFileName = 'db-' . date('H_i');
+            DB::backup($dbFolderName, $dbFileName);
+            $urlFile = WEB_APP_URL . 'backup/' . $dbFolderName . '/' . $dbFileName . '.sql.gz';
+            echo trans('Tables enregistrées') . '. <a href="' . $urlFile . '"> ' . trans('Télécharger') . '</a><br>';
         }
+
+        foreach ($folders as $folder) {
+            $saveFiles = saveFiles($folder);
+            if (false !== $saveFiles) {
+                echo $folder . ' / ' . getSizeName($saveFiles['copySize']) . trans(' Fichiers enregistrés'), '. <a href="' . $saveFiles['downloadLink'] . '"> ' . trans('Télécharger') . ' (' . getSizeName($saveFiles['zipSize']) . ')</a><br>';
+            }
+        }
+
         exit();
     }
 

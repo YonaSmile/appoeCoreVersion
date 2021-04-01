@@ -100,8 +100,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 <div class="col-12 col-md-3">
                                     <div class="input-group">
                                         <?php
-                                        $files = array('public', 'include');
-                                        echo \App\Form::select('Fichier', 'files', array_combine($files, $files), 'public', true, '', '', '', 'custom-select-sm', false); ?>
+                                        $files = array('tous', 'public', 'include');
+                                        echo \App\Form::select('Fichier', 'files', array_combine($files, $files), 'tous', true, '', '', '', 'custom-select-sm', false); ?>
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="saveFiles" style="cursor: pointer;">
                                                 <i class="fas fa-download"></i></span>
