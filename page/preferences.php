@@ -219,6 +219,31 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <span class="d-block text-secondary text-center mb-2">Couleurs Tertiaires</span>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="media mb-3 align-items-center">
+                            <div class="file-thumbnail">
+                                <input type="color" class="themeColorChange" data-class="--colorTertiary"
+                                       data-title="colorTertiary" value="<?= getOptionTheme('--colorTertiary'); ?>">
+                            </div>
+                            <div class="media-body ml-3">
+                                <strong class="mb-1">Couleur tertiaires</strong>
+                                <div id="colorTertiary"><?= getOptionTheme('--colorTertiary'); ?></div>
+                            </div>
+                        </div>
+                        <div class="media mb-3 align-items-center">
+                            <div class="file-thumbnail">
+                                <input type="color" class="themeColorChange" data-class="--textBgColorTertiary"
+                                       data-title="textBgColorTertiary"
+                                       value="<?= getOptionTheme('--textBgColorTertiary'); ?>">
+                            </div>
+                            <div class="media-body ml-3">
+                                <strong class="mb-1">Texte sur fond</strong>
+                                <div id="textBgColorTertiary"><?= getOptionTheme('--textBgColorTertiary'); ?></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -230,7 +255,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
                         <strong class="mb-0 py-1">Mails</strong>
                     </div>
-                    <div class="card-body p-0">
+                    <div class="card-body p-0" id="allLoggedMails">
                         <div class="slimScroll p-3">
                             <?php
                             $numMails = count($allMails);
