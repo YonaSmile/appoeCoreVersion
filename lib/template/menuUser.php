@@ -36,7 +36,7 @@
     <?php endif; ?>
     <div class="ml-auto"></div>
 
-    <?php if (isUserAuthorized('preferences') || isUserAuthorized('setting')): ?>
+    <?php if (isUserAuthorized('tools') || isUserAuthorized('setting')): ?>
         <div class="dropdown menu-toggle-button">
             <a class="nav-link dropdown-toggle sidebarLink wave-effect hideNavArrows" href="#"
                id="navbarDropdownSetting" role="button"
@@ -44,13 +44,13 @@
                 <i class="fas fa-cog"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
-                <a class="dropdown-item" href="<?= getUrl('preferences/'); ?>">
-                    <small><?= trans('Préférences'); ?></small>
+                <a class="dropdown-item" href="<?= getUrl('tools/'); ?>">
+                    <small><span class="mr-2"><i class="fas fa-tools"></i></span> <?= trans('Outils'); ?></small>
                 </a>
                 <?php if (isTechnicien(getUserRoleId())): ?>
                     <div class="dropdown-divider m-0"></div>
                     <a class="dropdown-item" href="<?= getUrl('setting/'); ?>">
-                        <small><?= trans('Réglages'); ?></small>
+                        <small><span class="mr-2"><i class="fas fa-cog"></i></span> <?= trans('Réglages'); ?></small>
                     </a>
                 <?php endif; ?>
             </div>
@@ -66,15 +66,12 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
             <?php if (isUserAuthorized('updateUser')): ?>
                 <a class="dropdown-item" href="<?= getUrl('user/', getUserIdSession()); ?>">
-                    <small>
-                        <span class="mr-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?>
-                    </small>
+                    <small><span class="mr-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?></small>
                 </a>
             <?php endif; ?>
             <div class="dropdown-divider m-0"></div>
             <a class="dropdown-item" href="<?= WEB_APP_URL . 'logout.php'; ?>">
-                <small><span class="mr-2"><i class="fas fa-power-off"></i></span> <?= trans('Déconnexion'); ?>
-                </small>
+                <small><span class="mr-2"><i class="fas fa-power-off"></i></span> <?= trans('Déconnexion'); ?></small>
             </a>
         </div>
     </div>

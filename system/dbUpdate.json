@@ -1,1 +1,4 @@
-{}
+{
+  "1": "UPDATE `eco_appoe_menu` SET `slug` = 'tools' WHERE `eco_appoe_menu`.`id` = 23;",
+  "2": "UPDATE `eco_appoe_menu` SET `name` = 'Outils' WHERE `eco_appoe_menu`.`id` = 23;"
+}

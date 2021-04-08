@@ -177,7 +177,7 @@ class Menu
                     (20, "allUsers", "Tous les utilisateurs", 1, 1, 12, 20, NULL, NOW()),
                     (21, "addUser", "Nouvel utilisateur", 2, 1, 12, 21, NULL, NOW()),
                     (22, "updateUser", "Mise à jour de l\'utilisateur", 1, 0, 12, 22, NULL, NOW()),
-                    (23, "preferences", "préférences", 3, 0, 10, 23, NULL, NOW());';
+                    (23, "tools", "Outils", 3, 0, 10, 23, NULL, NOW());';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
