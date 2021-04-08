@@ -1600,7 +1600,7 @@ li[id^="sousmenu-"] > a:first-child:after {
 }
 
 .icon-setting > *:first-child:before,
-.icon-preferences > *:first-child:before {
+.icon-tools > *:first-child:before {
     content: '\f0ad';
 }
 
