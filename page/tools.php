@@ -134,11 +134,11 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
             </div>
         <?php endif; ?>
 
-        <!-- OUTILS -->
+        <!-- DOCUMENTS -->
         <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
-                    <strong class="mb-0 py-1">Outils</strong>
+                    <strong class="mb-0 py-1">Documents</strong>
                 </div>
                 <div class="card-body">
                     <div class="media mb-3 align-items-center">
