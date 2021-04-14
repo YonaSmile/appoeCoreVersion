@@ -28,14 +28,14 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="row">
 
         <!-- OPTIONS -->
-        <?php if ($preferences): ?>
-            <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
-                        <strong class="mb-0 py-1">Options</strong>
-                    </div>
-                    <div class="card-body">
-                        <?php
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                    <strong class="mb-0 py-1">Options</strong>
+                </div>
+                <div class="card-body">
+                    <?php
+                    if ($preferences):
                         $numPreference = count($preferences);
                         $i = 0;
                         foreach ($preferences as $key => $preference): ?>
@@ -50,11 +50,11 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                             <?php if (++$i !== $numPreference): ?>
                                 <hr>
                             <?php endif;
-                        endforeach; ?>
-                    </div>
+                        endforeach;
+                    endif; ?>
                 </div>
             </div>
-        <?php endif; ?>
+        </div>
 
         <!-- AUTORISATION ACCES -->
         <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
@@ -109,14 +109,14 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         </div>
 
         <!-- DATA -->
-        <?php if ($datas): ?>
-            <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
-                        <strong class="mb-0 py-1">Données</strong>
-                    </div>
-                    <div class="card-body">
-                        <?php
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                    <strong class="mb-0 py-1">Données</strong>
+                </div>
+                <div class="card-body">
+                    <?php
+                    if ($datas):
                         $numPreference = count($preferences);
                         $i = 0;
                         foreach ($datas as $data): ?>
@@ -128,11 +128,11 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                             <?php if (++$i !== $numPreference): ?>
                                 <hr>
                             <?php endif;
-                        endforeach; ?>
-                    </div>
+                        endforeach;
+                    endif; ?>
                 </div>
             </div>
-        <?php endif; ?>
+        </div>
 
         <!-- DOCUMENTS -->
         <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
@@ -249,15 +249,15 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         </div>
 
         <!-- MAILS LOG -->
-        <?php if ($allMails): ?>
-            <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
-                        <strong class="mb-0 py-1">Mails</strong>
-                    </div>
-                    <div class="card-body p-0" id="allLoggedMails">
-                        <div class="slimScroll p-3">
-                            <?php
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
+                    <strong class="mb-0 py-1">Mails</strong>
+                </div>
+                <div class="card-body p-0" id="allLoggedMails">
+                    <div class="slimScroll p-3">
+                        <?php
+                        if ($allMails):
                             $numMails = count($allMails);
                             $i = 0;
                             foreach ($allMails as $mail): ?>
@@ -281,12 +281,13 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 <?php if (++$i !== $numMails): ?>
                                     <hr>
                                 <?php endif;
-                            endforeach; ?>
-                        </div>
+                            endforeach;
+                        endif; ?>
                     </div>
                 </div>
             </div>
-        <?php endif; ?>
+        </div>
+
     </div>
     <script type="text/javascript" src="/app/lib/template/js/tools.js"></script>
 <?php require('footer.php'); ?>

@@ -421,7 +421,9 @@ select:hover {
 }
 
 #allLoggedMails .slimScrollDiv,
-#allLoggedMails .slimScroll {
+#allLoggedMails .slimScroll,
+#allLoggedAPPOE .slimScrollDiv,
+#allLoggedAPPOE .slimScroll {
     height: auto !important;
     max-height: 380px !important;
 }
