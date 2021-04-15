@@ -4259,12 +4259,12 @@ function linkBuild($menu, $params = [])
                 $target = 'target="_blank"';
             }
 
-            return '<a href="' . $slug . '" class="' . $params['class'] . '" ' . $target . ' ' . $title . '>' . $menu->name . '</a>';
+            return '<a href="' . $slug . '" class="' . $params['class'] . '" ' . $target . ' ' . $title . '>' . trad($menu->name) . '</a>';
         }
 
         //Anchor
         if ($slug === '#' || $params['parent'] == true) {
-            return '<a href="#" class="' . $params['class'] . '" ' . $title . '>' . $menu->name . '</a>';
+            return '<a href="#" onclick="return false;" class="' . $params['class'] . '" ' . $title . '>' . trad($menu->name) . '</a>';
         }
 
         $slug .= '/';
