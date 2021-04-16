@@ -95,7 +95,9 @@ if (!empty($_SESSION['APP_LANG'])) {
 if (!empty($_COOKIE['LANG']) && array_key_exists($_COOKIE['LANG'], LANGUAGES)) {
     define('LANG', $_COOKIE['LANG']);
 } else {
-    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) && array_key_exists($_SERVER['HTTP_ACCEPT_LANGUAGE'], LANGUAGES)) {
+    if (defined('DEFAULT_LANG')) {
+        define('LANG', DEFAULT_LANG);
+    } elseif (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) && array_key_exists($_SERVER['HTTP_ACCEPT_LANGUAGE'], LANGUAGES)) {
         define('LANG', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
     } else {
         define('LANG', 'fr');
