@@ -1,5 +1,5 @@
 <!-- LINK -->
-<div class="modal fade editorModal" id="insertLink" data-keyboard="false" tabindex="-1" role="dialog"
+<div class="modal fade editorModal" id="insertLink" data-keyboard="false" tabindex="-1"
      aria-labelledby="insertLinkModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -53,8 +53,41 @@
         </div>
     </div>
 </div>
+<!-- IMG -->
+<div class="modal fade editorModal" data-backdrop="static" id="insertImg" data-keyboard="false" tabindex="-1"
+     aria-labelledby="insertImgModal" aria-hidden="true" style="z-index: 1041;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="insertImgModal">Insérer une image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="addImgInput">Lien de l'image</label>
+                    <input type="url" id="addImgInput" name="addImgInput" class="form-control urlFile noCms">
+                </div>
+                <div class="form-group my-2">
+                    <label for="addImgWidthInput">Largeur de l'image (px)</label>
+                    <input type="number" id="addImgWidthInput" name="addImgWidthInput" class="form-control">
+                </div>
+                <div class="form-group my-2">
+                    <label for="addImgDescriptionInput">Description de l'image</label>
+                    <input type="text" id="addImgDescriptionInput" name="addImgDescriptionInput" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" data-editor-save="img" class="btn btn-primary saveEditorData">Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- TEXT EDITION -->
-<div class="modal fade editorModal" id="editText" data-keyboard="false" tabindex="-1" role="dialog"
+<div class="modal fade editorModal" id="editText" data-keyboard="false" tabindex="-1"
      aria-labelledby="editTextModal" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
