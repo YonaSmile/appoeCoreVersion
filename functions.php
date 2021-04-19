@@ -5009,7 +5009,8 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
     }
 
     // Sender
-    $Mail->SetFrom($data['fromEmail'], $data['fromName']);
+    $sender = !empty($data['sender']) ? $data['sender'] : 'noreply@' . $_SERVER['HTTP_HOST'];
+    $Mail->SetFrom($sender, $data['fromName']);
 
     // Recipient
     $Mail->ClearAddresses();

@@ -31,8 +31,8 @@ class MailLogger
             $this->object = $data['object'];
             $this->toEmail = $data['toEmail'];
             $this->toName = $data['toName'];
-            $this->fromEmail = !empty($data['logFromEmail']) ? $data['logFromEmail'] : $data['fromEmail'];
-            $this->fromName = !empty($data['logFromName']) ? $data['logFromName'] : $data['fromName'];
+            $this->fromEmail = $data['fromEmail'];
+            $this->fromName = $data['fromName'];
             $this->message = $data['message'];
         }
     }
