@@ -555,7 +555,7 @@ function getTitle($name = '', $slug = '', $appendName = '', $appendHtml = '')
 {
     $html = '<div class="row"><div class="col-12 position-relative">
             <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary mr-2"></span>' . trans($name) . $appendName . '</h1>
-            ' . $appendHtml . '</div></div><hr class="mx-5 mt-3 mb-4">';
+            ' . $appendHtml . '</div></div><hr class="mx-5 mt-3 mb-4"><div class="row"><div class="col-12 mb-3" id="pageStatus"></div></div>';
 
     return $html;
 }
@@ -3413,8 +3413,9 @@ function includePluginsJs($forApp = false, $min = false)
  */
 function includePluginsJsForApp()
 {
-    $plugins = getPlugins();
+    echo '<script type="text/javascript" src="' . WEB_TEMPLATE_URL . 'js/all.js"></script>';
 
+    $plugins = getPlugins();
     if (is_array($plugins) && !empty($plugins)) {
 
         foreach ($plugins as $plugin) {
@@ -3436,8 +3437,6 @@ function includePluginsJsForApp()
             }
         }
     }
-
-    echo '<script type="text/javascript" src="' . WEB_TEMPLATE_URL . 'js/all.js"></script>';
 }
 
 

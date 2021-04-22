@@ -1,3 +1,4 @@
+<div id="loadMediaLibrary"></div>
 </div><!-- END DIV PANEL -->
 </div><!-- END DIV COL -->
 </div><!-- END DIV ROW -->
