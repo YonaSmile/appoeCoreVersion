@@ -420,6 +420,22 @@ select:hover {
     height: 100%;
 }
 
+div.colorDiv {
+    width: 40px;
+    height: 40px;
+}
+
+input.themeColorChange {
+    border: 0;
+    border-bottom: 1px solid #FFF;
+}
+
+
+input.themeColorChange:focus,
+input.themeColorChange:hover {
+    border-bottom: 1px solid #000;
+}
+
 #allLoggedMails .slimScrollDiv,
 #allLoggedMails .slimScroll,
 #allLoggedAPPOE .slimScrollDiv,

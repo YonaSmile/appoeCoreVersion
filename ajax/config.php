@@ -38,7 +38,9 @@ if (checkAjaxRequest()) {
 
             switch ($_POST['type']) {
                 case 'THEME':
-                    unlink(WEB_TEMPLATE_PATH . 'css/theme.css');
+                    if (file_exists(WEB_TEMPLATE_PATH . 'css/theme.css')) {
+                        unlink(WEB_TEMPLATE_PATH . 'css/theme.css');
+                    }
                     break;
                 default:
                     break;

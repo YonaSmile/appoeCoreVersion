@@ -168,82 +168,47 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <strong class="mb-0 py-1">Couleurs</strong>
                 </div>
                 <div class="card-body">
-                    <span class="d-block text-secondary text-center mb-2">Couleurs Primaires</span>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div class="media mb-3 align-items-center">
-                            <div class="file-thumbnail">
 
-                                <input type="color" class="themeColorChange" data-class="--colorPrimary"
-                                       data-title="colorPrimary" value="<?= getOptionTheme('--colorPrimary'); ?>">
-                            </div>
-                            <div class="media-body ml-3">
-                                <strong class="mb-1">Couleur primaire</strong>
-                                <div id="colorPrimary"><?= getOptionTheme('--colorPrimary'); ?></div>
-                            </div>
-                        </div>
-                        <div class="media mb-3 align-items-center">
-                            <div class="file-thumbnail">
-                                <input type="color" class="themeColorChange" data-class="--textBgColorPrimary"
-                                       data-title="textBgColorPrimary"
-                                       value="<?= getOptionTheme('--textBgColorPrimary'); ?>">
-                            </div>
-                            <div class="media-body ml-3">
-                                <strong class="mb-1">Texte sur fond</strong>
-                                <div id="textBgColorPrimary"><?= getOptionTheme('--textBgColorPrimary'); ?></div>
-                            </div>
-                        </div>
 
-                    </div>
-                    <hr>
-                    <span class="d-block text-secondary text-center mb-2">Couleurs Secondaires</span>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div class="media mb-3 align-items-center">
-                            <div class="file-thumbnail">
-                                <input type="color" class="themeColorChange" data-class="--colorSecondary"
-                                       data-title="colorSecondary" value="<?= getOptionTheme('--colorSecondary'); ?>">
+                    <?php
+                    $colors = array('Primary' => 'Primaire', 'Secondary' => 'Secondaire', 'Tertiary' => 'Tertiaire');
+                    foreach ($colors as $color => $name): ?>
+                        <span class="d-block text-secondary text-center mb-2">Couleurs <?= $name; ?></span>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="media mb-3 align-items-center">
+                                <div class="file-thumbnail">
+                                    <div id="color<?= $color; ?>" class="border colorDiv"
+                                         style="background-color:<?= getOptionTheme('--color' . $color); ?>;">
+                                    </div>
+                                </div>
+                                <div class="media-body ml-3">
+                                    <strong class="mb-1">Couleur <?= $name; ?></strong>
+                                    <div class="inputColorDiv">
+                                        <input class="themeColorChange" type="text"
+                                               data-class="--color<?= $color; ?>"
+                                               data-title="color<?= $color; ?>"
+                                               value="<?= getOptionTheme('--color' . $color); ?>">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="media-body ml-3">
-                                <strong class="mb-1">Couleur secondaire</strong>
-                                <div id="colorSecondary"><?= getOptionTheme('--colorSecondary'); ?></div>
-                            </div>
-                        </div>
-                        <div class="media mb-3 align-items-center">
-                            <div class="file-thumbnail">
-                                <input type="color" class="themeColorChange" data-class="--textBgColorSecondary"
-                                       data-title="textBgColorSecondary"
-                                       value="<?= getOptionTheme('--textBgColorSecondary'); ?>">
-                            </div>
-                            <div class="media-body ml-3">
-                                <strong class="mb-1">Texte sur fond</strong>
-                                <div id="textBgColorSecondary"><?= getOptionTheme('--textBgColorSecondary'); ?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <span class="d-block text-secondary text-center mb-2">Couleurs Tertiaires</span>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div class="media mb-3 align-items-center">
-                            <div class="file-thumbnail">
-                                <input type="color" class="themeColorChange" data-class="--colorTertiary"
-                                       data-title="colorTertiary" value="<?= getOptionTheme('--colorTertiary'); ?>">
-                            </div>
-                            <div class="media-body ml-3">
-                                <strong class="mb-1">Couleur tertiaires</strong>
-                                <div id="colorTertiary"><?= getOptionTheme('--colorTertiary'); ?></div>
+                            <div class="media mb-3 align-items-center">
+                                <div class="file-thumbnail">
+                                    <div id="textBgColor<?= $color; ?>" class="border colorDiv"
+                                         style="background-color: <?= getOptionTheme('--textBgColor' . $color); ?>;"></div>
+                                </div>
+                                <div class="media-body ml-3">
+                                    <strong class="mb-1">Texte sur fond</strong>
+                                    <div class="inputColorDiv">
+                                        <input type="text" class="themeColorChange"
+                                               data-class="--textBgColor<?= $color; ?>"
+                                               data-title="textBgColor<?= $color; ?>"
+                                               value="<?= getOptionTheme('--textBgColor' . $color); ?>">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="media mb-3 align-items-center">
-                            <div class="file-thumbnail">
-                                <input type="color" class="themeColorChange" data-class="--textBgColorTertiary"
-                                       data-title="textBgColorTertiary"
-                                       value="<?= getOptionTheme('--textBgColorTertiary'); ?>">
-                            </div>
-                            <div class="media-body ml-3">
-                                <strong class="mb-1">Texte sur fond</strong>
-                                <div id="textBgColorTertiary"><?= getOptionTheme('--textBgColorTertiary'); ?></div>
-                            </div>
-                        </div>
-                    </div>
+                        <hr>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
