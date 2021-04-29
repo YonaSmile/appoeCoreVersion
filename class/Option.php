@@ -167,7 +167,10 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `id` = :id';
         $params = array(':id' => $this->id);
-        return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
+        if($return = DB::exec($sql, $params)) {
+            return $return->fetch(PDO::FETCH_OBJ);
+        }
+        return false;
     }
 
     /**
@@ -177,7 +180,10 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type';
         $params = array(':type' => $this->type);
-        return (DB::exec($sql, $params))->fetchAll(PDO::FETCH_OBJ);
+        if($return = DB::exec($sql, $params)) {
+            return $return->fetchAll(PDO::FETCH_OBJ);
+        }
+        return false;
     }
 
     /**
@@ -187,7 +193,10 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
         $params = array(':type' => $this->type, ':key' => $this->key);
-        return (DB::exec($sql, $params))->fetch(PDO::FETCH_OBJ);
+        if($return = DB::exec($sql, $params)) {
+            return $return->fetch(PDO::FETCH_OBJ);
+        }
+        return false;
     }
 
     /**
@@ -236,7 +245,10 @@ class Option
     {
         $sql = 'SELECT `id` FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
         $params = array(':type' => $this->type, ':key' => $this->key);
-        return (DB::exec($sql, $params))->fetchColumn();
+        if($return = DB::exec($sql, $params)) {
+            return $return->fetchColumn();
+        }
+        return false;
     }
 
     /**
