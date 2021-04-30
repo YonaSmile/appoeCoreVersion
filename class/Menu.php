@@ -169,7 +169,7 @@ class Menu
 				    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=30;
 				    INSERT INTO `'.TABLEPREFIX.'appoe_menu` (`id`, `slug`, `name`, `min_role_id`, `statut`, `parent_id`, `order_menu`, `pluginName`, `updated_at`) VALUES
                     (11, "index", "Tableau de bord", 1, 1, 10, 1, NULL, NOW()),
-                    (12, "users", "Utilisateurs", 1, 1, 10, 9999, NULL, NOW()),
+                    (12, "users", "Utilisateurs", 1, 1, 10, 99999, NULL, NOW()),
                     (13, "setting", "Réglages", 11, 0, 10, 13, NULL, NOW()),
                     (14, "updateCategories", "Catégories", 11, 1, 10, 2, NULL, NOW()),
                     (15, "updateMedia", "Média", 1, 1, 10, 3, NULL, NOW()),
