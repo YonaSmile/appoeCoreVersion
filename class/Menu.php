@@ -271,9 +271,9 @@ class Menu
     public function insertMenu()
     {
 
-        if ($this->parentId == 10) {
+        /*if ($this->parentId == 10) {
             $this->orderMenu = $this->ordonnerMenu();
-        }
+        }*/
 
         $sql = 'INSERT INTO '.TABLEPREFIX.'appoe_menu (id, slug, name, min_role_id, statut, parent_id, order_menu, pluginName) 
         VALUES (:id, :slug, :name, :min_role_id, :statut, :parent_id, :order_menu, :pluginName)';
