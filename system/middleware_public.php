@@ -11,6 +11,7 @@ use App\Plugin\Shop\ProductContent;
 
 //Check maintenance mode
 if (checkMaintenance()) {
+    setPageFilename('maintenance');
     if (!headers_sent()) {
         header('HTTP/1.1 503 Service Unavailable', true, 503);
         header('Status: 503 Service Temporarily Unavailable');
