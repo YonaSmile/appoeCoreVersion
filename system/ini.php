@@ -303,6 +303,9 @@ const THEME_DEFAULT_STYLE = array(
     '--colorSecondary' => '#FF9373',
     '--colorSecondaryOpacity' => 'rgba(255, 147, 117, 0.7)',
     '--textBgColorSecondary' => '#FFF',
+    '--colorTertiary' => '#3eb293',
+    '--colorTertiaryOpacity' => 'rgba(62, 178, 147, 0.7)',
+    '--textBgColorTertiary' => '#FFF'
 );
 
 const THEME_CONTENT = '/************** PRIMARY COLOR **************/

@@ -60,7 +60,16 @@ class Option
                 (4, "PREFERENCE", "Autoriser le travail sur la même page", "sharingWork", "false", NOW()),
                 (5, "PREFERENCE", "Autoriser l\'API", "allowApi", "false", NOW()),
                 (6, "DATA", "Clé API", "apiToken", "", NOW()),
-                (7, "DATA", "Adresse Email par défaut", "defaultEmail", "", NOW());';
+                (7, "DATA", "Adresse Email par défaut", "defaultEmail", "", NOW()),
+                (8, "THEME", "", "--colorPrimary", "#3eb293", NOW()),
+                (9, "THEME", "", "--colorPrimaryOpacity", "rgba(62, 178, 147, 0.7)", NOW()),
+                (10, "THEME", "", "--textBgColorPrimary", "#FFF", NOW()),
+                (11, "THEME", "", "--colorSecondary", "#FF9373", NOW()),
+                (12, "THEME", "", "--colorSecondaryOpacity", "rgba(255, 147, 117, 0.7)", NOW()),
+                (13, "THEME", "", "--textBgColorSecondary", "#FFF", NOW()),
+                (14, "THEME", "", "--colorTertiary", "#3eb293", NOW()),
+                (15, "THEME", "", "--colorTertiaryOpacity", "rgba(62, 178, 147, 0.7)", NOW()),
+                (16, "THEME", "", "--textBgColorTertiary", "#FFF", NOW());';
         return !DB::exec($sql) ? false : true;
     }
 
