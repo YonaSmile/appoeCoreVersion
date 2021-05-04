@@ -139,7 +139,7 @@
                                 px
                             </label>
                             <input type="range" class="custom-range editionTextInput" min="8" max="40" step="1"
-                                   id="textSizeRange" style="opacity:0;"
+                                   id="textSizeRange" style="display:none;"
                                    oninput="outputTextSizeRange.value = textSizeRange.value;editionTextSel.style.fontSize = textSizeRange.value+'px'">
                         </div>
                         <div class="my-2 editorEditionInput">
@@ -147,12 +147,13 @@
                                 <output id="outputTextWeightRange">1</output>
                             </label>
                             <input type="range" class="custom-range editionTextInput" min="100" max="900" step="100"
-                                   id="textWeightRange" style="opacity:0;"
+                                   id="textWeightRange" style="display:none;"
                                    oninput="outputTextWeightRange.value = textWeightRange.value;editionTextSel.style.fontWeight = textWeightRange.value">
                         </div>
                         <div class="editorEditionInput">
                             <label for="colorInput"><strong>Couleur du texte:</strong></label>
-                            <input type="text" class="form-control editionTextInput" id="colorInput" style="opacity:0;"
+                            <input type="text" class="form-control editionTextInput" id="colorInput"
+                                   style="display:none;"
                                    oninput="editionTextSel.style.color = colorInput.value">
                         </div>
                     </div>
