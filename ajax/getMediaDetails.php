@@ -30,8 +30,9 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                              data-filename="<?= $Media->getName(); ?>"
                              class="img-fluid seeOnOverlay">
                         <div class="mediaCaption">
-                            <strong>Largeur:</strong> <?= $fileDimensions[0]; ?>px
-                            <strong>| Hauteur:</strong> <?= $fileDimensions[1]; ?>px
+                            <strong>L:</strong> <?= $fileDimensions[0]; ?>px
+                            <strong>| H:</strong> <?= $fileDimensions[1]; ?>px
+                            <strong>| P:</strong> <?= $fileSize; ?>
                         </div>
                     </div>
 
@@ -39,11 +40,16 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                     <audio controls src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
                            data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"></audio>
                 <?php elseif (isVideo($file)): ?>
-                    <video controls class="d-block">
-                        <source src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
-                                data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
-                                type="<?= mime_content_type($file); ?>">
-                    </video>
+                    <div class="position-relative">
+                        <video controls class="d-block">
+                            <source src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
+                                    data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
+                                    type="<?= mime_content_type($file); ?>">
+                        </video>
+                        <div class="mediaCaption">
+                            <strong>Poids:</strong> <?= $fileSize; ?>
+                        </div>
+                    </div>
                 <?php else: ?>
                     <a href="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>" target="_blank">
                         <img src="<?= getImgAccordingExtension(getFileExtension($Media->getName())); ?>"
@@ -65,7 +71,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                             title="<?= trans('Renommer le fichier'); ?>">
                         <i class="fas fa-wrench"></i>
                     </button>
-                    <?php if (isImage($file)): ?>
+                    <?php if (isImage($file) || isVideo($file)): ?>
                         <button type="button" class="btn btn-secondary seeMediaCaption col"
                                 title="<?= trans('Voir les informations de l\'image'); ?>">
                             <i class="fas fa-info"></i>

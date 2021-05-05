@@ -1022,7 +1022,7 @@ table#currentProjetTable tr {
     display: none;
     height: auto;
     width: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
     position: absolute;
     bottom: 0;
     left: 0;
