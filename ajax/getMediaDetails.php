@@ -2,6 +2,7 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 
 use App\Category;
+use App\Form;
 use App\Media;
 
 if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])):
@@ -15,81 +16,98 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
     $Media->setLang(APP_LANG);
 
     if ($Media->show()): ?>
-        <div class="py-2">
-            <div class="col-12">
-                <?php if (isImage(FILE_DIR_PATH . $Media->getName())):
-                    $imgSize = getimagesize(FILE_DIR_PATH . $Media->getName()); ?>
-                    <div class="mb-2">
-                        <strong>Largeur:</strong> <?= $imgSize[0]; ?>px
-                        <strong>|</strong> <strong>Hauteur:</strong> <?= $imgSize[1]; ?>px
-                        <a title="<?= trans('Renommer le fichier'); ?>" class="renameMediaFile float-right"
-                           style="cursor: pointer;">
-                            <i class="fas fa-wrench"></i>
-                        </a>
+        <div class="pb-2">
+            <div class="col-12 p-0">
+                <?php
+                $file = FILE_DIR_PATH . $Media->getName();
+                $fileSize = getSizeName(filesize($file));
+                if (isImage($file)):
+                    $fileDimensions = getimagesize($file); ?>
+                    <div class="position-relative">
+                        <img src="<?= getThumb($Media->getName(), 370); ?>"
+                             alt="<?= $Media->getTitle(); ?>"
+                             data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
+                             data-filename="<?= $Media->getName(); ?>"
+                             class="img-fluid seeOnOverlay">
+                        <div class="mediaCaption">
+                            <strong>Largeur:</strong> <?= $fileDimensions[0]; ?>px
+                            <strong>| Hauteur:</strong> <?= $fileDimensions[1]; ?>px
+                        </div>
                     </div>
-                    <img src="<?= getThumb($Media->getName(), 370); ?>"
-                         alt="<?= $Media->getTitle(); ?>"
-                         data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
-                         data-filename="<?= $Media->getName(); ?>"
-                         class="img-fluid seeOnOverlay">
-                <?php elseif (isAudio(FILE_DIR_PATH . $Media->getName())): ?>
-                    <audio controls src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"></audio>
-                <?php elseif (isVideo(FILE_DIR_PATH . $Media->getName())): ?>
-                    <video controls>
+
+                <?php elseif (isAudio($file)): ?>
+                    <audio controls src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
+                           data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"></audio>
+                <?php elseif (isVideo($file)): ?>
+                    <video controls class="d-block">
                         <source src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
-                                type="<?= mime_content_type(FILE_DIR_PATH . $Media->getName()); ?>">
+                                data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
+                                type="<?= mime_content_type($file); ?>">
                     </video>
                 <?php else: ?>
                     <a href="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>" target="_blank">
                         <img src="<?= getImgAccordingExtension(getFileExtension($Media->getName())); ?>"
-                             data-filename="<?= $Media->getName(); ?>">
+                             data-filename="<?= $Media->getName(); ?>" alt="<?= $Media->getTitle(); ?>">
                     </a>
                 <?php endif; ?>
-                <h5 class="my-2" id="mediaTitle"><?= $Media->getTitle(); ?></h5>
-                <small>
-                    <span class="copyLinkOnClick" title="<?= trans('Copier le lien du média'); ?>"
-                          data-src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>">
-                        <?= $Media->getName(); ?>
-                    </span>
+                <div class="row m-0">
+                    <button type="button" class="btn btn-secondary col copyLinkOnClick"
+                            data-src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
+                            title="<?= trans('Copier le lien du média'); ?>">
+                        <i class="far fa-copy"></i>
+                    </button>
                     <a title="<?= trans('Visualiser le fichier dans un nouvel onglet'); ?>"
                        href="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>" target="_blank"
-                       data-file-mime="<?= mime_content_type(FILE_DIR_PATH . $Media->getName()); ?>">
-                        <i class="fas fa-external-link-alt mx-2"></i>
+                       data-file-mime="<?= mime_content_type($file); ?>" class="btn btn-secondary col">
+                        <i class="fas fa-external-link-alt"></i>
                     </a>
-                </small>
+                    <button type="button" class="btn btn-secondary renameMediaFile col"
+                            title="<?= trans('Renommer le fichier'); ?>">
+                        <i class="fas fa-wrench"></i>
+                    </button>
+                    <?php if (isImage($file)): ?>
+                        <button type="button" class="btn btn-secondary seeMediaCaption col"
+                                title="<?= trans('Voir les informations de l\'image'); ?>">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-12">
+                <h5 class="my-2" id="mediaTitle"><?= $Media->getTitle(); ?></h5>
                 <form method="post" class="my-2" id="filenameInputForm" style="display:none;">
                     <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
                     <input type="hidden" name="oldName" value="<?= $Media->getName(); ?>">
                     <div class="mb-2">
-                        <?= \App\Form::text('Nom du fichier', 'filename', 'text', $Media->getName(), true, 255, '', '', 'form-control-sm'); ?>
+                        <?= Form::text('Nom du fichier', 'filename', 'text', $Media->getName(), true, 255, '', '', 'form-control-sm'); ?>
                     </div>
                     <div class="mb-2">
-                        <?= \App\Form::submit('Enregistrer', 'RENAMEFILENAME'); ?>
+                        <?= Form::submit('Enregistrer', 'RENAMEFILENAME'); ?>
                     </div>
                 </form>
                 <form method="post" id="mediaDetailsForm" class="my-2">
                     <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
                     <input type="hidden" name="imageType" value="<?= $Media->getType(); ?>">
                     <div class="mb-2">
-                        <?= \App\Form::text('Titre (texte alternatif)', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm'); ?>
+                        <?= Form::text('Titre (texte alternatif)', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm'); ?>
                     </div>
                     <div class="mb-2">
-                        <?= \App\Form::textarea('Description', 'description', $Media->getDescription(), 1, false, '', 'form-control-sm imageDescription upImgForm'); ?>
+                        <?= Form::textarea('Description', 'description', $Media->getDescription(), 1, false, '', 'form-control-sm imageDescription upImgForm'); ?>
                     </div>
                     <div class="mb-2">
-                        <?= \App\Form::text('Lien', 'link', 'url', $Media->getLink(), false, 255, '', '', 'form-control-sm imagelink upImgForm'); ?>
+                        <?= Form::text('Lien', 'link', 'url', $Media->getLink(), false, 255, '', '', 'form-control-sm imagelink upImgForm'); ?>
                     </div>
                     <div class="mb-2">
-                        <?= \App\Form::text('Position', 'position', 'text', $Media->getPosition(), false, 5, '', '', 'form-control-sm imagePosition upImgForm'); ?>
+                        <?= Form::text('Position', 'position', 'text', $Media->getPosition(), false, 5, '', '', 'form-control-sm imagePosition upImgForm'); ?>
                     </div>
                     <?php if ($Media->getType() === 'MEDIA'): ?>
                         <div class="mb-2">
-                            <?= \App\Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), true, ' data-old-type="' . $Media->getTypeId() . '" ', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
+                            <?= Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), true, ' data-old-type="' . $Media->getTypeId() . '" ', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
                         </div>
                     <?php else: ?>
                         <input type="hidden" name="typeId" class="imageTypeId" value="<?= $Media->getTypeId(); ?>">
                         <div class="mb-2">
-                            <?= \App\Form::select('Zone du thème', 'templatePosition', FILE_TEMPLATE_POSITIONS, getSerializedOptions($Media->getOptions(), 'templatePosition'), '', '', '', '', 'custom-select-sm templatePosition upImgForm'); ?>
+                            <?= Form::select('Zone du thème', 'templatePosition', FILE_TEMPLATE_POSITIONS, getSerializedOptions($Media->getOptions(), 'templatePosition'), '', '', '', '', 'custom-select-sm templatePosition upImgForm'); ?>
                         </div>
                     <?php endif; ?>
                 </form>
@@ -110,7 +128,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                 </div>
             </div>
         </div>
-    <?php endif; ?>
-<?php else: ?>
+    <?php endif;
+else: ?>
     <p><?= trans('Ce fichier n\'existe pas'); ?> !</p>
 <?php endif; ?>

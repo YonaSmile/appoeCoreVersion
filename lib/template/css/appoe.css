@@ -173,7 +173,6 @@ a:focus, a:hover {
 #sidebar {
     min-width: 240px;
     max-width: 240px;
-    /*background: #FFF;*/
     background-image: url("/app/lib/template/images/pattern-so-white.png");
     background-repeat: repeat;
     -webkit-box-shadow: 1px 0 20px rgba(0, 0, 0, 0.10);
@@ -1017,6 +1016,19 @@ table#currentProjetTable tr {
 .view a.info {
     text-decoration: none;
     cursor: pointer !important;
+}
+
+.mediaCaption {
+    display: none;
+    height: auto;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #FFF;
+    text-align: center;
+    padding: 5px;
 }
 
 /** END MEDIA **/

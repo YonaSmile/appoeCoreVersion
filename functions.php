@@ -1497,20 +1497,22 @@ function pluginExist($pluginName)
 /**
  * @param $octets
  *
- * @return string
+ * @return false|string
  */
 function getSizeName($octets)
 {
-    $resultat = $octets;
-    for ($i = 0; $i < 8 && $resultat >= 1024; $i++) {
-        $resultat = $resultat / 1024;
+    if (is_numeric($octets)) {
+        for ($i = 0; $i < 8 && $octets >= 1024; $i++) {
+            $octets = $octets / 1024;
+        }
+        if ($i > 0) {
+            return preg_replace('/,00$/', '', number_format($octets, 2, ',', ''))
+                . ' ' . substr('KMGTPEZY', $i - 1, 1) . 'o';
+        } else {
+            return $octets . ' o';
+        }
     }
-    if ($i > 0) {
-        return preg_replace('/,00$/', '', number_format($resultat, 2, ',', ''))
-            . ' ' . substr('KMGTPEZY', $i - 1, 1) . 'o';
-    } else {
-        return $resultat . ' o';
-    }
+    return false;
 }
 
 
