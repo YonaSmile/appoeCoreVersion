@@ -308,8 +308,8 @@ const THEME_DEFAULT_STYLE = array(
     '--textBgColorTertiary' => '#FFF'
 );
 
-const THEME_CONTENT = '/************** PRIMARY COLOR **************/
-
+const THEME_CONTENT = '
+/************** PRIMARY COLOR **************/
 [class*="colorPrimary"],
 [class*="colorSecondary"] {
     transition: all 0.3s;
@@ -330,7 +330,6 @@ button[class*="colorPrimary"]:focus, button[class*="colorPrimary"]:hover {
 }
 
 /************** SECONDARY COLOR **************/
-
 .colorSecondary {
     color: var(--colorSecondary);
 }
@@ -347,7 +346,6 @@ button[class*="colorSecondary"]:hover {
 }
 
 /************** DASHBOARD **************/
-
 .dashboardNum {
     background: var(--colorSecondary);
     color: var(--textBgColorSecondary);
@@ -362,4 +360,12 @@ button[class*="colorSecondary"]:hover {
 /************* MEDIA *************/
 .view > .mask {
     background-color: var(--colorSecondaryOpacity);
+}
+
+/************* TABLE *************/
+table.table tr:hover{
+    background: var(--colorSecondary) !important;
+}
+table.table tr:hover td{
+    color: var(--textBgColorSecondary) !important;
 }';

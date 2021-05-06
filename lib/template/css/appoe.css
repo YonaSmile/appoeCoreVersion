@@ -724,10 +724,6 @@ hr.hrStyle:after {
     z-index: 999999;
 }
 
-.table-info-light, .table-info-light > th, .table-info-light > td {
-    background-color: #f7fcff !important;
-}
-
 .logoNavbar {
     max-height: 150px;
 }
@@ -805,10 +801,6 @@ hr.hrStyle:after {
 .displayNoForm:hover {
     background: none !important;
     border: 0 !important;
-}
-
-table#currentProjetTable tr {
-    cursor: pointer;
 }
 
 .modalSpanBtn {
@@ -1167,10 +1159,6 @@ table#currentProjetTable tr {
     background-color: #e8e8e8 !important;
 }
 
-.tableCalendar th, .tableCalendar td {
-    padding: 0.5rem !important;
-}
-
 .strong {
     font-weight: 800;
 }
@@ -1474,35 +1462,13 @@ textarea {
     border-radius: 0 !important;
 }
 
-table.table {
-    border-collapse: separate !important;
-    border-spacing: 0 0.2em !important;
-}
-
-table.table th {
-    vertical-align: middle;
-}
-
-table.table tr {
-    border: 0 none !important;
-    transition: all 0.3s;
-}
-
-table.table tr.even {
-    background: #FFF !important;
-}
-
-table.table tr.odd {
-    background: #f7f7f7 !important;
+table.table th, table.table td {
+    vertical-align: middle !important;
 }
 
 table.table tbody td {
-    border: 0 none !important;
-    color: #4b5b68 !important;
-    font-weight: 600 !important;
     padding: 5px 10px !important;
     font-size: 0.9em !important;
-    vertical-align: middle !important;
 }
 
 table.table tbody td:last-child {
@@ -1529,14 +1495,8 @@ table thead.clonedHead {
     margin-bottom: 0;
 }
 
-input, select, div.cke.cke_browser_gecko {
+input, select {
     border: 0 none;
-}
-
-div.cke.cke_browser_gecko {
-    box-shadow: 0 4px 15px -13px #000;
-    -moz-box-shadow: 0 4px 15px -13px #000;
-    -webkit-box-shadow: 0 4px 15px -13px #000;
 }
 
 label {
@@ -1771,10 +1731,6 @@ li[id^="sousmenu-"] > a:first-child:after {
 
     h1 {
         font-size: 2em !important;
-    }
-
-    #cke_1_top {
-        display: none;
     }
 
     .logoNavbar {
