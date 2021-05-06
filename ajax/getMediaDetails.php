@@ -30,6 +30,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                              data-filename="<?= $Media->getName(); ?>"
                              class="img-fluid seeOnOverlay">
                         <div class="mediaCaption">
+                            <small><?= $Media->getName(); ?></small><br>
                             <strong>L:</strong> <?= $fileDimensions[0]; ?>px
                             <strong>| H:</strong> <?= $fileDimensions[1]; ?>px
                             <strong>| P:</strong> <?= $fileSize; ?>
@@ -37,8 +38,14 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                     </div>
 
                 <?php elseif (isAudio($file)): ?>
-                    <audio controls src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
-                           data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"></audio>
+                    <div class="position-relative">
+                        <audio controls src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
+                               data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"></audio>
+                        <div class="mediaCaption">
+                            <small><?= $Media->getName(); ?></small><br>
+                            <strong>Poids:</strong> <?= $fileSize; ?>
+                        </div>
+                    </div>
                 <?php elseif (isVideo($file)): ?>
                     <div class="position-relative">
                         <video controls class="d-block">
@@ -47,6 +54,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                                     type="<?= mime_content_type($file); ?>">
                         </video>
                         <div class="mediaCaption">
+                            <small><?= $Media->getName(); ?></small><br>
                             <strong>Poids:</strong> <?= $fileSize; ?>
                         </div>
                     </div>
@@ -71,12 +79,10 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                             title="<?= trans('Renommer le fichier'); ?>">
                         <i class="fas fa-wrench"></i>
                     </button>
-                    <?php if (isImage($file) || isVideo($file)): ?>
-                        <button type="button" class="btn btn-secondary seeMediaCaption col"
-                                title="<?= trans('Voir les informations de l\'image'); ?>">
-                            <i class="fas fa-info"></i>
-                        </button>
-                    <?php endif; ?>
+                    <button type="button" class="btn btn-secondary seeMediaCaption col"
+                            title="<?= trans('Voir les informations de l\'image'); ?>">
+                        <i class="fas fa-info"></i>
+                    </button>
                 </div>
             </div>
             <div class="col-12">
