@@ -23,7 +23,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                 $fileSize = getSizeName(filesize($file));
                 if (isImage($file)):
                     $fileDimensions = getimagesize($file); ?>
-                    <div class="position-relative">
+                    <div class="mediaItem">
                         <img src="<?= getThumb($Media->getName(), 370); ?>"
                              alt="<?= $Media->getTitle(); ?>"
                              data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
@@ -38,7 +38,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                     </div>
 
                 <?php elseif (isAudio($file)): ?>
-                    <div class="position-relative">
+                    <div class="mediaItem">
                         <audio controls src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
                                data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"></audio>
                         <div class="mediaCaption">
@@ -47,7 +47,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                         </div>
                     </div>
                 <?php elseif (isVideo($file)): ?>
-                    <div class="position-relative">
+                    <div class="mediaItem">
                         <video controls class="d-block">
                             <source src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
                                     data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"

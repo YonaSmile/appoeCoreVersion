@@ -1018,6 +1018,18 @@ table#currentProjetTable tr {
     cursor: pointer !important;
 }
 
+.mediaItem {
+    position: relative;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mediaItem img {
+    display: block;
+}
+
 .mediaCaption {
     display: none;
     height: auto;
