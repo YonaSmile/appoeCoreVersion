@@ -120,10 +120,10 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                         $numPreference = count($preferences);
                         $i = 0;
                         foreach ($datas as $data): ?>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <strong><?= $data->description; ?></strong>
                                 <mark data-src="<?= $data->val; ?>" class="copyContentOnClick"
-                                      style="cursor: pointer"><?= $data->val; ?></mark>
+                                      style="cursor: pointer;max-width: 300px;"><?= $data->val; ?></mark>
                             </div>
                             <?php if (++$i !== $numPreference): ?>
                                 <hr>
