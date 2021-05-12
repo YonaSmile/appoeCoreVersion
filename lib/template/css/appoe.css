@@ -468,14 +468,6 @@ input.themeColorChange:hover {
     font-weight: 300;
 }
 
-.dashboardCard a {
-    color: #4b5b68;
-}
-
-.dashboardCard h2 a:before {
-    color: #d8d8da;
-}
-
 .dashboardNum {
     position: absolute;
     top: 0;

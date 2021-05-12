@@ -346,6 +346,16 @@ button[class*="colorSecondary"]:hover {
 }
 
 /************** DASHBOARD **************/
+.dashboardCard a,
+.dashboardCard h2 a:before {
+    color: var(--colorSecondary);
+}
+
+.dashboardCard:focus a, .dashboardCard:hover a,
+.dashboardCard:focus h2 a:before, .dashboardCard:hover h2 a:before {
+    color: var(--textBgColorSecondary);
+}
+
 .dashboardNum {
     background: var(--colorSecondary);
     color: var(--textBgColorSecondary);
@@ -363,9 +373,10 @@ button[class*="colorSecondary"]:hover {
 }
 
 /************* TABLE *************/
-table.table tr:hover{
+table.table tr:hover {
     background: var(--colorSecondary) !important;
 }
-table.table tr:hover td{
+
+table.table tr:hover td {
     color: var(--textBgColorSecondary) !important;
 }';
