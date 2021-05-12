@@ -354,9 +354,8 @@ button[class*="colorSecondary"]:hover {
     color: var(--colorSecondary);
     position: absolute;
     top: 0;
-    left: 20px;
-    transform: rotate(30deg);
-    font-size: 300%;
+    left: 10px;
+    font-size: 100px;
     opacity: 0.1;
 }
 
