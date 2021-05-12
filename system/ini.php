@@ -346,9 +346,18 @@ button[class*="colorSecondary"]:hover {
 }
 
 /************** DASHBOARD **************/
-.dashboardCard a,
+.dashboardCard a {
+    color: var(--colorSecondary);
+}
+
 .dashboardCard h2 a:before {
     color: var(--colorSecondary);
+    position: absolute;
+    top: 0;
+    left: 20px;
+    transform: rotate(30deg);
+    font-size: 300%;
+    opacity: 0.1;
 }
 
 .dashboardCard:focus a, .dashboardCard:hover a,

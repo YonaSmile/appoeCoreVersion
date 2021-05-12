@@ -121,7 +121,7 @@ if ($dashboardDetails && is_array($dashboardDetails)): ?>
                     $icon = substr($dashboard['url'], $posUrl + 1, -1);
                 }
                 ?>
-                <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                <div class="col-12 col-sm-6 col-lg-4 mb-3 overflow-hidden">
                     <div class="card d-flex justify-content-start py-4 border-0 dashboardCard">
                         <div class="card-body">
                             <h2 class="card-title m-0 icon-<?= $icon; ?>">
