@@ -20,10 +20,6 @@ class Users
 
     public function __construct($userId = null)
     {
-        if (is_null($this->dbh)) {
-            $this->dbh = DB::connect();
-        }
-
         if (!is_null($userId)) {
             $this->id = $userId;
             $this->show();
@@ -177,7 +173,7 @@ class Users
 
     public function createTable()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `'.TABLEPREFIX.'appoe_users` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `' . TABLEPREFIX . 'appoe_users` (
   					`id` INT(11) NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
                 	`login` VARCHAR(70) NOT NULL,
@@ -192,14 +188,8 @@ class Users
                     `created_at` DATE NULL,
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=15792;';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        }
 
-        return true;
+        return !DB::exec($sql) ? false : true;
     }
 
     /**
@@ -209,17 +199,12 @@ class Users
      */
     public function authUser()
     {
-        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_users WHERE BINARY login = :login AND statut = TRUE';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':login', $this->login);
-        $stmt->execute();
-        $count = $stmt->rowCount();
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            if ($count == 1) {
-                $row = $stmt->fetch(PDO::FETCH_OBJ);
+        $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_users WHERE BINARY login = :login AND statut = TRUE';
+        $params = array(':login' => $this->login);
+        if ($return = DB::exec($sql, $params)) {
+
+            if ($return->rowCount() == 1) {
+                $row = $return->fetch(PDO::FETCH_OBJ);
                 if (password_verify($this->password, $row->password)) {
                     if (password_needs_rehash($row->password, PASSWORD_DEFAULT)) {
                         $this->updatePassword();
@@ -234,6 +219,7 @@ class Users
                 return false; // L'utilisateur n'existe pas;
             }
         }
+        return false;
     }
 
     /**
@@ -243,25 +229,13 @@ class Users
      */
     public function show()
     {
-        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_users WHERE id = :id';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':id', $this->id);
-        $stmt->execute();
-        $count = $stmt->rowCount();
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            if ($count == 1) {
-                $row = $stmt->fetch(PDO::FETCH_OBJ);
-                $this->feed($row);
-
-                return true;
-
-            } else {
-                return false;
-            }
+        $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_users WHERE id = :id';
+        $params = array(':id' => $this->id);
+        if ($return = DB::exec($sql, $params)) {
+            $this->feed($return->fetch(PDO::FETCH_OBJ));
+            return true;
         }
+        return false;
     }
 
     /**
@@ -272,23 +246,12 @@ class Users
     {
 
         $sqlStatus = $minStatus ? ' statut >= :statut ' : ' statut = :statut ';
-        $sql = 'SELECT * FROM '.TABLEPREFIX.'appoe_users WHERE ' . $sqlStatus . ' ORDER BY statut DESC, created_at ASC';
-
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':statut', $this->statut);
-        $stmt->execute();
-        $count = $stmt->rowCount();
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            if ($count > 0) {
-                return $stmt->fetchAll(PDO::FETCH_OBJ);
-
-            } else {
-                return false;
-            }
+        $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_users WHERE ' . $sqlStatus . ' ORDER BY statut DESC, created_at ASC';
+        $params = array(':statut' => $this->statut);
+        if ($return = DB::exec($sql, $params)) {
+            return $return->fetchAll(PDO::FETCH_OBJ);
         }
+        return false;
     }
 
     /**
@@ -298,54 +261,44 @@ class Users
     public function save()
     {
         $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO '.TABLEPREFIX.'appoe_users (login, email, password, role,  nom, prenom, options, created_at) 
+        $sql = 'INSERT INTO ' . TABLEPREFIX . 'appoe_users (login, email, password, role,  nom, prenom, options, created_at) 
                     VALUES (:login, :email, :password, :role, :nom, :prenom, :options, CURDATE())';
-
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':login', $this->login);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':password', $hash_password);
-        $stmt->bindParam(':role', $this->role);
-        $stmt->bindParam(':nom', $this->nom);
-        $stmt->bindParam(':prenom', $this->prenom);
-        $stmt->bindParam(':options', $this->options);
-        $stmt->execute();
-
-        $userId = $this->dbh->lastInsertId();
-
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            $this->setId($userId);
+        $params = array(
+            ':login' => $this->login,
+            ':email' => $this->email,
+            ':password' => $hash_password,
+            ':role' => $this->role,
+            ':nom' => $this->nom,
+            ':prenom' => $this->prenom,
+            ':options' => $this->options,
+        );
+        if ($return = DB::exec($sql, $params)) {
+            $this->setId($return->lastInsertId);
             appLog('Creating user -> login: ' . $this->login . ' email: ' . $this->email . ' role: ' . $this->role . ' nom: ' . $this->nom . ' prenom: ' . $this->prenom . ' options: ' . $this->options);
             return true;
         }
-
+        return false;
     }
 
     public function update()
     {
-        $sql = 'UPDATE '.TABLEPREFIX.'appoe_users 
+        $sql = 'UPDATE ' . TABLEPREFIX . 'appoe_users 
         SET login = :login, email = :email, nom = :nom, prenom = :prenom, role = :role, statut = :statut 
         WHERE id = :id';
-
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':id', $this->id);
-        $stmt->bindParam(':login', $this->login);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':nom', $this->nom);
-        $stmt->bindParam(':prenom', $this->prenom);
-        $stmt->bindParam(':role', $this->role);
-        $stmt->bindParam(':statut', $this->statut);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
+        $params = array(
+            ':id' => $this->id,
+            ':login' => $this->login,
+            ':email' => $this->email,
+            ':nom' => $this->nom,
+            ':prenom' => $this->prenom,
+            ':role' => $this->role,
+            ':statut' => $this->statut
+        );
+        if (DB::exec($sql, $params)) {
             appLog('Updating user -> id: ' . $this->id . ' login: ' . $this->login . ' email: ' . $this->email . ' role: ' . $this->role . ' nom: ' . $this->nom . ' prenom: ' . $this->prenom . ' statut: ' . $this->statut);
             return true;
         }
+        return false;
     }
 
     /**
@@ -356,29 +309,23 @@ class Users
      */
     public function exist($login = false)
     {
-        $sql = 'SELECT login FROM '.TABLEPREFIX.'appoe_users WHERE BINARY login = :login';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':login', $this->login);
-        $stmt->execute();
-        $count = $stmt->rowCount();
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
+        $sql = 'SELECT login FROM ' . TABLEPREFIX . 'appoe_users WHERE BINARY login = :login';
+        $params = array(':login' => $this->login);
+        if ($return = DB::exec($sql, $params)) {
+            $count = $return->rowCount();
             if ($count == 0) {
                 return false;
             } else {
                 if ($login && $count == 1) {
-                    $row = $stmt->fetch(PDO::FETCH_OBJ);
+                    $row = $return->fetch(PDO::FETCH_OBJ);
                     if ($row->login == $this->login) {
                         return false;
                     }
                 }
-
                 return true;
             }
         }
-
+        return false;
     }
 
     /**
@@ -388,18 +335,13 @@ class Users
     public function updatePassword()
     {
         $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = 'UPDATE '.TABLEPREFIX.'appoe_users SET password = :password WHERE BINARY login = :login';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->bindParam(':password', $hash_password);
-        $stmt->bindParam(':login', $this->login);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
+        $sql = 'UPDATE ' . TABLEPREFIX . 'appoe_users SET password = :password WHERE BINARY login = :login';
+        $params = array(':password' => $hash_password, ':login' => $this->login);
+        if (DB::exec($sql, $params)) {
             appLog('Updating user password -> login: ' . $this->login);
             return true;
         }
+        return false;
     }
 
     public function delete()

@@ -14,6 +14,13 @@ require_once WEB_PHPMAILER_PATH . 'Exception.php';
 require_once WEB_PHPMAILER_PATH . 'PHPMailer.php';
 require_once WEB_PHPMAILER_PATH . 'SMTP.php';
 
+//Get all users in a const
+if (!defined('ALLUSERS')) {
+    $USER = new Users();
+    $USER->setStatut(0);
+    define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
+}
+
 /**
  * @return string
  */
@@ -3650,7 +3657,7 @@ function isUserAuthorized($slug)
  */
 function checkAndGetUserId($idUser = null)
 {
-    return $idUser ? $idUser : getUserIdSession();
+    return !is_null($idUser) ? $idUser : getUserIdSession();
 }
 
 /**
@@ -3662,15 +3669,6 @@ function checkAndGetUserId($idUser = null)
  */
 function getAllUsers($max = false, $min = false, $roleIdReference = null)
 {
-
-    if (!defined('ALLUSERS')) {
-
-        //Get all users in a const
-        $USER = new Users();
-        $USER->setStatut(0);
-        define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
-    }
-
     $allUsers = unserialize(ALLUSERS);
 
     if (is_array($allUsers)) {

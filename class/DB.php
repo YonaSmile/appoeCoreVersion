@@ -60,15 +60,14 @@ class DB
     {
         self::$dbh = self::connect();
 
-        $stmt = self::$dbh->prepare($sql);
-        $stmt->execute($params);
-        $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            setSqlError($error);
-            return false;
-        } else {
+        try {
+            $stmt = self::$dbh->prepare($sql);
+            $stmt->execute($params);
             $stmt->lastInsertId = self::$dbh->lastInsertId();
             return $stmt;
+        } catch (Exception $e) {
+            setSqlError($e->getMessage());
+            return false;
         }
     }
 
