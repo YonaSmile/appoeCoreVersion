@@ -109,7 +109,7 @@ class CategoryRelations
 
     public function createTable()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `'.TABLEPREFIX.'appoe_categoryRelations` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `' . TABLEPREFIX . 'appoe_categoryRelations` (
   					`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 	PRIMARY KEY (`id`),
                     `type` VARCHAR(150) NOT NULL,
@@ -117,7 +117,7 @@ class CategoryRelations
                     `categoryId` INT(11) UNSIGNED NOT NULL,
                     UNIQUE (`type`, `typeId`, `categoryId`),
                 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11;';
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;ALTER TABLE `' . TABLEPREFIX . 'appoe_categoryRelations` AUTO_INCREMENT = 11;';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
@@ -135,8 +135,8 @@ class CategoryRelations
     public function show()
     {
 
-        $sql = 'SELECT CR.*, C.name AS name, C.parentId AS parentId FROM '.TABLEPREFIX.'appoe_categoryRelations AS CR 
-        RIGHT JOIN '.TABLEPREFIX.'appoe_categories AS C 
+        $sql = 'SELECT CR.*, C.name AS name, C.parentId AS parentId FROM ' . TABLEPREFIX . 'appoe_categoryRelations AS CR 
+        RIGHT JOIN ' . TABLEPREFIX . 'appoe_categories AS C 
         ON(CR.categoryId = C.id)
         WHERE CR.type = :type AND CR.typeId = :typeId AND C.status = 1 ORDER BY C.name ASC';
 
@@ -161,10 +161,10 @@ class CategoryRelations
     {
 
         $sql = 'SELECT CR.id, CR.type, CR.typeId, CR.categoryId, ART.name, ART.statut 
-        FROM '.TABLEPREFIX.'appoe_categoryRelations AS CR 
-        RIGHT JOIN '.TABLEPREFIX.'appoe_plugin_itemGlue_articles AS ART 
+        FROM ' . TABLEPREFIX . 'appoe_categoryRelations AS CR 
+        RIGHT JOIN ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles AS ART 
         ON(CR.typeId = ART.id) 
-        RIGHT JOIN '.TABLEPREFIX.'appoe_categories AS AC
+        RIGHT JOIN ' . TABLEPREFIX . 'appoe_categories AS AC
         ON(AC.id = CR.categoryId)
         WHERE CR.type = "ITEMGLUE" AND ART.statut > 0 AND AC.status = 1
         ORDER BY ART.statut DESC, ART.updated_at DESC';
@@ -186,7 +186,7 @@ class CategoryRelations
      */
     public function save()
     {
-        $sql = 'INSERT INTO '.TABLEPREFIX.'appoe_categoryRelations (type, typeId, categoryId) VALUES(:type, :typeId, :categoryId)';
+        $sql = 'INSERT INTO ' . TABLEPREFIX . 'appoe_categoryRelations (type, typeId, categoryId) VALUES(:type, :typeId, :categoryId)';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':typeId', $this->typeId);
@@ -208,7 +208,7 @@ class CategoryRelations
      */
     public function update()
     {
-        $sql = 'UPDATE '.TABLEPREFIX.'appoe_categoryRelations SET type = :type, typeId = :typeId, categoryId = :categoryId WHERE id = :id';
+        $sql = 'UPDATE ' . TABLEPREFIX . 'appoe_categoryRelations SET type = :type, typeId = :typeId, categoryId = :categoryId WHERE id = :id';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':typeId', $this->typeId);
@@ -230,7 +230,7 @@ class CategoryRelations
      */
     public function delete()
     {
-        $sql = 'DELETE FROM '.TABLEPREFIX.'appoe_categoryRelations WHERE id = :id';
+        $sql = 'DELETE FROM ' . TABLEPREFIX . 'appoe_categoryRelations WHERE id = :id';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);
