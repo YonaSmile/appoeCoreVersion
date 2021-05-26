@@ -3415,7 +3415,8 @@ function includePluginsJs($forApp = false, $min = false)
             }
         }
     }
-    echo '<script type="text/javascript" src="' . WEB_LIB_URL . 'js/functions.js"></script>';
+    echo '<script type="text/javascript" src="' . WEB_LIB_URL . 'js/functions.js"></script>'
+        . '<script type="text/javascript" src="' . WEB_LIB_URL . 'js/public.js"></script>';
 
     if ($forApp) {
         includePluginsJsForApp();
