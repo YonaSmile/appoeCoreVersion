@@ -236,6 +236,10 @@ function getMetaData()
 {
     $header = '<meta name="publisher" content="Art Of Event - Communication" />';
 
+    if (getPageFilename() == 'index') {
+        $header .= '<link rel="canonical" href="' . WEB_DIR_URL . '" />';
+    }
+
     //Schema.org meta
     $header .= '<meta itemprop="name" content="' . getPageName() . '" />';
     $header .= '<meta itemprop="description" content="' . getPageDescription() . '" />';
