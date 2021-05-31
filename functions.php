@@ -2,6 +2,7 @@
 
 use App\AppLogging;
 use App\Category;
+use App\MailLogger;
 use App\Media;
 use App\Option;
 use App\Plugin\Traduction\Traduction;
@@ -2717,6 +2718,7 @@ function getHttpRequest($url, $options = array())
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
     curl_setopt($ch, CURLOPT_ENCODING, '');
     curl_setopt($ch, CURLOPT_TIMEOUT, 0);
     curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
@@ -5022,6 +5024,9 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
     $sender = !empty($data['sender']) ? $data['sender'] : 'noreply@' . $_SERVER['HTTP_HOST'];
     $Mail->SetFrom($sender, $data['fromName']);
 
+    // Reply to
+    $Mail->addReplyTo($data['fromEmail'], $data['fromName']);
+
     // Recipient
     $Mail->ClearAddresses();
     $Mail->AddAddress($data['toEmail'], $data['toName']);
@@ -5082,7 +5087,7 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
         }
     }
 
-    $MailLogger = new \App\MailLogger($data);
+    $MailLogger = new MailLogger($data);
 
     //Sending mail
     if ($Mail->Send()) {
