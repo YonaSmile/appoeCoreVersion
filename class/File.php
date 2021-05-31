@@ -349,6 +349,22 @@ class File
     }
 
     /**
+     * @return bool
+     */
+    public function exist()
+    {
+
+        $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_files WHERE type = :type AND typeId = :typeId AND name = :name';
+
+        if ($return = DB::exec($sql, [':type' => $this->type, ':typeId' => $this->typeId, ':name' => $this->name])) {
+            if ($return->rowCount() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Feed class attributs
      *
      * @param $data

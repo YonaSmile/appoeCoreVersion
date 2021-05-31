@@ -56,7 +56,9 @@ if (checkAjaxRequest()) {
             if (!empty($_FILES)) {
                 $Media->setUploadFiles($_FILES['inputFile']);
                 $files = $Media->upload();
-                $html .= trans('Fichiers importés') . ' : <strong>' . $files['countUpload'] . '</strong>. ' . (!empty($files['errors']) ? '<br><span class="text-danger">' . $files['errors'] . '</span>' : '');
+                $html .= trans('Fichiers importés') . ' : <strong>' . $files['countUpload'] . '</strong><br>'
+                    . trans('Fichiers enregistrés dans la BDD') . ' : <strong>' . $files['countDbSaved'] . '</strong>'
+                    . (!empty($files['errors']) ? '<br><span class="text-danger">' . $files['errors'] . '</span>' : '');
             }
 
             //Get selected files
@@ -72,12 +74,12 @@ if (checkAjaxRequest()) {
 
                 foreach ($files as $key => $file) {
                     $Media->setName($file);
-                    if ($Media->save()) {
-                        $selectedFilesCount++;
+                    if (!$Media->exist()) {
+                        if ($Media->save()) $selectedFilesCount++;
                     }
                 }
 
-                $html .= trans('Fichiers sélectionnés enregistrés') . ' <strong>' . $selectedFilesCount . '</strong>.';
+                $html .= '<br>' . trans('Fichiers sélectionnés enregistrés dans la BDD') . ' : <strong>' . $selectedFilesCount . '</strong>';
             }
 
             echo json_encode($html);

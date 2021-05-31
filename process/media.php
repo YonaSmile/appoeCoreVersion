@@ -38,7 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             foreach ($files as $key => $file) {
                 $Media->setName($file);
-                if ($Media->save()) $selectedFilesCount++;
+                if (!$Media->exist()) {
+                    if ($Media->save()) $selectedFilesCount++;
+                }
             }
 
             $html .= '<br>' . trans('Fichiers sélectionnés enregistrés dans la BDD') . ' : <strong>' . $selectedFilesCount . '</strong>';
