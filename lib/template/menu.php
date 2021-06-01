@@ -28,8 +28,7 @@ if (is_array($autorisedMenu)) {
             if (!empty($menuAll[$menu['id']])): sort($menuAll[$menu['id']]); ?>
                 <li class="<?= 'icon-' . $menu['slug']; ?> <?= activePage($menu['slug'], 'active'); ?>"
                     id="menu-<?= $menu['slug']; ?>">
-                    <a href="#<?= 'menu-admin' . $menu['id']; ?>" data-toggle="collapse"
-                       aria-expanded="false"
+                    <a href="#<?= 'menu-admin' . $menu['id']; ?>" data-toggle="collapse" aria-expanded="false"
                        class="accordion-toggle wave-effect sidebarLink"><?= trans($menu['name']); ?></a>
                     <ul class="collapse list-unstyled" id="<?= 'menu-admin' . $menu['id']; ?>"
                         data-parent="#adminMenu">
