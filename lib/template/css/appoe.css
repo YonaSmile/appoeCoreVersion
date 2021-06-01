@@ -225,7 +225,7 @@ a:focus, a:hover {
     display: block;
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 15px;
 }
 
 #sidebar li a[aria-expanded="true"]::after {
