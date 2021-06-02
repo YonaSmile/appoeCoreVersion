@@ -91,6 +91,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                                     <?php if ($fileSize || (is_array($fileSize) && $fileSize[1] > 150)): ?>
                                                         <h2><?= $file->title; ?></h2>
                                                         <p><?= nl2br($file->description); ?></p>
+                                                        <small style="color: var(--textBgColorSecondary);line-height: 1.1em;">
+                                                            <?= $file->name; ?></small>
                                                     <?php endif; ?>
                                                 </a>
                                             </div>
