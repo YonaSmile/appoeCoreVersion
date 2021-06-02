@@ -539,7 +539,8 @@ class File
                                 continue;
                             }
 
-                            if (deleteImageIfCorrupted($this->filePath . $filename)) {
+                            if($this->isFileCorrupted($this->filePath . $filename)){
+                                unlink($this->filePath . $filename);
                                 $returnArr['errors'] .= sprintf(trans('Le fichier %s semble être corrompu et a été supprimé'), $filename) . '<br>';
                                 continue;
                             }
@@ -607,7 +608,8 @@ class File
                             return $returnArr;
                         }
 
-                        if (deleteImageIfCorrupted($this->filePath . $filename)) {
+                        if($this->isFileCorrupted($this->filePath . $filename)){
+                            unlink($this->filePath . $filename);
                             $returnArr['errors'] .= sprintf(trans('Le fichier %s semble être corrompu et a été supprimé'), $filename) . '<br>';
                             return $returnArr;
                         }
@@ -638,6 +640,37 @@ class File
 
 
         return $returnArr;
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    public function isFileCorrupted($file){
+
+        $ext = strtoupper(pathinfo($file, PATHINFO_EXTENSION));
+        $integratedFile = true;
+
+        if (isImage($file)) {
+
+            $mime = exif_imagetype($file);
+
+            if (($ext == "JPG" or $ext == "JPEG") && $mime == IMAGETYPE_JPEG) {
+                $integratedFile = @imagecreatefromjpeg($file);
+            } elseif ($ext == "PNG" && $mime == IMAGETYPE_PNG) {
+                $integratedFile = @imagecreatefrompng($file);
+            } elseif ($ext == "GIF" && $mime == IMAGETYPE_GIF) {
+                $integratedFile = @imagecreatefromgif($file);
+            } elseif ($ext == "WEBP" && $mime == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+                $integratedFile = @imagecreatefromwebp($file);
+            } elseif ($ext == "SVG" && isSvg($file)) {
+                $integratedFile = true;
+            } else {
+                $integratedFile = false;
+            }
+        }
+
+        return !$integratedFile;
     }
 
     /**

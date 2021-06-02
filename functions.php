@@ -713,43 +713,6 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 }
 
 /**
- * @param $image
- * @return bool
- */
-function isCorruptedImage($image)
-{
-
-    $ext = strtoupper(pathinfo($image, PATHINFO_EXTENSION));
-    $integratedImage = false;
-
-    if (($ext == "JPG" or $ext == "JPEG") && exif_imagetype($image) == IMAGETYPE_JPEG) {
-        $integratedImage = @imagecreatefromjpeg($image);
-    } elseif ($ext == "PNG" && exif_imagetype($image) == IMAGETYPE_PNG) {
-        $integratedImage = @imagecreatefrompng($image);
-    } elseif ($ext == "GIF" && exif_imagetype($image) == IMAGETYPE_GIF) {
-        $integratedImage = @imagecreatefromgif($image);
-    } elseif ($ext == "WEBP" && exif_imagetype($image) == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
-        $integratedImage = @imagecreatefromwebp($image);
-    }
-
-    return !$integratedImage;
-}
-
-/**
- * @param $image
- * @return bool
- */
-function deleteImageIfCorrupted($image)
-{
-    if (file_exists($image) && isCorruptedImage($image)) {
-        unlink($image);
-        return true;
-    }
-
-    return false;
-}
-
-/**
  * @param $mediaPath
  *
  * @return bool
@@ -757,8 +720,9 @@ function deleteImageIfCorrupted($image)
 function isImage($mediaPath)
 {
     if (file_exists($mediaPath)) {
-        return filesize($mediaPath) > 11 ? (exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG
-            || exif_imagetype($mediaPath) == IMAGETYPE_GIF || exif_imagetype($mediaPath) == IMAGETYPE_WEBP || isSvg($mediaPath)) : false;
+        $mime = exif_imagetype($mediaPath);
+        return filesize($mediaPath) > 11 ? ($mime == IMAGETYPE_JPEG || $mime == IMAGETYPE_PNG || $mime == IMAGETYPE_GIF
+            || $mime == IMAGETYPE_WEBP || isSvg($mediaPath)) : false;
     }
 
     return false;
