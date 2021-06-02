@@ -713,6 +713,41 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 }
 
 /**
+ * @param $image
+ * @return bool
+ */
+function isCorruptedImage($image)
+{
+
+    $ext = strtoupper(pathinfo($image, PATHINFO_EXTENSION));
+    $integratedImage = false;
+
+    if ($ext == "JPG" or $ext == "JPEG") {
+        $integratedImage = @imagecreatefromjpeg($image);
+    } elseif ($ext == "PNG") {
+        $integratedImage = @imagecreatefrompng($image);
+    } elseif ($ext == "GIF") {
+        $integratedImage = @imagecreatefromgif($image);
+    } elseif ($ext == "WEBP" && function_exists('imagecreatefromwebp')) {
+        $integratedImage = @imagecreatefromwebp($image);
+    }
+
+    return !$integratedImage;
+}
+
+/**
+ * @param $image
+ */
+function deleteImageIfCorrupted($image)
+{
+    if (file_exists($image) && isCorruptedImage($image)) {
+        return unlink($image);
+    }
+
+    return true;
+}
+
+/**
  * @param $mediaPath
  *
  * @return bool
@@ -720,10 +755,8 @@ function array_sort($array, $keyName, $order = SORT_ASC)
 function isImage($mediaPath)
 {
     if (file_exists($mediaPath)) {
-        return filesize($mediaPath) > 11 ? (
-            exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG
-            || exif_imagetype($mediaPath) == IMAGETYPE_GIF || exif_imagetype($mediaPath) == IMAGETYPE_WEBP || isSvg($mediaPath)
-        ) : false;
+        return filesize($mediaPath) > 11 ? (exif_imagetype($mediaPath) == IMAGETYPE_JPEG || exif_imagetype($mediaPath) == IMAGETYPE_PNG
+            || exif_imagetype($mediaPath) == IMAGETYPE_GIF || exif_imagetype($mediaPath) == IMAGETYPE_WEBP || isSvg($mediaPath)) : false;
     }
 
     return false;
@@ -2409,16 +2442,13 @@ function thumb($filename, $desired_width = 100, $quality = 80, $webp = false)
 
             /* read the source image */
             if ($ext == "JPG" or $ext == "JPEG") {
-                $source_image = imagecreatefromjpeg($src);
+                $source_image = @imagecreatefromjpeg($src);
             } elseif ($ext == "PNG") {
-                $source_image = imagecreatefrompng($src);
+                $source_image = @imagecreatefrompng($src);
             } elseif ($ext == "GIF") {
-                $source_image = imagecreatefromgif($src);
-            } elseif ($ext == "WEBP") {
-                if (!function_exists('imagecreatefromwebp')) {
-                    return false;
-                }
-                $source_image = imagecreatefromwebp($src);
+                $source_image = @imagecreatefromgif($src);
+            } elseif ($ext == "WEBP" && function_exists('imagecreatefromwebp')) {
+                $source_image = @imagecreatefromwebp($src);
             } else {
                 return false;
             }
