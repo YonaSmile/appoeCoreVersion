@@ -722,13 +722,13 @@ function isCorruptedImage($image)
     $ext = strtoupper(pathinfo($image, PATHINFO_EXTENSION));
     $integratedImage = false;
 
-    if ($ext == "JPG" or $ext == "JPEG") {
+    if (($ext == "JPG" or $ext == "JPEG") && exif_imagetype($image) == IMAGETYPE_JPEG) {
         $integratedImage = @imagecreatefromjpeg($image);
-    } elseif ($ext == "PNG") {
+    } elseif ($ext == "PNG" && exif_imagetype($image) == IMAGETYPE_PNG) {
         $integratedImage = @imagecreatefrompng($image);
-    } elseif ($ext == "GIF") {
+    } elseif ($ext == "GIF" && exif_imagetype($image) == IMAGETYPE_GIF) {
         $integratedImage = @imagecreatefromgif($image);
-    } elseif ($ext == "WEBP" && function_exists('imagecreatefromwebp')) {
+    } elseif ($ext == "WEBP" && exif_imagetype($image) == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
         $integratedImage = @imagecreatefromwebp($image);
     }
 
@@ -737,14 +737,16 @@ function isCorruptedImage($image)
 
 /**
  * @param $image
+ * @return bool
  */
 function deleteImageIfCorrupted($image)
 {
     if (file_exists($image) && isCorruptedImage($image)) {
-        return unlink($image);
+        unlink($image);
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 /**

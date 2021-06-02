@@ -538,27 +538,24 @@ class File
                                 $returnArr['errors'] .= sprintf(trans('Le fichier %s n\'a pas pu être enregistré.'), $filename) . '<br>';
                                 continue;
                             }
-                            /*} else {
-                                $returnArr['errors'] .= trans('Le fichier') . ' ' . $filename . ' ' . trans('existe déjà, il a donc été partagé et non remplacé.') . '<br>';
-                            }*/
 
                             if (deleteImageIfCorrupted($this->filePath . $filename)) {
-
-                                $uploadFilesCounter++;
-                                appLog('Upload file -> name: ' . $filename);
-                                array_push($returnArr['filename'], $filename);
-
-                                if ($saveToDb && $formUploadToDB) {
-
-                                    $this->name = $filename;
-                                    if ($this->save()) {
-                                        $dbSaveFilesCounter++;
-                                    }
-                                }
-
-                            } else {
                                 $returnArr['errors'] .= sprintf(trans('Le fichier %s semble être corrompu et a été supprimé'), $filename) . '<br>';
+                                continue;
                             }
+
+                            $uploadFilesCounter++;
+                            appLog('Upload file -> name: ' . $filename);
+                            array_push($returnArr['filename'], $filename);
+
+                            if ($saveToDb && $formUploadToDB) {
+
+                                $this->name = $filename;
+                                if ($this->save()) {
+                                    $dbSaveFilesCounter++;
+                                }
+                            }
+
                         } else {
                             $returnArr['errors'] .= trans('Le format du fichier') . ' ' . $filename . ' ' . trans('n\'est pas reconnu.') . '<br>';
                         }
@@ -611,22 +608,21 @@ class File
                         }
 
                         if (deleteImageIfCorrupted($this->filePath . $filename)) {
-
-                            appLog('Upload file -> name: ' . $filename);
-
-                            if ($saveToDb) {
-
-                                $this->name = $filename;
-
-                                if (!$this->save()) {
-                                    $returnArr['errors'] = trans('Impossible d\'enregistrer le fichier.');
-
-                                    return $returnArr;
-                                }
-                            }
-
-                        } else {
                             $returnArr['errors'] .= sprintf(trans('Le fichier %s semble être corrompu et a été supprimé'), $filename) . '<br>';
+                            return $returnArr;
+                        }
+
+                        appLog('Upload file -> name: ' . $filename);
+
+                        if ($saveToDb) {
+
+                            $this->name = $filename;
+
+                            if (!$this->save()) {
+                                $returnArr['errors'] = trans('Impossible d\'enregistrer le fichier.');
+
+                                return $returnArr;
+                            }
                         }
 
                     } else {
