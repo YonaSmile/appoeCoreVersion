@@ -20,9 +20,6 @@ class Option
      */
     public function __construct(array $data = array())
     {
-        if (!DB::isTableExist($this->tableName)) {
-            $this->createTable();
-        }
 
         if (!empty($data['type']) && !empty($data['key']) && !empty($data['val'])) {
 
