@@ -72,6 +72,23 @@ class DB
     }
 
     /**
+     * Feed class attributs
+     *
+     * @param $class
+     * @param $data
+     */
+    public static function feed($class, $data)
+    {
+        foreach ($data as $attribut => $value) {
+            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
+
+            if (is_callable(array($class, $method))) {
+                $class->$method($value);
+            }
+        }
+    }
+
+    /**
      * @param $tableName
      * @return bool
      */
