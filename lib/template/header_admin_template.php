@@ -44,7 +44,8 @@ includePluginsFiles(true);
         <nav id="sidebar" class="nav-sidebar">
             <?php include(WEB_TEMPLATE_PATH . 'menu.php'); ?>
         </nav>
-        <div class="container-fluid" id="content-area">
+        <div id="content-area">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12" id="content-size">
                     <div class="panel">

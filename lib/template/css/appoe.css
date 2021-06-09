@@ -153,7 +153,8 @@ a:focus, a:hover {
 
 #content-area {
     margin-top: 20px;
-    margin-left: 250px;
+    width: calc(100% - 240px);
+    transform: translateX(240px);
     transition: all 0.4s;
     -moz-transition: all 0.4s;
     -webkit-transition: all 0.4s;
@@ -165,6 +166,7 @@ a:focus, a:hover {
 }
 
 #content-area div#content-size {
+
     transition: all 0.4s;
     -moz-transition: all 0.4s;
     -webkit-transition: all 0.4s;
@@ -173,6 +175,7 @@ a:focus, a:hover {
 #sidebar {
     min-width: 240px;
     max-width: 240px;
+    transform: translateX(0);
     background-image: url("/app/lib/template/images/pattern-so-white.png");
     background-repeat: repeat;
     -webkit-box-shadow: 1px 0 20px rgba(0, 0, 0, 0.10);
@@ -186,7 +189,7 @@ a:focus, a:hover {
 }
 
 #sidebar.active {
-    margin-left: -250px;
+    transform: translateX(-240px);
 }
 
 #sidebar ul.components {
@@ -262,15 +265,11 @@ a:focus, a:hover {
 ----------------------------------------------------- */
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+        transform: translateX(-240px);
     }
 
-    #sidebar.active {
-        margin-left: 0;
-    }
-
-    #content-area {
-        margin-left: 0;
+    #content-area, #sidebar.active {
+        transform: translateX(0);
     }
 
     .nav-sidebar {
@@ -1709,7 +1708,7 @@ li[id^="sousmenu-"] > a:first-child:after {
 @media screen and (max-width: 770px) {
 
     #content-area {
-        margin-left: 0;
+        transform: translateX(0);
     }
 
     #content-area .panel {

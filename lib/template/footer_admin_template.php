@@ -3,6 +3,7 @@
 </div><!-- END DIV COL -->
 </div><!-- END DIV ROW -->
 </div><!-- END DIV CONTAINER -->
+</div><!-- END DIV CONTENT-AREA -->
 </div><!-- END DIV WRAPPER -->
 </div><!-- END DIV SITE -->
 <!-- MODAL INFO -->
