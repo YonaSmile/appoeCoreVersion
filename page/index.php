@@ -79,12 +79,12 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
             <div class="card border-0 w-100">
                 <div class="card-header bg-white pb-0 border-0 boardBlock2Title">
                     <h5 class="m-0 pl-4 colorSecondary"><?= trans('Visiteurs'); ?>
-                        <span type="button" id="refreshVisites" class="float-right">
+                        <span type="button" id="refreshTracker" class="float-right">
                             <i class="fas fa-sync-alt fa-sm"></i></span>
                     </h5>
                     <hr class="mx-4">
                 </div>
-                <div class="card-body pt-0" id="visitorsStats"></div>
+                <div class="card-body pt-0" id="visitorsTracker"></div>
             </div>
         </div>
     </div>

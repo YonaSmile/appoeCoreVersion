@@ -407,6 +407,11 @@ function constructMenu($allPages)
                 $menuPage->slug = $menuPage->idCms;
             }
 
+            //check if is homepage
+            if ($menuPage->filename === 'index') {
+                $menuPage->slug = WEB_DIR_URL;
+            }
+
             //First level menu sorting by location and second level by parent Id.
             $menu[$menuPage->location][$menuPage->parentId][] = $menuPage;
         }
