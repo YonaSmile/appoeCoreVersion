@@ -7,7 +7,7 @@ use App\Plugin\ItemGlue\Article;
 
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="row mb-3">
-        <div class="d-flex col-12 col-lg-8">
+        <div class="d-flex col-md-12 col-lg-7">
             <div class="card border-0 w-100">
                 <div class="card-header bg-white pb-0 border-0 boardBlock1Title">
                     <h5 class="m-0 pl-4 colorPrimary"><?= trans('Modifié récemment'); ?></h5>
@@ -75,7 +75,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                 </div>
             </div>
         </div>
-        <div class="d-flex col-12 col-lg-4">
+        <div class="d-flex col-md-12 col-lg-5">
             <div class="card border-0 w-100">
                 <div class="card-header bg-white pb-0 border-0 boardBlock2Title">
                     <h5 class="m-0 pl-4 colorSecondary"><?= trans('Visiteurs'); ?>
