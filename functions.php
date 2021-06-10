@@ -4899,23 +4899,22 @@ function getServerPerformanceColor($cpu)
 function emailVerification(array $options)
 {
     //Encrypt key for email
-    $key = time();
+    $key = setToken(false);
     $keyToConfirm = base64_encode(password_hash($key, PASSWORD_DEFAULT));
 
     //Mail options
-    $defaultMailOptions = array(
+    $options = array_merge(array(
         'fromEmail' => 'noreply@' . $_SERVER['HTTP_HOST'],
         'fromName' => WEB_TITLE,
         'toName' => '',
         'object' => WEB_TITLE . ' - Authentification requise',
         'message' => '<p>Cet email vous a été envoyé suite à une demande d\'inscription à la newsletter.<br>Vous avez 2h pour confirmer votre adresse email</p>',
-        'confirmationPageSlug' => 'confirmation-email/',
+        'confirmationPageSlug' => 'confirmation-email',
         'confirmationBtnText' => 'Confirmer mon adresse email'
-    );
-    $options = array_merge($defaultMailOptions, $options);
+    ), $options);
 
     //Confirm mail button
-    $url = webUrl($options['confirmationPageSlug'] . '/?') . 'email=' . $options['toEmail'] . '&key=' . $keyToConfirm;
+    $url = webUrl($options['confirmationPageSlug'] . '/?') . 'email=' . base64_encode($options['toEmail']) . '&key=' . $keyToConfirm;
     $options['message'] .= '<p style="text-align:center;"><a class="btn" href="' . $url . '" title="' . $options['confirmationBtnText'] . '">' . $options['confirmationBtnText'] . '</a></p>';
 
     //Saving key and email in db
@@ -4938,13 +4937,13 @@ function emailVerification(array $options)
  * @param int $timeLimit in hours
  * @return bool|void|array
  */
-function approveEmail($get, $timeLimit = 2)
+function approveEmail($get, $timeLimit = 5)
 {
     if (!empty($get['email']) && !empty($get['key'])) {
 
         //Clean data
-        $email = cleanData($get['email']);
-        $key = base64_decode(cleanData($get['key']));
+        $email = cleanData(base64_decode($get['email']));
+        $key = cleanData(base64_decode($get['key']));
 
         //Check mail in db
         $Option = new Option();
