@@ -129,7 +129,6 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
             </div>
             <div class="my-4"></div>
         </div>
-        <div id="mediaDetails" data-file-id="">Aucun fichier sélectionné</div>
         <div class="modal fade" id="allMediasModal" tabindex="-1" role="dialog" aria-labelledby="allMediasModalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">

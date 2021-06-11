@@ -5,6 +5,7 @@
 </div><!-- END DIV CONTAINER -->
 </div><!-- END DIV CONTENT-AREA -->
 </div><!-- END DIV WRAPPER -->
+<div id="mediaDetails" data-file-id="">Aucun fichier sélectionné</div>
 </div><!-- END DIV SITE -->
 <!-- MODAL INFO -->
 <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="modalTitle"
