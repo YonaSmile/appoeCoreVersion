@@ -11,7 +11,7 @@ class Hook
     public static function apply($hook, $args = array())
     {
         if (!empty(self::$actions[$hook])) {
-            foreach (array_sort(self::$actions[$hook], 'priority', SORT_DESC) as $f) {
+            foreach (array_sort(self::$actions[$hook], 'priority', SORT_ASC) as $f) {
                 $f['function']($args);
             }
         }
