@@ -1,10 +1,10 @@
-<div id="loadMediaLibrary"></div>
 </div><!-- END DIV PANEL -->
 </div><!-- END DIV COL -->
 </div><!-- END DIV ROW -->
 </div><!-- END DIV CONTAINER -->
 </div><!-- END DIV CONTENT-AREA -->
 </div><!-- END DIV WRAPPER -->
+<div id="loadMediaLibrary"></div>
 <div id="mediaDetails" data-file-id="">Aucun fichier sélectionné</div>
 </div><!-- END DIV SITE -->
 <!-- MODAL INFO -->
