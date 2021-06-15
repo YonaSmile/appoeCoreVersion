@@ -15,11 +15,11 @@ Version::setFile(WEB_APP_PATH . 'version.json');
 if (Version::show() && Version::getVersion() < getHttpRequest($gitHubUserContent . 'appoeCoreVersion/master/version.json')) {
 
     //Update Core
-    if (downloadZip(ROOT_PATH . 'appoeCore.zip', 'https://github.com/YonaSmile/appoeCoreVersion/archive/master.zip')) {
+    if (downloadFile(ROOT_PATH . 'appoeCore.zip', 'https://github.com/YonaSmile/appoeCoreVersion/archive/master.zip')) {
         if (unzipSkipFirstFolder(ROOT_PATH . 'appoeCore.zip', ROOT_PATH, 'appoeCoreVersion-master', WEB_APP_PATH)) {
 
             //Update Rooter
-            if (downloadZip(ROOT_PATH . 'rooter.zip', 'https://github.com/YonaSmile/appoeRooterVersion/archive/master.zip')) {
+            if (downloadFile(ROOT_PATH . 'rooter.zip', 'https://github.com/YonaSmile/appoeRooterVersion/archive/master.zip')) {
                 if (unzipSkipFirstFolder(ROOT_PATH . 'rooter.zip', ROOT_PATH, 'appoeRooterVersion-master', ROOT_PATH)) {
 
                     //Update DataBase
@@ -39,7 +39,7 @@ if (!isArrayEmpty($plugins)) {
             if (Version::show() && Version::getVersion() < getHttpRequest($gitHubUserContent . 'appoePluginsVersions/master/' . $plugin['name'] . '/version.json')) {
 
                 //Update Plugin
-                if (downloadZip(ROOT_PATH . 'plugins.zip', 'https://github.com/YonaSmile/appoePluginsVersions/archive/master.zip')) {
+                if (downloadFile(ROOT_PATH . 'plugins.zip', 'https://github.com/YonaSmile/appoePluginsVersions/archive/master.zip')) {
                     unzipSkipFirstFolder(ROOT_PATH . 'plugins.zip', ROOT_PATH, 'appoePluginsVersions-master', WEB_PLUGIN_PATH);
                     exit();
                 }

@@ -88,7 +88,7 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['downloadPlugins'])) {
 
-        if (downloadZip(ROOT_PATH . 'plugins.zip', $gitHub . 'appoePluginsVersions/archive/refs/heads/master.zip')) {
+        if (downloadFile(ROOT_PATH . 'plugins.zip', $gitHub . 'appoePluginsVersions/archive/refs/heads/master.zip')) {
             if (unzipSkipFirstFolder(ROOT_PATH . 'plugins.zip', ROOT_PATH, 'appoePluginsVersions-master', WEB_PLUGIN_PATH)) {
                 echo 'true';
             }
@@ -98,9 +98,9 @@ if (checkAjaxRequest()) {
 
     if (!empty($_POST['downloadSystemCore'])) {
 
-        if (downloadZip(ROOT_PATH . 'appoeCore.zip', $gitHub . 'appoeCoreVersion/archive/refs/heads/master.zip')) {
+        if (downloadFile(ROOT_PATH . 'appoeCore.zip', $gitHub . 'appoeCoreVersion/archive/refs/heads/master.zip')) {
             if (unzipSkipFirstFolder(ROOT_PATH . 'appoeCore.zip', ROOT_PATH, 'appoeCoreVersion-master', WEB_APP_PATH)) {
-                if (downloadZip(ROOT_PATH . 'rooter.zip', $gitHub . 'appoeRooterVersion/archive/refs/heads/master.zip')) {
+                if (downloadFile(ROOT_PATH . 'rooter.zip', $gitHub . 'appoeRooterVersion/archive/refs/heads/master.zip')) {
                     if (unzipSkipFirstFolder(ROOT_PATH . 'rooter.zip', ROOT_PATH, 'appoeRooterVersion-master', ROOT_PATH)) {
 
                         updateDB();

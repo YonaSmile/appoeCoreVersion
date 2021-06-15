@@ -31,6 +31,8 @@ body {
 
 img, video, audio {
     max-width: 100% !important;
+    vertical-align: middle;
+    border-style: none;
 }
 
 audio {
