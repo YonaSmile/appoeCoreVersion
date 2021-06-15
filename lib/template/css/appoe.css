@@ -263,6 +263,11 @@ a:focus, a:hover {
 
     #sidebar {
         position: fixed;
+        margin-left: -240px;
+    }
+
+    #sidebar.active {
+        margin-left: 0;
     }
 
     .nav-sidebar {
