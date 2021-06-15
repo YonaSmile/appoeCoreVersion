@@ -3,8 +3,8 @@
 namespace App;
 class Hook
 {
-    private static int $defaultPriority = 100;
-    private static array $actions = array(
+    private static $defaultPriority = 100;
+    private static $actions = array(
         'core_front_before_html' => array()
     );
 
