@@ -243,7 +243,8 @@ a:focus, a:hover {
 #sidebar div.sidebar-header {
     position: relative;
     text-align: center;
-    display: block;
+    height: 150px;
+    display: flex;
 }
 
 /* ---------------------------------------------------
@@ -713,7 +714,8 @@ hr.hrStyle:after {
 }
 
 .logoNavbar {
-    max-height: 150px;
+    margin: auto;
+    max-height: 100%;
 }
 
 .typeTitle {
