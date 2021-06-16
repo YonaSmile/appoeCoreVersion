@@ -88,8 +88,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
             </div>
         </div>
     </div>
-<?php
-includePersoPluginsDashboard();
+<?php \App\Hook::apply('core_admin_after_dashboard');
 $dashboardDetails = includePluginsDashboard();
 
 if (isTechnicien(getUserRoleId())) {
