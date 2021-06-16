@@ -3255,21 +3255,6 @@ function includePluginsDashboard()
 }
 
 /**
- *
- */
-function includePersoPluginsDashboard()
-{
-    $plugins = getPlugins();
-
-    if (is_array($plugins) && !empty($plugins)) {
-
-        foreach ($plugins as $plugin) {
-            inc($plugin['pluginPath'] . 'perso_dashboard.php');
-        }
-    }
-}
-
-/**
  * @param $forApp
  */
 function includePluginsFiles($forApp = false)
