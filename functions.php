@@ -447,7 +447,7 @@ function getSessionMenu($primaryIndex = 1, $parent = 10)
  */
 function setCookiesLang($lang)
 {
-    $options = array('expires' => time() + (12 * 3600), 'path' => WEB_DIR, 'secure' => false, 'httponly' => true, 'samesite' => 'Strict');
+    $options = array('expires' => time() + (12 * 3600), 'path' => WEB_DIR, 'secure' => false, 'httponly' => true, 'samesite' => 'Lax');
     setcookie('LANG', $lang, $options);
     setSessionLang($lang);
 }
