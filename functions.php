@@ -3228,33 +3228,6 @@ function getLastFromDb($dbname, $groupBy = '', $limit = 2, $column = 'updated_at
 }
 
 /**
- *
- */
-function includePluginsDashboard()
-{
-    $dashboardDetails = array();
-    $plugins = getPlugins();
-
-    if (is_array($plugins) && !empty($plugins)) {
-
-        foreach ($plugins as $plugin) {
-
-            $filePath = $plugin['pluginPath'] . 'dashboard.php';
-            if (file_exists($filePath)) {
-
-                $dashboard = getFileContent($filePath);
-                if ($dashboard) {
-                    $dashboardDetails[] = json_decode($dashboard, true);
-                }
-            }
-
-        }
-    }
-
-    return $dashboardDetails;
-}
-
-/**
  * @param $forApp
  */
 function includePluginsFiles($forApp = false)

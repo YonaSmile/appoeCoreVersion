@@ -1,7 +1,6 @@
 <?php
 require('header.php');
 
-use App\Category;
 use App\Plugin\Cms\Cms;
 use App\Plugin\ItemGlue\Article;
 
@@ -88,54 +87,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
             </div>
         </div>
     </div>
-<?php \App\Hook::apply('core_admin_after_dashboard');
-$dashboardDetails = includePluginsDashboard();
-
-if (isTechnicien(getUserRoleId())) {
-    $Category = new Category();
-    $dashboardDetails[] = array(
-        'name' => trans('Catégories'),
-        'count' => $Category->showAll(true),
-        'url' => WEB_ADMIN_URL . 'updateCategories/'
-    );
-}
-
-if (isUserAuthorized('updateMedia')) {
-    $File = new \App\File();
-    $dashboardDetails[] = array(
-        'name' => trans('Média'),
-        'count' => $File->countFile(true),
-        'url' => WEB_ADMIN_URL . 'updateMedia/'
-    );
-}
-if ($dashboardDetails && is_array($dashboardDetails)): ?>
-    <div class="row">
-        <?php
-        $dashboardDetails = transformMultipleArraysTo1($dashboardDetails);
-        foreach ($dashboardDetails as $dashboard):
-            if (!isArrayEmpty($dashboard)):
-                $posUrl = strrpos($dashboard['url'], '/', -2);
-                $icon = '';
-                if (false !== $posUrl) {
-                    $icon = substr($dashboard['url'], $posUrl + 1, -1);
-                }
-                ?>
-                <div class="col-12 col-sm-6 col-lg-4 mb-3 overflow-hidden">
-                    <div class="card d-flex justify-content-start py-4 border-0 dashboardCard">
-                        <div class="card-body">
-                            <h2 class="card-title m-0 icon-<?= $icon; ?>">
-                                <a href="<?= $dashboard['url']; ?>"><?= $dashboard['name']; ?></a></h2>
-                            <span class="dashboardNum"><?= $dashboard['count']; ?></span>
-                        </div>
-                        <?php if (!empty($dashboard['html'])): ?>
-                            <div class="d-flex justify-content-around htmlDashboard">
-                                <?= $dashboard['html']; ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php endif;
-        endforeach; ?>
-    </div>
-<?php endif;
-require('footer.php'); ?>
+<?php
+\App\Hook::apply('core_admin_after_dashboard');
+require('footer.php');
+?>
