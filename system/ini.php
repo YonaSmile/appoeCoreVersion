@@ -311,38 +311,39 @@ const THEME_DEFAULT_STYLE = array(
 const THEME_CONTENT = '
 /************** PRIMARY COLOR **************/
 [class*="colorPrimary"],
-[class*="colorSecondary"] {
+[class*="colorSecondary"],
+[class*="colorTertiary"] {
     transition: all 0.3s;
 }
 
 .colorPrimary {
-    color: var(--colorPrimary);
+    color: var(--colorPrimary) !important;
 }
 
 .borderColorPrimary {
-    border-color: var(--colorPrimary);
+    border-color: var(--colorPrimary) !important;
 }
 
 .bgColorPrimary, a[class*="colorPrimary"]:focus, a[class*="colorPrimary"]:hover,
 button[class*="colorPrimary"]:focus, button[class*="colorPrimary"]:hover {
-    background: var(--colorPrimary);
-    color: var(--textBgColorPrimary);
+    background: var(--colorPrimary) !important;
+    color: var(--textBgColorPrimary) !important;
 }
 
 /************** SECONDARY COLOR **************/
 .colorSecondary {
-    color: var(--colorSecondary);
+    color: var(--colorSecondary) !important;
 }
 
 .borderColorSecondary {
-    border-color: var(--colorSecondary);
+    border-color: var(--colorSecondary) !important;
 }
 
 .bgColorSecondary, #sidebar ul li.active > a, .dashboardCard:focus, .dashboardCard:hover, table.table th,
 a[class*="colorSecondary"]:focus, a[class*="colorSecondary"]:hover, button[class*="colorSecondary"]:focus,
 button[class*="colorSecondary"]:hover {
-    background: var(--colorSecondary);
-    color: var(--textBgColorSecondary);
+    background: var(--colorSecondary) !important;
+    color: var(--textBgColorSecondary) !important;
 }
 
 /************** DASHBOARD **************/
