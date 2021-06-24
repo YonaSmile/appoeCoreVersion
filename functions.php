@@ -4176,6 +4176,10 @@ function webUrl($file, $param = null)
         return $file;
     }
 
+    if (substr($file, -1) != '/') {
+        $file .= '/';
+    }
+
     return WEB_DIR_URL . $file . $url;
 }
 
