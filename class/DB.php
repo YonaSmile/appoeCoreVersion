@@ -116,24 +116,6 @@ class DB
     }
 
     /**
-     * @return bool
-     */
-    public static function update($class, $attr)
-    {
-
-        $params = array();
-        $sql = 'UPDATE ' . $class->tableName . ' SET ';
-        foreach ($attr as $data) {
-            $sql .= (current($attr) == $attr[0] ? '' : ', ') . $data . ' = :' . $data;
-        }
-        $sql .= 'WHERE id = :id';
-        foreach ($attr as $value) {
-            $params[':' . $value] = $value ? $class->$value : null;
-        }
-        return self::exec($sql, $params);
-    }
-
-    /**
      * Feed class attributs
      *
      * @param $class
