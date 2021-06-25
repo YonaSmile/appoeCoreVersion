@@ -72,6 +72,35 @@ class DB
     }
 
     /**
+     * @param $class
+     * @return bool
+     */
+    public static function show($class)
+    {
+        $sql = 'SELECT * FROM ' . $class->tableName . ' WHERE `id` = :id';
+        $params = array(':id' => $class->id);
+        if ($return = self::exec($sql, $params)) {
+            self::feed($class, $return->fetch(PDO::FETCH_OBJ));
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $class
+     * @return mixed
+     */
+    public static function showAll($class)
+    {
+        $sql = 'SELECT * FROM ' . $class->tableName . ' WHERE `status` = :status';
+        $params = array(':status' => $class->status);
+        if ($return = self::exec($sql, $params)) {
+            return $return->fetchAll(PDO::FETCH_OBJ);
+        }
+        return false;
+    }
+
+    /**
      * Feed class attributs
      *
      * @param $class
