@@ -475,7 +475,7 @@ function getSessionLang()
  */
 function hasMenu($primaryIndex = 1)
 {
-    return !isArrayEmpty($_SESSION['MENU']) && array_key_exists($primaryIndex, $_SESSION['MENU']);
+    return array_key_exists('MENU', $_SESSION) && array_key_exists($primaryIndex, $_SESSION['MENU']);
 }
 
 /**
