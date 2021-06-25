@@ -4176,7 +4176,7 @@ function webUrl($file, $param = null)
         return $file;
     }
 
-    if (substr($file, -1) != '/') {
+    if (false === strpos($file, '#') && substr($file, -1) != '/') {
         $file .= '/';
     }
 
