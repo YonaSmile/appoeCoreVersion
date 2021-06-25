@@ -4876,7 +4876,7 @@ function emailVerification(array $options)
     ), $options);
 
     //Confirm mail button
-    $url = webUrl($options['confirmationPageSlug'] . '/?') . 'email=' . base64_encode($options['toEmail']) . '&key=' . $keyToConfirm;
+    $url = webUrl($options['confirmationPageSlug']) . '?email=' . base64_encode($options['toEmail']) . '&key=' . $keyToConfirm;
     $options['message'] .= '<p style="text-align:center;"><a class="btn" href="' . $url . '" title="' . $options['confirmationBtnText'] . '">' . $options['confirmationBtnText'] . '</a></p>';
 
     //Saving key and email in db
