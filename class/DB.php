@@ -101,6 +101,39 @@ class DB
     }
 
     /**
+     * @return bool
+     */
+    public static function save($class, $attr)
+    {
+
+        $params = array();
+        $sql = 'INSERT INTO ' . $class->tableName . ' (' . implode(', ', $attr) . ') 
+                VALUES (:' . implode(', :', $attr) . ')';
+        foreach ($attr as $value) {
+            $params[':' . $value] = $value ? $class->$value : null;
+        }
+        return self::exec($sql, $params);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function update($class, $attr)
+    {
+
+        $params = array();
+        $sql = 'UPDATE ' . $class->tableName . ' SET ';
+        foreach ($attr as $data) {
+            $sql .= (current($attr) == $attr[0] ? '' : ', ') . $data . ' = :' . $data;
+        }
+        $sql .= 'WHERE id = :id';
+        foreach ($attr as $value) {
+            $params[':' . $value] = $value ? $class->$value : null;
+        }
+        return self::exec($sql, $params);
+    }
+
+    /**
      * Feed class attributs
      *
      * @param $class
