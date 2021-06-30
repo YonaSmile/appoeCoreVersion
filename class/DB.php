@@ -161,7 +161,7 @@ class DB
     public static function count($class, array $where = [])
     {
         $params = array();
-        $sql = 'SELECT COUNT(*) FROM ' . $class->tableName;
+        $sql = 'SELECT COUNT(*) AS COUNT FROM ' . $class->tableName;
 
         if (!isArrayEmpty($where)) {
             $sql .= ' WHERE ';
