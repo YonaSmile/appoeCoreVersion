@@ -75,10 +75,14 @@ class DB
      * @param $class
      * @return bool
      */
-    public static function show($class)
+    public static function show($class, array $where = ['id'])
     {
-        $sql = 'SELECT * FROM ' . $class->tableName . ' WHERE id = :id';
-        $params = array(':id' => $class->id);
+        $params = array();
+        $sql = 'SELECT * FROM ' . self::collect($class, 'tableName') . ' WHERE id = :id';
+        foreach ($where as $key => $value) {
+            $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
+            $params[':' . $value] = $value ? self::collect($class, $value) : null;
+        }
         if ($return = self::exec($sql, $params)) {
             self::feed($class, $return->fetch(PDO::FETCH_OBJ));
             return true;
@@ -93,10 +97,10 @@ class DB
     public static function showAll($class, array $where)
     {
         $params = array();
-        $sql = 'SELECT * FROM ' . $class->tableName . ' WHERE ';
+        $sql = 'SELECT * FROM ' . self::collect($class, 'tableName') . ' WHERE ';
         foreach ($where as $key => $value) {
             $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
-            $params[':' . $value] = $value ? $class->$value : null;
+            $params[':' . $value] = $value ? self::collect($class, $value) : null;
         }
         if ($return = self::exec($sql, $params)) {
             return $return->fetchAll(PDO::FETCH_OBJ);
@@ -112,10 +116,10 @@ class DB
     {
 
         $params = array();
-        $sql = 'INSERT INTO ' . $class->tableName . ' (' . implode(', ', $attr) . ') 
+        $sql = 'INSERT INTO ' . self::collect($class, 'tableName') . ' (' . implode(', ', $attr) . ') 
                 VALUES (:' . implode(', :', $attr) . ')';
         foreach ($attr as $value) {
-            $params[':' . $value] = $value ? $class->$value : null;
+            $params[':' . $value] = $value ? self::collect($class, $value) : null;
         }
         return self::exec($sql, $params);
     }
@@ -126,16 +130,16 @@ class DB
     public static function update($class, array $attr, array $where)
     {
         $params = array();
-        $sql = 'UPDATE ' . $class->tableName . ' SET ';
+        $sql = 'UPDATE ' . self::collect($class, 'tableName') . ' SET ';
         foreach ($attr as $key => $value) {
             $sql .= ($key != 0 ? ', ' : '') . $value . ' = :' . $value;
-            $params[':' . $value] = $value ? $class->$value : null;
+            $params[':' . $value] = $value ? self::collect($class, $value) : null;
         }
 
         $sql .= ' WHERE ';
         foreach ($where as $key => $value) {
             $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
-            $params[':' . $value] = $value ? $class->$value : null;
+            $params[':' . $value] = $value ? self::collect($class, $value) : null;
         }
         return self::exec($sql, $params);
     }
@@ -146,11 +150,11 @@ class DB
     public static function exist($class, array $where)
     {
         $params = array();
-        $sql = 'SELECT `id` FROM ' . $class->tableName . ' WHERE ';
+        $sql = 'SELECT `id` FROM ' . self::collect($class, 'tableName') . ' WHERE ';
 
         foreach ($where as $key => $value) {
             $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
-            $params[':' . $value] = $value ? $class->$value : null;
+            $params[':' . $value] = $value ? self::collect($class, $value) : null;
         }
         return self::exec($sql, $params);
     }
@@ -161,13 +165,13 @@ class DB
     public static function count($class, array $where = [])
     {
         $params = array();
-        $sql = 'SELECT COUNT(*) AS COUNT FROM ' . $class->tableName;
+        $sql = 'SELECT COUNT(*) AS COUNT FROM ' . self::collect($class, 'tableName');
 
         if (!isArrayEmpty($where)) {
             $sql .= ' WHERE ';
             foreach ($where as $key => $value) {
                 $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
-                $params[':' . $value] = $value ? $class->$value : null;
+                $params[':' . $value] = $value ? self::collect($class, $value) : null;
             }
         }
         return self::exec($sql, $params);
@@ -179,17 +183,17 @@ class DB
     public static function delete($class, array $where)
     {
         $params = array();
-        $sql = 'DELETE FROM ' . $class->tableName . ' WHERE ';
+        $sql = 'DELETE FROM ' . self::collect($class, 'tableName') . ' WHERE ';
 
         foreach ($where as $key => $value) {
             $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
-            $params[':' . $value] = $value ? $class->$value : null;
+            $params[':' . $value] = $value ? self::collect($class, $value) : null;
         }
         return self::exec($sql, $params);
     }
 
     /**
-     * Feed class attributs
+     * Feed class attributs, ex: setId()
      *
      * @param $class
      * @param $data
@@ -206,13 +210,29 @@ class DB
     }
 
     /**
+     * Collect attribut from class, ex: getId()
+     *
+     * @param $class
+     * @param $attr
+     * @return false|mixed
+     */
+    public static function collect($class, $attr)
+    {
+        $method = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attr)));
+        if (is_callable(array($class, $method))) {
+            return $class->$method();
+        }
+        return false;
+    }
+
+    /**
      * @param $tableName
      * @return bool
      */
     public static function isTableExist($tableName)
     {
         $sql = 'DESCRIBE ' . $tableName;
-        return !DB::exec($sql) ? false : true;
+        return DB::exec($sql);
     }
 
     /**
