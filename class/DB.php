@@ -77,7 +77,7 @@ class DB
      */
     public static function show($class)
     {
-        $sql = 'SELECT * FROM ' . $class->tableName . ' WHERE `id` = :id';
+        $sql = 'SELECT * FROM ' . $class->tableName . ' WHERE id = :id';
         $params = array(':id' => $class->id);
         if ($return = self::exec($sql, $params)) {
             self::feed($class, $return->fetch(PDO::FETCH_OBJ));
@@ -90,26 +90,99 @@ class DB
      * @param $class
      * @return mixed
      */
-    public static function showAll($class)
+    public static function showAll($class, array $where)
     {
-        $sql = 'SELECT * FROM ' . $class->tableName . ' WHERE `status` = :status';
-        $params = array(':status' => $class->status);
+        $params = array();
+        $sql = 'SELECT * FROM ' . $class->tableName . ' WHERE ';
+        foreach ($where as $key => $value) {
+            $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
+            $params[':' . $value] = $value ? $class->$value : null;
+        }
         if ($return = self::exec($sql, $params)) {
             return $return->fetchAll(PDO::FETCH_OBJ);
         }
+        debug($sql, $params);
         return false;
     }
 
     /**
      * @return bool
      */
-    public static function save($class, $attr)
+    public static function save($class, array $attr)
     {
 
         $params = array();
         $sql = 'INSERT INTO ' . $class->tableName . ' (' . implode(', ', $attr) . ') 
                 VALUES (:' . implode(', :', $attr) . ')';
         foreach ($attr as $value) {
+            $params[':' . $value] = $value ? $class->$value : null;
+        }
+        return self::exec($sql, $params);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function update($class, array $attr, array $where)
+    {
+        $params = array();
+        $sql = 'UPDATE ' . $class->tableName . ' SET ';
+        foreach ($attr as $key => $value) {
+            $sql .= ($key != 0 ? ', ' : '') . $value . ' = :' . $value;
+            $params[':' . $value] = $value ? $class->$value : null;
+        }
+
+        $sql .= ' WHERE ';
+        foreach ($where as $key => $value) {
+            $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
+            $params[':' . $value] = $value ? $class->$value : null;
+        }
+        return self::exec($sql, $params);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function exist($class, array $where)
+    {
+        $params = array();
+        $sql = 'SELECT `id` FROM ' . $class->tableName . ' WHERE ';
+
+        foreach ($where as $key => $value) {
+            $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
+            $params[':' . $value] = $value ? $class->$value : null;
+        }
+        return self::exec($sql, $params);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function count($class, array $where = [])
+    {
+        $params = array();
+        $sql = 'SELECT COUNT(*) FROM ' . $class->tableName;
+
+        if (!isArrayEmpty($where)) {
+            $sql .= ' WHERE ';
+            foreach ($where as $key => $value) {
+                $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
+                $params[':' . $value] = $value ? $class->$value : null;
+            }
+        }
+        return self::exec($sql, $params);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function delete($class, array $where)
+    {
+        $params = array();
+        $sql = 'DELETE FROM ' . $class->tableName . ' WHERE ';
+
+        foreach ($where as $key => $value) {
+            $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
             $params[':' . $value] = $value ? $class->$value : null;
         }
         return self::exec($sql, $params);
