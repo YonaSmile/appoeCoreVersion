@@ -105,7 +105,6 @@ class DB
         if ($return = self::exec($sql, $params)) {
             return $return->fetchAll(PDO::FETCH_OBJ);
         }
-        debug($sql, $params);
         return false;
     }
 
