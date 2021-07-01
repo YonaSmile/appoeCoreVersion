@@ -78,7 +78,7 @@ class DB
     public static function show($class, array $where = ['id'])
     {
         $params = array();
-        $sql = 'SELECT * FROM ' . self::collect($class, 'tableName') . ' WHERE id = :id';
+        $sql = 'SELECT * FROM ' . self::collect($class, 'tableName') . ' WHERE ';
         foreach ($where as $key => $value) {
             $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
             $params[':' . $value] = $value ? self::collect($class, $value) : null;
