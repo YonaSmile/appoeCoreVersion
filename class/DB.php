@@ -94,13 +94,16 @@ class DB
      * @param $class
      * @return mixed
      */
-    public static function showAll($class, array $where)
+    public static function showAll($class, array $where = [])
     {
         $params = array();
-        $sql = 'SELECT * FROM ' . self::collect($class, 'tableName') . ' WHERE ';
-        foreach ($where as $key => $value) {
-            $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
-            $params[':' . $value] = $value ? self::collect($class, $value) : null;
+        $sql = 'SELECT * FROM ' . self::collect($class, 'tableName');
+        if (!isArrayEmpty($where)) {
+            $sql .= ' WHERE ';
+            foreach ($where as $key => $value) {
+                $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
+                $params[':' . $value] = $value ? self::collect($class, $value) : null;
+            }
         }
         if ($return = self::exec($sql, $params)) {
             return $return->fetchAll(PDO::FETCH_OBJ);
