@@ -158,7 +158,11 @@ class DB
             $sql .= ($key != 0 ? ' AND ' : '') . $value . ' = :' . $value;
             $params[':' . $value] = $value ? self::collect($class, $value) : null;
         }
-        return self::exec($sql, $params);
+
+        if ($return = self::exec($sql, $params)) {
+            return $return->fetchColumn();
+        }
+        return false;
     }
 
     /**
@@ -176,7 +180,10 @@ class DB
                 $params[':' . $value] = $value ? self::collect($class, $value) : null;
             }
         }
-        return self::exec($sql, $params);
+        if ($return = self::exec($sql, $params)) {
+            return $return->fetch()['COUNT'];
+        }
+        return false;
     }
 
     /**
