@@ -209,11 +209,13 @@ class DB
      */
     public static function feed($class, $data)
     {
-        foreach ($data as $attribut => $value) {
-            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
+        if(!isArrayEmpty($data)) {
+            foreach ($data as $attribut => $value) {
+                $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
 
-            if (is_callable(array($class, $method))) {
-                $class->$method($value);
+                if (is_callable(array($class, $method))) {
+                    $class->$method($value);
+                }
             }
         }
     }
