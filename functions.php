@@ -4876,7 +4876,7 @@ function emailVerification(array $options)
         'confirmationBtnText' => 'Confirmer mon adresse email'
     ), $options);
 
-    $urlParams = !isArrayEmpty($options['params']) ? '&' . http_build_query($options['params']) : '';
+    $urlParams = !empty($options['params']) ? '&' . http_build_query($options['params']) : '';
 
     //Confirm mail button
     $url = webUrl($options['confirmationPageSlug']) . '?email=' . base64_encode($options['toEmail']) . '&key=' . $keyToConfirm . $urlParams;
