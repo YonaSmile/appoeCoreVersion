@@ -4871,12 +4871,15 @@ function emailVerification(array $options)
         'toName' => '',
         'object' => WEB_TITLE . ' - Authentification requise',
         'message' => '<p>Cet email vous a été envoyé suite à une demande d\'inscription à la newsletter.<br>Vous avez 2h pour confirmer votre adresse email</p>',
+        'params' => [],
         'confirmationPageSlug' => 'confirmation-email',
         'confirmationBtnText' => 'Confirmer mon adresse email'
     ), $options);
 
+    $urlParams = !isArrayEmpty($options['params']) ? '&' . http_build_query($options['params']) : '';
+
     //Confirm mail button
-    $url = webUrl($options['confirmationPageSlug']) . '?email=' . base64_encode($options['toEmail']) . '&key=' . $keyToConfirm;
+    $url = webUrl($options['confirmationPageSlug']) . '?email=' . base64_encode($options['toEmail']) . '&key=' . $keyToConfirm . $urlParams;
     $options['message'] .= '<p style="text-align:center;"><a class="btn" href="' . $url . '" title="' . $options['confirmationBtnText'] . '">' . $options['confirmationBtnText'] . '</a></p>';
 
     //Saving key and email in db
