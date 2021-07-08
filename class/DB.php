@@ -209,7 +209,7 @@ class DB
      */
     public static function feed($class, $data)
     {
-        if(!isArrayEmpty($data)) {
+        if ($data) {
             foreach ($data as $attribut => $value) {
                 $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
 
