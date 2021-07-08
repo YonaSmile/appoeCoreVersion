@@ -73,6 +73,7 @@ class DB
 
     /**
      * @param $class
+     * @param array $where
      * @return bool
      */
     public static function show($class, array $where = ['id'])
@@ -92,6 +93,7 @@ class DB
 
     /**
      * @param $class
+     * @param array $where
      * @return mixed
      */
     public static function showAll($class, array $where = [])
@@ -112,6 +114,8 @@ class DB
     }
 
     /**
+     * @param $class
+     * @param array $attr
      * @return bool
      */
     public static function save($class, array $attr)
@@ -127,6 +131,9 @@ class DB
     }
 
     /**
+     * @param $class
+     * @param array $attr
+     * @param array $where
      * @return bool
      */
     public static function update($class, array $attr, array $where)
@@ -147,6 +154,8 @@ class DB
     }
 
     /**
+     * @param $class
+     * @param array $where
      * @return bool
      */
     public static function exist($class, array $where)
@@ -166,6 +175,8 @@ class DB
     }
 
     /**
+     * @param $class
+     * @param array $where
      * @return bool
      */
     public static function count($class, array $where = [])
@@ -187,6 +198,8 @@ class DB
     }
 
     /**
+     * @param $class
+     * @param array $where
      * @return bool
      */
     public static function delete($class, array $where)
