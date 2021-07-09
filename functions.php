@@ -3239,8 +3239,7 @@ function includePluginsFiles($forApp = false)
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'include';
             if (file_exists($filePath) && loadPluginForFilename($plugin['name'])) {
-                $phpFiles = getFilesFromDir($filePath);
-                foreach ($phpFiles as $file) {
+                foreach (getFilesFromDir($filePath, ['onlyExtension' => 'php']) as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
                     include_once($src);
                 }
@@ -3266,9 +3265,7 @@ function includePluginsFilesForApp()
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeApp';
             if (file_exists($filePath)) {
-                $phpFiles = getFilesFromDir($filePath);
-
-                foreach ($phpFiles as $file) {
+                foreach (getFilesFromDir($filePath, ['onlyExtension' => 'php']) as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
                     include_once($src);
                 }
@@ -3289,9 +3286,7 @@ function includePluginsFilesForAppInFooter()
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeAppFooter';
             if (file_exists($filePath)) {
-                $phpFiles = getFilesFromDir($filePath);
-
-                foreach ($phpFiles as $file) {
+                foreach (getFilesFromDir($filePath, ['onlyExtension' => 'php']) as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
                     include_once($src);
                 }
@@ -3368,7 +3363,7 @@ function includePluginsJs($forApp = false, $min = false)
 
                     if (is_dir($filePath) && !file_exists($setupPath)) {
 
-                        foreach (getFilesFromDir($filePath) as $file) {
+                        foreach (getFilesFromDir($filePath, ['onlyExtension' => 'js']) as $file) {
 
                             //File path
                             $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $file;
@@ -3407,7 +3402,7 @@ function includePluginsJsForApp()
 
             if (is_dir($filePath) && !file_exists($setupPath)) {
 
-                foreach (getFilesFromDir($filePath) as $file) {
+                foreach (getFilesFromDir($filePath, ['onlyExtension' => 'js']) as $file) {
 
                     //File path
                     $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'jsApp' . DIRECTORY_SEPARATOR . $file;
@@ -3439,7 +3434,7 @@ function includePluginsStyles($min = false)
 
                 if (is_dir($filePath) && !file_exists($setupPath)) {
 
-                    foreach (getFilesFromDir($filePath) as $file) {
+                    foreach (getFilesFromDir($filePath, ['onlyExtension' => 'css']) as $file) {
 
                         //File path
                         $src = WEB_PLUGIN_URL . $plugin['name'] . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $file;
