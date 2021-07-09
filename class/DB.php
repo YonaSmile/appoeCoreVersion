@@ -96,7 +96,7 @@ class DB
      * @param array $where
      * @return mixed
      */
-    public static function showAll($class, array $where = [])
+    public static function showAll($class, array $where = [], $otherConditions = '')
     {
         $params = array();
         $sql = 'SELECT * FROM ' . self::collect($class, 'tableName');
@@ -107,6 +107,7 @@ class DB
                 $params[':' . $value] = $value ? self::collect($class, $value) : null;
             }
         }
+        $sql .= ' ' . $otherConditions;
         if ($return = self::exec($sql, $params)) {
             return $return->fetchAll(PDO::FETCH_OBJ);
         }
