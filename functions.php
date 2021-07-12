@@ -4944,14 +4944,12 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
     $Mail->CharSet = 'utf-8';
     $Mail->SMTPDebug = !empty($data['debug']) ? $data['debug'] : 0;
 
-    // Sending options
-    $defaultOptions = array(
-        'viewSenderSource' => true,
-        'maxFileSizeAllowed' => 5 * 1024 * 1024
-    );
-
     // Synchronizing options
-    $options = array_merge($defaultOptions, $options);
+    $options = array_merge(array(
+        'viewSenderSource' => true,
+        'maxFileSizeAllowed' => 5 * 1024 * 1024,
+        'priority' => 2
+    ), $options);
 
     // SMTP data
     if (empty($data['smtp'])) {
@@ -5000,6 +4998,13 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
 
     // Object
     $Mail->Subject = $data['object'];
+
+    //Priority
+    if ($options['priority'] == 1) {
+        $Mail->Priority = 1;
+        $Mail->AddCustomHeader("X-MSMail-Priority: High");
+        $Mail->AddCustomHeader("Importance: High");
+    }
 
     // View sender's source
     if ($options['viewSenderSource']) {
