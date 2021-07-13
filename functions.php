@@ -4849,18 +4849,20 @@ function getServerPerformanceColor($cpu)
 }
 
 /**
+ * @param array $data
+ * @param array $otherAddr
  * @param array $options
  * @return bool
  * @throws Exception
  */
-function emailVerification(array $options)
+function emailVerification(array $data, array $otherAddr = [], array $options = [])
 {
     //Encrypt key for email
     $key = setToken(false);
     $keyToConfirm = base64_encode(password_hash($key, PASSWORD_DEFAULT));
 
     //Mail options
-    $options = array_merge(array(
+    $data = array_merge(array(
         'fromEmail' => 'noreply@' . $_SERVER['HTTP_HOST'],
         'fromName' => WEB_TITLE,
         'toName' => '',
@@ -4869,23 +4871,23 @@ function emailVerification(array $options)
         'params' => [],
         'confirmationPageSlug' => 'confirmation-email',
         'confirmationBtnText' => 'Confirmer mon adresse email'
-    ), $options);
+    ), $data);
 
-    $urlParams = !empty($options['params']) ? '&' . http_build_query($options['params']) : '';
+    $urlParams = !empty($data['params']) ? '&' . http_build_query($data['params']) : '';
 
     //Confirm mail button
-    $url = webUrl($options['confirmationPageSlug']) . '?email=' . base64_encode($options['toEmail']) . '&key=' . $keyToConfirm . $urlParams;
-    $options['message'] .= '<p style="text-align:center;"><a class="btn" href="' . $url . '" title="' . $options['confirmationBtnText'] . '">' . $options['confirmationBtnText'] . '</a></p>';
+    $url = webUrl($data['confirmationPageSlug']) . '?email=' . base64_encode($data['toEmail']) . '&key=' . $keyToConfirm . $urlParams;
+    $data['message'] .= '<p style="text-align:center;"><a class="btn" href="' . $url . '" title="' . $data['confirmationBtnText'] . '">' . $data['confirmationBtnText'] . '</a></p>';
 
     //Saving key and email in db
     $Option = new Option();
     $Option->setType('CONFIRMATIONMAIL');
-    $Option->setKey($options['toEmail']);
+    $Option->setKey($data['toEmail']);
     $Option->setVal($key);
     if ($Option->save()) {
 
         //Sanding confirmation mail
-        if (sendMail($options)) {
+        if (sendMail($data, $otherAddr, $options)) {
             return true;
         }
     }
