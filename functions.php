@@ -739,7 +739,7 @@ function isImage($mediaPath)
  */
 function isSvg($mediaPath)
 {
-    return 'image/svg+xml' === mime_content_type($mediaPath);
+    return 'image/svg+xml' === mime_content_type($mediaPath) || 'image/svg' === mime_content_type($mediaPath);
 }
 
 /**
