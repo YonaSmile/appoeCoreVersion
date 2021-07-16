@@ -1410,35 +1410,44 @@ function checkIfInArrayString($array, $searchingFor)
 function checkMaintenance()
 {
     if ('true' === getOptionPreference('maintenance')) {
-
-        //Check IP permission
-        $ip = getIP();
-
-        $Option = new Option();
-        $Option->setType('IPACCESS');
-
-        //Check Ip from db
-        if (in_array($ip, extractFromObjToSimpleArr($Option->showByType(), 'key', 'key'))) {
+        if (isIpAdministrator()) {
             return false;
         }
+        return true;
+    }
+    return false;
+}
 
-        //Check Ip from ini.main
-        if (defined('IP_ALLOWED')) {
+/**
+ * @return bool
+ */
+function isIpAdministrator()
+{
+    //Check IP permission
+    $ip = getIP();
 
-            //IPV6
-            if (false !== strpos($ip, ':')) {
-                $ipv6 = implode(':', explode(':', $ip, -4));
-                if (in_array($ipv6, IP_ALLOWED)) {
-                    return false;
-                }
-            }
+    $Option = new Option();
+    $Option->setType('IPACCESS');
 
-            if (in_array($ip, IP_ALLOWED)) {
-                return false;
+    //Check Ip from db
+    if (in_array($ip, extractFromObjToSimpleArr($Option->showByType(), 'key', 'key'))) {
+        return true;
+    }
+
+    //Check Ip from ini.main
+    if (defined('IP_ALLOWED')) {
+
+        //IPV6
+        if (false !== strpos($ip, ':')) {
+            $ipv6 = implode(':', explode(':', $ip, -4));
+            if (in_array($ipv6, IP_ALLOWED)) {
+                return true;
             }
         }
 
-        return true;
+        if (in_array($ip, IP_ALLOWED)) {
+            return true;
+        }
     }
 
     return false;
