@@ -94,6 +94,7 @@ class DB
     /**
      * @param $class
      * @param array $where
+     * @param string $otherConditions
      * @return mixed
      */
     public static function showAll($class, array $where = [], $otherConditions = '')
