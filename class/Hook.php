@@ -5,6 +5,7 @@ class Hook
 {
     private static $defaultPriority = 100;
     private static $HOOKS = array(
+        'cron' => array(),
         'core_admin_before_dashboard' => array(),
         'core_admin_after_dashboard' => array(),
         'core_front_before_html' => array()
