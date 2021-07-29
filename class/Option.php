@@ -173,7 +173,7 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `id` = :id';
         $params = array(':id' => $this->id);
-        if($return = DB::exec($sql, $params)) {
+        if ($return = DB::exec($sql, $params)) {
             return $return->fetch(PDO::FETCH_OBJ);
         }
         return false;
@@ -186,7 +186,7 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type';
         $params = array(':type' => $this->type);
-        if($return = DB::exec($sql, $params)) {
+        if ($return = DB::exec($sql, $params)) {
             return $return->fetchAll(PDO::FETCH_OBJ);
         }
         return false;
@@ -199,7 +199,7 @@ class Option
     {
         $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
         $params = array(':type' => $this->type, ':key' => $this->key);
-        if($return = DB::exec($sql, $params)) {
+        if ($return = DB::exec($sql, $params)) {
             return $return->fetch(PDO::FETCH_OBJ);
         }
         return false;
@@ -251,7 +251,7 @@ class Option
     {
         $sql = 'SELECT `id` FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
         $params = array(':type' => $this->type, ':key' => $this->key);
-        if($return = DB::exec($sql, $params)) {
+        if ($return = DB::exec($sql, $params)) {
             return $return->fetchColumn();
         }
         return false;
@@ -265,6 +265,19 @@ class Option
         $sql = 'DELETE FROM ' . $this->tableName . ' WHERE `id` = :id';
         if (DB::exec($sql, [':id' => $this->id])) {
             appLog('Delete option -> id: ' . $this->id);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function deleteByTypeAndKey()
+    {
+        $sql = 'DELETE FROM ' . $this->tableName . ' WHERE `type` = :type AND `key` = :key';
+        if (DB::exec($sql, [':type' => $this->type, ':key' => $this->key])) {
+            appLog('Delete option -> type: ' . $this->type . ' key: ' . $this->key);
             return true;
         }
         return false;
