@@ -2965,6 +2965,29 @@ function financial($amount, $forDB = false, $decimals = 2, $dec_point = '.')
     return is_numeric($amount) ? number_format($amount, $decimals, $dec_point, (!$forDB ? ' ' : '')) : $amount;
 }
 
+
+/**
+ * @param $array
+ * @param $key
+ * @param $val
+ * @param string $return
+ * @return bool|object
+ */
+function isValInMultiArrObj($array, $key, $val, $return = 'bool')
+{
+    foreach ($array as $item) {
+
+        if (is_array($item)) {
+            return isValInMultiArrObj($item, $key, $val);
+        }
+
+        if (property_exists($item, $key) && $item->$key == $val) {
+            return $return === 'bool' ? true : $item;
+        }
+    }
+    return false;
+}
+
 /**
  * Raise an grandchildren array, at the level of children
  *
