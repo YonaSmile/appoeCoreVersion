@@ -915,6 +915,8 @@ function slugify($text)
         $text = implode('-', $text);
     }
 
+    $text = removeAccents($text);
+
     // replace non letter or digits by -
     $text = preg_replace('~[^\pL\d]+~u', '-', $text);
 
@@ -934,7 +936,7 @@ function slugify($text)
     $text = mb_strtolower($text);
 
     if (empty($text)) {
-        return 'n-a';
+        return '-';
     }
 
     return $text;
