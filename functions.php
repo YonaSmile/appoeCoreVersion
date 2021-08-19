@@ -4213,6 +4213,24 @@ function webUrl($file, $param = null)
 }
 
 /**
+ * get real web url file by filename
+ *
+ * @param $filename
+ * @param null $param
+ *
+ * @return string
+ */
+function url($filename, $param = null)
+{
+    if (!empty($filename)) {
+        if ($Cms = getPageByFilename($filename)) {
+            return WEB_DIR_URL . $Cms->getSlug() . DIRECTORY_SEPARATOR . (!is_null($param) ? $param : '');
+        }
+    }
+    return '';
+}
+
+/**
  * @param $link
  *
  * @return string
