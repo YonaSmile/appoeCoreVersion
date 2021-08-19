@@ -32,8 +32,10 @@ if (class_exists('App\Plugin\Cms\Cms')) {
     //Get Page parameters
     if (!empty($_GET['slug'])) {
 
-        if ($PageBySlug = $Cms->getBySlug($_GET['slug'])) {
-            $existPage = $Cms->showBySlug($PageBySlug->metaValue, $PageBySlug->lang);
+        if ($filename = $Cms->getFilenameBySlug($_GET['slug'])) {
+            $Cms->setLang(LANG);
+            $Cms->setFilename($filename);
+            $existPage = $Cms->showByFilename();
         }
 
         if (!$existPage) {
@@ -41,11 +43,17 @@ if (class_exists('App\Plugin\Cms\Cms')) {
             //Check for similar page slug
             if (defined('SIMILAR_PAGES_SLUG') && !isArrayEmpty(SIMILAR_PAGES_SLUG)) {
                 if (array_key_exists($_GET['slug'], SIMILAR_PAGES_SLUG)) {
-                    $existPage = $Cms->showBySlug(SIMILAR_PAGES_SLUG[$_GET['slug']], LANG);
-                    $Cms->setSlug($_GET['slug']);
+
+                    if ($filename = $Cms->getFilenameBySlug(SIMILAR_PAGES_SLUG[$_GET['slug']])) {
+                        $Cms->setLang(LANG);
+                        $Cms->setFilename($filename);
+                        $existPage = $Cms->showByFilename();
+                        $Cms->setSlug($_GET['slug']);
+                    }
                 }
             }
         }
+
     } else {
         $existPage = $Cms->showDefaultSlug(LANG);
     }
