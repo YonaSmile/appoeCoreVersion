@@ -120,6 +120,130 @@ class Form
     }
 
     /**
+     * @param $name
+     * @param array $options
+     * @return string
+     */
+    public static function input($name, array $options = [])
+    {
+        $options = array_merge([
+            'title' => '',
+            'type' => 'text',
+            'val' => '',
+            'required' => false,
+            'length' => 300,
+            'attr' => '',
+            'class' => '',
+            'help' => '',
+            'placeholder' => '',
+            'noTitle' => false
+        ], $options);
+
+        $html = '<div class="form-group">';
+
+        if (!$options['noTitle'] && !empty($options['title'])) {
+            $html .= '<label for="' . $name . '" > ' . trans($options['title']) . ' </label>';
+        }
+
+        $html .= '<input type="' . $options['type'] . '" name = "' . $name . '" id = "' . $name . '" 
+        value="' . $options['val'] . '" placeholder="' . trans($options['placeholder']) . '" 
+        class="form-control ' . $options['class'] . '" ' . $options['attr'] . ' maxlength="' . $options['length'] . '" 
+        ' . ($options['required'] ? 'required="true"' : '') . '>';
+
+        $html .= !empty($options['help']) ? $options['help'] : '';
+        $html .= '</div>';
+        return $html;
+    }
+
+
+    public static function duration($name, array $options = [])
+    {
+        $options = array_merge([
+            'title' => '',
+            'minBegin' => 5,
+            'minEnd' => 180,
+            'minJump' => 5,
+            'minTxt' => '',
+            'required' => false,
+            'val' => '',
+            'attr' => '',
+            'class' => '',
+            'parentClass' => '',
+            'noTitle' => false
+        ], $options);
+
+        $html = '<div class="form-group ' . $options['parentClass'] . '">';
+
+        if (!$options['noTitle'] && !empty($options['title'])) {
+            $html .= '<label for="' . $name . '" > ' . trans($options['title']) . ' </label>';
+        }
+
+        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-control custom-select ' . $options['class'] . '" ' . $options['attr'] . ' ' . ($options['required'] ? 'required="true"' : '') . '>';
+
+        if (empty($options['val'])) {
+            $html .= '<option disabled="disabled" selected="selected" value="0">' . trans('Choisissez') . '...</option>';
+        }
+
+        if ($options['minBegin'] < $options['minEnd']) {
+            for ($time = $options['minBegin']; $time <= $options['minEnd']; $time += $options['minJump']) {
+                $html .= '<option value="' . $time . '" ' . ($options['val'] == $time ? 'selected' : '') . '>' . $time . ' ' . $options['minTxt'] . '</option>';
+            }
+        }
+        $html .= '</select></div>';
+
+        return $html;
+    }
+
+    /**
+     * @param $name
+     * @param array $options
+     * @return string
+     */
+    public static function switch($name, array $options = [])
+    {
+        $options = array_merge([
+            'val' => '',
+            'attr' => '',
+            'class' => '',
+            'parentClass' => '',
+            'description' => '',
+            'noTitle' => false
+        ], $options);
+
+        $html = '<div class="custom-control custom-switch ' . $options['parentClass'] . '">
+        <input type="checkbox" ' . $options['attr'] . ' class="custom-control-input ' . $options['class'] . '" 
+        name="' . $name . '" id="' . $name . '" ' . ($options['val'] === 'true' ? 'checked' : '') . ' >';
+
+        if (!$options['noTitle']) {
+            $html .= '<label class="custom-control-label" for="' . $name . '">' . $options['description'] . '</label>';
+        }
+
+        $html .= '</div>';
+        return $html;
+    }
+
+    /**
+     * @param $title
+     * @param $name
+     * @param array $options
+     * @return string
+     */
+    public static function btn($title, $name, array $options = [])
+    {
+        $options = array_merge([
+            'type' => 'submit',
+            'attr' => '',
+            'class' => 'btn-block btn-outline-primary'
+        ], $options);
+
+        $html = '<div class="form-group">';
+        $html .= '<button type="' . $options['type'] . '" id="' . $name . '" name="' . $name . '" 
+        class="btn ' . $options['class'] . '" ' . $options['attr'] . ' >' . trans($title) . '</button>';
+        $html .= '</div>';
+        return $html;
+    }
+
+    /**
      * @param $title
      * @param $name
      * @param string $type
