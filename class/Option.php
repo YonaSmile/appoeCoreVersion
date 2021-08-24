@@ -193,7 +193,7 @@ class Option
     }
 
     /**
-     * @return bool|array
+     * @return bool|object
      */
     public function showByKey()
     {

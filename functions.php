@@ -5027,17 +5027,15 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
         }
     }
 
-    //Reply to
-    if (!empty($data['replyToEmail'])) {
-        $Mail->addReplyTo($data['replyToEmail'], !empty($data['replyToName']) ? $data['replyToName'] : '');
-    }
-
     // Sender
-    $sender = !empty($data['sender']) ? $data['sender'] : 'noreply@' . $_SERVER['HTTP_HOST'];
-    $Mail->SetFrom($sender, $data['fromName']);
+    $senderEmail = !empty($data['sender']) ? $data['sender'] : 'noreply@' . $_SERVER['HTTP_HOST'];
+    $senderName = !empty($data['fromName']) ? $data['fromName'] : WEB_TITLE;
+    $Mail->SetFrom($senderEmail, $senderName);
 
     // Reply to
-    $Mail->addReplyTo($data['fromEmail'], $data['fromName']);
+    if (!empty($data['fromEmail']) && !empty($data['fromName'])) {
+        $Mail->addReplyTo($data['fromEmail'], $data['fromName']);
+    }
 
     // Recipient
     $Mail->ClearAddresses();
