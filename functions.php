@@ -5245,6 +5245,43 @@ function getAppoeVersion()
 }
 
 /**
+ * @param $hours
+ * @return float|int|mixed|string
+ */
+function hoursToMinutes($hours)
+{
+    $minutes = 0;
+    if (strpos($hours, ':') !== false) {
+        list($hours, $minutes) = explode(':', $hours);
+        settype($minutes, 'integer');
+    }
+    settype($hours, 'integer');
+    return $hours * 60 + $minutes;
+}
+
+/**
+ * @param $time
+ * @param string $format
+ * @return int|string
+ */
+function minutesToHours($time, $format = '%s:%s')
+{
+    settype($time, 'integer');
+    if ($time < 0 || $time >= 1440) {
+        return 0;
+    }
+    $hours = floor($time / 60);
+    $minutes = $time % 60;
+    if ($hours < 10) {
+        $hours = '0' . $hours;
+    }
+    if ($minutes < 10) {
+        $minutes = '0' . $minutes;
+    }
+    return sprintf($format, $hours, $minutes);
+}
+
+/**
  * fonction permettant de transformer une valeur numérique en valeur en lettre
  * @param int $Nombre le nombre a convertir
  * @param int $Devise (0 = aucune, 1 = Euro €, 2 = Dollar $)

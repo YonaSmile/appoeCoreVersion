@@ -156,6 +156,56 @@ class Form
     }
 
 
+    /**
+     * @param $name
+     * @param array $options
+     * @return string
+     */
+    public static function selectTimeSlot($name, array $options = [])
+    {
+        $options = array_merge([
+            'title' => '',
+            'type' => 'text',
+            'required' => false,
+            'startMin' => 0,
+            'endMin' => 1440,
+            'stepMin' => 30,
+            'attr' => '',
+            'class' => '',
+            'noTitle' => false
+        ], $options);
+
+        $html = '<div class="form-group">';
+
+        if (!$options['noTitle'] && !empty($options['title'])) {
+            $html .= '<label for="' . $name . '" > ' . trans($options['title']) . ' </label>';
+        }
+
+        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-control custom-select ' . $options['class'] . '"
+         ' . $options['attr'] . ' ' . ($options['required'] ? 'required="true"' : '') . '>';
+
+        $time = $options['startMin'];
+        while ($time <= $options['endMin']) {
+
+            if ($time > $options['endMin']) {
+                break;
+            }
+
+            $html .= '<option value="' . $time . '" >' . minutesToHours($time) . '</option>';
+            $time += $options['stepMin'];
+        }
+
+        $html .= '</select></div>';
+
+        return $html;
+    }
+
+
+    /**
+     * @param $name
+     * @param array $options
+     * @return string
+     */
     public static function duration($name, array $options = [])
     {
         $options = array_merge([

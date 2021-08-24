@@ -54,7 +54,7 @@ class DB
     /**
      * @param $sql
      * @param array $params
-     * @return bool
+     * @return bool|object
      */
     public static function exec($sql, array $params = array())
     {
@@ -118,7 +118,7 @@ class DB
     /**
      * @param $class
      * @param array $attr
-     * @return bool
+     * @return bool|object
      */
     public static function save($class, array $attr)
     {
