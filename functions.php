@@ -5030,12 +5030,16 @@ function sendMail(array $data, array $otherAddr = array(), array $options = arra
     // Sender
     $senderEmail = !empty($data['sender']) ? $data['sender'] : 'noreply@' . $_SERVER['HTTP_HOST'];
     $senderName = !empty($data['fromName']) ? $data['fromName'] : WEB_TITLE;
+
     $Mail->SetFrom($senderEmail, $senderName);
 
     // Reply to
     if (!empty($data['fromEmail']) && !empty($data['fromName'])) {
         $Mail->addReplyTo($data['fromEmail'], $data['fromName']);
     }
+
+    $data['fromName'] = !empty($data['fromName']) ? $data['fromName'] : WEB_TITLE;
+    $data['fromEmail'] = !empty($data['fromEmail']) ? $data['fromEmail'] : $senderEmail;
 
     // Recipient
     $Mail->ClearAddresses();
