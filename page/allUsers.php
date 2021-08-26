@@ -27,10 +27,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     <td><?= $user->email ?></td>
                                     <td><?= getRoleName($user->role) ?></td>
                                     <td>
-                                        <?php
-                                        if (isTechnicien($user->role)
-                                            && $user->statut > 0
-                                            && isEmail($user->email)): ?>
+                                        <?php if ($user->statut > 0 && isEmail($user->email)): ?>
                                             <button type="button" class="btn btn-sm defaultEmailUser"
                                                     title="<?= trans('Définir comme adresse Email par défaut'); ?>"
                                                 <?= $defaultEmail == $user->email ? 'disabled="true"' : ''; ?>
@@ -39,26 +36,20 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                                     <i class="fas fa-envelope"></i></span>
                                             </button>
                                         <?php endif;
-                                        if (getUserIdSession() == $user->id
-                                            || getUserRoleId() >= getRoleId($user->role)): ?>
+                                        if (getUserIdSession() == $user->id || getUserRoleId() >= getRoleId($user->role)): ?>
                                             <a href="<?= getUrl('user/', $user->id) ?>"
                                                class="btn btn-sm" title="<?= trans('Modifier'); ?>">
                                                 <span class="btnEdit"><i class="fas fa-wrench"></i></span>
                                             </a>
                                         <?php endif;
-                                        if ($user->id != getUserIdSession()
-                                            && getUserRoleId() > getRoleId($user->role)
-                                            && $user->statut > 0): ?>
+                                        if ($user->id != getUserIdSession() && getUserRoleId() > getRoleId($user->role) && $user->statut > 0): ?>
                                             <button type="button" class="btn btn-sm deleteUser"
                                                     title="<?= trans('Bannir'); ?>"
                                                     data-iduser="<?= $user->id ?>">
                                                 <span class="btnArchive"><i class="fas fa-ban"></i></span>
                                             </button>
                                         <?php endif;
-                                        if ($user->id != getUserIdSession()
-                                            && getUserRoleId() > getRoleId($user->role)
-                                            && $user->statut == 0
-                                            && isTechnicien($user->role)): ?>
+                                        if ($user->id != getUserIdSession() && getUserRoleId() > getRoleId($user->role) && $user->statut == 0 && isTechnicien($user->role)): ?>
                                             <button type="button" class="btn btn-sm valideUser"
                                                     title="<?= trans('Valider'); ?>"
                                                     data-iduser="<?= $user->id ?>">
