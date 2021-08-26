@@ -593,7 +593,7 @@ function getAppoeCredit($color = "")
  */
 function getOptionPreference($key)
 {
-    $Option = new \App\Option();
+    $Option = new Option();
     $Option->setType('PREFERENCE');
     $Option->setKey($key);
     return $Option->getValByKey();
@@ -605,7 +605,7 @@ function getOptionPreference($key)
  */
 function getOptionData($key)
 {
-    $Option = new \App\Option();
+    $Option = new Option();
     $Option->setType('DATA');
     $Option->setKey($key);
     return $Option->getValByKey();
@@ -617,8 +617,21 @@ function getOptionData($key)
  */
 function getOptionTheme($key)
 {
-    $Option = new \App\Option();
+    $Option = new Option();
     $Option->setType('THEME');
+    $Option->setKey($key);
+    return $Option->getValByKey();
+}
+
+/**
+ * @param $type
+ * @param $key
+ * @return bool
+ */
+function getOption($type, $key)
+{
+    $Option = new Option();
+    $Option->setType($type);
     $Option->setKey($key);
     return $Option->getValByKey();
 }
@@ -629,7 +642,7 @@ function getOptionTheme($key)
 function showThemeRoot()
 {
     if (!file_exists(WEB_TEMPLATE_PATH . 'css/theme.css')) {
-        $Option = new \App\Option();
+        $Option = new Option();
         $Option->setType('THEME');
         $theme = $Option->showByType();
 
