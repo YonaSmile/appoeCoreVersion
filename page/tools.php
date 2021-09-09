@@ -168,8 +168,6 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <strong class="mb-0 py-1">Couleurs</strong>
                 </div>
                 <div class="card-body">
-
-
                     <?php
                     $colors = array('Primary' => 'Primaire', 'Secondary' => 'Secondaire', 'Tertiary' => 'Tertiaire');
                     foreach ($colors as $color => $name): ?>
@@ -207,8 +205,10 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 </div>
                             </div>
                         </div>
-                        <hr>
-                    <?php endforeach; ?>
+                        <?php if ($color != 'Tertiary'): ?>
+                            <hr>
+                        <?php endif;
+                    endforeach; ?>
                 </div>
             </div>
         </div>
