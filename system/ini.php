@@ -309,13 +309,13 @@ const THEME_DEFAULT_STYLE = array(
 );
 
 const THEME_CONTENT = '
-/************** PRIMARY COLOR **************/
 [class*="colorPrimary"],
 [class*="colorSecondary"],
 [class*="colorTertiary"] {
     transition: all 0.3s;
 }
 
+/************** PRIMARY COLOR **************/
 .colorPrimary {
     color: var(--colorPrimary) !important;
 }
@@ -337,6 +337,21 @@ button[class*="colorPrimary"]:focus, button[class*="colorPrimary"]:hover {
 
 .borderColorSecondary {
     border-color: var(--colorSecondary) !important;
+}
+
+/************** TERTIARY COLOR **************/
+.colorTertiary {
+    color: var(--colorTertiary);
+}
+
+.borderColorTertiary {
+    border-color: var(--colorTertiary);
+}
+
+.bgColorPrimary, a[class*="colorTertiary"]:focus, a[class*="colorTertiary"]:hover,
+button[class*="colorTertiary"]:focus, button[class*="colorTertiary"]:hover {
+    background: var(--colorTertiary);
+    color: var(--textBgColorTertiary);
 }
 
 .bgColorSecondary, #sidebar ul li.active > a, .dashboardCard:focus, .dashboardCard:hover, table.table th,
