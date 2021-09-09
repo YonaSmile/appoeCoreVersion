@@ -339,6 +339,13 @@ button[class*="colorPrimary"]:focus, button[class*="colorPrimary"]:hover {
     border-color: var(--colorSecondary) !important;
 }
 
+.bgColorSecondary, #sidebar ul li.active > a, .dashboardCard:focus, .dashboardCard:hover, table.table th,
+a[class*="colorSecondary"]:focus, a[class*="colorSecondary"]:hover, button[class*="colorSecondary"]:focus,
+button[class*="colorSecondary"]:hover {
+    background: var(--colorSecondary) !important;
+    color: var(--textBgColorSecondary) !important;
+}
+
 /************** TERTIARY COLOR **************/
 .colorTertiary {
     color: var(--colorTertiary);
@@ -348,17 +355,10 @@ button[class*="colorPrimary"]:focus, button[class*="colorPrimary"]:hover {
     border-color: var(--colorTertiary);
 }
 
-.bgColorPrimary, a[class*="colorTertiary"]:focus, a[class*="colorTertiary"]:hover,
+.bgColorTertiary, a[class*="colorTertiary"]:focus, a[class*="colorTertiary"]:hover,
 button[class*="colorTertiary"]:focus, button[class*="colorTertiary"]:hover {
     background: var(--colorTertiary);
     color: var(--textBgColorTertiary);
-}
-
-.bgColorSecondary, #sidebar ul li.active > a, .dashboardCard:focus, .dashboardCard:hover, table.table th,
-a[class*="colorSecondary"]:focus, a[class*="colorSecondary"]:hover, button[class*="colorSecondary"]:focus,
-button[class*="colorSecondary"]:hover {
-    background: var(--colorSecondary) !important;
-    color: var(--textBgColorSecondary) !important;
 }
 
 /************** DASHBOARD **************/
