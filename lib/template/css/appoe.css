@@ -1257,18 +1257,108 @@ input.libraryInput::placeholder {
     margin: auto;
 }
 
-div.alertFlash {
+div#alertFlashContainer {
     position: fixed;
-    top: 60px;
-    right: 10px;
+    bottom: 10px;
+    left: 50%;
     z-index: 9999999999;
     transition: all 0.3s ease;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px 10px 30px;
+    color: #FFF;
+    max-width: 350px;
+    text-overflow: ellipsis;
+    border-radius: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    display:none;
+    font-size: 14px;
+    line-height: 15px;
 }
 
-div.alertFlash > div.alert {
-    width: 200px;
-    opacity: 0.9;
-    transition: all 0.3s ease;
+.successIcon:before {
+    content: '';
+    display: inline-block;
+    -ms-transform: rotate(45deg) translateY(-50%);
+    -webkit-transform: rotate(45deg) translateY(-50%);
+    transform: rotate(45deg) translateY(-50%);
+    position: absolute;
+    width: 3px;
+    height: 14px;
+    background-color: #fff;
+    left: 11px;
+    top: 42%;
+}
+
+.successIcon:after {
+    content: '';
+    display: inline-block;
+    -ms-transform: rotate(45deg) translateY(-50%);
+    -webkit-transform: rotate(45deg) translateY(-50%);
+    transform: rotate(45deg) translateY(-50%);
+    position: absolute;
+    width: 7px;
+    height: 3px;
+    background-color: #fff;
+    left: 7px;
+    top: 50%;
+}
+
+.warningIcon:before {
+    content: '';
+    display: inline-block;
+    -ms-transform: rotate(0) translateY(-50%);
+    -webkit-transform: rotate(0) translateY(-50%);
+    transform: rotate(0) translateY(-50%);
+    position: absolute;
+    width: 3px;
+    height: 11px;
+    background-color: #fff;
+    left: 11px;
+    top: 42%;
+}
+
+.warningIcon:after {
+    content: '';
+    display: inline-block;
+    -ms-transform: rotate(0) translateY(-50%);
+    -webkit-transform: rotate(0) translateY(-50%);
+    transform: rotate(0) translateY(-50%);
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: #fff;
+    left: 11px;
+    top: 65%;
+}
+
+.dangerIcon:before {
+    content: '';
+    display: inline-block;
+    -ms-transform: rotate(45deg) translateY(-50%);
+    -webkit-transform: rotate(45deg) translateY(-50%);
+    transform: rotate(45deg) translateY(-50%);
+    position: absolute;
+    width: 3px;
+    height: 16px;
+    background-color: #fff;
+    left: 9px;
+    top: 45%;
+}
+
+.dangerIcon:after {
+    content: '';
+    display: inline-block;
+    -ms-transform: rotate(45deg) translateY(-50%);
+    -webkit-transform: rotate(45deg) translateY(-50%);
+    transform: rotate(45deg) translateY(-50%);
+    position: absolute;
+    width: 18px;
+    height: 3px;
+    background-color: #fff;
+    left: 5px;
+    top: 50%;
 }
 
 #overlay {
