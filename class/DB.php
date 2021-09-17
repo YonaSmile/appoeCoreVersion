@@ -185,7 +185,7 @@ class DB
     public static function count($class, array $where = [])
     {
         $params = array();
-        $sql = 'SELECT COUNT(*) AS COUNT FROM ' . self::collect($class, 'tableName');
+        $sql = 'SELECT COUNT(id) AS COUNT FROM ' . self::collect($class, 'tableName');
 
         if (!isArrayEmpty($where)) {
             $sql .= ' WHERE ';
