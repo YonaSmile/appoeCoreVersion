@@ -1,6 +1,6 @@
 <?php require('header.php');
-$defaultEmail = getOptionData('defaultEmail');
-echo getTitle(getAppPageName(), getAppPageSlug()); ?>
+echo getTitle(getAppPageName(), getAppPageSlug());
+$defaultEmail = getOptionData('defaultEmail'); ?>
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">
@@ -32,14 +32,14 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                                     title="<?= trans('Définir comme adresse Email par défaut'); ?>"
                                                 <?= $defaultEmail == $user->email ? 'disabled="true"' : ''; ?>
                                                     data-iduser="<?= $user->id ?>" data-email="<?= $user->email; ?>">
-                                                <span class="btnEdit <?= $defaultEmail == $user->email ? 'text-success' : ''; ?>">
+                                                <span class="<?= $defaultEmail == $user->email ? 'text-success' : ''; ?>">
                                                     <i class="fas fa-envelope"></i></span>
                                             </button>
                                         <?php endif;
                                         if (getUserIdSession() == $user->id || getUserRoleId() >= getRoleId($user->role)): ?>
                                             <a href="<?= getUrl('user/', $user->id) ?>"
                                                class="btn btn-sm" title="<?= trans('Modifier'); ?>">
-                                                <span class="btnEdit"><i class="fas fa-wrench"></i></span>
+                                                <span class=""><i class="fas fa-wrench"></i></span>
                                             </a>
                                         <?php endif;
                                         if ($user->id != getUserIdSession() && getUserRoleId() > getRoleId($user->role) && $user->statut > 0): ?>
@@ -53,7 +53,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                             <button type="button" class="btn btn-sm valideUser"
                                                     title="<?= trans('Valider'); ?>"
                                                     data-iduser="<?= $user->id ?>">
-                                                <span class="btnEdit"><i class="fas fa-user-check"></i></span>
+                                                <span class=""><i class="fas fa-user-check"></i></span>
                                             </button>
                                         <?php endif; ?>
                                     </td>
