@@ -23,17 +23,15 @@ $ipAccess = $Option->showByType();
 $allMails = $MailLogger->showAll();
 
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
-    <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des fichiers</button>
-    <button class="btn btn-sm btn-outline-danger" id="clearServerCache">Purger le cache du serveur</button>
     <div class="row">
 
         <!-- OPTIONS -->
-        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 mb-5">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
                     <strong class="mb-0 py-1">Options</strong>
                 </div>
-                <div class="card-body">
+                <div class="card-body d-flex align-items-start flex-column">
                     <?php
                     if ($preferences):
                         $numPreference = count($preferences);
@@ -52,12 +50,16 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                             <?php endif;
                         endforeach;
                     endif; ?>
+                    <div class="mt-auto">
+                        <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des fichiers</button>
+                        <button class="btn btn-sm btn-outline-danger" id="clearServerCache">Purger le cache du serveur</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- AUTORISATION ACCES -->
-        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 mb-5">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
                     <strong class="mb-0 py-1">Autorisations d'accès</strong>
@@ -109,7 +111,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         </div>
 
         <!-- DATA -->
-        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 mb-5">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
                     <strong class="mb-0 py-1">Données</strong>
@@ -135,7 +137,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         </div>
 
         <!-- DOCUMENTS -->
-        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 mb-5">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
                     <strong class="mb-0 py-1">Documents</strong>
@@ -162,7 +164,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         </div>
 
         <!-- THEME -->
-        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4" id="colorsOptions">
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 mb-5" id="colorsOptions">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
                     <strong class="mb-0 py-1">Couleurs</strong>
@@ -214,7 +216,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
         </div>
 
         <!-- MAILS LOG -->
-        <div class="col-12 col-md-12 col-lg-6 col-xl-4 my-4">
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 mb-5">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
                     <strong class="mb-0 py-1">Mails</strong>
