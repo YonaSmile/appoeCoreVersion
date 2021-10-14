@@ -847,9 +847,10 @@ hr.hrStyle:after {
 }
 
 .otherProjetSelect {
-    border-radius: 0;
     border: 1px solid #AFCA0B;
     max-width: 300px;
+    position: relative;
+    top: 8px;
 }
 
 .file-thumbnail {
@@ -1272,7 +1273,7 @@ div#alertFlashContainer {
     border-radius: 8px;
     overflow: hidden;
     white-space: nowrap;
-    display:none;
+    display: none;
     font-size: 14px;
     line-height: 15px;
 }
@@ -1761,6 +1762,72 @@ li[id^="sousmenu-"] > a:first-child:after {
     top: 5px;
 }
 
+div#tabs {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+div#tab-content {
+    background: #fff;
+    box-shadow: 0 15px 5px -18px #111;
+}
+
+input#tab-search {
+    padding: 16px;
+    margin-bottom: 6px;
+}
+
+div.tab-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background: #FFF;
+    border: 0;
+    padding: 16px;
+    margin-bottom: 6px;
+    box-shadow: 0 15px 5px -18px #111;
+    transition: all 0.3s
+}
+
+div.tab-header:focus,
+div.tab-header:hover {
+    background: var(--colorPrimaryOpacity);
+    cursor: pointer;
+    color: var(--textBgColorPrimary);
+}
+
+div.tab-header.tab-active {
+    background: var(--colorPrimaryOpacity);
+    cursor: pointer;
+    color: var(--textBgColorPrimary);
+}
+
+div.tab-header h5 {
+    margin-bottom: 0;
+    font-size: 17px;
+}
+
+div.tab-content {
+    display: none;
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 15px 5px -18px #111;
+}
+
+div#tab-content .btn-group > .btn,
+div.tab-content .btn-group > .btn {
+    font-size: 16px;
+    background: #fafafa !important;
+}
+
+div#tab-content p {
+    font-size: 24px;
+}
+
+div#tab-content strong {
+    font-size: 16px;
+}
+
 @media screen and (max-width: 1440px) {
 
     h2.card-title {
@@ -1824,6 +1891,23 @@ li[id^="sousmenu-"] > a:first-child:after {
     #nav-tab .nav-link {
         font-size: 0.8em;
         padding: .5rem .5rem;
+    }
+
+    .otherProjetSelect {
+        border: 1px solid #AFCA0B;
+        max-width: 100%;
+        position: relative;
+        top: -10px;
+    }
+
+    div#tabs {
+        height: auto;
+        max-height: none;
+        overflow: auto;
+    }
+
+    div.tab-content .btn-group > .btn > span {
+        display: none;
     }
 }
 
