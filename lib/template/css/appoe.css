@@ -1772,9 +1772,8 @@ div#tab-content {
     box-shadow: 0 15px 5px -18px #111;
 }
 
-input#tab-search {
-    padding: 16px;
-    margin-bottom: 6px;
+div#tab-search div.input-group-text {
+    border-radius: 0;
 }
 
 div.tab-header {
@@ -1784,8 +1783,9 @@ div.tab-header {
     background: #FFF;
     border: 0;
     padding: 16px;
-    margin-bottom: 6px;
+    margin: 0;
     box-shadow: 0 15px 5px -18px #111;
+    border-bottom: 1px solid #DEDEDE;
     transition: all 0.3s
 }
 
@@ -1802,6 +1802,15 @@ div.tab-header.tab-active {
     color: var(--textBgColorPrimary);
 }
 
+div.tab-header:focus h5,
+div.tab-header:hover h5 {
+    color: var(--textBgColorPrimary);
+}
+
+div.tab-header.tab-active h5 {
+    color: var(--textBgColorPrimary);
+}
+
 div.tab-header h5 {
     margin-bottom: 0;
     font-size: 17px;
@@ -1812,6 +1821,7 @@ div.tab-content {
     background: #fff;
     padding: 10px;
     box-shadow: 0 15px 5px -18px #111;
+    border-bottom: 1px solid #DEDEDE;
 }
 
 div#tab-content .btn-group > .btn,
@@ -1820,12 +1830,35 @@ div.tab-content .btn-group > .btn {
     background: #fafafa !important;
 }
 
-div#tab-content p {
-    font-size: 24px;
+div#tab-content .btn-group > .btn:focus,
+div#tab-content .btn-group > .btn:hover {
+    background: #dadada !important;
 }
 
-div#tab-content strong {
-    font-size: 16px;
+div.tab-content p {
+    padding: 6px 10px;
+    margin: 0;
+}
+
+div#tab-content p {
+    font-size: 18px;
+    font-weight: 300;
+    border-left: 2px solid #888;
+    padding: 3px 10px;
+    margin: 10px 0;
+    background: #fafafa;
+}
+
+div#tab-content h2 {
+    font-weight: 900;
+}
+
+div#tab-content strong,
+div.tab-content strong {
+    font-size: 14px;
+    font-weight: 900;
+    color: #888;
+    display: block;
 }
 
 @media screen and (max-width: 1440px) {
@@ -1839,6 +1872,14 @@ div#tab-content strong {
         -moz-column-count: 4;
         column-count: 4;
     }
+
+    div.tab-header {
+        padding: 13px;
+    }
+
+    div.tab-header h5 {
+        font-size: 15px;
+    }
 }
 
 @media screen and (max-width: 1220px) {
@@ -1851,6 +1892,14 @@ div#tab-content strong {
         -webkit-column-count: 3;
         -moz-column-count: 3;
         column-count: 3;
+    }
+
+    div.tab-header {
+        padding: 11px;
+    }
+
+    div.tab-header h5 {
+        font-size: 14px;
     }
 }
 
@@ -1908,6 +1957,14 @@ div#tab-content strong {
 
     div.tab-content .btn-group > .btn > span {
         display: none;
+    }
+
+    div.tab-header {
+        padding: 16px;
+    }
+
+    div.tab-header h5 {
+        font-size: 16px;
     }
 }
 
