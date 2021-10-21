@@ -1762,21 +1762,21 @@ li[id^="sousmenu-"] > a:first-child:after {
     top: 5px;
 }
 
-div#tabs {
+div#admin-tabs {
     max-height: 100vh;
     overflow-y: auto;
 }
 
-div#tab-content {
+div#admin-tab-content {
     background: #fff;
     box-shadow: 0 15px 5px -18px #111;
 }
 
-div#tab-search div.input-group-text {
+div#admin-tab-search div.input-group-text {
     border-radius: 0;
 }
 
-div.tab-header {
+div.admin-tab-header {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -1789,34 +1789,34 @@ div.tab-header {
     transition: all 0.3s
 }
 
-div.tab-header:focus,
-div.tab-header:hover {
+div.admin-tab-header:focus,
+div.admin-tab-header:hover {
     background: var(--colorPrimaryOpacity);
     cursor: pointer;
     color: var(--textBgColorPrimary);
 }
 
-div.tab-header.tab-active {
+div.admin-tab-header.tab-active {
     background: var(--colorPrimaryOpacity);
     cursor: pointer;
     color: var(--textBgColorPrimary);
 }
 
-div.tab-header:focus h5,
-div.tab-header:hover h5 {
+div.admin-tab-header:focus h5,
+div.admin-tab-header:hover h5 {
     color: var(--textBgColorPrimary);
 }
 
-div.tab-header.tab-active h5 {
+div.admin-tab-header.tab-active h5 {
     color: var(--textBgColorPrimary);
 }
 
-div.tab-header h5 {
+div.admin-tab-header h5 {
     margin-bottom: 0;
     font-size: 17px;
 }
 
-div.tab-content {
+div.admin-tab-content {
     display: none;
     background: #fff;
     padding: 10px;
@@ -1824,23 +1824,54 @@ div.tab-content {
     border-bottom: 1px solid #DEDEDE;
 }
 
-div#tab-content .btn-group > .btn,
-div.tab-content .btn-group > .btn {
+div#admin-tab-content .btn-group > .btn,
+div.admin-tab-content .btn-group > .btn {
     font-size: 16px;
     background: #fafafa !important;
 }
 
-div#tab-content .btn-group > .btn:focus,
-div#tab-content .btn-group > .btn:hover {
+div#admin-tab-content .btn-group > .btn:focus,
+div#admin-tab-content .btn-group > .btn:hover {
     background: #dadada !important;
 }
 
-div.tab-content p {
+div.admin-tab-content p {
     padding: 6px 10px;
     margin: 0;
 }
 
-div#tab-content p {
+div#admin-tab-content h2,
+div.admin-tab-content h2 {
+    font-weight: 700;
+    margin:0;
+    font-size: 30px;
+}
+
+div#admin-tab-content .btnLink,
+div.admin-tab-content .btnLink {
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    background: transparent;
+    border: 0 none;
+    color: var(--colorSecondary);
+    transition: all 0.2s;
+    font-weight: 600;
+    padding: 0 5px;
+    margin: 0;
+}
+
+div#admin-tab-content .btnLink:focus,
+div#admin-tab-content .btnLink:hover,
+div.admin-tab-content .btnLink:focus,
+div.admin-tab-content .btnLink:hover {
+    text-decoration: none;
+    background: transparent;
+    border: 0 none;
+    color: var(--colorPrimary);
+}
+
+div#admin-tab-content p {
     font-size: 18px;
     font-weight: 300;
     border-left: 2px solid #888;
@@ -1849,12 +1880,8 @@ div#tab-content p {
     background: #fafafa;
 }
 
-div#tab-content h2 {
-    font-weight: 900;
-}
-
-div#tab-content strong,
-div.tab-content strong {
+div#admin-tab-content strong,
+div.admin-tab-content strong {
     font-size: 14px;
     font-weight: 900;
     color: #888;
@@ -1873,11 +1900,11 @@ div.tab-content strong {
         column-count: 4;
     }
 
-    div.tab-header {
+    div.admin-tab-header {
         padding: 13px;
     }
 
-    div.tab-header h5 {
+    div.admin-tab-header h5 {
         font-size: 15px;
     }
 }
@@ -1894,11 +1921,11 @@ div.tab-content strong {
         column-count: 3;
     }
 
-    div.tab-header {
+    div.admin-tab-header {
         padding: 11px;
     }
 
-    div.tab-header h5 {
+    div.admin-tab-header h5 {
         font-size: 14px;
     }
 }
@@ -1949,22 +1976,27 @@ div.tab-content strong {
         top: -10px;
     }
 
-    div#tabs {
+    div#admin-tabs {
         height: auto;
         max-height: none;
         overflow: auto;
     }
 
-    div.tab-content .btn-group > .btn > span {
+    div.admin-tab-content .btn-group > .btn > span {
         display: none;
     }
 
-    div.tab-header {
+    div.admin-tab-header {
         padding: 16px;
     }
 
-    div.tab-header h5 {
+    div.admin-tab-header h5 {
         font-size: 16px;
+    }
+
+    div#admin-tab-content h2,
+    div.admin-tab-content h2 {
+        font-size: 21px;
     }
 }
 
