@@ -1796,7 +1796,7 @@ div.admin-tab-header:hover {
     color: var(--textBgColorPrimary);
 }
 
-div.admin-tab-header.tab-active {
+div.admin-tab-header.admin-tab-active {
     background: var(--colorPrimaryOpacity);
     cursor: pointer;
     color: var(--textBgColorPrimary);
@@ -1807,7 +1807,7 @@ div.admin-tab-header:hover h5 {
     color: var(--textBgColorPrimary);
 }
 
-div.admin-tab-header.tab-active h5 {
+div.admin-tab-header.admin-tab-active h5 {
     color: var(--textBgColorPrimary);
 }
 
@@ -1840,10 +1840,14 @@ div.admin-tab-content p {
     margin: 0;
 }
 
+div.admin-tab-content p i {
+    display: none;
+}
+
 div#admin-tab-content h2,
 div.admin-tab-content h2 {
     font-weight: 700;
-    margin:0;
+    margin: 0;
     font-size: 30px;
 }
 
@@ -1874,10 +1878,20 @@ div.admin-tab-content .btnLink:hover {
 div#admin-tab-content p {
     font-size: 18px;
     font-weight: 300;
-    border-left: 2px solid #888;
-    padding: 3px 10px;
+    padding: 3px 10px 3px 35px;
     margin: 10px 0;
-    background: #fafafa;
+    position: relative;
+}
+
+div#admin-tab-content p i {
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: 0;
+    left: 0;
+    font-size: 20px;
+    color: #CCC;
 }
 
 div#admin-tab-content strong,
