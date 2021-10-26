@@ -1824,17 +1824,6 @@ div.admin-tab-content {
     border-bottom: 1px solid #DEDEDE;
 }
 
-div#admin-tab-content .btn-group > .btn,
-div.admin-tab-content .btn-group > .btn {
-    font-size: 16px;
-    background: #fafafa !important;
-}
-
-div#admin-tab-content .btn-group > .btn:focus,
-div#admin-tab-content .btn-group > .btn:hover {
-    background: #dadada !important;
-}
-
 div.admin-tab-content p {
     padding: 6px 10px;
     margin: 0;
@@ -1898,7 +1887,7 @@ div#admin-tab-content strong,
 div.admin-tab-content strong {
     font-size: 14px;
     font-weight: 900;
-    color: #888;
+    color: #777;
     display: block;
 }
 
