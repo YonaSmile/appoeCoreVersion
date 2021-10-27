@@ -1880,7 +1880,8 @@ div#admin-tab-content img {
 }
 
 div.admin-tab-content img {
-    margin-bottom: 20px;
+    margin: 0 auto 20px auto;
+    display: block;
 }
 
 div#admin-tab-content p i {
@@ -1892,14 +1893,6 @@ div#admin-tab-content p i {
     left: 0;
     font-size: 20px;
     color: #CCC;
-}
-
-div#admin-tab-content strong,
-div.admin-tab-content strong {
-    font-size: 14px;
-    font-weight: 900;
-    color: #777;
-    display: block;
 }
 
 div#admin-tab-content strong,
