@@ -1872,6 +1872,17 @@ div#admin-tab-content p {
     position: relative;
 }
 
+div#admin-tab-content img {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    width: auto;
+}
+
+div.admin-tab-content img {
+    margin-bottom: 20px;
+}
+
 div#admin-tab-content p i {
     display: block;
     position: absolute;
@@ -1881,6 +1892,14 @@ div#admin-tab-content p i {
     left: 0;
     font-size: 20px;
     color: #CCC;
+}
+
+div#admin-tab-content strong,
+div.admin-tab-content strong {
+    font-size: 14px;
+    font-weight: 900;
+    color: #777;
+    display: block;
 }
 
 div#admin-tab-content strong,
