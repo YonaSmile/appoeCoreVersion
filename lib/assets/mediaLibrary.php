@@ -15,19 +15,17 @@ $listCatgories = extractFromObjToArrForList($allCategory, 'id');
             <div class="modal-header" style="border-bottom: 0;">
                 <h5 class="modal-title"
                     id="mediaLibraryModalTitle"><?= trans('Choisissez le fichier média'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pt-1" id="libraryModalContent">
                 <div id="mediaContainer">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link sidebarLink active" id="nav-allLibraries-tab" data-toggle="tab"
+                            <a class="nav-item nav-link sidebarLink active" id="nav-allLibraries-tab" data-bs-toggle="tab"
                                href="#nav-allLibraries"
                                role="tab" aria-controls="nav-allLibraries"
                                aria-selected="true"><?= trans('Les bibliothèques'); ?></a>
-                            <a class="nav-item nav-link sidebarLink" id="nav-newFiles-tab" data-toggle="tab"
+                            <a class="nav-item nav-link sidebarLink" id="nav-newFiles-tab" data-bs-toggle="tab"
                                href="#nav-newFiles" role="tab"
                                aria-controls="nav-newFiles"
                                aria-selected="false"><?= trans('Téléchargement des médias'); ?></a>
@@ -46,18 +44,13 @@ $listCatgories = extractFromObjToArrForList($allCategory, 'id');
                             <div class="container-fluid">
                                 <form class="row" id="mediaLibraryForm" action="/app/ajax/media.php" method="post"
                                       enctype="multipart/form-data">
-                                    <div class="col-12 col-lg-6 my-2">
-                                        <?= \App\Form::file('Importer des médias', 'inputFile[]', false, 'multiple', '', 'Choisissez...', false); ?>
-                                    </div>
-                                    <div class="col-12 col-lg-3 my-2">
-                                            <textarea name="textareaSelectedFile" id="textareaSelectedFile"
-                                                      class="d-none"></textarea>
-                                        <?= \App\Form::text('Choisissez des médias', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-toggle="modal" data-target="#allMediasModal"'); ?>
-                                    </div>
                                     <div class="col-12 col-lg-3 my-2">
                                         <?= \App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 col-lg-6 my-2">
+                                        <?= \App\Form::file('Importer des médias', 'inputFile[]', false, 'multiple'); ?>
+                                    </div>
+                                    <div class="col-12 col-lg-3 my-2 d-flex align-self-end">
                                         <?= \App\Form::target('ADDIMAGES'); ?>
                                         <?= \App\Form::submit('Enregistrer', 'addImageSubmit'); ?>
                                     </div>
@@ -67,26 +60,6 @@ $listCatgories = extractFromObjToArrForList($allCategory, 'id');
                         <div class="my-4"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="allMediasModal" tabindex="-1" role="dialog" aria-labelledby="allMediasModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="allMediasModalLabel"><?= trans('Tous les médias'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="allMediaModalContainer"></div>
-            <div class="modal-footer">
-                <button type="button" id="closeAllMediaModalBtn" class="btn btn-secondary" data-dismiss="modal">
-                    <?= trans('Fermer et annuler la sélection'); ?></button>
-                <button type="button" id="saveMediaModalBtn" class="btn btn-info" data-dismiss="modal">
-                    0 <?= trans('médias'); ?></button>
             </div>
         </div>
     </div>

@@ -45,7 +45,6 @@ a {
 }
 
 a:focus, a:hover {
-    text-decoration: underline;
 }
 
 .img-circle {
@@ -215,7 +214,7 @@ a:focus, a:hover {
     font-weight: 500;
 }
 
-#sidebar a[data-toggle="collapse"] {
+#sidebar a[data-bs-toggle="collapse"] {
     position: relative;
 }
 
@@ -403,7 +402,7 @@ select:hover {
     vertical-align: middle;
 }
 
-.input-group-addon {
+.input-group-addon, .form-select, .form-control, .custom-select, .alert, .btn, div#admin-tab-search div.input-group-text, .progress {
     border-radius: 0 !important;
 }
 
@@ -767,10 +766,6 @@ hr.hrStyle:after {
     display: block !important;
 }
 
-.form-control, .custom-select, .alert {
-    border-radius: 0 !important;
-}
-
 .menuIcones {
     margin: 0;
 }
@@ -886,6 +881,7 @@ hr.hrStyle:after {
     -webkit-column-count: 5;
     -moz-column-count: 5;
     column-count: 5;
+    column-gap: 0;
 }
 
 .card-header {
@@ -906,6 +902,7 @@ hr.hrStyle:after {
     -moz-box-shadow: 1px 1px 2px #e6e6e6;
     box-shadow: 1px 1px 2px #e6e6e6;
     cursor: default;
+    margin: 2px;
 }
 
 .view > .mask {
@@ -1002,6 +999,14 @@ hr.hrStyle:after {
     cursor: pointer !important;
 }
 
+.mediaChoiceBtn {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: var(--colorPrimaryOpacity);
+    color: var(--textBgColorPrimary);
+}
+
 .mediaItem {
     position: relative;
     min-height: 50px;
@@ -1025,6 +1030,28 @@ hr.hrStyle:after {
     color: #FFF;
     text-align: center;
     padding: 5px;
+}
+
+#mediaEdition input,
+#mediaEdition textarea,
+#mediaEdition select {
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+}
+
+div[id^=imgPreview-] {
+    background: #FFF;
+    padding: 5px;
+    border: 1px solid #CCC;
+    display: flex;
+    position: absolute;
+}
+
+div[id^=imgPreview-] > img {
+    margin: auto;
+    max-width: 200px !important;
+    max-height: 200px !important;
 }
 
 /** END MEDIA **/
@@ -1057,7 +1084,7 @@ hr.hrStyle:after {
     left: 0;
 }
 
-[data-toggle="tab"].active {
+[data-bs-toggle="tab"].active {
     border-bottom: 0;
     outline: none;
 }
@@ -1479,10 +1506,6 @@ textarea {
     resize: vertical;
 }
 
-.btn {
-    border-radius: 0 !important;
-}
-
 #articlesGridContainer .card .btn-group > .btn {
     font-size: 16px !important;
     background: #fafafa;
@@ -1547,10 +1570,6 @@ textarea {
     -webkit-transform: scaleX(1.01);
 }
 
-.progress {
-    border-radius: 0 !important;
-}
-
 table.table th, table.table td {
     vertical-align: middle !important;
 }
@@ -1590,10 +1609,6 @@ input, select {
 
 label {
     font-weight: 500;
-}
-
-label.custom-file-label {
-    border-radius: 0;
 }
 
 .custom-file-label::after {
@@ -1770,10 +1785,6 @@ div#admin-tabs {
 div#admin-tab-content {
     background: #fff;
     box-shadow: 0 15px 5px -18px #111;
-}
-
-div#admin-tab-search div.input-group-text {
-    border-radius: 0;
 }
 
 div.admin-tab-header {

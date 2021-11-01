@@ -15,7 +15,7 @@
     <?php endif;
     if (defined('LANGUAGES') && is_array(LANGUAGES) && count(LANGUAGES) >= 2): ?>
         <div class="dropdown menu-toggle-button" id="languageSelectorContainer">
-            <a class="nav-link sidebarLink wave-effect" id="languageSelectorBtn" data-toggle="dropdown" href="#"
+            <a class="nav-link sidebarLink wave-effect" id="languageSelectorBtn" data-bs-toggle="dropdown" href="#"
                aria-expanded="false" aria-haspopup="true" role="button">
                 <img src="<?= getAppImg('flag-' . APP_LANG . '.svg'); ?>">
                 <span class="d-none d-md-inline" style="vertical-align: middle;"><?= LANGUAGES[APP_LANG]; ?></span>
@@ -34,23 +34,23 @@
             </div>
         </div>
     <?php endif; ?>
-    <div class="ml-auto"></div>
+    <div class="ms-auto"></div>
 
     <?php if (isUserAuthorized('tools') || isUserAuthorized('setting')): ?>
         <div class="dropdown menu-toggle-button">
             <a class="nav-link dropdown-toggle sidebarLink wave-effect hideNavArrows" href="#"
                id="navbarDropdownSetting" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-cog"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUserMenu">
                 <a class="dropdown-item" href="<?= getUrl('tools/'); ?>">
-                    <small><span class="mr-2"><i class="fas fa-tools"></i></span> <?= trans('Outils'); ?></small>
+                    <small><span class="me-2"><i class="fas fa-tools"></i></span> <?= trans('Outils'); ?></small>
                 </a>
                 <?php if (isTechnicien(getUserRoleId())): ?>
                     <div class="dropdown-divider m-0"></div>
                     <a class="dropdown-item" href="<?= getUrl('setting/'); ?>">
-                        <small><span class="mr-2"><i class="fas fa-cog"></i></span> <?= trans('Réglages'); ?></small>
+                        <small><span class="me-2"><i class="fas fa-cog"></i></span> <?= trans('Réglages'); ?></small>
                     </a>
                 <?php endif; ?>
             </div>
@@ -60,18 +60,18 @@
     <div class="dropdown menu-toggle-button">
         <a class="nav-link dropdown-toggle sidebarLink wave-effect hideNavArrows" href="#" id="navbarDropdownUserMenu"
            role="button"
-           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 d-none d-md-inline"><?= getUserLogin(); ?></span> <i class="fas fa-user"></i>
+           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="me-2 d-none d-md-inline"><?= getUserLogin(); ?></span> <i class="fas fa-user"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserMenu">
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUserMenu">
             <?php if (isUserAuthorized('updateUser')): ?>
                 <a class="dropdown-item" href="<?= getUrl('user/', getUserIdSession()); ?>">
-                    <small><span class="mr-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?></small>
+                    <small><span class="me-2"><i class="fas fa-user"></i></span> <?= trans('Mon profil'); ?></small>
                 </a>
             <?php endif; ?>
             <div class="dropdown-divider m-0"></div>
             <a class="dropdown-item" href="<?= WEB_APP_URL . 'logout.php'; ?>">
-                <small><span class="mr-2"><i class="fas fa-power-off"></i></span> <?= trans('Déconnexion'); ?></small>
+                <small><span class="me-2"><i class="fas fa-power-off"></i></span> <?= trans('Déconnexion'); ?></small>
             </a>
         </div>
     </div>

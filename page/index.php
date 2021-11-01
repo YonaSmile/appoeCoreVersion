@@ -27,7 +27,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                             <?php foreach ($lastPage as $id => $idPage):
                                 $Cms->setId($idPage);
                                 if ($Cms->show()): ?>
-                                    <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
+                                    <div class="my-2 ms-0 ms-lg-4" style="position: relative;">
                                         <span class="w-100 d-block" style="padding-right: 100px;">
                                             <?= $Cms->getMenuName(); ?>
                                         </span>
@@ -56,7 +56,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 $Article->setId($idArticle);
                                 $Article->setLang(APP_LANG);
                                 if ($Article->show()): ?>
-                                    <div class="my-2 ml-0 ml-lg-4" style="position: relative;">
+                                    <div class="my-2 ms-0 ms-lg-4" style="position: relative;">
                                         <span class="w-100 d-block" style="padding-right: 100px;">
                                             <?= $Article->getName(); ?>
                                         </span>
@@ -78,7 +78,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
             <div class="card border-0 w-100">
                 <div class="card-header bg-white pb-0 border-0 boardBlock2Title">
                     <h5 class="m-0 pl-4 colorSecondary"><?= trans('Visiteurs'); ?>
-                        <span type="button" id="refreshTracker" class="float-right">
+                        <span type="button" id="refreshTracker" class="float-end">
                             <i class="fas fa-sync-alt fa-sm"></i></span>
                     </h5>
                     <hr class="mx-4">

@@ -571,7 +571,7 @@ function jsonHtmlParse($object)
 function getTitle($name = '', $slug = '', $appendName = '', $appendHtml = '')
 {
     $html = '<div class="row"><div class="col-12 position-relative">
-            <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary mr-2"></span>' . trans($name) . $appendName . '</h1>
+            <h1 class="bigTitle icon-' . $slug . '"><span class="colorPrimary me-2"></span>' . trans($name) . $appendName . '</h1>
             ' . $appendHtml . '</div></div><hr class="mx-5 mt-3 mb-4">';
 
     return $html;

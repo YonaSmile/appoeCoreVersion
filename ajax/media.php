@@ -43,7 +43,7 @@ if (checkAjaxRequest()) {
             exit();
         }
 
-        if (isset($_POST['ADDIMAGES']) && !empty($_POST['library']) && isset($_POST['textareaSelectedFile'])) {
+        if (isset($_POST['ADDIMAGES']) && !empty($_POST['library'])) {
 
             $html = '';
             $selectedFilesCount = 0;

@@ -9,8 +9,8 @@ $allPermissions = $Menu->displayMenuAll();
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="row">
         <div class="col-12">
-            <button id="addPermission" type="button" class="btn btn-info btn-sm mb-4" data-toggle="modal"
-                    data-target="#modalAddPermission">
+            <button id="addPermission" type="button" class="btn btn-info btn-sm mb-4" data-bs-toggle="modal"
+                    data-bs-target="#modalAddPermission">
                 <?= trans('Nouvelle Permission'); ?>
             </button>
         </div>
@@ -112,7 +112,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                         <button type="submit" id="addPermissionBtn"
                                 class="btn btn-primary"><?= trans('Enregistrer'); ?></button>
                         <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal"><?= trans('Fermer'); ?></button>
+                                data-bs-dismiss="modal"><?= trans('Fermer'); ?></button>
                     </div>
                 </form>
             </div>

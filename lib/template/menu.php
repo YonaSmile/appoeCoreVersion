@@ -28,23 +28,24 @@ if (is_array($autorisedMenu)) {
             if (!empty($menuAll[$menu['id']])): sort($menuAll[$menu['id']]); ?>
                 <li class="<?= 'icon-' . $menu['slug']; ?> <?= activePage($menu['slug'], 'active'); ?>"
                     id="menu-<?= $menu['slug']; ?>">
-                    <a href="#<?= 'menu-admin' . $menu['id']; ?>" data-toggle="collapse" aria-expanded="false"
+                    <a data-bs-target="#<?= 'menu-admin' . $menu['id']; ?>" data-bs-toggle="collapse" aria-expanded="false"
                        class="accordion-toggle wave-effect sidebarLink"><?= trans($menu['name']); ?></a>
                     <ul class="collapse list-unstyled" id="<?= 'menu-admin' . $menu['id']; ?>"
-                        data-parent="#adminMenu">
+                        data-bs-parent="#adminMenu">
                         <?php foreach ($menuAll[$menu['id']] as $sous_menu): ?>
                             <li class="<?= activePage($sous_menu['slug'], 'active'); ?>"
                                 id="sousmenu-<?= $sous_menu['slug']; ?>">
                                 <?php if (!empty($menuAll[$sous_menu['id']])): ?>
-                                    <a href="#<?= 'menu-admin' . $sous_menu['id']; ?>"
-                                       class="accordion-toggle wave-effect sidebarLink" data-toggle="collapse"
+                                    <a data-bs-target="#<?= 'menu-admin' . $sous_menu['id']; ?>"
+                                       class="accordion-toggle wave-effect sidebarLink" data-bs-toggle="collapse"
                                        aria-expanded="false"><?= trans($sous_menu['name']); ?></a>
                                     <ul class="collapse list-unstyled" id="<?= 'menu-admin' . $sous_menu['id']; ?>"
-                                        data-parent="#<?= 'menu-admin' . $menu['id']; ?>">
+                                        data-bs-parent="#<?= 'menu-admin' . $menu['id']; ?>">
                                         <?php foreach ($menuAll[$sous_menu['id']] as $sous_sous_menu): ?>
                                             <li class="<?= activePage($sous_sous_menu['slug'], 'active') . ' icon-' . $sous_sous_menu['slug']; ?>"
                                                 id="menu-<?= $menu['slug']; ?>">
-                                                <a href="<?= (!empty($sous_sous_menu['pluginName'])) ? getPluginUrl($sous_sous_menu['pluginName'] . '/page/' . $sous_sous_menu['slug']) : getUrl($sous_sous_menu['slug']); ?>/"><?= trans($sous_sous_menu['name']); ?></a>
+                                                <a href="<?= (!empty($sous_sous_menu['pluginName'])) ? getPluginUrl($sous_sous_menu['pluginName'] . '/page/' . $sous_sous_menu['slug']) : getUrl($sous_sous_menu['slug']); ?>/">
+                                                    <?= trans($sous_sous_menu['name']); ?></a>
                                             </li>
                                         <?php endforeach ?>
                                     </ul>

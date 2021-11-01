@@ -46,12 +46,12 @@ if (!empty($_GET['id'])):
                     <input type="hidden" name="id" value="<?= $UpdateUser->getId() ?>">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card bgColorPrimary border">
+                            <div class="card border">
                                 <div class="card-body row">
-                                    <div class="col-12 my-2">
+                                    <div class="col-12 my-2 position-relative">
                                         <?= \App\Form::text('Nouveau Mot de passe', 'password', 'password', 'password', true, 150, 'autocomplete="off"'); ?>
                                         <span id="seePswd"
-                                              style="position: absolute;bottom: 0;right: 16px;padding: 5px 10px;font-size: 18px;cursor: pointer;color: #000;">
+                                              style="position: absolute;bottom: 10px;right: 16px;padding: 5px 10px;font-size: 18px;cursor: pointer;color: #000;">
                                             <i class="far fa-eye"></i>
                                         </span>
                                     </div>
@@ -60,7 +60,7 @@ if (!empty($_GET['id'])):
                                     </div>
                                     <div class="col-12 my-2">
                                         <?= \App\Form::target('UPDATEPASSWORD'); ?>
-                                        <?= \App\Form::submit('Enregistrer', 'UPDATEPASSWORDSUBMIT', 'btn-outline-light'); ?>
+                                        <?= \App\Form::submit('Enregistrer', 'UPDATEPASSWORDSUBMIT'); ?>
                                     </div>
                                 </div>
                             </div>

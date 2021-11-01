@@ -150,7 +150,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                      src="<?= getImgAccordingExtension('pdf'); ?>" alt="Tutoriel">
                             </a>
                         </div>
-                        <div class="media-body ml-3">
+                        <div class="media-body ms-3">
                             <h6 class="mb-1">
                                 <a class="font-weight-bold" target="_blank"
                                    href="https://aoe-communication.com/utils/APPOE-TUTO.pdf">Tutoriel</a>
@@ -181,7 +181,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                          style="background-color:<?= getOptionTheme('--color' . $color); ?>;">
                                     </div>
                                 </div>
-                                <div class="media-body ml-3">
+                                <div class="media-body ms-3">
                                     <strong class="mb-1">Couleur <?= $name; ?></strong>
                                     <div class="inputColorDiv">
                                         <input class="themeColorChange" type="text"
@@ -196,7 +196,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     <div id="textBgColor<?= $color; ?>" class="border colorDiv"
                                          style="background-color: <?= getOptionTheme('--textBgColor' . $color); ?>;"></div>
                                 </div>
-                                <div class="media-body ml-3">
+                                <div class="media-body ms-3">
                                     <strong class="mb-1">Texte sur fond</strong>
                                     <div class="inputColorDiv">
                                         <input type="text" class="themeColorChange"
@@ -234,12 +234,12 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                               class="text-<?= $mail->sent ? 'success' : 'danger'; ?>">
                                             <i class="far fa-envelope<?= $mail->sent ? '-open' : ''; ?>"></i></span>
                                     </div>
-                                    <div class="media-body ml-3">
+                                    <div class="media-body ms-3">
                                         <strong class="mb-1"><?= $mail->object; ?></strong>
                                         <div><strong>Le:</strong> <?= displayCompleteDate($mail->date, true); ?></div>
                                         <div><strong>De:</strong> <?= $mail->fromName; ?></div>
                                     </div>
-                                    <div class="ml-auto">
+                                    <div class="ms-auto">
                                         <button class="btn colorPrimary seeMail" data-obj="<?= $mail->object; ?>"
                                                 data-msg="<?= htmlspecialchars($mail->message); ?>"><i
                                                     class="far fa-envelope-open"></i></button>

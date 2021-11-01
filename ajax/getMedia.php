@@ -18,7 +18,7 @@ if (checkAjaxRequest()):
     $libraryParent = groupLibraryByParents($allCategory, $allLibrary);
 
     if ($allLibrary): ?>
-        <div id="shortAccessBtns" class="mb-4 float-right">
+        <div id="shortAccessBtns" class="mb-4 float-end">
             <button type="button" class="btn btn-sm btn-secondary"
                     data-library-parent-id="all"><?= trans('Tous'); ?></button>
         </div>
@@ -34,7 +34,7 @@ if (checkAjaxRequest()):
                     <hr class="my-3 mx-5">
                     <div class="card-columns">
                         <?php foreach ($allFiles as $file): ?>
-                            <div class="card fileContent bg-none border-0">
+                            <div class="card view fileContent bg-none border-0">
                                 <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                     <img src="<?= getThumb($file->name, 370); ?>"
                                          alt="<?= $file->title; ?>"
@@ -48,15 +48,9 @@ if (checkAjaxRequest()):
                                              alt="<?= $file->name; ?>">
                                     </a>
                                 <?php endif; ?>
-                                <div class="form-group mt-1 mb-0">
-                                    <small style="font-size: 9px;">
-                                        <strong class="fileLink" data-src="<?= WEB_DIR_INCLUDE . $file->name; ?>">
-                                            <button class="btn btn-sm btn-outline-info btn-block copyLinkOnClick">
-                                                <?= trans('Choisir'); ?>
-                                            </button>
-                                        </strong>
-                                    </small>
-                                </div>
+                                <button class="btn btn-sm mediaChoiceBtn copyLinkOnClick" data-src="<?= WEB_DIR_INCLUDE . $file->name; ?>">
+                                    <?= trans('Choisir'); ?>
+                                </button>
                             </div>
                         <?php endforeach; ?>
                     </div>

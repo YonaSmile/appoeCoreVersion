@@ -19,11 +19,11 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 <div class="p-3 bg-info text-white">
                                     <?= strtoupper(implode(' ', splitAtUpperCase($plugin['name']))); ?>
                                     <?php if (!empty($plugin['setupPath'])): ?>
-                                        <button type="button" class="btn btn-light btn-sm activePlugin float-right"
+                                        <button type="button" class="btn btn-light btn-sm activePlugin float-end"
                                                 data-pluginpath="<?= $plugin['setupPath']; ?>"><?= trans('Activer'); ?>
                                         </button>
                                     <?php else: ?>
-                                        <button type="button" class="btn btn-light btn-sm deletePlugin float-right"
+                                        <button type="button" class="btn btn-light btn-sm deletePlugin float-end"
                                                 data-pluginname="<?= $plugin['name']; ?>"><?= trans('Supprimer'); ?>
                                         </button>
                                     <?php endif; ?>
@@ -37,7 +37,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                                    data-pluginname="<?= $plugin['name']; ?>">
                                                 <?= Version::getVersion(); ?>
                                             </small>
-                                            <small class="responseVersion float-right"></small>
+                                            <small class="responseVersion float-end"></small>
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>
@@ -69,7 +69,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 <small id="systemVersion" data-systemversion="<?= Version::getVersion(); ?>">
                                     <?= trans('Version'); ?> <?= Version::getVersion(); ?>
                                 </small>
-                                <small class="responseVersion float-right"></small>
+                                <small class="responseVersion float-end"></small>
                             </div>
                         <?php endif; ?>
                         <div class="my-4"></div>

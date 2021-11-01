@@ -16,7 +16,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
     $Media->setLang(APP_LANG);
 
     if ($Media->show()): ?>
-        <div class="pb-2">
+        <div class="pb-2" id="mediaEdition">
             <div class="col-12 p-0">
                 <?php
                 $file = FILE_DIR_PATH . $Media->getName();
@@ -86,57 +86,37 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                 </div>
             </div>
             <div class="col-12">
-                <h5 class="my-2" id="mediaTitle"><?= $Media->getTitle(); ?></h5>
+                <h5 class="p-2" id="mediaTitle"><?= $Media->getTitle(); ?></h5>
                 <form method="post" class="my-2" id="filenameInputForm" style="display:none;">
                     <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
                     <input type="hidden" name="oldName" value="<?= $Media->getName(); ?>">
-                    <div class="mb-2">
-                        <?= Form::text('Nom du fichier', 'filename', 'text', $Media->getName(), true, 255, '', '', 'form-control-sm'); ?>
-                    </div>
-                    <div class="mb-2">
-                        <?= Form::submit('Enregistrer', 'RENAMEFILENAME'); ?>
-                    </div>
+                    <?= Form::text('Nom du fichier', 'filename', 'text', $Media->getName(), true, 255, '', '', 'form-control-sm'); ?>
+                    <?= Form::submit('Enregistrer', 'RENAMEFILENAME'); ?>
                 </form>
                 <form method="post" id="mediaDetailsForm" class="my-2">
                     <input type="hidden" name="id" value="<?= $Media->getId(); ?>">
                     <input type="hidden" name="imageType" value="<?= $Media->getType(); ?>">
-                    <div class="mb-2">
-                        <?= Form::text('Titre (texte alternatif)', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm'); ?>
-                    </div>
-                    <div class="mb-2">
-                        <?= Form::textarea('Description', 'description', $Media->getDescription(), 1, false, '', 'form-control-sm imageDescription upImgForm'); ?>
-                    </div>
-                    <div class="mb-2">
-                        <?= Form::text('Lien', 'link', 'url', $Media->getLink(), false, 255, '', '', 'form-control-sm imagelink upImgForm'); ?>
-                    </div>
-                    <div class="mb-2">
-                        <?= Form::text('Position', 'position', 'text', $Media->getPosition(), false, 5, '', '', 'form-control-sm imagePosition upImgForm'); ?>
-                    </div>
+                    <?= Form::text('Titre (texte alternatif)', 'title', 'text', $Media->getTitle(), false, 255, '', '', 'form-control-sm imageTitle upImgForm'); ?>
+                    <?= Form::textarea('Description', 'description', $Media->getDescription(), 2, false, '', 'form-control-sm imageDescription upImgForm'); ?>
+                    <?= Form::text('Lien', 'link', 'url', $Media->getLink(), false, 255, '', '', 'form-control-sm imagelink upImgForm'); ?>
+                    <?= Form::text('Position', 'position', 'text', $Media->getPosition(), false, 5, '', '', 'form-control-sm imagePosition upImgForm'); ?>
                     <?php if ($Media->getType() === 'MEDIA'): ?>
-                        <div class="mb-2">
-                            <?= Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), true, ' data-old-type="' . $Media->getTypeId() . '" ', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
-                        </div>
+                        <?= Form::select('Bibliothèques', 'typeId', $listCatgories, $Media->getTypeId(), true, ' data-old-type="' . $Media->getTypeId() . '" ', '', '', 'custom-select-sm imageTypeId upImgForm'); ?>
                     <?php else: ?>
                         <input type="hidden" name="typeId" class="imageTypeId" value="<?= $Media->getTypeId(); ?>">
-                        <div class="mb-2">
-                            <?= Form::select('Zone du thème', 'templatePosition', FILE_TEMPLATE_POSITIONS, getSerializedOptions($Media->getOptions(), 'templatePosition'), '', '', '', '', 'custom-select-sm templatePosition upImgForm'); ?>
-                        </div>
+                        <?= Form::select('Zone du thème', 'templatePosition', FILE_TEMPLATE_POSITIONS, getSerializedOptions($Media->getOptions(), 'templatePosition'), '', '', '', '', 'custom-select-sm templatePosition upImgForm'); ?>
                     <?php endif; ?>
                 </form>
-                <small id="infosMedia" class="float-right text-success"></small>
+                <small id="infosMedia" class="float-end text-success"></small>
                 <hr class="mx-5 my-3">
-                <div class="row">
-                    <div class="col-6 text-left">
-                        <button type="button" class="closeMediaDetails btn btn-outline-secondary btn-sm">
-                            Fermer <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div class="col-6 text-right">
-                        <button type="button" class="deleteImage btn btn-outline-danger btn-sm"
-                                data-imageid="<?= $Media->getId(); ?>" data-thumbwidth="370">
-                            <i class="fas fa-times"></i> Supprimer
-                        </button>
-                    </div>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="closeMediaDetails btn btn-outline-secondary btn-sm mx-2">
+                        Fermer <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button type="button" class="deleteImage btn btn-outline-danger btn-sm mx-2"
+                            data-imageid="<?= $Media->getId(); ?>" data-thumbwidth="370">
+                        <i class="fas fa-times"></i> Supprimer
+                    </button>
                 </div>
             </div>
         </div>

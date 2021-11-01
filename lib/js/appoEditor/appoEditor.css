@@ -12,6 +12,11 @@ div.containerAppoeditor nav.navButton {
     width: 100%;
     height: auto;
     z-index: inherit;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 div.containerAppoeditor div.inlineAppoeditor {

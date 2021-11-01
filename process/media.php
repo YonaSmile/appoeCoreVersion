@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Clean data
     $_POST = cleanRequest($_POST);
 
-    if (isset($_POST['ADDIMAGES']) && !empty($_POST['library']) && isset($_POST['textareaSelectedFile'])) {
+    if (isset($_POST['ADDIMAGES']) && !empty($_POST['library'])) {
 
         $html = '';
         $selectedFilesCount = 0;

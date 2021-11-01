@@ -50,5 +50,5 @@ includePluginsFiles(true);
                 <div class="col-12" id="content-size">
                     <div class="panel">
                         <?php if (defined('MEHOUBARIM_MSG') && !empty(MEHOUBARIM_MSG)): ?>
-                            <div class="p-2 float-right text-danger"><?= MEHOUBARIM_MSG; ?></div>
+                            <div class="p-2 float-end text-danger"><?= MEHOUBARIM_MSG; ?></div>
                         <?php endif; ?>

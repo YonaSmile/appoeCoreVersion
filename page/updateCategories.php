@@ -17,8 +17,8 @@ if ($allCategories) {
 echo getTitle(getAppPageName(), getAppPageSlug());
 showPostResponse(getDataPostResponse()); ?>
     <div class="container-fluid">
-        <button id="addCategory" type="button" class="btn btn-primary mb-4" data-toggle="modal"
-                data-target="#modalAddCategory">
+        <button id="addCategory" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
+                data-bs-target="#modalAddCategory">
             <?= trans('Nouvelle Catégorie'); ?>
         </button>
         <div class="my-4"></div>
@@ -36,14 +36,14 @@ showPostResponse(getDataPostResponse()); ?>
                                        data-column="name" value="<?= $separetedCategory->name; ?>">
                                 <small class="inputInfo"><?= $separetedCategory->id; ?></small>
                                 <?php if (empty($categoryType[$separetedCategory->id])): ?>
-                                    <button type="button" class="close deleteCategory">
+                                    <button type="button" class="btn close deleteCategory">
                                         <span class="fas fa-times"></span>
                                     </button>
                                 <?php endif; ?>
                             </div>
                             <?php if (!empty($categoryType[$separetedCategory->id])):
                                 foreach ($categoryType[$separetedCategory->id] as $separetedSubCategory): ?>
-                                    <div class="px-3 py-0 m-0 ml-4 mt-1 jumbotron fileContent"
+                                    <div class="px-3 py-0 m-0 ms-4 mt-1 jumbotron fileContent"
                                          data-idcategory="<?= $separetedSubCategory->id; ?>">
                                         <input type="tel" class="categoryInput positionMenuSpan"
                                                data-column="position" value="<?= $separetedSubCategory->position; ?>">
@@ -51,14 +51,14 @@ showPostResponse(getDataPostResponse()); ?>
                                                data-column="name" value="<?= $separetedSubCategory->name; ?>">
                                         <small class="inputInfo"><?= $separetedSubCategory->id; ?></small>
                                         <?php if (empty($categoryType[$separetedSubCategory->id])): ?>
-                                            <button type="button" class="close deleteCategory">
+                                            <button type="button" class="btn close deleteCategory">
                                                 <span class="fas fa-times"></span>
                                             </button>
                                         <?php endif; ?>
                                     </div>
                                     <?php if (!empty($categoryType[$separetedSubCategory->id])):
                                         foreach ($categoryType[$separetedSubCategory->id] as $separetedSubSubCategory): ?>
-                                            <div class="px-3 py-0 m-0 ml-5 mt-1 jumbotron fileContent"
+                                            <div class="px-3 py-0 m-0 ms-5 mt-1 jumbotron fileContent"
                                                  data-idcategory="<?= $separetedSubSubCategory->id; ?>">
                                                 <input type="tel" class="categoryInput positionMenuSpan"
                                                        data-column="position"
@@ -66,7 +66,7 @@ showPostResponse(getDataPostResponse()); ?>
                                                 <input type="text" class="categoryInput" data-column="name"
                                                        value="<?= $separetedSubSubCategory->name; ?>">
                                                 <small class="inputInfo"><?= $separetedSubSubCategory->id; ?></small>
-                                                <button type="button" class="close deleteCategory">
+                                                <button type="button" class="btn close deleteCategory">
                                                     <span class="fas fa-times"></span>
                                                 </button>
                                             </div>
@@ -107,7 +107,7 @@ showPostResponse(getDataPostResponse()); ?>
                         <button type="submit" name="ADDCATEGORY"
                                 class="btn btn-primary"><?= trans('Enregistrer'); ?></button>
                         <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal"><?= trans('Fermer'); ?></button>
+                                data-bs-dismiss="modal"><?= trans('Fermer'); ?></button>
                     </div>
                 </form>
             </div>

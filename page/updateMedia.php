@@ -37,19 +37,19 @@ foreach ($allLibraryParent as $id => $parentId) {
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div id="mediaContainer">
         <nav>
-            <div class="float-right">
-                <input type="range" class="custom-range" style="width: 150px;" min="2" max="10" step="1" value="5"
+            <div class="float-end">
+                <input type="range" class="form-range" style="width: 150px;" min="2" max="10" step="1" value="5"
                        id="mediaGridPreferences">
                 <!--<button type="button" role="button" class="btn btn-sm listView">
                     <i class="fas fa-th-list"></i>
                 </button>-->
             </div>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-allLibraries-tab" data-toggle="tab"
+                <a class="nav-item nav-link active" id="nav-allLibraries-tab" data-bs-toggle="tab"
                    href="#nav-allLibraries"
                    role="tab" aria-controls="nav-allLibraries"
                    aria-selected="true"><?= trans('Les bibliothèques'); ?></a>
-                <a class="nav-item nav-link" id="nav-newFiles-tab" data-toggle="tab" href="#nav-newFiles" role="tab"
+                <a class="nav-item nav-link" id="nav-newFiles-tab" data-bs-toggle="tab" href="#nav-newFiles" role="tab"
                    aria-controls="nav-newFiles" aria-selected="false"><?= trans('Téléchargement des médias'); ?></a>
             </div>
         </nav>
@@ -58,7 +58,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                  aria-labelledby="nav-home-tab">
                 <?php if ($allLibrary): ?>
                     <div class="container-fluid">
-                        <div id="shortAccessBtns" class="mb-4 text-right">
+                        <div id="shortAccessBtns" class="mb-4 text-end">
                             <button type="button" class="btn btn-sm btn-secondary"
                                     data-library-parent-id="all"><?= trans('Tous'); ?></button>
                         </div>
@@ -72,7 +72,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     data-library-parent-id="<?= $libraryParent[$id]['id']; ?>"
                                     data-library-parent-name="<?= $libraryParent[$id]['name']; ?>"><?= $name; ?></h5>
                                 <hr class="my-3 mx-5">
-                                <div class="card-columns" style="column-count: 5;">
+                                <div class="card-columns">
                                     <?php if ($allFiles):
                                         foreach ($allFiles as $file): ?>
                                             <div class="card view border-0 bg-none"
@@ -110,12 +110,12 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <form class="row" id="galleryForm" action="" method="post" enctype="multipart/form-data">
                         <?= getTokenField(); ?>
                         <div class="col-12 col-lg-6 my-2">
-                            <?= \App\Form::file('Importer depuis votre appareil', 'inputFile[]', false, 'multiple', '', 'Choisissez...', false); ?>
+                            <?= \App\Form::file('Importer depuis votre appareil', 'inputFile[]', false, 'multiple'); ?>
                         </div>
                         <div class="col-12 col-lg-3 my-2">
                                 <textarea name="textareaSelectedFile" id="textareaSelectedFile"
                                           class="d-none"></textarea>
-                            <?= \App\Form::text('Choisissez dans la bibliothèque', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-toggle="modal" data-target="#allMediasModal"'); ?>
+                            <?= \App\Form::text('Choisissez dans la bibliothèque', 'inputSelectFiles', 'text', '0 fichiers', false, 300, 'readonly data-bs-toggle="modal" data-bs-target="#allMediasModal"'); ?>
                         </div>
                         <div class="col-12 col-lg-3 my-2">
                             <?= \App\Form::select('Bibliothèques', 'library', $listCatgories, '', true); ?>
@@ -135,15 +135,13 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="allMediasModalLabel"><?= trans('Tous les médias'); ?></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="allMediaModalContainer"></div>
                     <div class="modal-footer">
-                        <button type="button" id="closeAllMediaModalBtn" class="btn btn-secondary" data-dismiss="modal">
+                        <button type="button" id="closeAllMediaModalBtn" class="btn btn-secondary" data-bs-dismiss="modal">
                             <?= trans('Fermer et annuler la sélection'); ?></button>
-                        <button type="button" id="saveMediaModalBtn" class="btn btn-info" data-dismiss="modal">
+                        <button type="button" id="saveMediaModalBtn" class="btn btn-info" data-bs-dismiss="modal">
                             0 <?= trans('médias'); ?></button>
                     </div>
                 </div>

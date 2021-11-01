@@ -18,9 +18,8 @@ class Form
     {
 
         $require = $require ? 'required="true"' : '';
-        $html = '';
-        $html .= '<div class="form-group" ><label for="' . $name . '" > ' . trans($title) . ' </label >';
-        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-control custom-select" ' . $require . '>';
+        $html = '<div class="form-floating">';
+        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-select" ' . $require . '>';
 
         if (empty($chosenValue)) {
             $html .= '<option disabled="disabled" selected="selected" value="0">' . trans('Choisissez') . '...</option>';
@@ -33,10 +32,11 @@ class Form
                 $duree = $heures . $minutes;
                 $html .= '<option value="' . $duree . '" ' . ($chosenValue == $duree ? 'selected' : '') . '>' . $duree . '</option>';
             }
-
         }
 
-        $html .= '</select></div>';
+        $html .= '</select>';
+        $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label >';
+        $html .= '</div>';
 
         return $html;
     }
@@ -56,9 +56,8 @@ class Form
     {
 
         $require = $require ? 'required="true"' : '';
-        $html = '';
-        $html .= '<div class="form-group" ><label for="' . $name . '" > ' . trans($title) . ' </label >';
-        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-control custom-select" ' . $require . '>';
+        $html = '<div class="form-floating">';
+        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-select" ' . $require . '>';
 
         for ($h = $hourBegin; $h < $hourEnd; $h++) {
             $h = $h < 10 ? '0' . $h : $h;
@@ -69,7 +68,9 @@ class Form
 
         }
 
-        $html .= '</select></div>';
+        $html .= '</select>';
+        $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label >';
+        $html .= '</div>';
 
         return $html;
     }
@@ -91,14 +92,9 @@ class Form
     {
 
         $require = $require ? 'required="true"' : '';
-        $html = '';
-        $html .= '<div class="form-group">';
+        $html = '<div class="form-floating">';
 
-        if ($showTitle) {
-            $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label >';
-        }
-
-        $html .= '<select ' . $otherAttr . ' name = "' . $name . '" id = "' . $name . '" class="form-control custom-select ' . $otherClasses . '" ' . $require . '>';
+        $html .= '<select ' . $otherAttr . ' name = "' . $name . '" id = "' . $name . '" class="form-select ' . $otherClasses . '" ' . $require . '>';
 
         if (empty($chosenValue)) {
             $html .= '<option disabled="disabled" selected="selected" value="0">' . trans('Choisissez') . '...</option>';
@@ -114,8 +110,11 @@ class Form
             }
         }
 
-        $html .= '</select></div>';
-
+        $html .= '</select>';
+        if ($showTitle) {
+            $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
+        }
+        $html .= '</div>';
         return $html;
     }
 
@@ -136,13 +135,13 @@ class Form
             'class' => '',
             'help' => '',
             'placeholder' => '',
-            'noTitle' => false
+            'noTitle' => false,
         ], $options);
 
-        $html = '<div class="form-group">';
+        $html = '';
 
         if (!$options['noTitle'] && !empty($options['title'])) {
-            $html .= '<label for="' . $name . '" > ' . trans($options['title']) . ' </label>';
+            $html .= '<div class="form-floating">';
         }
 
         $html .= '<input type="' . $options['type'] . '" name = "' . $name . '" id = "' . $name . '" 
@@ -150,8 +149,12 @@ class Form
         class="form-control ' . $options['class'] . '" ' . $options['attr'] . ' maxlength="' . $options['length'] . '" 
         ' . ($options['required'] ? 'required="true"' : '') . '>';
 
+        if (!$options['noTitle'] && !empty($options['title'])) {
+            $html .= '<label for="' . $name . '"> ' . trans($options['title']) . ' </label>';
+            $html .= '</div>';
+        }
+
         $html .= !empty($options['help']) ? $options['help'] : '';
-        $html .= '</div>';
         return $html;
     }
 
@@ -175,13 +178,8 @@ class Form
             'noTitle' => false
         ], $options);
 
-        $html = '<div class="form-group">';
-
-        if (!$options['noTitle'] && !empty($options['title'])) {
-            $html .= '<label for="' . $name . '" > ' . trans($options['title']) . ' </label>';
-        }
-
-        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-control custom-select ' . $options['class'] . '"
+        $html = '<div class="form-floating">';
+        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-select ' . $options['class'] . '"
          ' . $options['attr'] . ' ' . ($options['required'] ? 'required="true"' : '') . '>';
 
         $time = $options['startMin'];
@@ -195,7 +193,11 @@ class Form
             $time += $options['stepMin'];
         }
 
-        $html .= '</select></div>';
+        $html .= '</select>';
+        if (!$options['noTitle'] && !empty($options['title'])) {
+            $html .= '<label for="' . $name . '" > ' . trans($options['title']) . ' </label>';
+        }
+        $html .= '</div>';
 
         return $html;
     }
@@ -218,17 +220,11 @@ class Form
             'val' => '',
             'attr' => '',
             'class' => '',
-            'parentClass' => '',
             'noTitle' => false
         ], $options);
 
-        $html = '<div class="form-group ' . $options['parentClass'] . '">';
-
-        if (!$options['noTitle'] && !empty($options['title'])) {
-            $html .= '<label for="' . $name . '" > ' . trans($options['title']) . ' </label>';
-        }
-
-        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-control custom-select ' . $options['class'] . '" ' . $options['attr'] . ' ' . ($options['required'] ? 'required="true"' : '') . '>';
+        $html = '<div class="form-floating">';
+        $html .= '<select name = "' . $name . '" id = "' . $name . '" class="form-select ' . $options['class'] . '" ' . $options['attr'] . ' ' . ($options['required'] ? 'required="true"' : '') . '>';
 
         if (empty($options['val'])) {
             $html .= '<option disabled="disabled" selected="selected" value="0">' . trans('Choisissez') . '...</option>';
@@ -239,7 +235,11 @@ class Form
                 $html .= '<option value="' . $time . '" ' . ($options['val'] == $time ? 'selected' : '') . '>' . $time . ' ' . $options['minTxt'] . '</option>';
             }
         }
-        $html .= '</select></div>';
+        $html .= '</select>';
+        if (!$options['noTitle'] && !empty($options['title'])) {
+            $html .= '<label for="' . $name . '" > ' . trans($options['title']) . ' </label>';
+        }
+        $html .= '</div>';
 
         return $html;
     }
@@ -260,12 +260,12 @@ class Form
             'noTitle' => false
         ], $options);
 
-        $html = '<div class="custom-control custom-switch ' . $options['parentClass'] . '">
-        <input type="checkbox" ' . $options['attr'] . ' class="custom-control-input ' . $options['class'] . '" 
+        $html = '<div class="form-check form-switch ' . $options['parentClass'] . '">
+        <input type="checkbox" ' . $options['attr'] . ' class="form-check-input ' . $options['class'] . '" 
         name="' . $name . '" id="' . $name . '" ' . ($options['val'] === 'true' ? 'checked' : '') . ' >';
 
         if (!$options['noTitle']) {
-            $html .= '<label class="custom-control-label" for="' . $name . '">' . $options['description'] . '</label>';
+            $html .= '<label class="form-check-label" for="' . $name . '">' . $options['description'] . '</label>';
         }
 
         $html .= '</div>';
@@ -311,20 +311,13 @@ class Form
     {
 
         $require = $require ? 'required="true"' : '';
-
-        $html = '';
-        $html .= '<div class="form-group">';
-
+        $html = '<div class="form-floating">';
+        $html .= '<input type="' . $type . '" name = "' . $name . '" id = "' . $name . '" value="' . $value . '" placeholder="' . trans($placeholder) . '" class="form-control ' . $otherClasses . '" ' . $othersAttrs . ' maxlength="' . $maxLength . '"' . $require . '>';
         if (empty($placeholder) || !$noTitleWithPlaceholder) {
             $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
         }
-
-        $html .= '<input type="' . $type . '" name = "' . $name . '" id = "' . $name . '" value="' . $value . '" placeholder="' . trans($placeholder) . '" class="form-control ' . $otherClasses . '" ' . $othersAttrs . ' maxlength="' . $maxLength . '"' . $require . '>';
-
-        $html .= !empty($helpInput) ? $helpInput : '';
-
         $html .= '</div>';
-
+        $html .= !empty($helpInput) ? $helpInput : '';
         return $html;
     }
 
@@ -343,16 +336,10 @@ class Form
     {
 
         $require = $require ? 'required="true"' : '';
-
-        $html = '';
-        $html .= '<div class="form-group">';
-
-        if (empty($placeholder)) {
-            $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
-        }
-        $html .= '<textarea name = "' . $name . '" id = "' . $name . '" rows="' . $rows . '" class="form-control ' . $otherClass . '" ' . $require . ' ' . $otherAttr . ' placeholder="' . $placeholder . '">' . $value . '</textarea>';
+        $html = '<div class="form-floating">';
+        $html .= '<textarea name = "' . $name . '" id = "' . $name . '" style="height:' . (($rows * 100) / 2) . 'px;" class="form-control ' . $otherClass . '" ' . $require . ' ' . $otherAttr . ' placeholder="' . $placeholder . '">' . $value . '</textarea>';
+        $html .= '<label for="' . $name . '" class="form-label"> ' . trans($title) . ' </label>';
         $html .= '</div>';
-
         return $html;
     }
 
@@ -363,27 +350,14 @@ class Form
      * @param bool $require
      * @param string $otherAttr
      * @param string $otherClass
-     * @param string $placeholder
-     * @param bool $noTitleWithPlaceholder
      * @return string
      */
-    public static function file($title, $name, $require = false, $otherAttr = '', $otherClass = '', $placeholder = 'Choisissez...', $noTitleWithPlaceholder = true)
+    public static function file($title, $name, $require = false, $otherAttr = '', $otherClass = '')
     {
 
         $require = $require ? 'required="true"' : '';
-
-        $html = '<div class="form-group">';
-
-        if (empty($placeholder) || !$noTitleWithPlaceholder) {
-            $html .= '<label for="' . $name . '" > ' . trans($title) . ' </label>';
-        }
-
-        $html .= '<div class="custom-file">';
-        $html .= '<input type="file" id="' . $name . '" name="' . $name . '" class="custom-file-input ' . $otherClass . '" ' . $require . ' ' . $otherAttr . ' lang="' . APP_LANG . '">
-        <label class="custom-file-label form-control" for="' . $name . '">' . trans($placeholder) . '</label>';
-
-        $html .= '</div></div>';
-
+        $html = '<label for="' . $name . '" > ' . trans($title) . ' </label>';
+        $html .= '<input type="file" id="' . $name . '" name="' . $name . '" class="form-control ' . $otherClass . '" ' . $require . ' ' . $otherAttr . '>';
         return $html;
     }
 
@@ -398,8 +372,7 @@ class Form
     public static function checkbox($title, $name, array $data, $compare = array(), $otherClasses = '')
     {
 
-        $html = '';
-        $html .= '<div class="form-group"><strong class="inputLabel border-bottom pb-1 mb-3">' . trans($title) . '</strong>';
+        $html = '<div class="form-group"><strong class="inputLabel border-bottom pb-1 mb-3">' . trans($title) . '</strong>';
 
 
         foreach ($data as $id => $value) {
@@ -409,9 +382,9 @@ class Form
                     $checked = 'checked="checked"';
                 }
             }
-            $html .= '<div class="custom-control custom-checkbox ' . $otherClasses . '">';
-            $html .= '<input type="checkbox" class="custom-control-input" id="' . $name . $id . '" name="' . $name . '[]" value="' . $id . '" 
-			' . $checked . '><label class="custom-control-label" for="' . $name . $id . '">' . $value;
+            $html .= '<div class="form-check ' . $otherClasses . '">';
+            $html .= '<input type="checkbox" class="form-check-input" id="' . $name . $id . '" name="' . $name . '[]" value="' . $id . '" 
+			' . $checked . '><label class="form-check-label" for="' . $name . $id . '">' . $value;
             $html .= '</label></div>';
 
         }
@@ -445,9 +418,9 @@ class Form
                     $checked = 'checked="checked"';
                 }
             }
-            $html .= '<div class="custom-control custom-radio ' . $otherClass . '">';
-            $html .= '<input type="radio" class="custom-control-input" name="' . $name . '" id="' . $name . $id . '" value="' . $id . '" 
-			' . $checked . ' ' . $otherAttr . ' ' . $require . '><label class="custom-control-label" for="' . $name . $id . '">' . $value;
+            $html .= '<div class="form-check ' . $otherClass . '">';
+            $html .= '<input type="radio" class="form-check-input" name="' . $name . '" id="' . $name . $id . '" value="' . $id . '" 
+			' . $checked . ' ' . $otherAttr . ' ' . $require . '><label class="form-check-label" for="' . $name . $id . '">' . $value;
             $html .= '</label></div>';
         }
         $html .= '</div>';
@@ -462,16 +435,10 @@ class Form
      * @param string $otherAttr
      * @return string
      */
-    public static function submit($title, $name, $otherClass = 'btn-outline-primary', $otherAttr = '')
+    public static function submit($title, $name, $otherClass = 'bgColorPrimary', $otherAttr = '')
     {
-        $html = '';
-        $html .= '<div class="form-group"><button type="submit" ';
-        $html .= ' id="' . $name . '" name="' . $name . '" ';
-        $html .= ' class="btn btn-block btn-lg ' . $otherClass . '" ';
-        $html .= $otherAttr;
-        $html .= ' >' . trans($title) . '</button></div>';
-
-        return $html;
+        return '<button type="submit" id="' . $name . '" name="' . $name . '" ' . $otherAttr . ' 
+        class="btn w-100 ' . $otherClass . '">' . trans($title) . '</button>';
     }
 
     /**
@@ -480,9 +447,7 @@ class Form
      */
     public static function target($name)
     {
-        $html = '';
-        $html .= '<input type="hidden" name = "' . $name . '" id = "' . $name . '" value="' . $name . '">';
-
+        $html = '<input type="hidden" name = "' . $name . '" id = "' . $name . '" value="' . $name . '">';
         return $html;
     }
 
