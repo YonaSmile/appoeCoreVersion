@@ -31,28 +31,25 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                 <div class="card-header d-flex justify-content-between align-items-center py-2 bgColorSecondary">
                     <strong class="mb-0 py-1">Options</strong>
                 </div>
-                <div class="card-body d-flex align-items-start flex-column">
+                <div class="card-body d-flex flex-column">
                     <?php
                     if ($preferences):
                         $numPreference = count($preferences);
                         $i = 0;
-                        foreach ($preferences as $key => $preference): ?>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" data-config-type="PREFERENCE"
-                                       class="custom-control-input updatePreference"
-                                       name="<?= $preference->key; ?>" id="<?= $preference->key; ?>"
-                                    <?= $preference->val === 'true' ? 'checked' : ''; ?>>
-                                <label class="custom-control-label"
-                                       for="<?= $preference->key; ?>"><?= $preference->description; ?></label>
-                            </div>
-                            <?php if (++$i !== $numPreference): ?>
-                                <hr>
-                            <?php endif;
+                        foreach ($preferences as $key => $preference):
+                            echo \App\Form::switch($preference->key, ['description' => $preference->description,
+                                'attr' => 'data-config-type="PREFERENCE"', 'class' => 'updatePreference', 'val' => $preference->val]);
+                            if (++$i !== $numPreference):
+                                echo '<hr>';
+                            endif;
                         endforeach;
                     endif; ?>
                     <div class="mt-auto">
-                        <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des fichiers</button>
-                        <button class="btn btn-sm btn-outline-danger" id="clearServerCache">Purger le cache du serveur</button>
+                        <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des
+                            fichiers
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" id="clearServerCache">Purger le cache du serveur
+                        </button>
                     </div>
                 </div>
             </div>
@@ -143,7 +140,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <strong class="mb-0 py-1">Documents</strong>
                 </div>
                 <div class="card-body">
-                    <div class="media mb-3 align-items-center">
+                    <div class="media mb-3 d-flex align-items-center">
                         <div class="file-thumbnail">
                             <a target="_blank" href="https://aoe-communication.com/utils/APPOE-TUTO.pdf">
                                 <img class="border h-100 w-100 fit-cover"
@@ -175,7 +172,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     foreach ($colors as $color => $name): ?>
                         <span class="d-block text-secondary text-center mb-2">Couleurs <?= $name; ?></span>
                         <div class="d-flex justify-content-between align-items-center flex-wrap">
-                            <div class="media mb-3 align-items-center">
+                            <div class="media mb-3 d-flex align-items-center">
                                 <div class="file-thumbnail">
                                     <div id="color<?= $color; ?>" class="border colorDiv"
                                          style="background-color:<?= getOptionTheme('--color' . $color); ?>;">
@@ -191,7 +188,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="media mb-3 align-items-center">
+                            <div class="media mb-3 d-flex align-items-center">
                                 <div class="file-thumbnail">
                                     <div id="textBgColor<?= $color; ?>" class="border colorDiv"
                                          style="background-color: <?= getOptionTheme('--textBgColor' . $color); ?>;"></div>
@@ -228,7 +225,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                             $numMails = count($allMails);
                             $i = 0;
                             foreach ($allMails as $mail): ?>
-                                <div class="media mb-3 align-items-center">
+                                <div class="media mb-3 d-flex align-items-center">
                                     <div class="file-thumbnail">
                                         <span style="font-size: 30px;"
                                               class="text-<?= $mail->sent ? 'success' : 'danger'; ?>">
