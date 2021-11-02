@@ -45,11 +45,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                         endforeach;
                     endif; ?>
                     <div class="mt-auto">
-                        <button class="btn btn-sm btn-outline-warning" id="clearFilesCache">Vider le cache des
-                            fichiers
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" id="clearServerCache">Purger le cache du serveur
-                        </button>
+                        <button class="btn btn-sm bgColorTertiary" id="clearFilesCache">Vider le cache des fichiers</button>
+                        <button class="btn btn-sm bgColorTertiary" id="clearServerCache">Purger le cache du serveur</button>
                     </div>
                 </div>
             </div>
@@ -65,8 +62,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <div>
                         <strong class="text-secondary">Mon IP</strong>
                         <div>
-                            <span id="addMyIp" class="text-info text-break"
-                                  style="cursor:pointer;"><?= getIP(); ?></span>
+                            <span id="addMyIp" class="text-info text-break" style="cursor:pointer;">
+                                <?= getIP(); ?></span>
                         </div>
                     </div>
                     <hr>
@@ -90,8 +87,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 <?php if ($ipAccess):
                                     foreach ($ipAccess as $ip): ?>
                                         <div class="ipAccess" data-ipaccess-id="<?= $ip->id; ?>"
-                                             data-ip="<?= $ip->key; ?>">
-                                            <?= $ip->key; ?></div>
+                                             data-ip="<?= $ip->key; ?>"><?= $ip->key; ?></div>
                                     <?php endforeach;
                                 endif; ?>
                             </div>
@@ -238,8 +234,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     </div>
                                     <div class="ms-auto">
                                         <button class="btn colorPrimary seeMail" data-obj="<?= $mail->object; ?>"
-                                                data-msg="<?= htmlspecialchars($mail->message); ?>"><i
-                                                    class="far fa-envelope-open"></i></button>
+                                                data-msg="<?= htmlspecialchars($mail->message); ?>">
+                                            <i class="far fa-envelope-open"></i></button>
                                     </div>
                                 </div>
                                 <?php if (++$i !== $numMails): ?>
@@ -251,7 +247,6 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                 </div>
             </div>
         </div>
-
     </div>
     <script type="text/javascript" src="/app/lib/template/js/tools.js"></script>
 <?php require('footer.php'); ?>
