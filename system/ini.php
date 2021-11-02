@@ -309,9 +309,7 @@ const THEME_DEFAULT_STYLE = array(
 );
 
 const THEME_CONTENT = '
-[class*="colorPrimary"],
-[class*="colorSecondary"],
-[class*="colorTertiary"] {
+.colorPrimary, .colorSecondary, .colorTertiary {
     transition: all 0.3s;
 }
 
@@ -324,8 +322,7 @@ const THEME_CONTENT = '
     border-color: var(--colorPrimary) !important;
 }
 
-.bgColorPrimary, a[class*="colorPrimary"]:focus, a[class*="colorPrimary"]:hover,
-button[class*="colorPrimary"]:focus, button[class*="colorPrimary"]:hover {
+.bgColorPrimary, a.colorPrimary:focus, a.colorPrimary:hover,button.colorPrimary:focus, button.colorPrimary:hover {
     background: var(--colorPrimary) !important;
     color: var(--textBgColorPrimary) !important;
 }
@@ -340,8 +337,7 @@ button[class*="colorPrimary"]:focus, button[class*="colorPrimary"]:hover {
 }
 
 .bgColorSecondary, #sidebar ul li.active > a, .dashboardCard:focus, .dashboardCard:hover, table.table th,
-a[class*="colorSecondary"]:focus, a[class*="colorSecondary"]:hover, button[class*="colorSecondary"]:focus,
-button[class*="colorSecondary"]:hover {
+a.colorSecondary:focus, a.colorSecondary:hover, button.colorSecondary:focus, button.colorSecondary:hover {
     background: var(--colorSecondary) !important;
     color: var(--textBgColorSecondary) !important;
 }
@@ -355,8 +351,7 @@ button[class*="colorSecondary"]:hover {
     border-color: var(--colorTertiary);
 }
 
-.bgColorTertiary, a[class*="colorTertiary"]:focus, a[class*="colorTertiary"]:hover,
-button[class*="colorTertiary"]:focus, button[class*="colorTertiary"]:hover {
+.bgColorTertiary, a.colorTertiary:focus, a.colorTertiary:hover,button.colorTertiary:focus, button.colorTertiary:hover {
     background: var(--colorTertiary);
     color: var(--textBgColorTertiary);
 }
@@ -375,8 +370,7 @@ button[class*="colorTertiary"]:focus, button[class*="colorTertiary"]:hover {
     opacity: 0.1;
 }
 
-.dashboardCard:focus a, .dashboardCard:hover a,
-.dashboardCard:focus h2 a:before, .dashboardCard:hover h2 a:before {
+.dashboardCard:focus a, .dashboardCard:hover a,.dashboardCard:focus h2 a:before, .dashboardCard:hover h2 a:before {
     color: var(--textBgColorSecondary);
 }
 
@@ -385,8 +379,7 @@ button[class*="colorTertiary"]:focus, button[class*="colorTertiary"]:hover {
     color: var(--textBgColorSecondary);
 }
 
-.dashboardCard:focus span.dashboardNum,
-.dashboardCard:hover span.dashboardNum {
+.dashboardCard:focus span.dashboardNum,.dashboardCard:hover span.dashboardNum {
     background: var(--textBgColorSecondary);
     color: var(--colorSecondary);
 }
