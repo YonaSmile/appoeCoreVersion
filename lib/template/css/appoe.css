@@ -656,10 +656,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: 0;
-    border-top: 1px solid #edf2f9 !important;
+    background: #CCC !important;
 }
 
 hr.hrStyle {
@@ -1785,6 +1782,7 @@ div#admin-tabs {
 div#admin-tab-content {
     background: #fff;
     box-shadow: 0 15px 5px -18px #111;
+    z-index: 9;
 }
 
 div.admin-tab-header {
@@ -1798,6 +1796,20 @@ div.admin-tab-header {
     box-shadow: 0 15px 5px -18px #111;
     border-bottom: 1px solid #DEDEDE;
     transition: all 0.3s
+}
+
+div#admin-tab-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2;
+    box-shadow: 63px 0 57px 0 #FFF inset;
+    z-index: -1;
 }
 
 div.admin-tab-header:focus,
@@ -1833,6 +1845,8 @@ div.admin-tab-content {
     padding: 10px;
     box-shadow: 0 15px 5px -18px #111;
     border-bottom: 1px solid #DEDEDE;
+    position: relative;
+    z-index: 9;
 }
 
 div.admin-tab-content p {
@@ -1883,17 +1897,10 @@ div#admin-tab-content p {
     position: relative;
 }
 
-div#admin-tab-content img {
-    position: absolute;
-    top: 20px;
-    right: 35px;
-    width: auto;
-}
-
-div.admin-tab-content img {
+/*div.admin-tab-content img {
     margin: 0 auto 20px auto;
     display: block;
-}
+}*/
 
 div#admin-tab-content p i {
     display: block;
