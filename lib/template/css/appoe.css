@@ -402,7 +402,7 @@ select:hover {
     vertical-align: middle;
 }
 
-.input-group-addon, .form-select, .form-control, .custom-select, .alert, .btn, div#admin-tab-search div.input-group-text, .progress {
+.input-group-addon, .form-select, .form-control, .custom-select, .alert, .btn, div#admin-tab-search .input-group-text, .progress {
     border-radius: 0 !important;
 }
 
@@ -1780,6 +1780,7 @@ div#admin-tabs {
 }
 
 div#admin-tab-content {
+    position: relative;
     background: #fff;
     box-shadow: 0 15px 5px -18px #111;
     z-index: 9;
