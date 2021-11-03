@@ -154,6 +154,11 @@ a:focus, a:hover {
     -webkit-transition: all 0.4s;
 }
 
+#content-size {
+    position: relative;
+    transition: all 0.3s;
+}
+
 #content-area .panel {
     background: #f8f8f8;
     padding: 30px 15px;
@@ -258,26 +263,6 @@ a:focus, a:hover {
 }
 
 /* ---------------------------------------------------
-    MEDIA QUERIES
------------------------------------------------------ */
-@media (max-width: 768px) {
-
-    #sidebar {
-        position: fixed;
-        margin-left: -240px;
-    }
-
-    #sidebar.active {
-        margin-left: 0;
-    }
-
-    .nav-sidebar {
-        position: absolute;
-        z-index: 1;
-    }
-}
-
-/* ---------------------------------------------------
     ANIMATIONS
 ----------------------------------------------------- */
 .arrowDown {
@@ -315,25 +300,6 @@ a:focus, a:hover {
     border: 0;
     padding: 0;
     margin: 0;
-}
-
-@keyframes arrowBounce {
-    0%, 100% {
-        top: 25px;
-    }
-    50% {
-        top: 18px;
-    }
-}
-
-
-@-webkit-keyframes arrowBounce {
-    0%, 100% {
-        top: 25px;
-    }
-    50% {
-        top: 18px;
-    }
 }
 
 .templateZoneTag {
@@ -523,23 +489,6 @@ button[disabled], a[disabled], input[disabled] {
     background: none transparent;
 }
 
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
 
 #site {
     display: none;
@@ -1922,6 +1871,10 @@ div.admin-tab-content strong {
     display: block;
 }
 
+/* ---------------------------------------------------
+    MEDIA QUERIES
+----------------------------------------------------- */
+
 @media screen and (max-width: 1440px) {
 
     h2.card-title {
@@ -1980,7 +1933,21 @@ div.admin-tab-content strong {
     }
 }
 
-@media screen and (max-width: 770px) {
+@media (max-width: 768px) {
+
+    #sidebar {
+        position: fixed;
+        margin-left: -240px;
+    }
+
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+    .nav-sidebar {
+        position: absolute;
+        z-index: 1;
+    }
 
     #content-area .panel {
         padding: 30px 0;
@@ -2044,5 +2011,42 @@ div.admin-tab-content strong {
         -webkit-column-count: 1;
         -moz-column-count: 1;
         column-count: 1;
+    }
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes arrowBounce {
+    0%, 100% {
+        top: 25px;
+    }
+    50% {
+        top: 18px;
+    }
+}
+
+
+@-webkit-keyframes arrowBounce {
+    0%, 100% {
+        top: 25px;
+    }
+    50% {
+        top: 18px;
     }
 }
