@@ -1037,7 +1037,7 @@ div[id^=imgPreview-] > img {
 
 .visitsStatsBadge {
     position: absolute;
-    right: -20px;
+    right: -16px;
     top: 0;
     padding-left: 5px;
     width: 100px;
