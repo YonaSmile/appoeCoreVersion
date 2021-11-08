@@ -1750,16 +1750,16 @@ div.admin-tab-header {
 
 div#admin-tab-img {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 70%;
-    height: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0.2;
-    box-shadow: 63px 0 57px 0 #FFF inset;
+    top: 20px;
+    right: 20px;
+    margin-bottom: 15px;
     z-index: -1;
+}
+
+div#admin-tab-img img{
+    display: block;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 div.admin-tab-header:focus,
@@ -1893,6 +1893,13 @@ div.admin-tab-content strong {
 
     div.admin-tab-header h5 {
         font-size: 15px;
+    }
+
+    div#admin-tab-img,
+    div.admin-tab-img {
+        position: relative;
+        top: 0;
+        right: 0;
     }
 }
 
