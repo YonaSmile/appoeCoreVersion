@@ -1724,7 +1724,7 @@ li[id^="sousmenu-"] > a:first-child:after {
 }
 
 div#admin-tabs {
-    max-height: 100vh;
+    max-height: 75vh;
     overflow-y: auto;
 }
 
@@ -1745,7 +1745,13 @@ div.admin-tab-header {
     margin: 0;
     box-shadow: 0 15px 5px -18px #111;
     border-bottom: 1px solid #DEDEDE;
-    transition: all 0.3s
+    transition: all 0.3s;
+    position: relative;
+}
+
+div.admin-tab-header small{
+    min-width: 70px;
+    text-align: right;
 }
 
 div#admin-tab-img {
@@ -1786,7 +1792,8 @@ div.admin-tab-header.admin-tab-active h5 {
 
 div.admin-tab-header h5 {
     margin-bottom: 0;
-    font-size: 17px;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 div.admin-tab-content {
@@ -1797,6 +1804,10 @@ div.admin-tab-content {
     border-bottom: 1px solid #DEDEDE;
     position: relative;
     z-index: 9;
+}
+
+div.admin-tab-content-header {
+    max-width: 500px;
 }
 
 div.admin-tab-content p {
@@ -1816,7 +1827,9 @@ div.admin-tab-content h2 {
 }
 
 div#admin-tab-content .btnLink,
-div.admin-tab-content .btnLink {
+div#admin-tab-content .featuredArticle,
+div.admin-tab-content .btnLink,
+div.admin-tab-content .featuredArticle{
     text-decoration: none;
     display: inline-block;
     vertical-align: middle;
