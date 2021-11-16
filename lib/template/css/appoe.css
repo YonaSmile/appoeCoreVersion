@@ -1724,8 +1724,15 @@ li[id^="sousmenu-"] > a:first-child:after {
 }
 
 div#admin-tabs {
-    max-height: 75vh;
+    max-height: calc(100vh - 225px);
     overflow-y: auto;
+    position: sticky;
+    top: 192px;
+}
+
+div#admin-tab-search {
+    position: sticky;
+    top: 150px;
 }
 
 div#admin-tab-content {
