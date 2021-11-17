@@ -1726,13 +1726,13 @@ li[id^="sousmenu-"] > a:first-child:after {
 div#admin-tabs {
     max-height: calc(100vh - 225px);
     overflow-y: auto;
-    position: sticky;
-    top: 192px;
+    /*position: sticky;
+    top: 192px;*/
 }
 
 div#admin-tab-search {
-    position: sticky;
-    top: 150px;
+    position: relative;
+    top: auto;
 }
 
 div#admin-tab-content {
@@ -1756,7 +1756,7 @@ div.admin-tab-header {
     position: relative;
 }
 
-div.admin-tab-header small{
+div.admin-tab-header small {
     min-width: 70px;
     text-align: right;
 }
@@ -1769,10 +1769,10 @@ div#admin-tab-img {
     z-index: -1;
 }
 
-div#admin-tab-img img{
+div#admin-tab-img img {
     display: block;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 div.admin-tab-header:focus,
@@ -1799,7 +1799,7 @@ div.admin-tab-header.admin-tab-active h5 {
 
 div.admin-tab-header h5 {
     margin-bottom: 0;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
 }
 
@@ -1836,7 +1836,7 @@ div.admin-tab-content h2 {
 div#admin-tab-content .btnLink,
 div#admin-tab-content .featuredArticle,
 div.admin-tab-content .btnLink,
-div.admin-tab-content .featuredArticle{
+div.admin-tab-content .featuredArticle {
     text-decoration: none;
     display: inline-block;
     vertical-align: middle;
@@ -1911,10 +1911,6 @@ div.admin-tab-content strong {
         padding: 13px;
     }
 
-    div.admin-tab-header h5 {
-        font-size: 15px;
-    }
-
     div#admin-tab-img,
     div.admin-tab-img {
         position: relative;
@@ -1937,10 +1933,6 @@ div.admin-tab-content strong {
 
     div.admin-tab-header {
         padding: 11px;
-    }
-
-    div.admin-tab-header h5 {
-        font-size: 14px;
     }
 }
 
@@ -2010,16 +2002,21 @@ div.admin-tab-content strong {
         overflow: auto;
     }
 
+    div#admin-tab-search {
+        position: sticky;
+        top: 50px;
+        z-index: 11;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
     div.admin-tab-content .btn-group > .btn > span {
         display: none;
     }
 
     div.admin-tab-header {
         padding: 16px;
-    }
-
-    div.admin-tab-header h5 {
-        font-size: 16px;
     }
 
     div#admin-tab-content h2,
