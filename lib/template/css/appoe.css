@@ -1724,15 +1724,48 @@ li[id^="sousmenu-"] > a:first-child:after {
 }
 
 div#admin-tabs {
-    max-height: calc(100vh - 225px);
+    position: sticky;
+    top: 120px;
+    height: calc(100vh - 162px);
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    box-sizing: border-box;
     overflow-y: auto;
-    /*position: sticky;
-    top: 192px;*/
 }
 
 div#admin-tab-search {
-    position: relative;
-    top: auto;
+    position: sticky;
+    top: 50px;
+    z-index: 11;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    transition: all 0.2s;
+}
+
+div#admin-tab-search.isSticky {
+    padding: 0;
+}
+
+div#admin-tab-search input#admin-tab-search-input {
+    padding: 14px 10px;
+    color: var(--colorSecondary);
+    background: #FFF;
+    border: 0;
+    -webkit-box-shadow: 1px 0 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 0 20px rgba(0, 0, 0, 0.25);
+}
+
+div#admin-tab-search input#admin-tab-search-input:focus,
+div#admin-tab-search input#admin-tab-search-input:focus-within {
+    -webkit-box-shadow: 1px 0 20px rgba(0, 0, 0, 0.40) !important;
+    box-shadow: 1px 0 20px rgba(0, 0, 0, 0.40) !important;
+    border: 0;
+}
+
+div#admin-tab-search input#admin-tab-search-input::placeholder {
+    color: var(--colorSecondary);
+    opacity: 0.7;
 }
 
 div#admin-tab-content {
@@ -2000,15 +2033,6 @@ div.admin-tab-content strong {
         height: auto;
         max-height: none;
         overflow: auto;
-    }
-
-    div#admin-tab-search {
-        position: sticky;
-        top: 50px;
-        z-index: 11;
-        width: 100%;
-        padding: 0;
-        margin: 0;
     }
 
     div.admin-tab-content .btn-group > .btn > span {
