@@ -1800,6 +1800,9 @@ div#admin-tab-img {
     right: 20px;
     margin-bottom: 15px;
     z-index: -1;
+    max-height: 400px;
+    max-width: 500px;
+    overflow: hidden;
 }
 
 div#admin-tab-img img {
@@ -1889,7 +1892,7 @@ div.admin-tab-content .btnLink:hover {
     text-decoration: none;
     background: transparent;
     border: 0 none;
-    color: var(--colorPrimary);
+    color: #222;
 }
 
 div#admin-tab-content p {
