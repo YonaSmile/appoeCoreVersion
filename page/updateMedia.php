@@ -79,7 +79,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                                  data-file-id="<?= $file->id; ?>">
                                                 <?php if (isImage(FILE_DIR_PATH . $file->name)):
                                                     $fileSize = getimagesize(FILE_DIR_PATH . $file->name); ?>
-                                                    <img src="<?= getThumb($file->name, 370); ?>"
+                                                    <img src="<?= getThumb($file->name, 400); ?>"
                                                          class="img-fluid">
                                                 <?php else:
                                                     $fileSize = true; ?>

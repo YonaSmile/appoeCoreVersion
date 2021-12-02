@@ -5,7 +5,13 @@
 </div><!-- END DIV CONTENT-AREA -->
 </div><!-- END DIV WRAPPER -->
 <div id="loadMediaLibrary"></div>
-<div id="mediaDetails" data-file-id="">Aucun fichier sélectionné</div>
+<div class="offcanvas offcanvas-end" id="mediaDetails" data-file-id="" tabindex="-1" aria-labelledby="mediaDetailsTitle">
+    <div class="offcanvas-header">
+        <h5 id="mediaDetailsTitle">Détails du média</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">Aucun fichier sélectionné</div>
+</div>
 </div><!-- END DIV SITE -->
 <!-- MODAL INFO -->
 <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="modalTitle"

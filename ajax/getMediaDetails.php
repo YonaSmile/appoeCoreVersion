@@ -16,7 +16,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
     $Media->setLang(APP_LANG);
 
     if ($Media->show()): ?>
-        <div class="pb-2" id="mediaEdition">
+        <div id="mediaEdition">
             <div class="col-12 p-0">
                 <?php
                 $file = FILE_DIR_PATH . $Media->getName();
@@ -24,7 +24,7 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                 if (isImage($file)):
                     $fileDimensions = getimagesize($file); ?>
                     <div class="mediaItem">
-                        <img src="<?= getThumb($Media->getName(), 370); ?>"
+                        <img src="<?= getThumb($Media->getName(), 400); ?>"
                              alt="<?= $Media->getTitle(); ?>"
                              data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
                              data-filename="<?= $Media->getName(); ?>"
@@ -59,12 +59,23 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                         </div>
                     </div>
                 <?php else: ?>
-                    <a href="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>" target="_blank">
-                        <img src="<?= getImgAccordingExtension(getFileExtension($Media->getName())); ?>"
-                             data-filename="<?= $Media->getName(); ?>" alt="<?= $Media->getTitle(); ?>">
-                    </a>
+                    <div class="mediaItem">
+                        <a href="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>" target="_blank">
+                            <img src="<?= getImgAccordingExtension(getFileExtension($Media->getName())); ?>"
+                                 data-originsrc="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
+                                 data-filename="<?= $Media->getName(); ?>" alt="<?= $Media->getTitle(); ?>">
+                        </a>
+                        <div class="mediaCaption">
+                            <small><?= $Media->getName(); ?></small><br>
+                            <strong>Poids:</strong> <?= $fileSize; ?>
+                        </div>
+                    </div>
                 <?php endif; ?>
                 <div class="row m-0">
+                    <button type="button" class="btn btn-secondary seeMediaCaption col"
+                            title="<?= trans('Voir les informations de l\'image'); ?>">
+                        <i class="fas fa-info"></i>
+                    </button>
                     <button type="button" class="btn btn-secondary col copyLinkOnClick"
                             data-src="<?= WEB_DIR_INCLUDE . $Media->getName(); ?>"
                             title="<?= trans('Copier le lien du média'); ?>">
@@ -79,9 +90,9 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                             title="<?= trans('Renommer le fichier'); ?>">
                         <i class="fas fa-wrench"></i>
                     </button>
-                    <button type="button" class="btn btn-secondary seeMediaCaption col"
-                            title="<?= trans('Voir les informations de l\'image'); ?>">
-                        <i class="fas fa-info"></i>
+                    <button type="button" class="btn btn-secondary deleteImage col" title="<?= trans('Supprimer le fichier'); ?>"
+                            data-imageid="<?= $Media->getId(); ?>" data-thumbwidth="400">
+                        <i class="fas fa-times text-danger"></i>
                     </button>
                 </div>
             </div>
@@ -108,16 +119,6 @@ if (checkAjaxRequest() && !empty($_GET['fileId']) && is_numeric($_GET['fileId'])
                     <?php endif; ?>
                 </form>
                 <small id="infosMedia" class="float-end text-success"></small>
-                <hr class="mx-5 my-3">
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="closeMediaDetails btn btn-outline-secondary btn-sm mx-2">
-                        Fermer <i class="fas fa-chevron-right"></i>
-                    </button>
-                    <button type="button" class="deleteImage btn btn-outline-danger btn-sm mx-2"
-                            data-imageid="<?= $Media->getId(); ?>" data-thumbwidth="370">
-                        <i class="fas fa-times"></i> Supprimer
-                    </button>
-                </div>
             </div>
         </div>
     <?php endif;
