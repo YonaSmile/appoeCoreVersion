@@ -13,15 +13,15 @@ showPostResponse(); ?>
         <div class="col-12 col-lg-6 my-2">
             <?= Form::select('Rôle', 'role', array_map('trans', getRoles()), !empty($_POST['role']) ? $_POST['role'] : '', true, '', getUserRoleId(), '>'); ?>
         </div>
-        <div class="col-12 col-lg-6 my-2">
+        <div class="col-12 col-lg-6 my-2 position-relative">
             <?= Form::text('Mot de passe', 'password', 'password', !empty($_POST['password']) ? $_POST['password'] : '', true, 150, 'autocomplete="off"'); ?>
             <span id="seePswd"
-                  style="position: absolute;bottom: 0;right: 16px;padding: 5px 10px;font-size: 18px;cursor: pointer;color: #000;">
+                  style="position: absolute;top: 50%;right: 16px;padding: 5px 10px;font-size: 18px;cursor: pointer;color: #000;transform: translateY(-50%);">
                 <i class="far fa-eye"></i>
             </span>
         </div>
         <div class="col-12 col-lg-6 my-2">
-            <?= Form::text('Confirmation du Mot de passe', 'password2', 'password', !empty($_POST['password2']) ? $_POST['password2'] : '', true, 150, 'autocomplete="off"'); ?>
+            <?= Form::text('Confirmation du mot de passe', 'password2', 'password', !empty($_POST['password2']) ? $_POST['password2'] : '', true, 150, 'autocomplete="off"'); ?>
         </div>
         <div class="col-12 col-lg-5 my-2">
             <?= Form::text('Email', 'email', 'email', !empty($_POST['email']) ? $_POST['email'] : ''); ?>
