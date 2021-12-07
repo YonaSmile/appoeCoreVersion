@@ -22,7 +22,7 @@ if (pageSlug() == 'hibour') {
 }
 if (isset($_POST['APPOECONNEXION'])) {
 
-    if (checkPostAndTokenRequest(false)) {
+    if (checkPostAndTokenRequest()) {
 
         //Clean form
         $_POST = cleanRequest($_POST);
@@ -52,7 +52,6 @@ if (isset($_POST['APPOECONNEXION'])) {
                     $_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])] = $sessionCrypted;
                     $options = array('expires' => time() + (12 * 3600), 'path' => '/', 'secure' => false, 'httponly' => true, 'samesite' => 'Strict');
                     setcookie('hibour' . slugify($_SERVER['HTTP_HOST']), $sessionCrypted, $options);
-                    mehoubarim_connecteUser();
 
                     //Backup database
                     appBackup();

@@ -1,8 +1,8 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 includePluginsFiles();
-require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/auth_user.php');
+require_once(WEB_SYSTEM_PATH . 'control_public.php');
+require_once(WEB_SYSTEM_PATH . 'auth_user.php');
 
 use App\Plugin\Cms\Cms;
 use App\Plugin\Cms\CmsMenu;

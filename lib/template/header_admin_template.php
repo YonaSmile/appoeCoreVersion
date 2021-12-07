@@ -1,6 +1,7 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/main.php');
 require_once(WEB_SYSTEM_PATH . 'middleware.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/app/system/control.php');
 includePluginsFiles(true);
 ?>
 <!doctype html>

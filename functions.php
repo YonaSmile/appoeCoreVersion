@@ -11,9 +11,12 @@ use App\Version;
 use PHPMailer\PHPMailer\PHPMailer;
 
 //Get PHPMAILER
-require_once WEB_PHPMAILER_PATH . 'Exception.php';
-require_once WEB_PHPMAILER_PATH . 'PHPMailer.php';
-require_once WEB_PHPMAILER_PATH . 'SMTP.php';
+inc(WEB_PHPMAILER_PATH . 'Exception.php', true, true);
+inc(WEB_PHPMAILER_PATH . 'PHPMailer.php', true, true);
+inc(WEB_PHPMAILER_PATH . 'SMTP.php', true, true);
+
+//Get Mehoubarim
+inc(WEB_PLUGIN_PATH . 'mehoubarim/include/mehoubarim_functions.php');
 
 //Get all users in a const
 if (!defined('ALLUSERS')) {
@@ -637,6 +640,17 @@ function getOption($type, $key)
 }
 
 /**
+ * @param $type
+ * @return bool|array
+ */
+function getAllOption($type)
+{
+    $Option = new Option();
+    $Option->setType($type);
+    return $Option->showByType();
+}
+
+/**
  * Show custom APPOE theme
  */
 function showThemeRoot()
@@ -661,6 +675,119 @@ function showThemeRoot()
         createFile(WEB_TEMPLATE_PATH . 'css/theme.css', ['content' => $themeRoot . THEME_CONTENT]);
     }
     echo '<link rel="stylesheet" type="text/css" href="' . WEB_TEMPLATE_URL . 'css/theme.css">';
+}
+
+function saveUserConnectionData(array $options = [])
+{
+
+    $userId = array_key_exists('user', $options) ? $options['user'] : getUserIdSession();
+    $userConnection = getOption('CONNECTED_USER', $userId);
+    if ($userConnection) {
+        $defaultOptions = unserialize($userConnection);
+    } else {
+        $defaultOptions = [
+            'user' => $userId,
+            'lastConnect' => time(),
+            'status' => 1,
+            'pageConsulting' => getAppPageSlug(),
+            'pageParameters' => (!empty($_GET['id']) ? $_GET['id'] : ''),
+            'order' => null
+        ];
+    }
+    $options = array_merge($defaultOptions, $options);
+    $data = ['type' => 'CONNECTED_USER', 'key' => $options['user'], 'val' => serialize($options)];
+    new Option($data);
+}
+
+/**
+ * @param $userId
+ */
+function freeConnectedUser($userId)
+{
+    saveUserConnectionData(['user' => $userId, 'pageConsulting' => '', 'pageParameters' => '', 'order' => 'redirect']);
+
+}
+
+/**
+ * @return bool
+ */
+function getConnectedUser($userId = null)
+{
+    $userId = $userId ?? getUserIdSession();
+    $userConnection = getOption('CONNECTED_USER', $userId);
+    if ($userConnection) {
+        return unserialize($userConnection);
+    }
+
+    return false;
+}
+
+/**
+ * check & edit user status
+ */
+function checkConnectedUsersStatus()
+{
+    $currentTime = time();
+    $statutArray = array(
+        $currentTime - (60 * 30) => 1,
+        $currentTime - (60 * 60) => 2,
+        $currentTime - (60 * 60 * 2) => 3
+    );
+
+    //Get
+    $connectedUsers = extractFromObjArr(getAllOption('CONNECTED_USER'), 'key');
+
+    //Check
+    if ($connectedUsers) {
+        foreach ($connectedUsers as $userId => $data) {
+
+            $userConnData = unserialize($data->val);
+
+            $lastConnect = $userConnData['lastConnect'];
+            $status = $userConnData['status'];
+
+            if ($status < 4) {
+
+                foreach ($statutArray as $timeArr => $statusArr) {
+                    if ($lastConnect >= $timeArr) {
+                        $status = $statusArr;
+                        break;
+                    }
+                    $status = 4;
+                    logoutConnectedUser($userId);
+                }
+
+                //Edit
+                saveUserConnectionData([
+                    'user' => $userId,
+                    'lastConnect' => $userConnData['lastConnect'],
+                    'status' => $status,
+                    'pageConsulting' => $userConnData['pageConsulting'],
+                    'pageParameters' => $userConnData['pageParameters'],
+                    'order' => $userConnData['order']
+                ]);
+            }
+        }
+    }
+}
+
+/**
+ * @param $userId
+ */
+function logoutConnectedUser($userId)
+{
+    $userConnection = getOption('CONNECTED_USER', $userId);
+    if ($userConnection) {
+        $userConnData = unserialize($userConnection);
+
+        saveUserConnectionData([
+            'user' => $userId,
+            'lastConnect' => $userConnData['lastConnect'],
+            'pageConsulting' => '',
+            'status' => 4,
+            'order' => 'disconnect'
+        ]);
+    }
 }
 
 /**
@@ -3600,39 +3727,32 @@ function valideAjaxToken()
 }
 
 /**
- * @param $updateUserStatus
- *
  * @return bool
  */
-function checkPostAndTokenRequest($updateUserStatus = true)
+function checkPostAndTokenRequest()
 {
     if ($_SERVER["REQUEST_METHOD"] == "POST"
         && !empty($_POST['_token']) && !empty($_SESSION['_token'])
         && $_POST['_token'] == $_SESSION['_token']) {
 
         unsetToken();
-
-        if ($updateUserStatus) {
-            if (function_exists('mehoubarim_connecteUser')) {
-                mehoubarim_connecteUser();
-            }
-        }
-
         return true;
     }
-
     return false;
 }
 
 /**
+ * @param bool $updateUserStatus
  * @return bool
  */
-function checkAjaxRequest()
+function checkAjaxRequest(bool $updateUserStatus = true)
 {
-    if (
-        !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-        && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
-    ) {
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+
+        if ($updateUserStatus) {
+            saveUserConnectionData(['lastConnect' => time()]);
+        }
+
         return true;
     }
 
@@ -3948,9 +4068,7 @@ function isKing($roleId)
  */
 function disconnectUser($destroyAndRedirect = true)
 {
-    if (function_exists('mehoubarim_freeUser')) {
-        mehoubarim_freeUser(getUserIdSession());
-    }
+    saveUserConnectionData(['pageConsulting' => '', 'pageParameters' => '', 'status' => 4, 'order' => null]);
 
     //Delete auth sessions
     if (isset($_SESSION['auth' . slugify($_SERVER['HTTP_HOST'])])) {

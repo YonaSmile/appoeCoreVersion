@@ -150,6 +150,14 @@ const INI_LOAD_PLUGIN_FOR_APP_FILENAME = array(
     'interactiveMap' => ['updateInterMapContent', 'updateInterMap']
 );
 
+//Connected user status
+const STATUS_CONNECTED_USER = array(
+    1 => 'success',
+    2 => 'warning',
+    3 => 'secondary',
+    4 => 'danger'
+);
+
 //Index file default content
 const DEFAULT_INDEX_CONTENT = '<?php 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
