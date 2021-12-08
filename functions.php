@@ -4361,37 +4361,37 @@ function patternUrl()
 }
 
 /**
- * get real web file url
+ * get real web slug url
  *
- * @param $file
+ * @param $slug
  * @param null $param
  *
  * @return string
  */
-function webUrl($file, $param = null)
+function webUrl($slug, $param = null)
 {
     $url = '';
     if (!is_null($param)) {
         $url .= $param;
     }
 
-    if (false !== strpos($file, '#') && substr($file, -1) == '/') {
-        $file = substr($file, 0, -1);
+    if (false !== strpos($slug, '#') && substr($slug, -1) == '/') {
+        $slug = substr($slug, 0, -1);
 
-        if ($file === '#') {
-            return $file;
+        if ($slug === '#') {
+            return $slug;
         }
     }
 
-    if (substr($file, 0, 4) === "http") {
-        return $file;
+    if (substr($slug, 0, 4) === "http") {
+        return $slug;
     }
 
-    if (false === strpos($file, '#') && false === strpos($file, '?') && substr($file, -1) != '/') {
-        $file .= '/';
+    if (false === strpos($slug, '#') && false === strpos($slug, '?') && substr($slug, -1) != '/') {
+        $slug .= '/';
     }
 
-    return WEB_DIR_URL . $file . $url;
+    return WEB_DIR_URL . $slug . $url;
 }
 
 /**
