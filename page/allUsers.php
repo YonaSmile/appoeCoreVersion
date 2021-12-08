@@ -20,8 +20,8 @@ $defaultEmail = getOptionData('defaultEmail'); ?>
                     <?php if (defined('ALLUSERS')):
                         foreach (getAllUsers() as $userId => $user):
                             if (getRoleId($user->role) <= getUserRoleId()): ?>
-                                <tr class="<?= $user->statut == 0 ? 'table-secondary' : ''; ?>">
-                                    <td><?= $user->login ?></td>
+                                <tr>
+                                    <td class="<?= $user->statut == 0 ? 'table-dark' : ''; ?>"><?= $user->login ?></td>
                                     <td><?= $user->nom ?></td>
                                     <td><?= $user->prenom ?></td>
                                     <td><?= $user->email ?></td>
@@ -49,7 +49,7 @@ $defaultEmail = getOptionData('defaultEmail'); ?>
                                                 <span class="btnArchive"><i class="fas fa-ban"></i></span>
                                             </button>
                                         <?php endif;
-                                        if ($user->id != getUserIdSession() && getUserRoleId() > getRoleId($user->role) && $user->statut == 0 && isTechnicien($user->role)): ?>
+                                        if ($user->id != getUserIdSession() && getUserRoleId() > getRoleId($user->role) && $user->statut == 0 && isTechnicien(getUserRoleId())): ?>
                                             <button type="button" class="btn btn-sm valideUser"
                                                     title="<?= trans('Valider'); ?>"
                                                     data-iduser="<?= $user->id ?>">
