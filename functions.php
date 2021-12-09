@@ -782,7 +782,8 @@ function checkConnectedUsersStatus()
     $statutArray = array(
         $currentTime - (60 * 30) => 1,
         $currentTime - (60 * 60) => 2,
-        $currentTime - (60 * 60 * 2) => 3
+        $currentTime - (60 * 60 * 2) => 3,
+        0 => 4
     );
 
     //Get
@@ -793,19 +794,19 @@ function checkConnectedUsersStatus()
         foreach ($connectedUsers as $userId => $data) {
 
             $userConnData = unserialize($data->val);
-
-            $lastConnect = $userConnData['lastConnect'];
             $status = $userConnData['status'];
 
             if ($status < 4) {
-
                 foreach ($statutArray as $timeArr => $statusArr) {
-                    if ($lastConnect >= $timeArr) {
+                    if ($userConnData['lastConnect'] >= $timeArr) {
                         $status = $statusArr;
                         break;
                     }
-                    $status = 4;
+                }
+
+                if ($status === 4) {
                     logoutConnectedUser($userId);
+                    exit();
                 }
 
                 //Edit
