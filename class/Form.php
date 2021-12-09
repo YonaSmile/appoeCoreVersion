@@ -96,7 +96,7 @@ class Form
 
         $html .= '<select ' . $otherAttr . ' name = "' . $name . '" id = "' . $name . '" class="form-select ' . $otherClasses . '" ' . $require . '>';
 
-        if (empty($chosenValue)) {
+        if (!isset($chosenValue) || $chosenValue === '') {
             $html .= '<option disabled="disabled" selected="selected" value="0">' . trans('Choisissez') . '...</option>';
         }
 

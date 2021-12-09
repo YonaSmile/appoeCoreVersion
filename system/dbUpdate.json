@@ -1,4 +1,3 @@
 {
-  "1": "UPDATE `appoe_menu` SET `slug` = 'tools' WHERE `appoe_menu`.`id` = 23;",
-  "2": "UPDATE `appoe_menu` SET `name` = 'Outils' WHERE `appoe_menu`.`id` = 23;"
+  "1": "ALTER TABLE `appoe_plugin_cms` ADD `parent` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `filename`;"
 }
