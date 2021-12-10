@@ -1668,19 +1668,6 @@ li[id^="sousmenu-"] > a:first-child:after {
     box-shadow: 0 0 12px .2rem rgba(0, 123, 255, .25) !important;
 }
 
-#mediaDetails {
-    overflow-y: auto;
-    bottom: 0;
-    left: 100%;
-    position: fixed;
-    top: 50px;
-    z-index: 15;
-    background: #FFF;
-    box-shadow: -2px 0 10px 1px #ccc;
-    width: 300px;
-    height: calc(100vh - 50px);
-}
-
 #back-top {
     position: fixed;
     bottom: 20px;
@@ -1724,14 +1711,22 @@ li[id^="sousmenu-"] > a:first-child:after {
 }
 
 div#admin-tabs {
-    position: sticky;
-    top: 120px;
-    height: calc(100vh - 162px);
     -webkit-transition: all 0.3s;
-    -o-transition: all 0.3s;
     transition: all 0.3s;
-    box-sizing: border-box;
     overflow-y: auto;
+}
+
+div#admin-tabs-menu {
+    padding: 16px;
+    margin: 0;
+    background: var(--colorSecondary);
+}
+
+div#admin-tabs-menu div {
+    padding: 0;
+    font-weight: bold;
+    font-size: 15px;
+    color: var(--textBgColorSecondary)
 }
 
 div#admin-tab-search {
@@ -1768,11 +1763,8 @@ div#admin-tab-search input#admin-tab-search-input::placeholder {
     opacity: 0.7;
 }
 
-div#admin-tab-content {
-    position: relative;
-    background: #fff;
-    box-shadow: 0 15px 5px -18px #111;
-    z-index: 9;
+div.admin-tab {
+    margin: 2px 0;
 }
 
 div.admin-tab-header {
@@ -1783,7 +1775,7 @@ div.admin-tab-header {
     border: 0;
     padding: 16px;
     margin: 0;
-    box-shadow: 0 15px 5px -18px #111;
+    box-shadow: 0 12px 5px -18px #111;
     border-bottom: 1px solid #DEDEDE;
     transition: all 0.3s;
     position: relative;
@@ -1795,14 +1787,7 @@ div.admin-tab-header small {
 }
 
 div#admin-tab-img {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    margin-bottom: 15px;
-    z-index: -1;
-    max-height: 400px;
-    max-width: 500px;
-    overflow: hidden;
+    margin: 15px 0;
 }
 
 div#admin-tab-img img {
@@ -1841,38 +1826,47 @@ div.admin-tab-header h5 {
 
 div.admin-tab-content {
     display: none;
-    background: #fff;
-    padding: 10px;
-    box-shadow: 0 15px 5px -18px #111;
-    border-bottom: 1px solid #DEDEDE;
+    padding: 0 10px 10px;
     position: relative;
-    z-index: 9;
 }
 
-div.admin-tab-content-header {
-    max-width: 500px;
+div#offCanvasBody div.admin-tab-content {
+    display: block;
 }
 
 div.admin-tab-content p {
-    padding: 6px 10px;
-    margin: 0;
+    padding: 3px 10px 3px 35px;
+    margin: 10px 0;
+    position: relative;
 }
 
 div.admin-tab-content p i {
-    display: none;
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: 0;
+    left: 0;
+    font-size: 20px;
+    color: #CCC;
 }
 
-div#admin-tab-content h2,
-div.admin-tab-content h2 {
+div.admin-tab-content-header {
+    padding-bottom: .5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+}
+
+div.admin-tab-content-header h2 {
     font-weight: 700;
     margin: 0;
     font-size: 30px;
+    display: none;
 }
 
-div#admin-tab-content .btnLink,
-div#admin-tab-content .featuredArticle,
-div.admin-tab-content .btnLink,
-div.admin-tab-content .featuredArticle {
+div.admin-tab-content-header .btnLink,
+div.admin-tab-content-header .featuredArticle {
     text-decoration: none;
     display: inline-block;
     vertical-align: middle;
@@ -1885,23 +1879,12 @@ div.admin-tab-content .featuredArticle {
     margin: 0;
 }
 
-div#admin-tab-content .btnLink:focus,
-div#admin-tab-content .btnLink:hover,
-div.admin-tab-content .btnLink:focus,
-div.admin-tab-content .btnLink:hover {
+div.admin-tab-content-header .btnLink:focus,
+div.admin-tab-content-header .btnLink:hover {
     text-decoration: none;
     background: transparent;
     border: 0 none;
     color: #222;
-}
-
-div#admin-tab-content p {
-    font-size: 18px;
-    font-weight: 300;
-    padding: 3px 10px 3px 35px;
-    margin: 10px 0;
-    position: relative;
-    max-width: 500px;
 }
 
 /*div.admin-tab-content img {
@@ -1909,18 +1892,6 @@ div#admin-tab-content p {
     display: block;
 }*/
 
-div#admin-tab-content p i {
-    display: block;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    padding-right: 0;
-    left: 0;
-    font-size: 20px;
-    color: #CCC;
-}
-
-div#admin-tab-content strong,
 div.admin-tab-content strong {
     font-size: 14px;
     font-weight: 900;
