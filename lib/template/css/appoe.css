@@ -1733,7 +1733,6 @@ div#admin-tab-search {
     position: sticky;
     top: 50px;
     z-index: 11;
-    margin-top: -20px;
     margin-bottom: 20px;
     transition: all 0.2s;
 }
@@ -1770,6 +1769,7 @@ div.admin-tab {
 div.admin-tab-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     background: #FFF;
     border: 0;
@@ -1781,9 +1781,8 @@ div.admin-tab-header {
     position: relative;
 }
 
-div.admin-tab-header small {
-    min-width: 70px;
-    text-align: right;
+div.admin-tab-header div {
+    padding-right: 15px;
 }
 
 div#admin-tab-img {
@@ -1852,7 +1851,7 @@ div.admin-tab-content p i {
 }
 
 div.admin-tab-content-header {
-    padding-bottom: .5rem !important;
+    padding: .2rem 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
