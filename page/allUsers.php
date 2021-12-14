@@ -42,14 +42,16 @@ $defaultEmail = getOptionData('defaultEmail'); ?>
                                     if (getUserIdSession() == $user->id || getUserRoleId() >= getRoleId($user->role)): ?>
                                         <a href="<?= getUrl('user/', $user->id) ?>"
                                            class="btnLink"><?= trans('Modifier'); ?></a>
-                                        |
                                     <?php endif;
                                     if ($user->id != getUserIdSession() && getUserRoleId() > getRoleId($user->role) && $user->statut > 0): ?>
-                                        <button type="button" class="btnLink bannishUser" data-iduser="<?= $user->id ?>">
-                                            <?= trans('Bannir'); ?></button>
                                         |
+                                        <button type="button" class="btnLink bannishUser"
+                                                data-iduser="<?= $user->id ?>">
+                                            <?= trans('Bannir'); ?></button>
+
                                     <?php endif;
                                     if ($user->id != getUserIdSession() && getUserRoleId() > getRoleId($user->role) && $user->statut == 0 && isTechnicien(getUserRoleId())): ?>
+                                        |
                                         <button type="button" class="btnLink valideUser"
                                                 data-iduser="<?= $user->id ?>"><?= trans('Valider'); ?></button>
                                     <?php endif; ?>

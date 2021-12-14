@@ -37,13 +37,6 @@ foreach ($allLibraryParent as $id => $parentId) {
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div id="mediaContainer">
         <nav>
-            <div class="float-end">
-                <input type="range" class="form-range" style="width: 150px;" min="2" max="10" step="1" value="5"
-                       id="mediaGridPreferences">
-                <!--<button type="button" role="button" class="btn btn-sm listView">
-                    <i class="fas fa-th-list"></i>
-                </button>-->
-            </div>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-allLibraries-tab" data-bs-toggle="tab"
                    href="#nav-allLibraries"
@@ -75,11 +68,10 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 <div class="card-columns">
                                     <?php if ($allFiles):
                                         foreach ($allFiles as $file): ?>
-                                            <div class="card view border-0 bg-none"
-                                                 data-file-id="<?= $file->id; ?>">
+                                            <div class="card view" data-file-id="<?= $file->id; ?>">
                                                 <?php if (isImage(FILE_DIR_PATH . $file->name)):
                                                     $fileSize = getimagesize(FILE_DIR_PATH . $file->name); ?>
-                                                    <img src="<?= getThumb($file->name, 400); ?>"
+                                                    <img src="<?= getThumb($file->name, 160); ?>"
                                                          class="img-fluid">
                                                 <?php else:
                                                     $fileSize = true; ?>
@@ -89,10 +81,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                                 <a href="#" class="info getMediaDetails mask"
                                                    data-file-id="<?= $file->id; ?>">
                                                     <?php if ($fileSize || (is_array($fileSize) && $fileSize[1] > 150)): ?>
-                                                        <h2><?= $file->title; ?></h2>
-                                                        <p><?= nl2br($file->description); ?></p>
-                                                        <small style="color: var(--textBgColorSecondary);line-height: 1.1em;">
-                                                            <?= $file->name; ?></small>
+                                                        <small><?= $file->name; ?></small>
                                                     <?php endif; ?>
                                                 </a>
                                             </div>
