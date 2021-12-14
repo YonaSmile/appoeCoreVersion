@@ -888,7 +888,7 @@ hr.hrStyle:after {
     transition: all 0.3s;
 }
 
-.view a.info {
+.view .info {
     text-decoration: none;
     cursor: pointer !important;
     display: flex;
@@ -900,7 +900,7 @@ hr.hrStyle:after {
     word-break: break-all;
 }
 
-.view a small {
+.view small {
     color: var(--textBgColorSecondary);
     line-height: 1.1em;
 }

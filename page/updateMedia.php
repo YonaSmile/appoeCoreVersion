@@ -34,6 +34,11 @@ foreach ($allLibraryParent as $id => $parentId) {
     }
 }
 
+$includeFiles = getFilesFromDir(FILE_DIR_PATH, [
+    'onlyFiles' => true,
+    'allExtensionsExceptOne' => 'php'
+]);
+
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div id="mediaContainer">
         <nav>
@@ -42,6 +47,10 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                    href="#nav-allLibraries"
                    role="tab" aria-controls="nav-allLibraries"
                    aria-selected="true"><?= trans('Les bibliothèques'); ?></a>
+                <a class="nav-item nav-link" id="nav-allMedias-tab" data-bs-toggle="tab"
+                   href="#nav-allMedias"
+                   role="tab" aria-controls="nav-allMedias"
+                   aria-selected="true"><?= trans('Tous les médias'); ?></a>
                 <a class="nav-item nav-link" id="nav-newFiles-tab" data-bs-toggle="tab" href="#nav-newFiles" role="tab"
                    aria-controls="nav-newFiles" aria-selected="false"><?= trans('Téléchargement des médias'); ?></a>
             </div>
@@ -69,20 +78,16 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     <?php if ($allFiles):
                                         foreach ($allFiles as $file): ?>
                                             <div class="card view" data-file-id="<?= $file->id; ?>">
-                                                <?php if (isImage(FILE_DIR_PATH . $file->name)):
-                                                    $fileSize = getimagesize(FILE_DIR_PATH . $file->name); ?>
+                                                <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                                     <img src="<?= getThumb($file->name, 160); ?>"
                                                          class="img-fluid">
-                                                <?php else:
-                                                    $fileSize = true; ?>
+                                                <?php else: ?>
                                                     <img src="<?= getImgAccordingExtension(getFileExtension($file->name)); ?>"
                                                          class="img-fluid">
                                                 <?php endif; ?>
                                                 <a href="#" class="info getMediaDetails mask"
                                                    data-file-id="<?= $file->id; ?>">
-                                                    <?php if ($fileSize || (is_array($fileSize) && $fileSize[1] > 150)): ?>
-                                                        <small><?= $file->name; ?></small>
-                                                    <?php endif; ?>
+                                                    <small><?= $file->name; ?></small>
                                                 </a>
                                             </div>
                                         <?php endforeach;
@@ -91,6 +96,29 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 <div class="my-3"></div>
                             </div>
                         <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="tab-pane fade show" id="nav-allMedias" role="tabpanel"
+                 aria-labelledby="nav-home-tab">
+                <?php if ($includeFiles): ?>
+                    <div class="container-fluid">
+                        <div class="card-columns">
+                            <?php foreach ($includeFiles as $key => $includeFile): ?>
+                                <div class="card view">
+                                    <?php if (isImage(FILE_DIR_PATH . $includeFile)): ?>
+                                        <img src="<?= getThumb($includeFile, 160); ?>"
+                                             class="img-fluid">
+                                    <?php else: ?>
+                                        <img src="<?= getImgAccordingExtension(getFileExtension($includeFile)); ?>"
+                                             class="img-fluid">
+                                    <?php endif; ?>
+                                    <div href="#" class="info mask">
+                                        <small><?= $includeFile; ?></small>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
@@ -128,7 +156,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     </div>
                     <div class="modal-body" id="allMediaModalContainer"></div>
                     <div class="modal-footer">
-                        <button type="button" id="closeAllMediaModalBtn" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <button type="button" id="closeAllMediaModalBtn" class="btn btn-secondary"
+                                data-bs-dismiss="modal">
                             <?= trans('Fermer et annuler la sélection'); ?></button>
                         <button type="button" id="saveMediaModalBtn" class="btn btn-info" data-bs-dismiss="modal">
                             0 <?= trans('médias'); ?></button>
