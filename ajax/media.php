@@ -207,7 +207,7 @@ if (checkAjaxRequest()) {
 
             foreach ($includeFiles as $key => $includeFile) {
 
-                $html .= '<div class="card fileContent allMediaCard" data-filename="' . $includeFile . '">';
+                $html .= '<div class="card view fileContent allMediaCard" data-filename="' . $includeFile . '">';
 
                 if (isImage(FILE_DIR_PATH . $includeFile)) {
                     $html .= '<img src="' . WEB_DIR_INCLUDE . $includeFile . '" class="img-fluid seeOnOverlay seeDataOnHover" data-originsrc="' . WEB_DIR_INCLUDE . $includeFile . '">';
