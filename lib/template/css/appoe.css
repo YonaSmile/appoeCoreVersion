@@ -794,6 +794,19 @@ hr.hrStyle:after {
     top: 8px;
 }
 
+.positionMenuSpan {
+    position: relative;
+    left: -16px;
+    background: #444;
+    color: #FFF;
+    padding: 11px 10px;
+    border-radius: 4px 0 0 0;
+    width: 45px;
+    border: 0;
+    text-align: center;
+    font-weight: bold;
+}
+
 .file-thumbnail {
     height: 2.25rem;
     width: 2.25rem;

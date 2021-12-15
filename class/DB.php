@@ -10,7 +10,6 @@ class DB
     private static $instance;
     protected static $dbh = null;
 
-
     public function __construct()
     {
         self::$dbh = self::connect();
@@ -27,8 +26,10 @@ class DB
 
             while ($attempts > 0) {
                 try {
+                    $tz = (new \DateTime('now', new \DateTimeZone(date_default_timezone_get())))->format('P');
                     self::$dbh = new PDO(DBPATH, DBUSER, DBPASS,
-                        [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8;SET time_zone = "' . date('P') . '"']);
+                        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET time_zone="' . $tz . '"']);
                     $attempts = 0;
 
                 } catch (PDOException $e) {
@@ -59,17 +60,17 @@ class DB
      */
     public static function exec($sql, array $params = array())
     {
-        self::$dbh = self::connect();
-
-        try {
-            $stmt = self::$dbh->prepare($sql);
-            $stmt->execute($params);
-            $stmt->lastInsertId = self::$dbh->lastInsertId();
-            return $stmt;
-        } catch (Exception $e) {
-            setSqlError($e->getMessage());
-            return false;
+        if (self::$dbh = self::connect()) {
+            try {
+                $stmt = self::$dbh->prepare($sql);
+                $stmt->execute($params);
+                $stmt->lastInsertId = self::$dbh->lastInsertId();
+                return $stmt;
+            } catch (Exception $e) {
+                setSqlError($e->getMessage());
+            }
         }
+        return false;
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\DB;
 use App\AppLogging;
 use App\Category;
 use App\MailLogger;
@@ -1759,7 +1760,7 @@ function appBackup($DB = true)
             if ($DB) {
 
                 //save db
-                \App\DB::backup(date('Y-m-d'));
+                DB::backup(date('Y-m-d'));
 
                 //check if db was saved
                 if (!file_exists($backUpFolder . DIRECTORY_SEPARATOR . 'db.sql.gz')) {
@@ -2836,7 +2837,7 @@ function updateDB()
             foreach ($sqlToUpdate as $num => $sql) {
 
                 //Send sql request
-                $stmt = \App\DB::exec($sql);
+                $stmt = DB::exec($sql);
 
                 //If database return error
                 if (!$stmt) {
@@ -3436,21 +3437,23 @@ function buildTree(array $elements, $parentId = 0)
 function getLastFromDb($dbname, $groupBy = '', $limit = 2, $column = 'updated_at', $order = 'DESC')
 {
 
-    $dbh = \App\DB::connect();
+    $dbh = DB::connect();
+    if(DB::checkTable(TABLEPREFIX . 'appoe_' . $dbname)) {
+        $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_' . $dbname . ' ORDER BY ' . $column . ' ' . $order;
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
 
-    $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_' . $dbname . ' ORDER BY ' . $column . ' ' . $order;
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
-    $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        }
 
-    if ($error[0] != '00000') {
-        return false;
+        return
+            empty($groupBy)
+                ? $stmt->fetchAll(PDO::FETCH_OBJ)
+                : array_slice(array_unique(extractFromObjToSimpleArr($stmt->fetchAll(PDO::FETCH_OBJ), $groupBy)), 0, $limit);
     }
-
-    return
-        empty($groupBy)
-            ? $stmt->fetchAll(PDO::FETCH_OBJ)
-            : array_slice(array_unique(extractFromObjToSimpleArr($stmt->fetchAll(PDO::FETCH_OBJ), $groupBy)), 0, $limit);
+    return false;
 }
 
 /**
