@@ -113,9 +113,9 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                         <img src="<?= getImgAccordingExtension(getFileExtension($includeFile)); ?>"
                                              class="img-fluid">
                                     <?php endif; ?>
-                                    <div href="#" class="info mask">
+                                    <a href="#" data-filename="<?= $includeFile; ?>" class="info getFileDetails mask">
                                         <small><?= $includeFile; ?></small>
-                                    </div>
+                                    </a>
                                 </div>
                             <?php endforeach; ?>
                         </div>
