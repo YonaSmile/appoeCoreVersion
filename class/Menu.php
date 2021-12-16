@@ -321,7 +321,7 @@ class Menu
         $error = $stmt->errorInfo();
 
         if ($error[0] != '00000') {
-            showDebugData($error); //return false;
+            return false;
         } else {
             appLog('Updating menu -> id: ' . $this->id . ' slug: ' . $this->slug . ' name: ' . $this->name . ' 
             min role id: ' . $this->minRoleId . ' statut: ' . $this->statut . ' parent id: ' . $this->parentId . ' 
@@ -410,26 +410,6 @@ class Menu
 
             return $num;
         }
-    }
-
-    public function cleanText($filename)
-    {
-
-        $special = array(
-            ' ', '\'', '"', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ',
-            'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç',
-            'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý'
-        );
-
-        $normal = array(
-            '-', '-', '-', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n',
-            'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C',
-            'E', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y'
-        );
-
-        $filename = str_replace($special, $normal, $filename);
-
-        return strtolower($filename);
     }
 
     /**

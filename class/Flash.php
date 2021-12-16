@@ -94,7 +94,7 @@ class Flash
     public static function constructAndDisplay()
     {
         if (isset($_SESSION['flash_msg'])) {
-            echo '<div class="alert alert-' . $_SESSION['flash_status'] . ' alertFlash" role="alert">' . $_SESSION['flash_msg'] . ' <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+            echo '<div id="alertFlashContainer" class="alert alert-dismissible" role="alert">' . $_SESSION['flash_msg'] . ' <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
         }
         self::deleteFlash();
     }

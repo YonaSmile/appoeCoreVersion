@@ -1,8 +1,8 @@
 <?php
 
-use App\DB;
 use App\AppLogging;
 use App\Category;
+use App\DB;
 use App\MailLogger;
 use App\Media;
 use App\Option;
@@ -1133,6 +1133,30 @@ function slugify($text)
     }
 
     return $text;
+}
+
+/**
+ * @param $text
+ * @return string
+ */
+function cleanText($text)
+{
+
+    $special = array(
+        ' ', '&', '\'', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ',
+        'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï',
+        'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý',
+        '#', '{', '}', '(', ')', '[', ']', '|', ';', ':', '`', '\\', '/', '^', '@', '°', '=', '+', '*', '?', '!', '§', '²', '%', 'µ', '$', '£', '¤', '¨'
+    );
+
+    $normal = array(
+        '-', '-', '-', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o',
+        'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I',
+        'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y',
+        '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
+    );
+
+    return str_replace($special, $normal, $text);
 }
 
 /**
@@ -3438,7 +3462,7 @@ function getLastFromDb($dbname, $groupBy = '', $limit = 2, $column = 'updated_at
 {
 
     $dbh = DB::connect();
-    if(DB::checkTable(TABLEPREFIX . 'appoe_' . $dbname)) {
+    if (DB::checkTable(TABLEPREFIX . 'appoe_' . $dbname)) {
         $sql = 'SELECT * FROM ' . TABLEPREFIX . 'appoe_' . $dbname . ' ORDER BY ' . $column . ' ' . $order;
         $stmt = $dbh->prepare($sql);
         $stmt->execute();

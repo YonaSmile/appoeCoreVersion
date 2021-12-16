@@ -518,7 +518,7 @@ class File
 
                     $formUploadToDB = true;
                     $tmp_name = $files['tmp_name'][$i];
-                    $filename = $this->cleanText($files['name'][$i]);
+                    $filename = cleanText($files['name'][$i]);
                     $type = $files['type'][$i];
                     $size = $files['size'][$i];
                     if ($size <= $this->maxSize) {
@@ -592,7 +592,7 @@ class File
             if ($file['error'] == 0) {
 
                 $tmp_name = $file['tmp_name'];
-                $filename = $this->cleanText($file['name']);
+                $filename = cleanText($file['name']);
                 $type = $file['type'];
                 $size = $file['size'];
 
@@ -671,31 +671,6 @@ class File
         }
 
         return !$integratedFile;
-    }
-
-    /**
-     * @param $filename
-     *
-     * @return string
-     */
-    public function cleanText($filename)
-    {
-
-        $special = array(
-            ' ', '&', '\'', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ',
-            'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï',
-            'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý',
-            '#', '{', '}', '(', ')', '[', ']', '|', ';', ':', '`', '\\', '/', '^', '@', '°', '=', '+', '*', '?', '!', '§', '²', '%', 'µ', '$', '£', '¤', '¨'
-        );
-
-        $normal = array(
-            '-', '-', '-', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o',
-            'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I',
-            'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y',
-            '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
-        );
-
-        return str_replace($special, $normal, $filename);
     }
 
     /**

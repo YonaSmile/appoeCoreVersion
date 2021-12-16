@@ -77,7 +77,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                 <div class="card-columns">
                                     <?php if ($allFiles):
                                         foreach ($allFiles as $file): ?>
-                                            <div class="card view" data-file-id="<?= $file->id; ?>">
+                                            <div class="card view" data-filename="<?= $file->name; ?>" data-file-id="<?= $file->id; ?>">
                                                 <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                                     <img src="<?= getThumb($file->name, 160); ?>"
                                                          class="img-fluid">
@@ -105,7 +105,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <div class="container-fluid">
                         <div class="card-columns">
                             <?php foreach ($includeFiles as $key => $includeFile): ?>
-                                <div class="card view">
+                                <div class="card view selectOptionFile" data-filename="<?= $includeFile; ?>">
+                                    <span class="successIcon"></span>
                                     <?php if (isImage(FILE_DIR_PATH . $includeFile)): ?>
                                         <img src="<?= getThumb($includeFile, 160); ?>"
                                              class="img-fluid">
@@ -113,7 +114,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                         <img src="<?= getImgAccordingExtension(getFileExtension($includeFile)); ?>"
                                              class="img-fluid">
                                     <?php endif; ?>
-                                    <a href="#" data-filename="<?= $includeFile; ?>" class="info getFileDetails mask">
+                                    <a href="#" class="info getFileDetails mask">
                                         <small><?= $includeFile; ?></small>
                                     </a>
                                 </div>

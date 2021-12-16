@@ -150,6 +150,7 @@ if (checkAjaxRequest()) {
 
                 if (!empty($_POST['thumbWidth'])) {
                     deleteThumb($Media->getName(), $_POST['thumbWidth']);
+                    deleteThumb($Media->getName(), 160);
                 }
 
                 if ($Media->delete()) {
@@ -232,7 +233,7 @@ if (checkAjaxRequest()) {
             if (true !== $fileDeleted) {
 
                 if (false === $fileDeleted) {
-                    echo trans('Un problème est survenue lors de la suppression du fichier');
+                    echo trans('Un problème est survenue lors de la suppression du fichier ' . $_POST['filename']);
                 } else {
                     echo $fileDeleted;
                 }
@@ -240,11 +241,41 @@ if (checkAjaxRequest()) {
             } else {
 
                 if ($File->deleteFileByName()) {
+                    deleteThumb($_POST['filename'], 400);
+                    deleteThumb($_POST['filename'], 160);
                     echo json_encode(true);
                 } else {
                     echo trans('Le fichier a été supprimé mais un problème est survenue lors de la suppression du fichier dans la base de données');
                 }
             }
+            exit();
+        }
+
+        if (!empty($_POST['deleteSelectedFiles']) && !empty($_POST['filenames'])) {
+            $File = new \App\File();
+
+            $selectedFiles = $_POST['filenames'];
+            $deletedFiles = array();
+
+            if (strpos($selectedFiles, '|||')) {
+                $files = explode('|||', $selectedFiles);
+            } else {
+                $files = array($selectedFiles);
+            }
+
+            foreach ($files as $key => $file) {
+                $File->setName($file);
+                $fileDeleted = $File->deleteFileByPath();
+
+                if (true === $fileDeleted) {
+
+                    $deletedFiles[] = $file;
+                    deleteThumb($file, 400);
+                    deleteThumb($file, 160);
+                    $File->deleteFileByName();
+                }
+            }
+            echo count($deletedFiles) === 0 ? 'false' : implode('|||', $deletedFiles);
             exit();
         }
     }

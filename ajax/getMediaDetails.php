@@ -14,6 +14,7 @@ if (checkAjaxRequest()):
         $fileUrl = WEB_DIR_INCLUDE . $file; ?>
         <div id="mediaEdition">
             <div class="col-12 p-0">
+
                 <?php $fileSize = getSizeName(filesize($filePath));
                 if (isImage($filePath)):
                     $fileDimensions = getimagesize($filePath); ?>
@@ -30,6 +31,7 @@ if (checkAjaxRequest()):
                             <strong>| P:</strong> <?= $fileSize; ?>
                         </div>
                     </div>
+
                 <?php elseif (isAudio($filePath)): ?>
                     <div class="mediaItem">
                         <audio controls src="<?= $fileUrl; ?>"
@@ -84,6 +86,7 @@ if (checkAjaxRequest()):
         </div>
         <?php exit();
     endif;
+
     if (isset($_GET['fileId']) && !empty(trim($_GET['fileId'])) && is_numeric($_GET['fileId'])):
 
         $Category = new Category();
@@ -170,7 +173,7 @@ if (checkAjaxRequest()):
                             <i class="fas fa-wrench"></i>
                         </button>
                         <button type="button" class="btn btn-secondary deleteImage col"
-                                title="<?= trans('Supprimer le fichier'); ?>"
+                                title="<?= trans('Supprimer le fichier'); ?>" data-filename="<?= $Media->getName(); ?>"
                                 data-imageid="<?= $Media->getId(); ?>" data-thumbwidth="400">
                             <i class="fas fa-times text-danger"></i>
                         </button>
