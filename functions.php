@@ -16,13 +16,6 @@ inc(WEB_PHPMAILER_PATH . 'Exception.php', true, true);
 inc(WEB_PHPMAILER_PATH . 'PHPMailer.php', true, true);
 inc(WEB_PHPMAILER_PATH . 'SMTP.php', true, true);
 
-//Get all users in a const
-if (!defined('ALLUSERS')) {
-    $USER = new Users();
-    $USER->setStatut(0);
-    define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
-}
-
 /**
  * @return string
  */
@@ -3882,6 +3875,13 @@ function checkAndGetUserId($idUser = null)
  */
 function getAllUsers($max = false, $min = false, $roleIdReference = null)
 {
+    //Get all users in a const
+    if (!defined('ALLUSERS')) {
+        $USER = new Users();
+        $USER->setStatut(0);
+        define('ALLUSERS', serialize(extractFromObjArr($USER->showAll(), 'id')));
+    }
+
     $allUsers = unserialize(ALLUSERS);
 
     if (is_array($allUsers)) {

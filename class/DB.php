@@ -26,10 +26,8 @@ class DB
 
             while ($attempts > 0) {
                 try {
-                    $tz = (new \DateTime('now', new \DateTimeZone(date_default_timezone_get())))->format('P');
                     self::$dbh = new PDO(DBPATH, DBUSER, DBPASS,
-                        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET time_zone="' . $tz . '"']);
+                        [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8;SET time_zone = "' . date('P') . '"']);
                     $attempts = 0;
 
                 } catch (PDOException $e) {

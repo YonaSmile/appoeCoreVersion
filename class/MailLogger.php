@@ -19,10 +19,6 @@ class MailLogger
 
     public function __construct(array $data = array())
     {
-        if (!DB::isTableExist($this->tableName)) {
-            $this->createTable();
-        }
-
         if (!isArrayEmpty($data)) {
             $this->date = date('Y-m-d H:i:s');
             $this->ip = getIP();
