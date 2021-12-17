@@ -3484,7 +3484,7 @@ function includePluginsFiles($forApp = false)
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'include';
-            if (file_exists($filePath) && loadPluginForFilename($plugin['name'])) {
+            if (file_exists($filePath) && !file_exists(WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR.'setup.php') && loadPluginForFilename($plugin['name'])) {
                 foreach (getFilesFromDir($filePath, ['onlyExtension' => 'php']) as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
                     include_once($src);
@@ -3510,7 +3510,7 @@ function includePluginsFilesForApp()
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeApp';
-            if (file_exists($filePath)) {
+            if (file_exists($filePath) && !file_exists(WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR.'setup.php')) {
                 foreach (getFilesFromDir($filePath, ['onlyExtension' => 'php']) as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
                     include_once($src);
@@ -3531,7 +3531,7 @@ function includePluginsFilesForAppInFooter()
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'includeAppFooter';
-            if (file_exists($filePath)) {
+            if (file_exists($filePath) && !file_exists(WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR.'setup.php')) {
                 foreach (getFilesFromDir($filePath, ['onlyExtension' => 'php']) as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
                     include_once($src);
@@ -3553,7 +3553,7 @@ function includePluginsPrimaryMenu()
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'menu';
-            if (file_exists($filePath)) {
+            if (file_exists($filePath) && !file_exists(WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR.'setup.php')) {
                 $phpFiles = getFilesFromDir($filePath);
                 foreach ($phpFiles as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
@@ -3576,7 +3576,7 @@ function includePluginsSecondaryMenu()
 
         foreach ($plugins as $plugin) {
             $filePath = WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR . 'littleMenu';
-            if (file_exists($filePath)) {
+            if (file_exists($filePath) && !file_exists(WEB_PLUGIN_PATH . $plugin['name'] . DIRECTORY_SEPARATOR.'setup.php')) {
                 $phpFiles = getFilesFromDir($filePath);
                 foreach ($phpFiles as $file) {
                     $src = $filePath . DIRECTORY_SEPARATOR . $file;
