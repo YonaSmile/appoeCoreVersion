@@ -74,10 +74,10 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     data-library-parent-id="<?= $libraryParent[$id]['id']; ?>"
                                     data-library-parent-name="<?= $libraryParent[$id]['name']; ?>"><?= $name; ?></h5>
                                 <hr class="my-3 mx-5">
-                                <div class="card-columns">
+                                <div class="card-columns row">
                                     <?php if ($allFiles):
                                         foreach ($allFiles as $file): ?>
-                                            <div class="card view" data-filename="<?= $file->name; ?>" data-file-id="<?= $file->id; ?>">
+                                            <div class="col card view" data-filename="<?= $file->name; ?>" data-file-id="<?= $file->id; ?>">
                                                 <?php if (isImage(FILE_DIR_PATH . $file->name)): ?>
                                                     <img src="<?= getThumb($file->name, 160); ?>"
                                                          class="img-fluid">
@@ -103,9 +103,9 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                  aria-labelledby="nav-home-tab">
                 <?php if ($includeFiles): ?>
                     <div class="container-fluid">
-                        <div class="card-columns">
+                        <div class="card-columns row">
                             <?php foreach ($includeFiles as $key => $includeFile): ?>
-                                <div class="card view selectOptionFile" data-filename="<?= $includeFile; ?>">
+                                <div class="col card view selectOptionFile" data-filename="<?= $includeFile; ?>">
                                     <span class="successIcon"></span>
                                     <?php if (isImage(FILE_DIR_PATH . $includeFile)): ?>
                                         <img src="<?= getThumb($includeFile, 160); ?>"
