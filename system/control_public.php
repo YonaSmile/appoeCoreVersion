@@ -1,4 +1,9 @@
 <?php
+if (file_exists(ROOT_PATH . 'setup.php')) {
+    header(sprintf('Location: %s', WEB_DIR_URL . 'setup.php'));
+    exit();
+}
+
 if (getOptionPreference('forceHTTPS') === 'true') {
 
     if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {

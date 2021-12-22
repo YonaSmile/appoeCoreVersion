@@ -4,6 +4,7 @@ includePluginsFiles();
 require_once(WEB_SYSTEM_PATH . 'control_public.php');
 require_once(WEB_SYSTEM_PATH . 'auth_user.php');
 
+use App\DB;
 use App\Plugin\Cms\Cms;
 use App\Plugin\Cms\CmsMenu;
 use App\Plugin\Shop\Product;
@@ -23,7 +24,7 @@ if (checkMaintenance()) {
 
 //Backup database
 appBackup();
-if (class_exists('App\Plugin\Cms\Cms')) {
+if (DB::checkTable(TABLEPREFIX . 'forge_plugin_cms')) {
 
     //Get Page
     $Cms = new Cms();
@@ -137,7 +138,7 @@ if (class_exists('App\Plugin\Cms\Cms')) {
         //shortcut for articles
     } elseif (!empty($_GET['id'])) {
 
-        if (class_exists('App\Plugin\ItemGlue\Article')) {
+        if (DB::checkTable(TABLEPREFIX . 'forge_plugin_itemGlue_articles')) {
 
             //Get Article infos
             $Article = getArticlesBySlug($_GET['id']);
