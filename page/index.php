@@ -16,7 +16,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                     <?php
                     //Check for CMS
                     $lastPage = array();
-                    if (class_exists('App\Plugin\Cms\Cms')) {
+                    if (DB::checkTable(TABLEPREFIX . 'appoe_plugin_cms')) {
                         $lastPage = getLastFromDb('plugin_cms_content', 'idCms', 5);
                         $Cms = new Cms();
                         $Cms->setLang(APP_LANG);
@@ -45,7 +45,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
 
                     //Check for ITEMGLUE
                     $lastArticle = array();
-                    if (class_exists('App\Plugin\ItemGlue\Article')) {
+                    if (DB::checkTable(TABLEPREFIX . 'appoe_plugin_itemGlue_articles')) {
                         $lastArticle = getLastFromDb('plugin_itemGlue_articles_content', 'idArticle', 5);
                         $Article = new Article();
                     }

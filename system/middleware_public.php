@@ -24,7 +24,7 @@ if (checkMaintenance()) {
 
 //Backup database
 appBackup();
-if (DB::checkTable(TABLEPREFIX . 'forge_plugin_cms')) {
+if (DB::checkTable(TABLEPREFIX . 'appoe_plugin_cms')) {
 
     //Get Page
     $Cms = new Cms();
@@ -92,7 +92,7 @@ if (DB::checkTable(TABLEPREFIX . 'forge_plugin_cms')) {
                 //TYPE ITEMGLUE
                 if ($pluginType == 'ITEMGLUE') {
 
-                    if (class_exists('App\Plugin\ItemGlue\Article')) {
+                    if (DB::checkTable(TABLEPREFIX . 'appoe_plugin_itemGlue_articles')) {
 
                         //Get Article infos
                         $Article = getArticlesBySlug($pluginSlug);
@@ -138,7 +138,7 @@ if (DB::checkTable(TABLEPREFIX . 'forge_plugin_cms')) {
         //shortcut for articles
     } elseif (!empty($_GET['id'])) {
 
-        if (DB::checkTable(TABLEPREFIX . 'forge_plugin_itemGlue_articles')) {
+        if (DB::checkTable(TABLEPREFIX . 'appoe_plugin_itemGlue_articles')) {
 
             //Get Article infos
             $Article = getArticlesBySlug($_GET['id']);
