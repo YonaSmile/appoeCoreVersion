@@ -103,8 +103,7 @@ if (checkAjaxRequest()):
                     <?php
                     $file = FILE_DIR_PATH . $Media->getName();
                     $fileSize = getSizeName(filesize($file));
-                    if (isImage($file)):
-                        $fileDimensions = getimagesize($file); ?>
+                    if (isImage($file)): ?>
                         <div class="mediaItem">
                             <img src="<?= getThumb($Media->getName(), 400); ?>"
                                  alt="<?= $Media->getTitle(); ?>"
@@ -113,9 +112,11 @@ if (checkAjaxRequest()):
                                  class="img-fluid seeOnOverlay">
                             <div class="mediaCaption">
                                 <small><?= $Media->getName(); ?></small><br>
-                                <strong>L:</strong> <?= $fileDimensions[0]; ?>px
-                                <strong>| H:</strong> <?= $fileDimensions[1]; ?>px
-                                <strong>| P:</strong> <?= $fileSize; ?>
+                                <?php if ($fileDimensions = getimagesize($file)): ?>
+                                    <span class="badge bgColorPrimary mx-1"><strong>Largeur:</strong> <?= $fileDimensions[0]; ?>px</span>
+                                    <span class="badge bgColorPrimary mx-1"><strong>Hauteur:</strong> <?= $fileDimensions[1]; ?>px</span>
+                                <?php endif; ?>
+                                <span class="badge bgColorPrimary mx-1"><strong>Poids:</strong> <?= $fileSize; ?></span>
                             </div>
                         </div>
 
