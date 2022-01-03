@@ -108,6 +108,7 @@ a:focus, a:hover {
     padding: 0.9rem 1rem;
     color: #FFF;
     border: 0;
+    vertical-align: middle;
 }
 
 .navbar .menu-toggle-button a:hover,
@@ -179,8 +180,7 @@ a:focus, a:hover {
     max-height: 100vh;
     z-index: 20;
     margin-left: 0;
-    background-image: url("/app/lib/template/images/pattern-so-white.png");
-    background-repeat: repeat;
+    background: #fff;
     -webkit-box-shadow: 1px 0 20px rgba(0, 0, 0, 0.10);
     box-shadow: 1px 0 20px rgba(0, 0, 0, 0.10);
     color: #000;
